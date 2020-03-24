@@ -194,6 +194,7 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
                     val bm = BitmapFactory.decodeStream(stream)
                     val base64 = BitmapUtils.getBase64(bm)
 
+
                     val response = faceDetectionService.detectFace(LivenessRequest(base64))
                     withContext(Dispatchers.Main) {
                         loader.dismmissLoading()
