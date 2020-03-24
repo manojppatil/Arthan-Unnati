@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="16dp"
+    android:background="@drawable/bg_white_rectangle"
+    android:padding="16dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/txt_case_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_black"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="6sp"
+        android:text="CaseId: 00124"
+        android:textColor="#0b41af"
+        android:textSize="12sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_customer_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/lato_bold"
+        android:letterSpacing="0.03"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_case_id" />
+
+    <TextView
+        android:id="@+id/txt_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/lato_regular"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Loan Amount: ₹ 3,00,000"
+        android:textColor="#696969"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/txt_tenure"
+        app:layout_constraintTop_toBottomOf="@id/txt_customer_name" />
+
+    <TextView
+        android:id="@+id/txt_tenure"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_regular"
+        android:gravity="right"
+        android:letterSpacing="0.03"
+        android:text="12 Sep'19"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/txt_amount"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toRightOf="@id/txt_amount"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_amount" />
+
+    <TextView
+        android:id="@+id/txt_emi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/lato_regular"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:textColor="#696969"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/txt_loan_type"
+        app:layout_constraintTop_toBottomOf="@id/txt_amount" />
+
+    <TextView
+        android:id="@+id/txt_loan_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_regular"
+        android:gravity="right"
+        android:letterSpacing="0.03"
+        android:text="12 Sep'19"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/txt_emi"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toRightOf="@id/txt_emi"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_emi" />
+
+    <TextView
+        android:id="@+id/txt_login_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Stage: Legal"
+        android:textColor="#696969"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/txt_approved_date"
+        app:layout_constraintTop_toBottomOf="@id/txt_emi" />
+
+    <TextView
+        android:id="@+id/txt_approved_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_regular"
+        android:gravity="right"
+        android:letterSpacing="0.03"
+        android:text="12 Sep'19"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/txt_login_date"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toRightOf="@id/txt_login_date"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_login_date" />
+
+    <Button
+        android:id="@+id/btn_rcu"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/curve_rect_btn_bg"
+        android:text="RCU"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_legal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_approved_date" />
+
+    <Button
+        android:id="@+id/btn_legal"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/curve_rect_btn_bg"
+        android:text="LEGAL"
+        app:layout_constraintTop_toBottomOf="@id/txt_approved_date"
+        app:layout_constraintLeft_toRightOf="@+id/btn_rcu"
+        app:layout_constraintRight_toLeftOf="@+id/btn_tech"/>
+
+    <Button
+        android:id="@+id/btn_tech"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/curve_rect_btn_bg"
+        android:text="TECH"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/btn_legal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_approved_date" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/btn_rcu">
+    <TextView
+        android:id="@+id/txt_fee_paid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Fee Paid"
+        android:textColor="#696969"
+        android:textSize="14sp"
+        />
+
+    <ImageView
+        android:id="@+id/iv_generate"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/txt_fee_paid" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

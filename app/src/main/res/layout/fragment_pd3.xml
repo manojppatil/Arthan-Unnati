@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.fragments.PD3Fragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/sales_estimation_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Residence Details"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/furnished_semi_furnished_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Furnished/Semi furnished"
+            app:layout_constraintBottom_toBottomOf="@+id/furnished_semi_furnished_checkbox"
+            app:layout_constraintEnd_toStartOf="@+id/furnished_semi_furnished_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/furnished_semi_furnished_checkbox" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/furnished_semi_furnished_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/furnished_semi_furnished_label"
+            app:layout_constraintTop_toBottomOf="@+id/sales_estimation_label" />
+
+        <TextView
+            android:id="@+id/tv_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="TV"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_checkbox"
+            app:layout_constraintEnd_toStartOf="@+id/tv_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_checkbox" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/tv_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/tv_label"
+            app:layout_constraintTop_toBottomOf="@+id/furnished_semi_furnished_checkbox" />
+
+        <TextView
+            android:id="@+id/refrigerate_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Refrigerate"
+            app:layout_constraintBottom_toBottomOf="@+id/refrigerate_checkbox"
+            app:layout_constraintEnd_toStartOf="@+id/refrigerate_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/refrigerate_checkbox" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/refrigerate_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/refrigerate_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_checkbox" />
+
+        <TextView
+            android:id="@+id/washing_machine_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Washing Machine"
+            app:layout_constraintBottom_toBottomOf="@+id/washing_machine_checkbox"
+            app:layout_constraintEnd_toStartOf="@+id/washing_machine_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/washing_machine_checkbox" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/washing_machine_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/washing_machine_label"
+            app:layout_constraintTop_toBottomOf="@+id/refrigerate_checkbox" />
+
+        <TextView
+            android:id="@+id/two_wheeler_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Two wheeler"
+            app:layout_constraintBottom_toBottomOf="@+id/two_wheeler_checkbox"
+            app:layout_constraintEnd_toStartOf="@+id/two_wheeler_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/two_wheeler_checkbox" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/two_wheeler_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/two_wheeler_label"
+            app:layout_constraintTop_toBottomOf="@+id/washing_machine_checkbox" />
+
+        <TextView
+            android:id="@+id/four_wheeler_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Four Wheeler"
+            app:layout_constraintBottom_toBottomOf="@+id/four_wheeler_checkbox"
+            app:layout_constraintEnd_toStartOf="@+id/four_wheeler_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/four_wheeler_checkbox" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/four_wheeler_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/four_wheeler_label"
+            app:layout_constraintTop_toBottomOf="@+id/two_wheeler_checkbox" />
+
+        <TextView
+            android:id="@+id/children_education_medium_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cildren are studying in which medium"
+            app:layout_constraintBottom_toBottomOf="@+id/children_education_medium_spinner"
+            app:layout_constraintEnd_toStartOf="@+id/children_education_medium_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/children_education_medium_spinner" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/children_education_medium_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:entries="@array/arr_education_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/children_education_medium_label"
+            app:layout_constraintTop_toBottomOf="@+id/four_wheeler_checkbox" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ic_next_enabled"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="32dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="32dp"
+            android:paddingBottom="4dp"
+            android:text="Submit"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/children_education_medium_spinner" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

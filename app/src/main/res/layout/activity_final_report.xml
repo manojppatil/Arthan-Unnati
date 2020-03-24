@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_bm_toolbar"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_app"
+        android:padding="32dp">
+
+        <TextView
+            android:id="@+id/txt_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="7.1sp"
+            android:text="What is the final status of the application
+made by Mr. Customer Full Name ?"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/ll_approve"/>
+
+        <LinearLayout
+            android:id="@+id/ll_approve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_margin="8dp"
+            android:visibility="visible"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_msg"
+            app:layout_constraintBottom_toTopOf="@id/ll_reject"
+            android:background="@drawable/bg_white_rectangle">
+
+            <TextView
+                android:id="@+id/txt_approve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#404040"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="9.5sp"
+                android:text="@string/approve"
+                android:drawableTop="@drawable/ic_approve"
+                android:drawablePadding="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="visible"/>
+
+            <ProgressBar
+                android:id="@+id/pb_approve"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/bg_progressbar"
+                android:rotation="-90"
+                android:visibility="gone"
+                android:background="@android:color/transparent"/>
+
+            <ImageView
+                android:id="@+id/img_approved"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_approved"/>
+
+            <TextView
+                android:id="@+id/txt_approved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="9.5sp"
+                android:text="Approve"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_margin="8dp"
+            android:visibility="visible"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_approve"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_white_rectangle">
+
+            <TextView
+                android:id="@+id/txt_reject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#404040"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="9.5sp"
+                android:text="Reject"
+                android:drawableTop="@drawable/ic_reject"
+                android:drawablePadding="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="visible"/>
+
+            <ProgressBar
+                android:id="@+id/pb_reject"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/bg_progressbar"
+                android:rotation="-90"
+                android:visibility="gone"
+                android:background="@android:color/transparent"/>
+
+            <ImageView
+                android:id="@+id/img_rejected"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_approved"/>
+
+            <TextView
+                android:id="@+id/txt_rejected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="9.5sp"
+                android:text="Reject"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
+
+

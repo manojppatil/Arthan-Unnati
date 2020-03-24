@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/toolbar"
+        layout="@layout/layout_bm_toolbar"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_app"
+        android:visibility="gone"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btn_generate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:enabled="true"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:text="@string/generate_sanction_letter_disbursement_kit"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginTop="32dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btn_view_sanction_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_generate"
+            android:gravity="center"
+            android:enabled="true"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:text="View Sanction Letter"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginTop="32dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btn_view_disbursement_kit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_view_sanction_letter"
+            android:gravity="center"
+            android:enabled="true"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:text="View Disbursement Kit"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginTop="32dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btn_upload_sanction_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_view_disbursement_kit"
+            android:gravity="center"
+            android:enabled="true"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:text="Upload Sanction Letter"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginTop="32dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btn_upload_disbursement_kit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_upload_sanction_letter"
+            android:gravity="center"
+            android:enabled="true"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:text="Upload Disbursement Kit"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginTop="32dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_upload_disbursement_kit"
+            android:gravity="center"
+            android:enabled="true"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:text="submit"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginTop="32dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sanction Letter"
+                android:layout_centerVertical="true"
+                android:textColor="#000"/>
+
+            <Button
+                android:id="@+id/btn_sl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:enabled="true"
+                android:background="@drawable/ic_next_enabled"
+                android:textColor="#c4c4c4"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:text="View"
+                android:fontFamily="@font/lato_black"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/file_upload"
+                android:layout_marginRight="8dp"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disb. Kit"
+                android:layout_centerVertical="true"
+                android:textColor="#000"/>
+
+            <Button
+                android:id="@+id/btn_view_dk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:enabled="true"
+                android:background="@drawable/ic_next_enabled"
+                android:textColor="#c4c4c4"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:text="View"
+                android:fontFamily="@font/lato_black"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/file_upload"
+                android:layout_marginRight="8dp"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="App. Form"
+                android:layout_centerVertical="true"
+                android:textColor="#000"/>
+
+            <Button
+                android:id="@+id/btn_view_appForm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:enabled="true"
+                android:background="@drawable/ic_next_enabled"
+                android:textColor="#c4c4c4"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:text="View"
+                android:fontFamily="@font/lato_black"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/file_upload"
+                android:layout_marginRight="8dp"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+        <Button
+            android:id="@+id/btn_submit_final"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+
+            android:layout_marginTop="48dp"
+            android:enabled="true"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:text="Submit"
+            android:fontFamily="@font/lato_black"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+            </LinearLayout>
+
+</LinearLayout>

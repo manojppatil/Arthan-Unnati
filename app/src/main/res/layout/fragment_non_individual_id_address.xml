@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="24dp"
+    android:background="@drawable/bg_white_rectangle"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#0b41af"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Firm Name"
+        android:fontFamily="@font/lato_bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#696969"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Established Date"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/lato_regular"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#696969"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Firm KYC"
+        android:fontFamily="@font/lato_regular"
+        android:layout_marginTop="24dp"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="164dp"
+        android:src="@drawable/bg_upload_photo"
+        android:padding="4dp"
+        android:layout_marginTop="16dp"
+        android:foregroundGravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#696969"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="PAN Card"
+        android:fontFamily="@font/lato_regular"
+        android:layout_marginTop="24dp"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="164dp"
+        android:src="@drawable/bg_upload_photo"
+        android:padding="4dp"
+        android:layout_marginTop="16dp"
+        android:foregroundGravity="center"/>
+
+</LinearLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_bm_toolbar"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="9.5sp"
+            android:text="CREDIT SUMMARY"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_credit_summary"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#04c200"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="Income Analysis Done"
+                android:gravity="center_vertical"
+                android:drawableRight="@drawable/ic_analysis_complete"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#04c200"
+                android:layout_marginTop="16dp"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="Video PD Reviewed"
+                android:gravity="center_vertical"
+                android:drawableRight="@drawable/ic_analysis_complete"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="14sp"
+            android:layout_marginTop="24dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor et sem id ut tellus." />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:text="APPROVE"
+            android:layout_marginTop="32dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_next_disable"
+            android:textColor="@color/enable"
+            android:textStyle="bold"
+            android:text="REJECT"
+            android:layout_marginTop="20dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

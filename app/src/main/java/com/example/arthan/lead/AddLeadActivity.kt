@@ -1,0 +1,121 @@
+package com.example.arthan.lead
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.EventLog
+import android.view.KeyEvent
+import androidx.navigation.Navigation
+import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMScreeningListingActivity
+
+class AddLeadActivity : AppCompatActivity() {
+
+    private var isFromNavigation=false
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_lead)
+
+        if(intent.getStringExtra("screen")!=null)
+        {
+            moveToScreen(intent.getStringExtra("screen")!!)
+
+
+        }
+
+    }
+    private fun moveToScreen(screenId: String) {
+
+       // var screenId="others"
+        isFromNavigation=true
+        var navController=Navigation.findNavController(
+            this,
+            R.id.nav_host_fragment_container
+        )
+        if(screenId.equals("loan",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.addLoanDetailsFragment, true);
+
+            navController.navigate(R.id.addLoanDetailsFragment)
+        }
+        else if(screenId.equals("eligibility",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.loanEligibilityFragment, true);
+
+            navController.navigate(R.id.loanEligibilityFragment)
+        }
+        else if(screenId.equals("kyc",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.addKYCDetailsFragment, true);
+
+            navController.navigate(R.id.addKYCDetailsFragment)
+        }
+        else if(screenId.equals("consent",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.approveConsentFragment, true);
+
+            navController.navigate(R.id.approveConsentFragment)
+        }
+        else if(screenId.equals("otp",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.OTPValidationFragment, true);
+
+            navController.navigate(R.id.OTPValidationFragment)
+        }
+        else if(screenId.equals("AppFee",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.applicationFeePaymentFragment, true);
+
+            navController.navigate(R.id.applicationFeePaymentFragment)
+        }
+        else if(screenId.equals("paymentFinal",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.paymentStatusFragment, true);
+
+            navController.navigate(R.id.paymentStatusFragment)
+        }
+        else if(screenId.equals("business",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.completeDetailsFragment, true);
+
+            navController.navigate(R.id.completeDetailsFragment)
+        }
+        else if(screenId.equals("income",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.completeDetailsFragment, true);
+
+            var b=Bundle()
+            b.putString("screenTo",screenId)
+            navController.navigate(R.id.completeDetailsFragment,b)
+        }
+        else if(screenId.equals("others",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.completeDetailsFragment,true)
+            navController.navigate(R.id.completeDetailsFragment)
+        }
+
+        else if(screenId.equals("documents",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.completeDetailsFragment, true);
+
+            navController.navigate(R.id.completeDetailsFragment)
+        }
+
+        else if(screenId.equals("complete",ignoreCase = false))
+        {
+            navController.popBackStack(R.id.completeDetailsFragment, true);
+
+            navController.navigate(R.id.completeDetailsFragment)
+        }
+
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
+        if(keyCode==KeyEvent.KEYCODE_BACK) {
+            if (isFromNavigation )
+                finish()
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+}

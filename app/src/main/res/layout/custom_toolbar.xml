@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:background="@drawable/curved_bottom_toolbar_background"
+    android:elevation="12dp"
+    android:translationZ="12dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start|center_vertical"
+            android:padding="10dp"
+            android:src="@drawable/back_button" />
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="2dp"
+            android:fontFamily="@font/lato_black"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="9.5sp"
+            android:text="Pending (31)"
+            android:textColor="#09327a"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/search_button"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="60dp"
+            android:padding="14dp"
+            android:src="@drawable/ic_search"
+            android:tint="#c4c4c4" />
+
+        <ImageView
+            android:id="@+id/filter_button"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="16dp"
+            android:padding="14dp"
+            android:src="@drawable/ic_filter"
+            android:tint="#c4c4c4" />
+    </FrameLayout>
+
+</androidx.appcompat.widget.Toolbar>

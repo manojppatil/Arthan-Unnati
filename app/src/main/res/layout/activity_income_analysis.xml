@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_bm_toolbar"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/txt_daily_sales_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Daily Sales"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txt_enter_amt_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:layout_marginTop="8dp"
+            android:text="Enter the amount of income on each day"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_daily_sales_msg"/>
+
+
+        <TextView
+            android:id="@+id/txt_mon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:text="MON"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_enter_amt_msg"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="4,200"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_mon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_enter_amt_msg"/>
+
+        <TextView
+            android:id="@+id/txt_tue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:text="TUE"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_mon"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="4,200"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_tue"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_mon"/>
+
+        <TextView
+            android:id="@+id/txt_wed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:text="WED"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_tue"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="4,200"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_wed"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_tue"/>
+
+        <TextView
+            android:id="@+id/txt_thu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:text="THU"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_wed"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="4,200"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_thu"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_wed"/>
+
+        <TextView
+            android:id="@+id/txt_fri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:text="FRI"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_thu"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="4,200"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_fri"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_thu"/>
+
+        <TextView
+            android:id="@+id/txt_sat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:text="SAT"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_fri"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="4,200"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_sat"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_fri"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:background="@color/white"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/txt_business_cycle_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Annual Business Cycle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txt_density_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#696969"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:text="Select the sales density for each month"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_business_cycle_msg"/>
+
+        <ImageButton
+            android:id="@+id/btn_prev_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:src="@drawable/ic_prev_month"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/txt_month"
+            app:layout_constraintTop_toBottomOf="@id/txt_density_msg"/>
+
+        <TextView
+            android:id="@+id/txt_month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="9.5sp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:backgroundTint="#f6f6f6"
+            android:text="January"
+            android:singleLine="true"
+            android:gravity="center"
+            app:layout_constraintLeft_toRightOf="@id/btn_prev_month"
+            app:layout_constraintRight_toLeftOf="@id/btn_next_month"
+            app:layout_constraintTop_toTopOf="@id/btn_prev_month"
+            app:layout_constraintBottom_toBottomOf="@id/btn_prev_month"/>
+
+        <ImageButton
+            android:id="@+id/btn_next_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:src="@drawable/ic_next_month"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_prev_month"/>
+
+        <RadioGroup
+            android:id="@+id/rgrp_priority"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_prev_month"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="#92b0d4"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:button="@null"
+                android:text="LOW"
+                android:textStyle="bold"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/selector_radio_priority"/>
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="#92b0d4"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:button="@null"
+                android:text="MED"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/selector_radio_priority"/>
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="#92b0d4"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:button="@null"
+                android:text="HIGH"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@drawable/selector_radio_priority"/>
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgrp_priority"
+            android:gravity="center"
+            android:enabled="false"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:text="@string/submit"
+            android:layout_marginTop="20dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
+

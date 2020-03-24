@@ -1,0 +1,98 @@
+package com.example.arthan.lead
+
+import android.content.Context
+import android.content.Intent
+import android.widget.Toast
+import com.example.arthan.R
+import com.example.arthan.global.AppPreferences
+import com.example.arthan.model.ELIGIBILITY_SCREEN
+import com.example.arthan.model.UpdateEligibilityAndPaymentReq
+import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.views.activities.BaseActivity
+import kotlinx.android.synthetic.main.activity_loan_eligibility.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import com.example.arthan.utils.ArgumentKey
+import com.example.arthan.utils.ProgrssLoader
+import kotlinx.coroutines.withContext
+import java.lang.Exception
+
+class LeadEligibilityActivity : BaseActivity() {
+
+    override fun contentView() = R.layout.activity_loan_eligibility
+
+    override fun onToolbarBackPressed() = onBackPressed()
+
+    override fun init() {
+        btn_ok.setOnClickListener {
+
+            val progressBar = ProgrssLoader(this)
+            progressBar.showLoading()
+
+            val leadId= intent.getStringExtra(ArgumentKey.LeadId)
+            val loanId= AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                try {
+
+                    val response =
+                        RetrofitFactory.getApiService().updateEligibilityAndPayment(
+                            UpdateEligibilityAndPaymentReq(
+                                leadId,
+                                if (loanId.isNullOrBlank()) "C1234" else loanId, ELIGIBILITY_SCREEN
+                            )
+                        )
+
+                    if (response.isSuccessful && response.body() != null) {
+
+                        if (response.body()?.apiCode == "200") {
+
+                            withContext(Dispatchers.Main) {
+                                progressBar.dismmissLoading()
+                                startActivity(
+                                    Intent(
+                                        this@LeadEligibilityActivity,
+                                        AddLeadStep2Activity::class.java
+                                    )
+                                )
+                            }
+                        } else {
+                            withContext(Dispatchers.Main) {
+                                progressBar.dismmissLoading()
+                                Toast.makeText(
+                                    this@LeadEligibilityActivity,
+                                    "Something went wrong.Please try again..",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
+
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        progressBar.dismmissLoading()
+                        Toast.makeText(
+                            this@LeadEligibilityActivity,
+                            "Something went wrong.Please try again..",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+            }
+        }
+    }
+
+    override fun screenTitle() = "Eligibility"
+
+    companion object {
+        fun startMe(context: Context?, leadId: String) =
+            context?.startActivity(Intent(context, LeadEligibilityActivity::class.java).apply {
+                putExtra(ArgumentKey.LeadId,leadId)
+            })
+    }
+}

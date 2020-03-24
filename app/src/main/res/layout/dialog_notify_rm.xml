@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/rgrp_priority"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <RadioButton
+            android:id="@+id/rbtn_low"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="#92b0d4"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:button="@null"
+            android:text="Low"
+            android:checked="true"
+            android:textStyle="bold"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_radio_priority"/>
+
+        <RadioButton
+            android:id="@+id/rbtn_med"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="#92b0d4"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:button="@null"
+            android:text="Med"
+            android:textStyle="bold"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_radio_priority"/>
+
+        <RadioButton
+            android:id="@+id/rbtn_high"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="#92b0d4"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:button="@null"
+            android:text="High"
+            android:textStyle="bold"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_radio_priority"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="32dp"
+        android:singleLine="true"
+        android:text="Additional Comments(Optional)"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/rgrp_frequecy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_selector"
+            android:drawablePadding="8dp"
+            android:text="Common reason1"
+            android:textColor="#696969"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_selector"
+            android:drawablePadding="8dp"
+            android:text="Common reason2"
+            android:textColor="#696969"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_selector"
+            android:drawablePadding="8dp"
+            android:text="Common reason3"
+            android:textColor="#696969"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_selector"
+            android:drawablePadding="8dp"
+            android:text="Others"
+            android:textColor="#696969"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/txt_notify_rm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/bg_white_rectangle"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:fontFamily="@font/lato_black"
+        android:gravity="center"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:padding="8dp"
+        android:text="NOTIFY RM"
+        android:textColor="#ffffff"
+        android:textSize="14sp" />
+
+</LinearLayout>

@@ -1,0 +1,262 @@
+package com.example.arthan.views.activities
+
+import `in`.finbox.mobileriskmanager.FinBox
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.BCMDashboardActivity
+import com.example.arthan.dashboard.bm.BMDashboardActivity
+import com.example.arthan.dashboard.legal.LegalDashboardActivity
+import com.example.arthan.dashboard.ops.OpsDashboardActivity
+import com.example.arthan.dashboard.rm.RMDashboardActivity
+import com.example.arthan.global.AppPreferences
+import com.example.arthan.lead.OTPValidationActivity
+import kotlinx.android.synthetic.main.activity_splash.*
+
+
+class SplashActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_splash)
+
+        /*GlobalScope.launch(context = Dispatchers.Main) {
+            delay(500)
+            startActivity(
+                Intent(this@SplashActivity,
+                RMDashboardActivity::class.java)
+            )
+            finish()
+        }*/
+
+        btn_submit.setOnClickListener {
+
+            if (!et_role.text.isNullOrBlank()) {
+                when {
+                    et_role.text.toString().equals("BM", true) -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "BM")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                BMDashboardActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
+                    et_role.text.toString().equals("RM1", true) -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "RM1")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                RMDashboardActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
+//                    et_role.text.toString().equals("OPS", true) -> {
+//                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "OPS")
+//                        startActivity(
+//                            Intent(
+//                                this@SplashActivity,
+//                                OpsDashboardActivity::class.java
+//                            )
+//                        )
+//                        finish()
+//                    }
+                    et_role.text.toString().equals("legal", true) -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance()
+                            .addString(AppPreferences.Key.LoginType, "legal")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                LegalDashboardActivity::class.java
+                            ).apply {
+                                putExtra("FROM", "LEGAL")
+                            })
+                        finish()
+                    }
+                    et_role.text.toString().equals("RCU", true) -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "RCU")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                LegalDashboardActivity::class.java
+                            ).apply {
+                                putExtra("FROM", "RCU")
+                            }
+                        )
+                        finish()
+                    }
+                    et_role?.text?.toString()?.equals("OPS", ignoreCase = true) == true -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "OPS")
+                        OpsDashboardActivity.startMe(this)
+                    }
+                    et_role?.text?.toString()?.equals("BCM", ignoreCase = true) == true -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "BCM")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                BCMDashboardActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
+                    else -> {
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                BCMDashboardActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
+                }
+            }
+
+            /*startActivity(
+                Intent(
+                    this@SplashActivity,
+                    OTPValidationActivity::class.java
+                ).apply {
+                    putExtra("FROM", "LEGAL")
+                })
+            finish()*/
+
+            /*FinBox.createUser("nSjEi5etnf6xi4RyPA1Ph3TEWu3B07GT7BaQaF5v", "finbox_test_user",
+                object : FinBox.FinBoxAuthCallback{
+                    override fun onSuccess(accessToken: String) {
+                        Log.e("USER CREATED",":: $accessToken")
+                        val finbox = FinBox()
+                        finbox.startPeriodicSync()
+                    }
+
+                    override fun onError(error: Int) {
+                        Log.e("USER CREATED ERROR",":: $error")
+                    }
+                })*/
+
+            //val result= fizzBuzz(et_num.text.toString().toInt())
+        }
+
+//        et_role?.setText("rm")
+//        btn_submit?.performClick()
+
+        /*val arr= mutableListOf<Int>()
+
+        arr.add(6)
+        arr.add(5)
+        arr.add(1)
+        arr.add(3)
+        arr.add(4)
+        arr.add(6)
+        arr.add(2)
+
+        calFinalPrize(arr)*/
+
+        //perfectSubstring("1020122",2)
+
+    }
+
+    /*fun perfectSubstring(s: String, k: Int): Int {
+        // Write your code here
+
+        var countR=0
+
+        for(i in 1..s.length){
+            for(j in i..s.length){
+                val str= s.substring(0,i)
+                val distict= str.toCharArray().distinct()
+
+                var correct: Boolean= true
+                distict.forEach { c->
+                    val count= str.toList().count {
+                        it == c
+                    }
+                    correct = count == 2
+                }
+
+                if(correct){
+                    Log.e("SUB STRING","::: $str")
+                    countR++
+                }
+
+
+            }
+
+        }
+
+        return countR
+    }*/
+
+
+    /*fun calFinalPrize(arr: MutableList<Int>){
+
+        var finalPrice= 0
+        var fullPaid= ""
+
+        arr.forEachIndexed { index, i ->
+
+            Log.e("ARRA","$index : $i ::: ${arr.size}")
+
+            val tempArr= mutableListOf<Int>()
+
+            if(index < arr.size) {
+                tempArr.addAll(arr.toMutableList().subList(index + 1, arr.size ))
+
+                val minValue = tempArr.min()
+                if(minValue != null){
+                    if(minValue <= i){
+                        finalPrice += (i - minValue)
+                        Log.e("MIN VALUE IF" ,"$i :::  $tempArr :::::::  ${tempArr.min()} ::: " +
+                                "${(i - minValue)} :: $finalPrice")
+                    } else {
+                        finalPrice += i
+                        fullPaid = if(fullPaid.isNullOrBlank())
+                            "$index"
+                        else
+                            "$fullPaid $index"
+                        Log.e("MIN VALUE ELSE" ,"$i :::  $tempArr :::::::  ${tempArr.min()} :: $finalPrice")
+                    }
+                } else {
+                    finalPrice += i
+                    fullPaid = "$fullPaid $index"
+                }
+            }
+        }
+
+        Log.e("FINAL VALUE" ,"$finalPrice ${fullPaid.trim()} ")
+    }*/
+
+    /*fun fizzBuzz(n: Int): Unit {
+
+
+        // Write your code here
+        for(i in 1..n) {
+
+            Log.e("RESULT"," $i :::${
+            when {
+                isMultipleofNumber(i, 3) && isMultipleofNumber(i, 5) -> "FIzzBuzz\n"
+                isMultipleofNumber(i, 3) && !isMultipleofNumber(i, 5) -> "Fizz\n"
+                !isMultipleofNumber(i, 3) && isMultipleofNumber(i, 5) -> "Buzz\n"
+                !isMultipleofNumber(i, 3) && !isMultipleofNumber(i, 5) -> "$i\n"
+                else -> ""
+            }
+            }")
+        }
+    }
+
+    private fun isMultipleofNumber(enteredNum: Int,multipleOf: Int): Boolean{
+        return (enteredNum % multipleOf) == 0
+    }*/
+
+
+}

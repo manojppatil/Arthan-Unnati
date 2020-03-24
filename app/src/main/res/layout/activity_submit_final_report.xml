@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_bm_toolbar"/>
+
+    <ScrollView
+        android:background="@drawable/bg_app"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="32dp">
+
+            <TextView
+                android:id="@+id/txt_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="Status : Approved"
+                android:textStyle="bold"
+                android:fontFamily="@font/lato_black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/txt_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#f75002"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="Change"
+                android:textStyle="bold"
+                android:fontFamily="@font/lato_black"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintLeft_toRightOf="@id/txt_status"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txt_status"/>
+
+            <TextView
+                android:id="@+id/txt_reason_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/state_the_reasons_for_the_approval_of_this_application"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_status"/>
+
+            <EditText
+                android:id="@+id/et_reason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:maxLines="15"
+                android:minLines="10"
+                android:hint="@string/reasons_must_include_details_like"
+                android:textSize="12sp"
+                android:textColor="#404040"
+                android:letterSpacing="0.05"
+                android:fontFamily="@font/lato_light"
+                android:gravity="top"
+                android:padding="12dp"
+                android:lineSpacingExtra="7.1sp"
+                android:background="@drawable/bg_rect_border"
+                android:backgroundTint="#e1e1e1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_reason_msg"/>
+
+            <LinearLayout
+                android:id="@+id/ll_upload_document"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:orientation="vertical"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:background="@drawable/bg_upload_photo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_reason">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_photo"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txt_app_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#09327a"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="7.1sp"
+                    android:fontFamily="@font/lato_black"
+                    android:text="@string/upload_supporting_documents" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_docs"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:visibility="gone"
+                android:background="@color/enable"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_upload_document"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"/>
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_docs"
+                android:gravity="center"
+                android:enabled="false"
+                android:background="@drawable/ic_next_disable"
+                android:textColor="#c4c4c4"
+                android:textStyle="bold"
+                android:text="@string/submit"
+                android:fontFamily="@font/lato_black"
+                android:layout_marginTop="20dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>
+

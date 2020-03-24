@@ -1,0 +1,359 @@
+<resources>
+    <string name="app_name">Arthan</string>
+    <string name="smart_financial_services">Smart Financial Services</string>
+    <string name="add_lead">Add New Lead</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="establishment_name">Establishment Name</string>
+    <string name="area_pincode">Area Pincode</string>
+    <string name="next">Next</string>
+    <string name="upload_shop_photos">Upload Shop Photos+</string>
+    <string name="start_adding_the_details_of_your_125th_sale_choose_any_one_of_the_following_to_continue">Start adding the details of your 125th Sale . Choose any one of the following to continue.</string>
+    <string name="pan_card">PAN Card</string>
+    <string name="aadhar_card">Aadhar Card</string>
+    <string name="voter_id">Voter ID</string>
+    <string name="capture_the_original_pan_card_within_the_provided_box">Capture the original %1$s within the provided box.</string>
+    <string name="attach_documents">Attach Documents</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="title_amp_name"><![CDATA[Title & Name]]></string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="lead_full_name">Lead Full Name</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="transgender">Transgender</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="email_id">Email ID</string>
+    <string name="enter_father_s_name">Enter Father\'s Name</string>
+    <string name="enter_mother_s_name">Enter Mother\'s Name</string>
+    <string name="permanent_address">Permanent Address</string>
+    <string name="address_line1">Address Line1</string>
+    <string name="address_line2">Address Line2</string>
+    <string name="landmark_optional">Landmark(Optional)</string>
+    <string name="pin_code">PIN CODE</string>
+    <string name="area_name">Area Name</string>
+    <string name="city">City</string>
+    <string name="district">District</string>
+    <string name="state">State</string>
+    <string name="occupation_name">Occupation Name</string>
+    <string name="source_of_income">Source Of Income</string>
+    <string name="any_other_partners">Any other Partners?</string>
+    <string name="you_have_sucessfully_completed_saving_the_profile_of_your_new_sale_lead">You have sucessfully completed saving the profile of your new sale lead.</string>
+    <string name="verify_by_entering_otp">Verify by entering OTP</string>
+    <string name="submit">SUBMIT</string>
+    <string name="otp_will_be_resent_in_45s">OTP will be resent in 45s</string>
+    <string name="business_turnover">Business Turnover</string>
+    <string name="net_margin_as_per_customer">Net Margin as per \nCustomer</string>
+    <string name="list_all_sources_of_income_1">List all sources of income </string>
+    <string name="income_per_month">Income Per Month</string>
+    <string name="add_another_obligation">Add Another Obligation</string>
+    <string name="number_of_family_members">Number of Family Members</string>
+    <string name="monthly_family_income">Monthly Family Income</string>
+    <string name="monthly_household_expenditures">Monthly Household Expenditures</string>
+    <string name="total_amount_per_month">Total Amount per Month</string>
+    <string name="select_type_of_expenditures">Select Type of Expenditures</string>
+    <string name="emi">EMI</string>
+    <string name="frequency_of_installment">Frequency of Installment</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+    <string name="loan_tenure">Loan Tenure</string>
+    <string name="property_details">Property Details</string>
+    <string name="outstanding_amount">Outstanding Amount</string>
+    <string name="upload_loan_document">Upload Loan Document</string>
+    <string name="collateral_property_value">Collateral Property value</string>
+    <string name="save_amp_continue"><![CDATA[SAVE & CONTINUE]]></string>
+    <string name="business">Business</string>
+    <string name="income">Income</string>
+    <string name="firm_number">Firm Number</string>
+    <string name="age_of_business">Age of the \nBusiness</string>
+    <string name="gst_registration_id">GST/Registration ID</string>
+    <string name="address_of_business_location">Address of Business Location</string>
+    <string name="udhyog_aadhar_id">Udhyog Aadhar ID</string>
+    <string name="contact_person_name">Contact Person Name</string>
+    <string name="ssi_registration_id">SSi Registration ID</string>
+    <string name="number_of_employees">Number of Employees</string>
+    <string name="partner_s_name">Partner\'s Name</string>
+    <string name="designation">Designation</string>
+    <string name="add_another">Add Another</string>
+    <string name="upload_supporting_documents">Upload Supporting Documents</string>
+    <string name="reasons_must_include_details_like">Reasons must include details like...</string>
+    <string name="state_the_reasons_for_the_approval_of_this_application">State the reasons for the approval of this application.</string>
+    <string name="approve">Approve</string>
+    <string name="search_for_customers">Search for Customers</string>
+    <string name="loan_amount">Loan Amount</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="interested">Interested</string>
+    <string name="later">Later</string>
+    <string name="generate_sanction_letter_disbursement_kit"><![CDATA[Generate Sanction Letter & Disbursement Kit]]></string>
+    <string name="add_another_source">Add Another Source</string>
+    <string name="name_of_registered_owner">Name of Registered Owner</string>
+    <string name="screening">Screening</string>
+    <string name="pending">Pending</string>
+    <string name="rejected">Rejected</string>
+    <string name="re_assigned">Re-Assigned</string>
+    <string name="pending_placeholder">Pending (%d)</string>
+    <string name="household_expenses_per_month">Household expenses per month</string>
+    <string name="additional_income_per_month">Additional income per month</string>
+    <string name="existing_loan_obligation_per_month">Existing loan obligation per month</string>
+    <string name="existing_loan">Existing loan</string>
+    <string name="whatsapp_number">WhatsApp number</string>
+    <string name="no_of_years_in_current_office">No. of years in current office</string>
+    <string name="registered_business_address">Registered Business Address</string>
+    <string name="operating_business_address">Operating Business Address</string>
+    <string name="annual_turnover_of_current_financial_year_last_financial_year">Annual Turnover of Current Financial year ( Last financial year)</string>
+    <string name="annual_turnover_of_previous_financial_year">Annual Turnover of Previous Financial year</string>
+    <string name="projected_turnover">Projected turnover</string>
+    <string name="annual_turnover">Annual Turnover</string>
+    android:text=""Complete Cust360 &amp; Document verification before taking decision"
+
+
+    <string-array name="arr_title">
+        <item>Mr</item>
+        <item>Mrs</item>
+    </string-array>
+
+    <string-array name="arr_nationality">
+        <item>Nationality</item>
+    </string-array>
+
+    <string-array name="arr_education">
+        <item>Education</item>
+    </string-array>
+
+    <string-array name="arr_occupation_type">
+        <item>Occupation Type</item>
+    </string-array>
+
+    <string-array name="arr_loan_type">
+        <item>Loan Type</item>
+        <item>Secure</item>
+        <item>Unsecure</item>
+    </string-array>
+
+    <string-array name="arr_loan_sanctioned_by">
+        <item>Loan Sanctioned By</item>
+        <item>SBI</item>
+        <item>ICICI</item>
+        <item>HDFC</item>
+    </string-array>
+
+    <string-array name="arr_nature_of_collateral">
+        <item>Relationship with Applicant</item>
+    </string-array>
+
+    <string-array name="arr_type_of_business">
+        <item>Type of Business</item>
+    </string-array>
+
+    <string-array name="arr_business_activity">
+        <item>Business Activity</item>
+    </string-array>
+
+    <string-array name="arr_industry">
+        <item>Industry</item>
+    </string-array>
+
+    <string-array name="arr_constitution">
+        <item>Constitution</item>
+    </string-array>
+
+    <string-array name="arr_method_used">
+        <item>GST</item>
+        <item>Bills</item>
+        <item>Sales Estimation</item>
+        <item>Banking</item>
+        <item>ITR</item>
+    </string-array>
+
+    <string-array name="arr_loan_purpose">
+        <item>Purpose Of Loan</item>
+    </string-array>
+
+    <string-array name="arr_business_industry">
+        <item>Business Activity</item>
+    </string-array>
+
+    <string-array name="arr_type_of_industry">
+        <item>Type of Industry</item>
+    </string-array>
+
+    <string-array name="arr_security_offered">
+        <item>Security Offered</item>
+    </string-array>
+
+    <string-array name="arr_security_type">
+        <item>Type of Security</item>
+    </string-array>
+
+    <string-array name="arr_security_jurisdiction">
+        <item>Security Jurisdiction</item>
+        <item>Metro_District_HQ</item>
+        <item>Taluka_or_Tehsil</item>
+        <item>Outside_Taluka</item>
+    </string-array>
+
+    <string-array name="arr_source_of_income">
+        <item>Source of Income</item>
+    </string-array>
+
+    <string-array name="arr_gross_annual_income">
+        <item>Gross Annual</item>
+    </string-array>
+
+    <string-array name="arr_industry_type">
+        <item>Industry Type</item>
+    </string-array>
+
+    <string-array name="arr_presently_banking_with">
+        <item>Presently banking with</item>
+    </string-array>
+
+    <string-array name="arr_nature_of_property">
+        <item>Nature of Property</item>
+    </string-array>
+
+    <string-array name="arr_property_jurisdiction">
+        <item>Property jurisdiction</item>
+    </string-array>
+
+    <string-array name="arr_property_type">
+        <item>Property type</item>
+        <item>Quasi</item>
+        <item>Perfect</item>
+    </string-array>
+
+    <string-array name="arr_type_of_business_cash">
+        <item>&lt; 20% Cash</item>
+        <item>20%&#8211;30%</item>
+        <item>40%&#8211;50%</item>
+        <item>&gt; 50%</item>
+    </string-array>
+
+    <string-array name="arr_no_product">
+        <item>upto 2</item>
+        <item>2&#8211;4</item>
+        <item>&gt;4</item>
+    </string-array>
+
+    <string-array name="arr_no_of_customer">
+        <item>&lt;10</item>
+        <item>11&#8211;20</item>
+        <item>21&#8211;30</item>
+        <item>&gt;30</item>
+    </string-array>
+
+    <string-array name="arr_no_of_supplier">
+        <item>5</item>
+        <item>5&#8211;10</item>
+        <item>&gt;10</item>
+    </string-array>
+
+    <string-array name="arr_stock_quality">
+        <item>Fast moving average</item>
+        <item>Expired</item>
+        <item>Working stock</item>
+    </string-array>
+
+    <string-array name="arr_competition_impact">
+        <item>Area Leader</item>
+        <item>Average Payer</item>
+        <item>Competitive</item>
+    </string-array>
+
+    <string-array name="arr_net_worth">
+        <item>&lt; 100%</item>
+        <item>100&#8211;200</item>
+        <item>&gt; 200%</item>
+    </string-array>
+
+    <string-array name="arr_turnover_existing_loan">
+        <item>&gt;5x</item>
+        <item>3&#8211;5x</item>
+        <item>&lt;3x</item>
+    </string-array>
+
+    <string-array name="arr_seasonality">
+        <item>High</item>
+        <item>Moderate</item>
+        <item>Low</item>
+    </string-array>
+
+    <string-array name="arr_collateral_ownership">
+        <item>Self Owned</item>
+        <item>Family Owned</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="arr_business_reference_client">
+        <item>On time payment</item>
+        <item>Need follow up</item>
+        <item>Frequent late payment</item>
+    </string-array>
+
+    <string-array name="arr_business_reference_customer">
+        <item>Yes</item>
+        <item>Maybe</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="arr_time_of_current_location">
+        <item>Less than 2 years</item>
+        <item>3–10 years</item>
+        <item>5–10 years</item>
+        <item>Greater than 10 years</item>
+    </string-array>
+
+    <string-array name="arr_office_premises_home_ownership">
+        <item>Self Owned</item>
+        <item>Jointly Owned</item>
+        <item>Family Owned</item>
+    </string-array>
+
+    <string-array name="arr_neighbour_association_references">
+        <item>Very bad</item>
+        <item>Bad</item>
+        <item>Good</item>
+        <item>Very good</item>
+    </string-array>
+
+    <string-array name="arr_neighbour_stability_reference">
+        <item>High Stability</item>
+        <item>Medium Stability</item>
+        <item>Low Stability</item>
+    </string-array>
+
+    <string-array name="arr_home_location">
+        <item>Poor</item>
+        <item>Satisfactory</item>
+        <item>Good</item>
+    </string-array>
+
+    <string-array name="arr_education_medium">
+        <item>Regional</item>
+        <item>Semi-English</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="arr_relationship_type">
+        <item>Friends</item>
+        <item>Relative</item>
+        <item>Others</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="property_value">Property Value</string>
+    <string name="net_profit_margin">Net profit margin</string>
+    <string name="name">Name</string>
+    <string name="any_associate_firm">Any associate firm</string>
+    <string name="name_of_associate_firm">Name of Associate firm</string>
+    <string name="name_of_firm">Name of firm</string>
+    <string name="name_of_person_dealing_with">Name of person dealing with</string>
+    <string name="relationship_with_applicant">Relationship with applicant</string>
+    <string name="contact_details">Contact details</string>
+    <string name="no_of_years_working_with">No. of years working with</string>
+    <string name="property_location_address">Property location/address</string>
+    <string name="distance_of_collateral_property_from_branch">Distance of collateral property from Branch</string>
+
+</resources>

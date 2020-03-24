@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".lead.AddLoanDetailsFragment"
+android:orientation="vertical">
+
+<include
+    android:id="@+id/toolbar"
+    layout="@layout/layout_rm_toolbar" />
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_loan_amt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/loan_amount_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:hint="@string/loan_amount"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/txt_loan_tenure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="Loan Tenure"
+                android:textColor="#404040"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_minus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btn_minus" />
+
+            <Button
+                android:id="@+id/btn_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/disable"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
+                android:text=" - "
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/txt_loan_tenure"
+                app:layout_constraintTop_toBottomOf="@+id/tl_loan_amt"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/et_years"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/bg_rect_border"
+                android:fontFamily="@font/lato_black"
+                android:gravity="center"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:text="0 Yrs"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_minus"
+                app:layout_constraintEnd_toStartOf="@+id/btn_plus"
+                app:layout_constraintStart_toEndOf="@+id/btn_minus"
+                app:layout_constraintTop_toTopOf="@+id/btn_minus" />
+
+            <Button
+                android:id="@+id/btn_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="#f75002"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
+                android:text=" + "
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/et_years"
+                app:layout_constraintTop_toBottomOf="@+id/tl_loan_amt"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/loan_type_spinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:dropDownWidth="match_parent"
+                android:entries="@array/arr_loan_type"
+                android:fontFamily="@font/lato_regular"
+                android:spinnerMode="dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_plus" />
+
+            <Spinner
+                android:id="@+id/spnr_loan_purpose"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#000000"
+                android:dropDownWidth="match_parent"
+                android:entries="@array/arr_loan_purpose"
+                android:fontFamily="@font/lato_regular"
+                android:spinnerMode="dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loan_type_spinner"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <Spinner
+                android:id="@+id/security_offered_spinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#000000"
+                android:dropDownWidth="match_parent"
+                android:entries="@array/arr_security_offered"
+                android:fontFamily="@font/lato_regular"
+                android:spinnerMode="dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spnr_loan_purpose"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <!--                <Spinner-->
+            <!--                    android:id="@+id/security_type_spinner"-->
+            <!--                    style="@style/Widget.AppCompat.Spinner.Underlined"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginTop="16dp"-->
+            <!--                    android:backgroundTint="#000000"-->
+            <!--                    android:dropDownWidth="match_parent"-->
+            <!--                    android:entries="@array/arr_security_type"-->
+            <!--                    android:fontFamily="@font/lato_regular"-->
+            <!--                    android:spinnerMode="dropdown"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toBottomOf="@+id/security_offered_spinner"-->
+            <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+            <Spinner
+                android:id="@+id/security_jurisdiction_spinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#000000"
+                android:dropDownWidth="match_parent"
+                android:entries="@array/arr_security_jurisdiction"
+                android:fontFamily="@font/lato_regular"
+                android:spinnerMode="dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/security_offered_spinner"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_property_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/security_jurisdiction_spinner"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/property_value_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:hint="@string/property_value"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_business_turnover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_property_value"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/business_turnover_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:hint="@string/business_turnover"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_net_profit_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_business_turnover"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/net_profit_margin_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:hint="@string/net_profit_margin"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/txt_net_margin"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:fontFamily="@font/lato_bold"-->
+            <!--                    android:letterSpacing="0.05"-->
+            <!--                    android:lineSpacingExtra="8.3sp"-->
+            <!--                    android:text="@string/net_margin_as_per_customer"-->
+            <!--                    android:textColor="#404040"-->
+            <!--                    android:textSize="14sp"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_net_margin_minus"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="@+id/btn_net_margin_minus" />-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/btn_net_margin_minus"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:background="@color/disable"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:minWidth="0dp"-->
+            <!--                    android:minHeight="0dp"-->
+            <!--                    android:padding="8dp"-->
+            <!--                    android:text=" - "-->
+            <!--                    android:textStyle="bold"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="et_csutomers"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintStart_toEndOf="@+id/txt_net_margin"-->
+            <!--                    app:layout_constraintTop_toTopOf="@+id/et_csutomers"-->
+            <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/et_csutomers"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="4dp"-->
+            <!--                    android:layout_marginEnd="4dp"-->
+            <!--                    android:background="@drawable/bg_rect_border"-->
+            <!--                    android:fontFamily="@font/lato_black"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:padding="8dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:text="0"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="14sp"-->
+            <!--                    android:textStyle="bold"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_net_margin_plus"-->
+            <!--                    app:layout_constraintEnd_toStartOf="@+id/btn_net_margin_plus"-->
+            <!--                    app:layout_constraintStart_toEndOf="@+id/btn_net_margin_minus"-->
+            <!--                    app:layout_constraintTop_toTopOf="@+id/btn_net_margin_plus" />-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/btn_net_margin_plus"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginTop="16dp"-->
+            <!--                    android:background="#f75002"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:minWidth="0dp"-->
+            <!--                    android:minHeight="0dp"-->
+            <!--                    android:padding="8dp"-->
+            <!--                    android:text=" + "-->
+            <!--                    android:textColor="@android:color/white"-->
+            <!--                    android:textStyle="bold"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintStart_toEndOf="@+id/et_csutomers"-->
+            <!--                    app:layout_constraintTop_toBottomOf="@+id/tl_business_turnover"-->
+            <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_existing_loan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_net_profit_margin"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/existing_loan_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:hint="@string/existing_loan"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_existing_loan_obligation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_existing_loan"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/existing_loan_obligation_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:hint="@string/existing_loan_obligation_per_month"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_additional_income"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_existing_loan_obligation"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/additional_income_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:hint="@string/additional_income_per_month"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_household_expenses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_additional_income"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/household_expenses_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:hint="@string/household_expenses_per_month"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/ic_next_enabled"
+                android:fontFamily="@font/lato_black"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="32dp"
+                android:paddingTop="12dp"
+                android:paddingRight="32dp"
+                android:paddingBottom="12dp"
+                android:text="@string/submit"
+                android:textColor="#ffffff"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_household_expenses"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:padding="24dp">-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/txt_age_of_business"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:fontFamily="@font/lato_bold"-->
+        <!--                    android:letterSpacing="0.05"-->
+        <!--                    android:lineSpacingExtra="8.3sp"-->
+        <!--                    android:text="Age of Customer"-->
+        <!--                    android:textColor="#404040"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_minus_business"-->
+        <!--                    app:layout_constraintStart_toStartOf="parent"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/btn_minus_business" />-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/btn_minus_business"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="16dp"-->
+        <!--                    android:background="@color/disable"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:minWidth="0dp"-->
+        <!--                    android:minHeight="0dp"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:text=" - "-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                    app:layout_constraintStart_toEndOf="@+id/txt_age_of_business"-->
+        <!--                    app:layout_constraintTop_toTopOf="parent"-->
+        <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/txt_business_age"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="4dp"-->
+        <!--                    android:layout_marginEnd="4dp"-->
+        <!--                    android:background="@drawable/bg_rect_border"-->
+        <!--                    android:fontFamily="@font/lato_black"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:singleLine="true"-->
+        <!--                    android:text="0"-->
+        <!--                    android:textColor="@color/black"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_minus_business"-->
+        <!--                    app:layout_constraintEnd_toStartOf="@+id/btn_plus_business"-->
+        <!--                    app:layout_constraintStart_toEndOf="@+id/btn_minus_business"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/btn_minus_business" />-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/btn_plus_business"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="16dp"-->
+        <!--                    android:background="#f75002"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:minWidth="0dp"-->
+        <!--                    android:minHeight="0dp"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:text=" + "-->
+        <!--                    android:textColor="@android:color/white"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                    app:layout_constraintStart_toEndOf="@+id/txt_business_age"-->
+        <!--                    app:layout_constraintTop_toTopOf="parent"-->
+        <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+        <!--                <RadioGroup-->
+        <!--                    android:id="@+id/rgrp_firm_type"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="8dp"-->
+        <!--                    android:orientation="horizontal"-->
+        <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                    app:layout_constraintStart_toStartOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/btn_plus_business">-->
+
+        <!--                    <RadioButton-->
+        <!--                        android:id="@+id/rbtn_partner_firm"-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_marginEnd="4dp"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:background="@drawable/selector_radio_priority"-->
+        <!--                        android:button="@null"-->
+        <!--                        android:checked="true"-->
+        <!--                        android:gravity="center"-->
+        <!--                        android:letterSpacing="0.05"-->
+        <!--                        android:lineSpacingExtra="8.3sp"-->
+        <!--                        android:paddingLeft="8dp"-->
+        <!--                        android:paddingTop="8dp"-->
+        <!--                        android:paddingRight="8dp"-->
+        <!--                        android:paddingBottom="8dp"-->
+        <!--                        android:text="Partner Firm"-->
+        <!--                        android:textColor="#92b0d4"-->
+        <!--                        android:textStyle="bold" />-->
+
+        <!--                    <RadioButton-->
+        <!--                        android:id="@+id/rbtn_company"-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_marginEnd="4dp"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:background="@drawable/selector_radio_priority"-->
+        <!--                        android:button="@null"-->
+        <!--                        android:gravity="center"-->
+        <!--                        android:letterSpacing="0.05"-->
+        <!--                        android:lineSpacingExtra="8.3sp"-->
+        <!--                        android:paddingLeft="8dp"-->
+        <!--                        android:paddingTop="8dp"-->
+        <!--                        android:paddingRight="8dp"-->
+        <!--                        android:paddingBottom="8dp"-->
+        <!--                        android:text="Company"-->
+        <!--                        android:textColor="#92b0d4"-->
+        <!--                        android:textStyle="bold" />-->
+
+        <!--                </RadioGroup>-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/txt_no_of_partners"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:fontFamily="@font/lato_bold"-->
+        <!--                    android:letterSpacing="0.05"-->
+        <!--                    android:lineSpacingExtra="8.3sp"-->
+        <!--                    android:text="No of Partner"-->
+        <!--                    android:textColor="#404040"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_minus_partner"-->
+        <!--                    app:layout_constraintStart_toStartOf="parent"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/btn_minus_partner" />-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/btn_minus_partner"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:background="@color/disable"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:minWidth="0dp"-->
+        <!--                    android:minHeight="0dp"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:text=" - "-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/txt_partners"-->
+        <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                    app:layout_constraintHorizontal_bias="0.0"-->
+        <!--                    app:layout_constraintStart_toEndOf="@+id/txt_no_of_partners"-->
+        <!--                    app:layout_constraintStart_toStartOf="@+id/btn_minus_business"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/txt_partners" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/txt_partners"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="4dp"-->
+        <!--                    android:layout_marginEnd="4dp"-->
+        <!--                    android:background="@drawable/bg_rect_border"-->
+        <!--                    android:fontFamily="@font/lato_black"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:singleLine="true"-->
+        <!--                    android:text="0"-->
+        <!--                    android:textColor="@color/black"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_plus_partner"-->
+        <!--                    app:layout_constraintEnd_toStartOf="@+id/btn_plus_partner"-->
+        <!--                    app:layout_constraintStart_toEndOf="@+id/btn_minus_partner"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/btn_plus_partner" />-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/btn_plus_partner"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="16dp"-->
+        <!--                    android:background="#f75002"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:minWidth="0dp"-->
+        <!--                    android:minHeight="0dp"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:text=" + "-->
+        <!--                    android:textColor="@android:color/white"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                    app:layout_constraintStart_toEndOf="@+id/txt_partners"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/rgrp_firm_type"-->
+        <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/txt_no_of_director"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:fontFamily="@font/lato_bold"-->
+        <!--                    android:letterSpacing="0.05"-->
+        <!--                    android:lineSpacingExtra="8.3sp"-->
+        <!--                    android:text="No of Directors"-->
+        <!--                    android:textColor="#404040"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    android:visibility="gone"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_minus_director"-->
+        <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/btn_minus_director" />-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/btn_minus_director"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="16dp"-->
+        <!--                    android:background="@color/disable"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:minWidth="0dp"-->
+        <!--                    android:minHeight="0dp"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:text=" - "-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    android:visibility="gone"-->
+        <!--                    app:layout_constraintLeft_toRightOf="@+id/txt_no_of_director"-->
+        <!--                    app:layout_constraintRight_toRightOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/rgrp_firm_type"-->
+        <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/txt_director"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="4dp"-->
+        <!--                    android:layout_marginEnd="4dp"-->
+        <!--                    android:background="@drawable/bg_rect_border"-->
+        <!--                    android:fontFamily="@font/lato_black"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:singleLine="true"-->
+        <!--                    android:text="0"-->
+        <!--                    android:textColor="@color/black"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    android:visibility="gone"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_minus_director"-->
+        <!--                    app:layout_constraintLeft_toRightOf="@+id/btn_minus_director"-->
+        <!--                    app:layout_constraintRight_toLeftOf="@+id/btn_plus_director"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/btn_minus_director" />-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/btn_plus_director"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="16dp"-->
+        <!--                    android:background="#f75002"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:minWidth="0dp"-->
+        <!--                    android:minHeight="0dp"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:text=" + "-->
+        <!--                    android:textColor="@android:color/white"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    android:visibility="gone"-->
+        <!--                    app:layout_constraintLeft_toRightOf="@+id/txt_director"-->
+        <!--                    app:layout_constraintRight_toRightOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/rgrp_firm_type"-->
+        <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+        <!--                <androidx.constraintlayout.widget.Barrier-->
+        <!--                    android:id="@+id/barrier"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    app:barrierDirection="bottom"-->
+        <!--                    app:constraint_referenced_ids="btn_plus_partner,btn_plus_director" />-->
+
+
+        <!--                <RadioGroup-->
+        <!--                    android:id="@+id/rgrp_owner"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="16dp"-->
+        <!--                    android:orientation="horizontal"-->
+        <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                    app:layout_constraintRight_toRightOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/barrier">-->
+
+        <!--                    <RadioButton-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_marginEnd="4dp"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:background="@drawable/selector_radio_priority"-->
+        <!--                        android:button="@null"-->
+        <!--                        android:checked="true"-->
+        <!--                        android:gravity="center"-->
+        <!--                        android:letterSpacing="0.05"-->
+        <!--                        android:lineSpacingExtra="8.3sp"-->
+        <!--                        android:paddingLeft="8dp"-->
+        <!--                        android:paddingTop="8dp"-->
+        <!--                        android:paddingRight="8dp"-->
+        <!--                        android:paddingBottom="8dp"-->
+        <!--                        android:text="Residential"-->
+        <!--                        android:textColor="#92b0d4"-->
+        <!--                        android:textStyle="bold" />-->
+
+        <!--                    <RadioButton-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_marginEnd="4dp"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:background="@drawable/selector_radio_priority"-->
+        <!--                        android:button="@null"-->
+        <!--                        android:gravity="center"-->
+        <!--                        android:letterSpacing="0.05"-->
+        <!--                        android:lineSpacingExtra="8.3sp"-->
+        <!--                        android:paddingLeft="8dp"-->
+        <!--                        android:paddingTop="8dp"-->
+        <!--                        android:paddingRight="8dp"-->
+        <!--                        android:paddingBottom="8dp"-->
+        <!--                        android:text="Shop"-->
+        <!--                        android:textColor="#92b0d4"-->
+        <!--                        android:textStyle="bold" />-->
+
+        <!--                    <RadioButton-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_marginEnd="4dp"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:background="@drawable/selector_radio_priority"-->
+        <!--                        android:button="@null"-->
+        <!--                        android:gravity="center"-->
+        <!--                        android:letterSpacing="0.05"-->
+        <!--                        android:lineSpacingExtra="8.3sp"-->
+        <!--                        android:paddingLeft="8dp"-->
+        <!--                        android:paddingTop="8dp"-->
+        <!--                        android:paddingRight="8dp"-->
+        <!--                        android:paddingBottom="8dp"-->
+        <!--                        android:text="Both"-->
+        <!--                        android:textColor="#92b0d4"-->
+        <!--                        android:textStyle="bold" />-->
+
+        <!--                </RadioGroup>-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/txt_no_of_rooms"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:fontFamily="@font/lato_bold"-->
+        <!--                    android:letterSpacing="0.05"-->
+        <!--                    android:lineSpacingExtra="8.3sp"-->
+        <!--                    android:text="No of Living Rooms"-->
+        <!--                    android:textColor="#404040"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    android:visibility="visible"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_minus_rooms"-->
+        <!--                    app:layout_constraintStart_toStartOf="parent"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/btn_minus_rooms" />-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/btn_minus_rooms"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:background="@color/disable"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:minWidth="0dp"-->
+        <!--                    android:minHeight="0dp"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:text=" - "-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    android:visibility="visible"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/txt_rooms"-->
+        <!--                    app:layout_constraintStart_toEndOf="@+id/txt_no_of_rooms"-->
+        <!--                    app:layout_constraintStart_toStartOf="@+id/btn_minus_partner"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/txt_rooms"-->
+        <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/txt_rooms"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="4dp"-->
+        <!--                    android:layout_marginEnd="4dp"-->
+        <!--                    android:background="@drawable/bg_rect_border"-->
+        <!--                    android:fontFamily="@font/lato_black"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:singleLine="true"-->
+        <!--                    android:text="0"-->
+        <!--                    android:textColor="@color/black"-->
+        <!--                    android:textSize="14sp"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    android:visibility="visible"-->
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_plus_rooms"-->
+        <!--                    app:layout_constraintEnd_toStartOf="@+id/btn_plus_rooms"-->
+        <!--                    app:layout_constraintStart_toEndOf="@+id/btn_minus_rooms"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/btn_plus_rooms" />-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/btn_plus_rooms"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="16dp"-->
+        <!--                    android:background="#f75002"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:minWidth="0dp"-->
+        <!--                    android:minHeight="0dp"-->
+        <!--                    android:padding="8dp"-->
+        <!--                    android:text=" + "-->
+        <!--                    android:textColor="@android:color/white"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    android:visibility="visible"-->
+        <!--                    app:layout_constraintLeft_toRightOf="@+id/txt_rooms"-->
+        <!--                    app:layout_constraintRight_toRightOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/rgrp_owner"-->
+        <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+        <!--                &lt;!&ndash;                <Button&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:id="@+id/btn_next"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    app:layout_constraintVertical_bias="0"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    app:layout_constraintVertical_chainStyle="packed"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    app:layout_constraintLeft_toLeftOf="parent"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    app:layout_constraintRight_toRightOf="parent"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    app:layout_constraintTop_toBottomOf="@+id/btn_plus_rooms"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:background="@drawable/ic_next_enabled"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:textColor="#ffffff"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:text="@string/next"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:layout_marginTop="32dp"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:minHeight="0dp"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:minWidth="0dp"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:paddingLeft="32dp"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:paddingRight="32dp"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:paddingTop="12dp"&ndash;&gt;-->
+        <!--                &lt;!&ndash;                    android:paddingBottom="12dp"/>&ndash;&gt;-->
+
+        <!--                <Button-->
+        <!--                    android:id="@+id/btn_submit"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="32dp"-->
+        <!--                    android:background="@drawable/ic_next_enabled"-->
+        <!--                    android:fontFamily="@font/lato_black"-->
+        <!--                    android:minWidth="0dp"-->
+        <!--                    android:minHeight="0dp"-->
+        <!--                    android:paddingLeft="32dp"-->
+        <!--                    android:paddingTop="12dp"-->
+        <!--                    android:paddingRight="32dp"-->
+        <!--                    android:paddingBottom="12dp"-->
+        <!--                    android:text="@string/submit"-->
+        <!--                    android:textColor="#ffffff"-->
+        <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                    app:layout_constraintRight_toRightOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/btn_plus_rooms"-->
+        <!--                    app:layout_constraintVertical_bias="0"-->
+        <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+        <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>
+
+
+
+

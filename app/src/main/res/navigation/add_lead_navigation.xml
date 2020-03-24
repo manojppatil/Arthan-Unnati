@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_lead_navigation"
+    app:startDestination="@id/addNewLeadFragment">
+
+    <fragment
+        android:id="@+id/addNewLeadFragment"
+        android:name="com.example.arthan.lead.AddNewLeadFragment"
+        android:label="fragment_add_new_lead"
+        tools:layout="@layout/fragment_add_new_lead" >
+        <action
+            android:id="@+id/action_addNewLeadFragment_to_addLoanDetailsFragment"
+            app:destination="@id/addLoanDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addLoanDetailsFragment"
+        android:name="com.example.arthan.lead.AddLoanDetailsFragment"
+        android:label="fragment_add_loan_detials"
+        tools:layout="@layout/fragment_add_loan_details" >
+        <action
+            android:id="@+id/action_addLoanDetailsFragment_to_loanEligibilityFragment"
+            app:destination="@id/loanEligibilityFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loanEligibilityFragment"
+        android:name="com.example.arthan.lead.LoanEligibilityFragment"
+        tools:layout="@layout/fragment_loan_eligibility"
+        android:label="LoanEligibilityFragment" >
+        <action
+            android:id="@+id/action_loanEligibilityFragment_to_addKYCDetailsFragment"
+            app:destination="@id/addKYCDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addKYCDetailsFragment"
+        android:name="com.example.arthan.lead.AddKYCDetailsFragment"
+        android:label="fragment_add_kycdetails"
+        tools:layout="@layout/fragment_add_kycdetails" >
+        <action
+            android:id="@+id/action_addKYCDetailsFragment_to_addPersonalDetailsFragment"
+            app:destination="@id/addPersonalDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPersonalDetailsFragment"
+        android:name="com.example.arthan.lead.AddPersonalDetailsFragment"
+        android:label="fragment_add_personal_details"
+        tools:layout="@layout/fragment_add_personal_details" >
+        <action
+            android:id="@+id/action_addPersonalDetailsFragment_to_approveConsentFragment"
+            app:destination="@id/approveConsentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/approveConsentFragment"
+        android:name="com.example.arthan.lead.ApproveConsentFragment"
+        android:label="fragment_approve_consent"
+        tools:layout="@layout/fragment_approve_consent" >
+        <action
+            android:id="@+id/action_approveConsentFragment_to_OTPValidationFragment"
+            app:destination="@id/OTPValidationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/OTPValidationFragment"
+        android:name="com.example.arthan.lead.OTPValidationFragment"
+        android:label="fragment_otpvalidation"
+        tools:layout="@layout/fragment_otpvalidation" >
+        <action
+            android:id="@+id/action_OTPValidationFragment_to_applicationFeePaymentFragment"
+            app:destination="@id/applicationFeePaymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/applicationFeePaymentFragment"
+        android:name="com.example.arthan.lead.ApplicationFeePaymentFragment"
+        android:label="fragment_application_fee_payment"
+        tools:layout="@layout/fragment_application_fee_payment" >
+        <action
+            android:id="@+id/action_applicationFeePaymentFragment_to_paymentStatusFragment"
+            app:destination="@id/paymentStatusFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentStatusFragment"
+        android:name="com.example.arthan.lead.PaymentStatusFragment"
+        android:label="fragment_payment_status"
+        tools:layout="@layout/fragment_payment_status" >
+        <action
+            android:id="@+id/action_paymentStatusFragment_to_completeDetailsFragment"
+            app:destination="@id/completeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/completeDetailsFragment"
+        android:name="com.example.arthan.lead.CompleteDetailsFragment"
+        android:label="fragment_complete_details"
+        tools:layout="@layout/fragment_complete_details" />
+</navigation>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="note_blink">Blink</string>
+	<string name="note_mouth">Open and close your mouth</string>
+	<string name="note_nod">Move head up and down</string>
+	<string name="note_yaw">Move head left and right</string>
+	<string name="note_hold_still">Hold still</string>
+    <string name="cancel">Cancel</string>
+	<string name="restart_preview">Confirm</string>
+    <string name="livenesslibrary_failure_dialog_title">Liveness failed,please try again</string>
+    <string name="livenesslibrary_failure_dialog_light_notice">Good light</string>
+    <string name="livenesslibrary_failure_dialog_glasses_notice">No glass</string>
+	<string name="livenesslibrary_failure_dialog_time_notice">Slow</string>
+	<string name="livenesslibrary_cancel_text">Cancel</string>
+	<string name="livenesslibrary_ok_text">Confirm</string>
+	<string name="livenesslibrary_start_test">Start</string>
+    <string name="livenesslibrary_liceness_will_start"></string>
+    <string name="string_action_liveness">Action Liveness</string>
+	<string name="string_silent_liveness">Silent Liveness</string>
+</resources>

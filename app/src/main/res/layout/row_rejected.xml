@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="16dp"
+    android:paddingBottom="8dp"
+    android:padding="16dp"
+    android:background="@drawable/bg_white_rectangle">
+
+    <TextView
+        android:id="@+id/txt_case_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="6sp"
+        android:text="CaseId: 00124"
+        android:textColor="#0b41af"
+        android:textSize="12sp"
+        android:fontFamily="@font/lato_black"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_reopen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_oval_rect"
+        android:fontFamily="@font/lato_black"
+        android:minHeight="0dp"
+        android:text="Reopen"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="@id/txt_case_id"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toRightOf="@id/txt_case_id"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_case_id" />
+
+    <TextView
+        android:id="@+id/txt_customer_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:letterSpacing="0.03"
+        android:text="Customer Name: Rahul"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/lato_bold"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/txt_date"
+        app:layout_constraintTop_toBottomOf="@id/txt_case_id" />
+
+    <TextView
+        android:id="@+id/txt_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:letterSpacing="0.03"
+        android:text="12 Sep'19"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:fontFamily="@font/lato_regular"
+        app:layout_constraintBottom_toBottomOf="@id/txt_customer_name"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toRightOf="@id/txt_customer_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_customer_name" />
+
+    <TextView
+        android:id="@+id/txt_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Loan Amount: ₹ 3,00,000"
+        android:textColor="#696969"
+        android:textSize="14sp"
+        android:fontFamily="@font/lato_regular"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_customer_name" />
+
+    <TextView
+        android:id="@+id/txt_rejection_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Stage: Legal"
+        android:textColor="#696969"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_amount" />
+
+    <TextView
+        android:id="@+id/txt_login_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Stage: Legal"
+        android:textColor="#696969"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/txt_rejection_date"
+        app:layout_constraintTop_toBottomOf="@id/txt_rejection_reason" />
+
+    <TextView
+        android:id="@+id/txt_rejection_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:letterSpacing="0.03"
+        android:text="12 Sep'19"
+        android:textColor="#696969"
+        android:textSize="12sp"
+        android:fontFamily="@font/lato_regular"
+        app:layout_constraintBottom_toBottomOf="@id/txt_login_date"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toRightOf="@id/txt_login_date"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_login_date" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

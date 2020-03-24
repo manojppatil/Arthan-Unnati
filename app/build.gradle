@@ -1,0 +1,81 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.example.arthan"
+        minSdkVersion 17
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //implementation project(':DFLivenessLibrary')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.1.0'
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation "androidx.exifinterface:exifinterface:1.1.0"
+
+    /* Network call */
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+
+    /* threading */
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1"
+    implementation 'com.amazonaws:aws-android-sdk-core:2.16.6'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.16.6'
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.6'
+    implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.16.6'
+
+    /* image loading */
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+
+    implementation 'com.github.aabhasr1:OtpView:1.0.6'
+
+    /*navigation jetpack*/
+    implementation 'androidx.navigation:navigation-fragment:2.2.0-rc04'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.0-rc04'
+
+    /*permission*/
+    implementation 'com.github.fondesa:kpermissions:2.0.2'
+
+    implementation 'commons-io:commons-io:2.5'
+
+    implementation('in.finbox:mobileriskmanager:2.1.7:parent-release@aar') {
+        transitive = true
+    }
+
+    implementation 'com.otaliastudios:cameraview:1.6.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+}
+apply plugin: 'com.google.gms.google-services'

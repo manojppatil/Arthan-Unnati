@@ -1,0 +1,1676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/method_used_spinner"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#000000"
+            android:entries="@array/arr_method_used"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/txt_other_sources"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center_vertical"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Any other sources of Income?"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/switch_other_sources"
+            app:layout_constraintEnd_toStartOf="@+id/switch_other_sources"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/switch_other_sources" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_other_sources"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:checked="true"
+            android:fontFamily="@font/lato_regular"
+            android:padding="4dp"
+            android:text="Yes"
+            android:textColor="#696969"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@+id/txt_other_sources"
+            app:layout_constraintTop_toBottomOf="@+id/method_used_spinner"
+            app:switchPadding="8dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/source_of_income_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_other_sources"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/txt_income_list_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="7.1sp"
+                android:text="@string/list_all_sources_of_income_1"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_income_source"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_income_list_msg">
+
+                <include layout="@layout/layout_income_source" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_add_another"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_rect_border"
+                android:backgroundTint="#ffb800"
+                android:capitalize="none"
+                android:fontFamily="@font/lato_black"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="32dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="12dp"
+                android:text="@string/add_another_source"
+                android:textAllCaps="false"
+                android:textColor="#f75002"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_income_source"
+                app:layout_constraintVertical_chainStyle="packed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/txt_family_members"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_black"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="@string/number_of_family_members"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/family_members_minus_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/family_members_minus_button" />
+
+        <Button
+            android:id="@+id/family_members_minus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/disable"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="8dp"
+            android:text=" - "
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/family_members_count"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txt_family_members"
+            app:layout_constraintTop_toTopOf="@+id/family_members_count"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/family_members_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_rect_border"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/family_members_plus_button"
+            app:layout_constraintEnd_toStartOf="@+id/family_members_plus_button"
+            app:layout_constraintStart_toEndOf="@+id/family_members_minus_button"
+            app:layout_constraintTop_toTopOf="@+id/family_members_plus_button" />
+
+        <Button
+            android:id="@+id/family_members_plus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#f75002"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="8dp"
+            android:text=" + "
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/family_members_count"
+            app:layout_constraintTop_toBottomOf="@+id/source_of_income_layout"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/no_of_earning_family_member"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_black"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="No of Earning Family Members"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/no_of_earning_family_member_minus_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/no_of_earning_family_member_minus_button" />
+
+        <Button
+            android:id="@+id/no_of_earning_family_member_minus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/disable"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="8dp"
+            android:text=" - "
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/no_of_earning_family_member_count"
+            app:layout_constraintEnd_toEndOf="@+id/no_of_earning_family_member_plus_button"
+            app:layout_constraintStart_toEndOf="@+id/txt_family_members"
+            app:layout_constraintTop_toTopOf="@+id/no_of_earning_family_member_count"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/no_of_earning_family_member_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_rect_border"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:layout_marginStart="4dp"
+            android:text="099"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/no_of_earning_family_member_plus_button"
+            app:layout_constraintEnd_toStartOf="@+id/no_of_earning_family_member_plus_button"
+            app:layout_constraintStart_toEndOf="@+id/family_members_minus_button"
+            app:layout_constraintTop_toTopOf="@+id/no_of_earning_family_member_plus_button" />
+
+        <Button
+            android:id="@+id/no_of_earning_family_member_plus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#f75002"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="8dp"
+            android:text=" + "
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/no_of_earning_family_member_count"
+            app:layout_constraintTop_toBottomOf="@+id/family_members_plus_button"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_monthly_income"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/no_of_earning_family_member_plus_button"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/monthly_income_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/monthly_family_income"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/txt_expenditure_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/lato_black"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="@string/monthly_household_expenditures"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_monthly_income" />
+
+        <TextView
+            android:id="@+id/txt_typeof_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/lato_regular"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="@string/select_type_of_expenditures"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_expenditure_msg" />
+
+        <CheckBox
+            android:id="@+id/grocery_expenditure_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/lato_black"
+            android:text="Groceries"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:drawableTint="#f75002"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_grocery_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_grocery_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_grocery_expenditure" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_grocery_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/grocery_expenditure_label"
+            app:layout_constraintTop_toBottomOf="@+id/txt_typeof_expenditure"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/grocery_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/transport_expenditure_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/lato_black"
+            android:text="Transport"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:drawableTint="#f75002"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_transport_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_transport_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_transport_expenditure" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_transport_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/transport_expenditure_label"
+            app:layout_constraintTop_toBottomOf="@+id/tl_grocery_expenditure">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/transport_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/education_expenditure_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/lato_black"
+            android:text="Education"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:drawableTint="#f75002"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_education_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_education_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_education_expenditure" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_education_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/education_expenditure_label"
+            app:layout_constraintTop_toBottomOf="@+id/tl_transport_expenditure">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/education_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/medicine_expenditure_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/lato_black"
+            android:text="Medicines"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:drawableTint="#f75002"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_medicine_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_medicine_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_medicine_expenditure" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_medicine_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/medicine_expenditure_label"
+            app:layout_constraintTop_toBottomOf="@+id/tl_education_expenditure">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/medicine_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/other_expenditure_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/lato_black"
+            android:text="Other"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:drawableTint="#f75002"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_other_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_other_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_other_expenditure" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_other_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/other_expenditure_label"
+            app:layout_constraintTop_toBottomOf="@+id/tl_medicine_expenditure">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/other_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_total_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_other_expenditure"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/total_amount_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/txt_business_expenditure_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/lato_black"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Monthly Business Expenditure"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_total_amount" />
+
+        <TextView
+            android:id="@+id/txt_business_typeof_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/lato_regular"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="@string/select_type_of_expenditures"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_business_expenditure_msg" />
+
+        <CheckBox
+            android:id="@+id/chk_type1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:drawableTint="#f75002"
+            android:fontFamily="@font/lato_black"
+            android:text="Type1"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_type1_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_type1_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_type1_expenditure" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_type1_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chk_type1"
+            app:layout_constraintTop_toBottomOf="@+id/txt_business_typeof_expenditure"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/type1_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/chk_type2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:drawableTint="#f75002"
+            android:fontFamily="@font/lato_black"
+            android:text="Type2"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_type2_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_type2_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_type2_expenditure" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_type2_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chk_type2"
+            app:layout_constraintTop_toBottomOf="@+id/tl_type1_expenditure"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/type2_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/chk_type3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:drawableTint="#f75002"
+            android:fontFamily="@font/lato_black"
+            android:text="Type3"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_type3_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_type3_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_type3_expenditure" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_type3_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chk_type2"
+            app:layout_constraintTop_toBottomOf="@+id/tl_type2_expenditure"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/type3_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/chk_type4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:drawableTint="#f75002"
+            android:fontFamily="@font/lato_black"
+            android:text="Type4"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_type4_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_type4_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_type4_expenditure" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_type4_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chk_type4"
+            app:layout_constraintTop_toBottomOf="@+id/tl_type3_expenditure"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/type4_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/chk_type5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:drawableTint="#f75002"
+            android:fontFamily="@font/lato_black"
+            android:text="Type5"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_type5_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_type5_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_type5_expenditure" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_type5_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chk_type5"
+            app:layout_constraintTop_toBottomOf="@+id/tl_type4_expenditure"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/type5_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_business_exp_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_type5_expenditure"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/business_expenditure_amount_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/txt_other_liability"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_black"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Any other Liabilities (Personal Loans etc)?"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/switch_other_liability"
+            app:layout_constraintEnd_toStartOf="@+id/switch_other_liability"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/switch_other_liability" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_other_liability"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:checked="true"
+            android:padding="4dp"
+            android:text="Yes"
+            android:textColor="#696969"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@+id/txt_other_liability"
+            app:layout_constraintTop_toBottomOf="@+id/tl_business_exp_amount"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:switchPadding="8dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/liabilities_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_other_liability">
+
+            <LinearLayout
+                android:id="@+id/ll_loan_details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include layout="@layout/layout_loan_details" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_add_another_loan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_rect_border"
+                android:backgroundTint="#ffb800"
+                android:capitalize="none"
+                android:fontFamily="@font/lato_black"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="32dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="12dp"
+                android:text="@string/add_another_obligation"
+                android:textAllCaps="false"
+                android:textColor="#f75002"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_loan_details"
+                app:layout_constraintVertical_chainStyle="packed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/banking_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:drawableLeft="@drawable/ic_document_attach_pending"
+            android:drawablePadding="16dp"
+            android:fontFamily="@font/lato_bold"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:padding="12dp"
+            android:text="Banking"
+            android:textColor="#696969"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/liabilities_container"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/gst_text_view_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:drawableLeft="@drawable/ic_document_attach_pending"
+            android:drawablePadding="16dp"
+            android:fontFamily="@font/lato_bold"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:padding="12dp"
+            android:text="GST"
+            android:textColor="#696969"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/banking_text_view"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/bills_text_view_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:drawableLeft="@drawable/ic_document_attach_pending"
+            android:drawablePadding="16dp"
+            android:fontFamily="@font/lato_bold"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:padding="12dp"
+            android:text="Bills"
+            android:textColor="#696969"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gst_text_view_button"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/obligations_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:drawableLeft="@drawable/ic_document_attach_pending"
+            android:drawablePadding="16dp"
+            android:fontFamily="@font/lato_bold"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:padding="12dp"
+            android:text="Obligations"
+            android:textColor="#696969"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bills_text_view_button"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_banking"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/obligations_text_view">
+
+            <TextView
+                android:id="@+id/txt_banking"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@android:drawable/arrow_down_float"
+                android:gravity="left"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="Banking"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/chk_generate_report"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:button="@null"
+                android:checked="true"
+                android:drawableStart="@drawable/radio_selector"
+                android:drawablePadding="8dp"
+                android:text="Generate Report"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_banking" />
+
+            <RadioGroup
+                android:id="@+id/rgrp_report_option"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chk_generate_report">
+
+                <RadioButton
+                    android:id="@+id/btn_net_banking"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_radio_priority"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="8.3sp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="Net-Banking"
+                    android:textColor="#92b0d4"
+                    android:textStyle="bold" />
+
+                <!--                <RadioButton-->
+                <!--                    android:id="@+id/btn_net_banking_report"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="4dp"-->
+                <!--                    android:layout_marginEnd="4dp"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:background="@drawable/selector_radio_priority"-->
+                <!--                    android:button="@null"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:letterSpacing="0.05"-->
+                <!--                    android:lineSpacingExtra="8.3sp"-->
+                <!--                    android:paddingStart="8dp"-->
+                <!--                    android:paddingTop="8dp"-->
+                <!--                    android:paddingEnd="8dp"-->
+                <!--                    android:paddingBottom="8dp"-->
+                <!--                    android:text="Net-Banking Report"-->
+                <!--                    android:textColor="#92b0d4"-->
+                <!--                    android:textStyle="bold" />-->
+
+                <RadioButton
+                    android:id="@+id/btn_statement_upload"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_radio_priority"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="8.3sp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="Stmt Upload"
+                    android:textColor="#92b0d4"
+                    android:textStyle="bold" />
+
+                <!--                <RadioButton-->
+                <!--                    android:id="@+id/btn_statement_report"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="4dp"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:background="@drawable/selector_radio_priority"-->
+                <!--                    android:button="@null"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:letterSpacing="0.05"-->
+                <!--                    android:lineSpacingExtra="8.3sp"-->
+                <!--                    android:paddingStart="8dp"-->
+                <!--                    android:paddingTop="8dp"-->
+                <!--                    android:paddingEnd="8dp"-->
+                <!--                    android:paddingBottom="8dp"-->
+                <!--                    android:text="Stmt Report"-->
+                <!--                    android:textColor="#92b0d4"-->
+                <!--                    android:textStyle="bold" />-->
+
+            </RadioGroup>
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/chk_upload_documents"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:button="@null"
+                android:checked="false"
+                android:drawableStart="@drawable/radio_selector"
+                android:drawablePadding="8dp"
+                android:text="Upload Documents"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rgrp_report_option" />
+
+            <!--<RadioGroup
+                android:id="@+id/rgrp_banking"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_banking"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbtn_generate_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart=="@drawable/radio_selector"
+                    android:drawablePadding="8dp"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:button="@null"
+                    android:checked="true"
+                    android:text="Generate Report"/>
+
+
+                <RadioButton
+                    android:id="@+id/rbtn_upload_document"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart=="@drawable/radio_selector"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="8dp"
+                    android:button="@null"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:text="Upload Document"/>
+
+            </RadioGroup>-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--            android:id="@+id/collateral_container"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/cl_banking">-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/txt_property_details_msg"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="16dp"-->
+        <!--                android:letterSpacing="0.05"-->
+        <!--                android:lineSpacingExtra="8.3sp"-->
+        <!--                android:text="@string/property_details"-->
+        <!--                android:textColor="#000000"-->
+        <!--                android:textSize="14sp"-->
+        <!--                android:textStyle="bold"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintHorizontal_bias="0"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--            <Spinner-->
+        <!--                android:id="@+id/spnr_nature_of_collateral"-->
+        <!--                style="@style/Widget.AppCompat.Spinner.Underlined"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="16dp"-->
+        <!--                android:backgroundTint="#000000"-->
+        <!--                android:entries="@array/arr_nature_of_collateral"-->
+        <!--                android:singleLine="true"-->
+        <!--                android:textColor="#000000"-->
+        <!--                android:textSize="14sp"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toBottomOf="@+id/txt_property_details_msg"-->
+        <!--                app:layout_constraintVertical_chainStyle="packed" />-->
+
+        <!--            <com.google.android.material.textfield.TextInputLayout-->
+        <!--                android:id="@+id/tl_collateral_property_value"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="16dp"-->
+        <!--                app:hintEnabled="true"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toBottomOf="@+id/spnr_nature_of_collateral"-->
+        <!--                app:layout_constraintVertical_chainStyle="packed">-->
+
+        <!--                <com.google.android.material.textfield.TextInputEditText-->
+        <!--                    android:id="@+id/collateral_property_value_input"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:drawablePadding="4dp"-->
+        <!--                    android:hint="@string/collateral_property_value"-->
+        <!--                    android:inputType="numberDecimal"-->
+        <!--                    android:singleLine="true"-->
+        <!--                    android:textColor="#000000"-->
+        <!--                    android:textSize="14sp" />-->
+        <!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--            <androidx.appcompat.widget.AppCompatCheckBox-->
+        <!--                android:id="@+id/chk_ownership_type"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="16dp"-->
+        <!--                android:button="@null"-->
+        <!--                android:checked="true"-->
+        <!--                android:drawableStart="@drawable/radio_selector"-->
+        <!--                android:drawablePadding="8dp"-->
+        <!--                android:text="Ownership Type"-->
+        <!--                android:textColor="#000000"-->
+        <!--                android:textSize="14sp"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toBottomOf="@+id/tl_collateral_property_value" />-->
+
+        <!--            <RadioGroup-->
+        <!--                android:id="@+id/rgrp_ownership_type"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="8dp"-->
+        <!--                android:orientation="horizontal"-->
+        <!--                android:weightSum="3"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toBottomOf="@+id/chk_ownership_type">-->
+
+        <!--                <RadioButton-->
+        <!--                    android:id="@+id/btn_ownership_type_self"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="4dp"-->
+        <!--                    android:layout_marginEnd="4dp"-->
+        <!--                    android:layout_weight="1"-->
+        <!--                    android:background="@drawable/selector_radio_priority"-->
+        <!--                    android:button="@null"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:letterSpacing="0.05"-->
+        <!--                    android:lineSpacingExtra="8.3sp"-->
+        <!--                    android:paddingStart="8dp"-->
+        <!--                    android:paddingTop="8dp"-->
+        <!--                    android:paddingEnd="8dp"-->
+        <!--                    android:paddingBottom="8dp"-->
+        <!--                    android:text="Self"-->
+        <!--                    android:textColor="#92b0d4"-->
+        <!--                    android:textStyle="bold" />-->
+
+        <!--                <RadioButton-->
+        <!--                    android:id="@+id/btn_ownership_type_joint"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="4dp"-->
+        <!--                    android:layout_marginEnd="4dp"-->
+        <!--                    android:layout_weight="1"-->
+        <!--                    android:background="@drawable/selector_radio_priority"-->
+        <!--                    android:button="@null"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:letterSpacing="0.05"-->
+        <!--                    android:lineSpacingExtra="8.3sp"-->
+        <!--                    android:paddingStart="8dp"-->
+        <!--                    android:paddingTop="8dp"-->
+        <!--                    android:paddingEnd="8dp"-->
+        <!--                    android:paddingBottom="8dp"-->
+        <!--                    android:text="Joint"-->
+        <!--                    android:textColor="#92b0d4"-->
+        <!--                    android:textStyle="bold" />-->
+
+        <!--                <RadioButton-->
+        <!--                    android:id="@+id/btn_ownership_type_others"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_weight="1"-->
+        <!--                    android:background="@drawable/selector_radio_priority"-->
+        <!--                    android:button="@null"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:letterSpacing="0.05"-->
+        <!--                    android:lineSpacingExtra="8.3sp"-->
+        <!--                    android:paddingStart="8dp"-->
+        <!--                    android:paddingTop="8dp"-->
+        <!--                    android:paddingEnd="8dp"-->
+        <!--                    android:paddingBottom="8dp"-->
+        <!--                    android:text="Others"-->
+        <!--                    android:textColor="#92b0d4"-->
+        <!--                    android:textStyle="bold" />-->
+
+        <!--            </RadioGroup>-->
+
+        <!--            <com.google.android.material.textfield.TextInputLayout-->
+        <!--                android:id="@+id/tl_registered_owner"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="16dp"-->
+        <!--                app:hintEnabled="true"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toBottomOf="@+id/rgrp_ownership_type"-->
+        <!--                app:layout_constraintVertical_chainStyle="packed">-->
+
+        <!--                <com.google.android.material.textfield.TextInputEditText-->
+        <!--                    android:id="@+id/registered_owner_input"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:drawablePadding="4dp"-->
+        <!--                    android:hint="@string/name_of_registered_owner"-->
+        <!--                    android:inputType="numberDecimal"-->
+        <!--                    android:singleLine="true"-->
+        <!--                    android:textColor="#000000"-->
+        <!--                    android:textSize="14sp" />-->
+        <!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/itr_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_banking">
+
+            <TextView
+                android:id="@+id/txt_itr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@android:drawable/arrow_down_float"
+                android:gravity="start"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="ITR"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/upload_itr_documents_checkbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:button="@null"
+                android:checked="false"
+                android:drawableStart="@drawable/radio_selector"
+                android:drawablePadding="8dp"
+                android:text="Upload Documents"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_itr" />
+
+            <RadioGroup
+                android:id="@+id/rgrp_itr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/upload_itr_documents_checkbox">
+
+                <RadioButton
+                    android:id="@+id/upload_itr_document_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/selector_radio_priority"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="8.3sp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="Upload Document"
+                    android:textColor="#92b0d4"
+                    android:textStyle="bold" />
+            </RadioGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/gst_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itr_container">
+
+            <TextView
+                android:id="@+id/gst_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@android:drawable/arrow_down_float"
+                android:gravity="left"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="GST"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/generate_gst_report_checkbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:button="@null"
+                android:checked="true"
+                android:drawableStart="@drawable/radio_selector"
+                android:drawablePadding="8dp"
+                android:text="Generate Report"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gst_text_view" />
+
+            <!--            <RadioGroup-->
+            <!--                android:id="@+id/generate_gst_report_radio_group"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/generate_gst_report_checkbox">-->
+
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/btn_net_banking"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="4dp"-->
+            <!--                    android:layout_marginEnd="4dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:background="@drawable/selector_radio_priority"-->
+            <!--                    android:button="@null"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:letterSpacing="0.05"-->
+            <!--                    android:lineSpacingExtra="8.3sp"-->
+            <!--                    android:paddingStart="8dp"-->
+            <!--                    android:paddingTop="8dp"-->
+            <!--                    android:paddingEnd="8dp"-->
+            <!--                    android:paddingBottom="8dp"-->
+            <!--                    android:text="Net-Banking"-->
+            <!--                    android:textColor="#92b0d4"-->
+            <!--                    android:textStyle="bold" />-->
+
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/btn_statement_upload"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="4dp"-->
+            <!--                    android:layout_marginEnd="4dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:background="@drawable/selector_radio_priority"-->
+            <!--                    android:button="@null"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:letterSpacing="0.05"-->
+            <!--                    android:lineSpacingExtra="8.3sp"-->
+            <!--                    android:paddingStart="8dp"-->
+            <!--                    android:paddingTop="8dp"-->
+            <!--                    android:paddingEnd="8dp"-->
+            <!--                    android:paddingBottom="8dp"-->
+            <!--                    android:text="Stmt Upload"-->
+            <!--                    android:textColor="#92b0d4"-->
+            <!--                    android:textStyle="bold" />-->
+
+            <!--            </RadioGroup>-->
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/upload_gst_documents_checkbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:button="@null"
+                android:checked="false"
+                android:drawableStart="@drawable/radio_selector"
+                android:drawablePadding="8dp"
+                android:text="Upload Documents"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/generate_gst_report_checkbox" />
+
+            <!--<RadioGroup
+                android:id="@+id/rgrp_banking"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_banking"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbtn_generate_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart=="@drawable/radio_selector"
+                    android:drawablePadding="8dp"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:button="@null"
+                    android:checked="true"
+                    android:text="Generate Report"/>
+
+
+                <RadioButton
+                    android:id="@+id/rbtn_upload_document"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart=="@drawable/radio_selector"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="8dp"
+                    android:button="@null"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:text="Upload Document"/>
+
+            </RadioGroup>-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bill_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gst_container">
+
+            <TextView
+                android:id="@+id/bills_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@android:drawable/arrow_down_float"
+                android:gravity="start"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="Bill"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/upload_bills_documents_checkbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:button="@null"
+                android:checked="false"
+                android:drawableStart="@drawable/radio_selector"
+                android:drawablePadding="8dp"
+                android:text="Upload Documents"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bills_text_view" />
+
+            <RadioGroup
+                android:id="@+id/bill_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/upload_bills_documents_checkbox">
+
+                <RadioButton
+                    android:id="@+id/upload_bill_document_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/selector_radio_priority"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="8.3sp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="Upload Document"
+                    android:textColor="#92b0d4"
+                    android:textStyle="bold" />
+            </RadioGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btn_save_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/ic_next_enabled"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="32dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="32dp"
+            android:paddingBottom="12dp"
+            android:text="@string/save_amp_continue"
+            android:textColor="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bill_container"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+

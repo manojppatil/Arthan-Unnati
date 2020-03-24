@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="16dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/txt_doc_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Doc1"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_upload"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/btn_upload"
+        android:textStyle="bold"
+        android:fontFamily="@font/lato_black"
+        android:textSize="14sp"/>
+
+    <Button
+        android:id="@+id/btn_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toRightOf="@id/txt_doc_name"
+        app:layout_constraintRight_toLeftOf="@id/btn_take_approval"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:enabled="true"
+        android:background="@drawable/ic_next_enabled"
+        android:textColor="#c4c4c4"
+        android:textStyle="bold"
+        android:text="Upload"
+        android:textAllCaps="false"
+        android:fontFamily="@font/lato_black"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_take_approval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintLeft_toRightOf="@id/btn_upload"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:enabled="true"
+        android:background="@drawable/ic_next_enabled"
+        android:textColor="#c4c4c4"
+        android:textStyle="bold"
+        android:text="Take Approval"
+        android:textAllCaps="false"
+        android:fontFamily="@font/lato_black"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

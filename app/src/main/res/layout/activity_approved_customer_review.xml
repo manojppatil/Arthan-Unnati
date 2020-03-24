@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/toolbar"
+        layout="@layout/layout_bm_toolbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_app">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txt_loan_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Loan ID"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/lato_black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/tv_loan_id_value"
+                app:layout_constraintTop_toTopOf="parent"
+              />
+
+            <TextView
+                android:id="@+id/tv_loan_id_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:inputType="number"
+                android:text="123456"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/et_loan_amt"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/txt_loaner_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Customer Name"
+                android:fontFamily="@font/lato_black"
+                android:layout_marginTop="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_loan_id"
+                app:layout_constraintBottom_toTopOf="@+id/txt_loan_amt"
+                app:layout_constraintRight_toLeftOf="@+id/tv_loan_name_value"/>
+
+            <TextView
+                android:id="@+id/tv_loan_name_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="rushi"
+                android:inputType="number"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/lato_regular"
+                app:layout_constraintLeft_toLeftOf="@+id/et_loan_amt"
+                app:layout_constraintTop_toBottomOf="@+id/tv_loan_id_value"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/txt_loaner_name"
+                />
+
+            <TextView
+                android:id="@+id/txt_loan_amt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Loan Amount"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/lato_black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/et_loan_amt"
+               app:layout_constraintTop_toBottomOf="@+id/txt_loaner_name"
+               />
+
+            <EditText
+                android:id="@+id/et_loan_amt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="₹300000"
+                android:editable="false"
+                android:inputType="number"
+                android:fontFamily="@font/lato_regular"
+                app:layout_constraintLeft_toRightOf="@id/txt_loan_amt"
+                app:layout_constraintRight_toLeftOf="@id/btn_edit"
+                app:layout_constraintTop_toBottomOf="@id/tv_loan_name_value"/>
+
+            <ImageButton
+                android:id="@+id/btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@id/et_loan_amt"
+                app:layout_constraintBottom_toBottomOf="@id/et_loan_amt"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/et_loan_amt"/>
+
+            <TextView
+                android:id="@+id/txt_tenure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Tenure"
+                android:fontFamily="@font/lato_black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/et_tenure"
+                app:layout_constraintTop_toTopOf="@id/et_tenure"
+                app:layout_constraintBottom_toBottomOf="@id/et_tenure"/>
+
+            <EditText
+                android:id="@+id/et_tenure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="24 Months"
+                android:editable="false"
+                android:inputType="number"
+                android:fontFamily="@font/lato_regular"
+                app:layout_constraintLeft_toRightOf="@id/txt_tenure"
+                app:layout_constraintRight_toLeftOf="@id/btn_tenure_edit"
+                app:layout_constraintTop_toBottomOf="@id/et_loan_amt"/>
+
+            <ImageButton
+                android:id="@+id/btn_tenure_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@id/et_tenure"
+                app:layout_constraintBottom_toBottomOf="@id/et_tenure"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/et_tenure"/>
+
+            <TextView
+                android:id="@+id/txt_rate_of_interest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Rate Of Interest"
+                android:fontFamily="@font/lato_black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/et_rate_of_interest"
+                app:layout_constraintTop_toTopOf="@id/et_rate_of_interest"
+                app:layout_constraintBottom_toBottomOf="@id/et_rate_of_interest"/>
+
+            <EditText
+                android:id="@+id/et_rate_of_interest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="25%"
+                android:editable="false"
+                android:inputType="number"
+                android:fontFamily="@font/lato_regular"
+                app:layout_constraintLeft_toRightOf="@id/txt_rate_of_interest"
+                app:layout_constraintRight_toLeftOf="@id/btn_rate_of_interest_edit"
+                app:layout_constraintTop_toBottomOf="@id/et_tenure"/>
+
+            <ImageButton
+                android:id="@+id/btn_rate_of_interest_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@id/et_rate_of_interest"
+                app:layout_constraintBottom_toBottomOf="@id/et_rate_of_interest"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/et_rate_of_interest"/>
+
+            <TextView
+                android:id="@+id/txt_processing_fees"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Processing Fees"
+                android:fontFamily="@font/lato_black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/et_processing_fees"
+                app:layout_constraintTop_toTopOf="@id/et_processing_fees"
+                app:layout_constraintBottom_toBottomOf="@id/et_processing_fees"/>
+
+            <EditText
+                android:id="@+id/et_processing_fees"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="₹2000"
+                android:editable="false"
+                android:inputType="number"
+                android:fontFamily="@font/lato_regular"
+                app:layout_constraintLeft_toRightOf="@id/txt_processing_fees"
+                app:layout_constraintRight_toLeftOf="@id/btn_processing_fees_edit"
+                app:layout_constraintTop_toBottomOf="@id/et_rate_of_interest"/>
+
+            <ImageButton
+                android:id="@+id/btn_processing_fees_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@id/et_processing_fees"
+                app:layout_constraintBottom_toBottomOf="@id/et_processing_fees"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/et_processing_fees"/>
+
+            <TextView
+                android:id="@+id/txt_insurance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Insurance"
+                android:fontFamily="@font/lato_black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/et_insurance"
+                app:layout_constraintTop_toTopOf="@id/et_insurance"
+                app:layout_constraintBottom_toBottomOf="@id/et_insurance"/>
+
+            <EditText
+                android:id="@+id/et_insurance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="₹3000"
+                android:editable="false"
+                android:inputType="number"
+                android:fontFamily="@font/lato_regular"
+                app:layout_constraintLeft_toRightOf="@id/txt_insurance"
+                app:layout_constraintRight_toLeftOf="@id/btn_insurance_edit"
+                app:layout_constraintTop_toBottomOf="@id/et_processing_fees"/>
+
+            <ImageButton
+                android:id="@+id/btn_insurance_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@id/et_insurance"
+                app:layout_constraintBottom_toBottomOf="@id/et_insurance"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/et_insurance"/>
+
+            <Button
+                android:id="@+id/btn_generate_sanction_letter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_insurance"
+                android:gravity="center"
+                android:visibility="gone"
+                android:enabled="true"
+                android:background="@drawable/ic_next_enabled"
+                android:textColor="#c4c4c4"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:text="Generate Sanction Letter"
+                android:fontFamily="@font/lato_black"
+                android:layout_marginTop="20dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+            <Button
+                android:id="@+id/btn_mail_sanction_letter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_generate_sanction_letter"
+                android:gravity="center"
+                android:visibility="gone"
+                android:enabled="true"
+                android:background="@drawable/ic_next_enabled"
+                android:textColor="#c4c4c4"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:text="Mail Sanction Letter"
+                android:fontFamily="@font/lato_black"
+                android:layout_marginTop="20dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+            <Button
+                android:id="@+id/btn_upload_sanction_letter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_mail_sanction_letter"
+                android:gravity="center"
+                android:visibility="gone"
+                android:enabled="true"
+                android:background="@drawable/ic_next_enabled"
+                android:textColor="#c4c4c4"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:text="Upload Sanction Letter"
+                android:fontFamily="@font/lato_black"
+                android:layout_marginTop="20dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+            <Button
+            android:id="@+id/btn_collect_fees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_upload_sanction_letter"
+            android:gravity="center"
+            android:enabled="true"
+            android:background="@drawable/ic_next_enabled"
+                android:visibility="gone"
+                android:textColor="#c4c4c4"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:text="Collect Fees"
+            android:fontFamily="@font/lato_black"
+            android:layout_marginTop="20dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+            <CheckBox
+                android:id="@+id/chk_trigger"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_collect_fees"
+                android:layout_marginTop="20dp"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:fontFamily="@font/lato_regular"
+                android:text="Trigger Legal/Technical/RCU"/>
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chk_trigger"
+                android:gravity="center"
+                android:enabled="true"
+                android:background="@drawable/ic_next_enabled"
+                android:textColor="#c4c4c4"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:text="Submit"
+                android:fontFamily="@font/lato_black"
+                android:layout_marginTop="20dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>

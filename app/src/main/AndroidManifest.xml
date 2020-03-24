@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.arthan">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!--
+<uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    -->
+    <!--
+ <uses-permission
+         android:name="android.permission.READ_CALL_LOG"
+         tools:node="remove" />
+    -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <application
+        android:name=".global.ArthanApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".lead.DocumentActivity"></activity>
+        <activity android:name=".lead.BankingInputDetailsActivity" />
+        <activity android:name=".lead.ObligationsInputDetailsActivity" />
+        <activity android:name=".lead.BillsInputDetailsActivity" />
+        <activity android:name=".lead.GSTInputDetailsActivity" />
+        <activity android:name=".lead.AddNewLeadActivity" />
+        <activity android:name=".lead.AddLeadActivity" />
+        <activity android:name=".profile.MyProfileActivity" />
+
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="ocr" /> <!-- File access -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity android:name=".views.activities.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".dashboard.rm.RMDashboardActivity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".lead.AddLeadStep2Activity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".lead.UploadDocumentActivity" />
+        <activity android:name=".lead.ConsentActivity" />
+        <activity android:name=".lead.OTPValidationActivity" />
+        <activity android:name=".lead.LeadInfoCaptureActivity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".lead.AddLeadStep1Activity" />
+        <activity android:name=".dashboard.bm.BMDashboardActivity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".views.activities.FinalReportActivity" />
+        <activity android:name=".views.activities.ScreeningActivity" />
+        <activity android:name=".views.activities.CustomerDetailActivity" />
+        <activity android:name=".views.activities.SubmitFinalReportActivity" />
+        <activity android:name=".views.activities.ProfileActivity" />
+        <activity android:name=".dashboard.bcm.BCMDashboardActivity">
+
+            <!--
+             <intent-filter>
+
+                 <action android:name="android.intent.action.MAIN" />
+
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".views.activities.PendingCustomersActivity" />
+        <activity android:name=".views.activities.PDActivity" />
+        <activity android:name=".views.activities.IncomeAnalysisActivity" />
+        <activity android:name=".views.activities.TakeDecisionActivity" />
+        <activity android:name=".dashboard.ops.OpsDashboardActivity" />
+        <activity android:name=".dashboard.legal.LegalDashboardActivity" />
+        <activity android:name=".views.activities.LegalRcuApplicationInfoActivity" />
+        <activity android:name=".lead.LoanDetailActivity" />
+        <activity android:name=".lead.ApplicationFeeActivity" />
+        <activity android:name=".lead.PersonalInformationActivity" />
+        <activity android:name=".lead.PaymentSuccessActivity" />
+        <activity android:name=".lead.LeadScreeningActivity" />
+        <activity android:name=".lead.LeadEligibilityActivity" />
+        <activity android:name=".dashboard.rm.RMLeadListingActivity" />
+        <activity android:name=".dashboard.rm.RMScreeningListingActivity" />
+        <activity android:name=".dashboard.rm.RMDisbursedListingActivity" />
+        <activity android:name=".dashboard.rm.RMTobeDisbursedListingActivity" />
+        <activity android:name=".dashboard.rm.RMReAssignListingActivity" />
+        <activity android:name=".dashboard.rm.RMApprovedListingActivity" />
+        <activity android:name=".dashboard.rm.RMRejectedListingActivity" />
+        <activity android:name=".dashboard.bm.RMInBranchListingActivity" />
+        <activity android:name=".dashboard.bm.Customer360Activity" />
+        <activity android:name=".dashboard.bm.BMDocumentVerificationActivity" />
+        <activity android:name=".dashboard.bm.BMScreeningReportActivity" />
+        <activity android:name=".views.activities.NotificationActivity" />
+        <activity android:name=".dashboard.bm.IDAddressActivity" />
+        <activity android:name=".dashboard.bm.BankingActivity" />
+        <activity android:name=".dashboard.bm.CollateralActivity" />
+        <activity android:name=".dashboard.bm.AssetsActivity" />
+        <activity android:name=".dashboard.bm.InProgressListingActivity" />
+        <activity android:name=".dashboard.bm.RmStatusListingActivity" />
+        <activity android:name=".dashboard.bm.BureauActivity" />
+        <activity android:name=".dashboard.rm.PDTDocUploadActivity" />
+        <activity android:name=".dashboard.rm.PendingInfoActivity" />
+        <activity android:name=".dashboard.bm.ApprovedCustomerReviewActivity" />
+        <activity android:name=".dashboard.bm.ApprovedCustomerLegalStatusActivity" />
+        <activity android:name=".dashboard.bm.ApproveActivity" />
+        <activity android:name=".views.activities.WebContentPreviewActivity" />
+        <activity android:name=".views.activities.CustomerCameraActivity" />
+    </application>
+
+</manifest>

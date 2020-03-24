@@ -1,0 +1,31 @@
+package com.example.arthan.lead.model.postdata
+
+data class PersonalDetails(
+    val addressLine1: String?,
+    val addressLine2: String?,
+    val ageofCustomer: String?,
+    val applicantType: String?,
+    val areaName: String?,
+    val city: String?,
+    val contactNo: String?,
+    val district: String?,
+    val dob: String?,
+    val educationlevel: String?,
+    val email: String?,
+    val fatherOrSpousename: String?,
+    val fullName: String?,
+    val gender: String?,
+    val grossannualIncome: String?,
+    val landmark: String?,
+    val loanId: String?,
+    val maidenName: String?,
+    val motherName: String?,
+    val nationality: String?,
+    val occupation: String?,
+    val occupationType: String?,
+    val pinCode: String?,
+    val rshipWithApplicant: String?,
+    val sourceofIncome: String?,
+    val state: String?,
+    val title: String?
+)

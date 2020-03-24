@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/frag_business_info">
+
+    <fragment
+        android:id="@+id/frag_business_info"
+        android:name="com.example.arthan.lead.BusinessInformationFragment"
+        tools:layout="@layout/fragment_business_information">
+
+        <action
+            android:id="@+id/action_business_to_income"
+            app:destination="@id/frag_income_info" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/frag_income_info"
+        android:name="com.example.arthan.lead.IncomeInformationFragment"
+        tools:layout="@layout/fragment_income_information">
+
+        <action
+            android:id="@+id/action_income_to_doc"
+            app:destination="@id/frag_document_info" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/frag_document_info"
+        android:name="com.example.arthan.lead.OtherDetailsFragment"
+        tools:layout="@layout/fragment_other_details"/>
+
+</navigation>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app"
+    android:orientation="vertical"
+    tools:context=".lead.CompleteDetailsFragment">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_rm_toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/ll_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            android:weightSum="6"
+            app:layout_constraintBottom_toTopOf="@id/frag_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- <RelativeLayout
+                 android:layout_width="0dp"
+                 android:layout_weight="1"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="16dp">
+
+                 <TextView
+                     android:id="@+id/txt_personal"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:textStyle="bold"
+                     android:drawablePadding="2dp"
+                     android:drawableTop="@drawable/ic_personal_info"
+                     android:gravity="center"
+                     android:layout_gravity="center_horizontal"
+                     android:textSize="10sp"
+                     android:textColor="#f75002"
+                     android:letterSpacing="0.05"
+                     android:lineSpacingExtra="6sp"
+                     android:text="@string/personal"/>
+
+                 <View
+                     android:id="@+id/vw_dim_personal"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_alignTop="@id/txt_personal"
+                     android:layout_alignBottom="@id/txt_personal"
+                     android:visibility="gone"
+                     android:background="#CCffffff"/>
+
+             </RelativeLayout>
+
+             <View
+                 android:id="@+id/view_personal_business"
+                 android:layout_width="0dp"
+                 android:layout_weight="1.5"
+                 android:layout_height="4dp"
+                 android:layout_gravity="center"
+                 android:background="@drawable/ic_dash_line"/>-->
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/txt_Business"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableTop="@drawable/ic_business_info"
+                    android:drawablePadding="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/business"
+                    android:textColor="#f75002"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/vw_dim_business"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/txt_Business"
+                    android:layout_alignBottom="@id/txt_Business"
+                    android:background="#CCffffff"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center"
+                android:layout_weight="1.5"
+                android:background="@drawable/ic_dash_line" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/txt_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableTop="@drawable/ic_income_info"
+                    android:drawablePadding="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/income"
+                    android:textColor="#f75002"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/vw_dim_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/txt_income"
+                    android:layout_alignBottom="@id/txt_income"
+                    android:background="#CCffffff" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center"
+                android:layout_weight="1.5"
+                android:background="@drawable/ic_dash_line" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/txt_doc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableTop="@drawable/ic_personal_info"
+                    android:drawablePadding="2dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="6sp"
+                    android:text="Other"
+                    android:textColor="#f75002"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/vw_dim_doc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/txt_doc"
+                    android:layout_alignBottom="@id/txt_doc"
+                    android:background="#CCffffff"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/frag_container"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_top"
+            app:navGraph="@navigation/nav_lead_info" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

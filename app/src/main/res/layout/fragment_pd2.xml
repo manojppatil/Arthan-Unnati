@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.fragments.PD2Fragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/basic_details_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Basic Details"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/type_of_business_cash_or_credit_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Type of Business - Cash /Credit"
+            app:layout_constraintEnd_toStartOf="@+id/type_of_business_cash_or_credit_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/basic_details_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/type_of_business_cash_or_credit_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_type_of_business_cash"
+            app:layout_constraintBottom_toBottomOf="@+id/type_of_business_cash_or_credit_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/type_of_business_cash_or_credit_label"
+            app:layout_constraintTop_toTopOf="@+id/type_of_business_cash_or_credit_label" />
+
+        <TextView
+            android:id="@+id/dependency_no_of_product_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Dependency on no. of products"
+            app:layout_constraintEnd_toStartOf="@+id/dependency_no_of_product_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type_of_business_cash_or_credit_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/dependency_no_of_product_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_no_product"
+            app:layout_constraintBottom_toBottomOf="@+id/dependency_no_of_product_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dependency_no_of_product_label"
+            app:layout_constraintTop_toTopOf="@+id/dependency_no_of_product_label" />
+
+        <TextView
+            android:id="@+id/dependency_on_customer_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Dpendency on customers"
+            app:layout_constraintEnd_toStartOf="@+id/dependency_on_customer_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dependency_no_of_product_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/dependency_on_customer_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_no_of_customer"
+            app:layout_constraintBottom_toBottomOf="@+id/dependency_on_customer_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dependency_on_customer_label"
+            app:layout_constraintTop_toTopOf="@+id/dependency_on_customer_label" />
+
+        <TextView
+            android:id="@+id/dependency_no_of_supplier_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Dependency on no. of suppliers"
+            app:layout_constraintEnd_toStartOf="@+id/dependency_no_of_supplier_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dependency_on_customer_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/dependency_no_of_supplier_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_no_of_supplier"
+            app:layout_constraintBottom_toBottomOf="@+id/dependency_no_of_supplier_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dependency_no_of_supplier_label"
+            app:layout_constraintTop_toTopOf="@+id/dependency_no_of_supplier_label" />
+
+        <TextView
+            android:id="@+id/quality_of_stock_moving_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Quality of Stock ( Moving)"
+            app:layout_constraintEnd_toStartOf="@+id/quality_of_stock_moving_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dependency_no_of_supplier_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/quality_of_stock_moving_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_stock_quality"
+            app:layout_constraintBottom_toBottomOf="@+id/quality_of_stock_moving_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/quality_of_stock_moving_label"
+            app:layout_constraintTop_toTopOf="@+id/quality_of_stock_moving_label" />
+
+        <TextView
+            android:id="@+id/impact_of_competition_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Impact of Competition"
+            app:layout_constraintEnd_toStartOf="@+id/impact_of_competition_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quality_of_stock_moving_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/impact_of_competition_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_competition_impact"
+            app:layout_constraintBottom_toBottomOf="@+id/impact_of_competition_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/impact_of_competition_label"
+            app:layout_constraintTop_toTopOf="@+id/impact_of_competition_label" />
+
+        <TextView
+            android:id="@+id/net_worth_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Networth as %age of turnover"
+            app:layout_constraintEnd_toStartOf="@+id/net_worth_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/impact_of_competition_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/net_worth_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_net_worth"
+            app:layout_constraintBottom_toBottomOf="@+id/net_worth_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/net_worth_label"
+            app:layout_constraintTop_toTopOf="@+id/net_worth_label" />
+
+        <TextView
+            android:id="@+id/turnover_total_existing_loan_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Tunover to total existing loan"
+            app:layout_constraintEnd_toStartOf="@+id/turnover_total_existing_loan_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/net_worth_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/turnover_total_existing_loan_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_turnover_existing_loan"
+            app:layout_constraintBottom_toBottomOf="@+id/turnover_total_existing_loan_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/turnover_total_existing_loan_label"
+            app:layout_constraintTop_toTopOf="@+id/turnover_total_existing_loan_label" />
+
+        <TextView
+            android:id="@+id/seasonality_spinner_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Seasonality"
+            app:layout_constraintEnd_toStartOf="@+id/seasonality_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/turnover_total_existing_loan_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/seasonality_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_seasonality"
+            app:layout_constraintBottom_toBottomOf="@+id/seasonality_spinner_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/seasonality_spinner_label"
+            app:layout_constraintTop_toTopOf="@+id/seasonality_spinner_label" />
+
+        <TextView
+            android:id="@+id/perishability_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Perishability"
+            app:layout_constraintEnd_toStartOf="@+id/perishability_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seasonality_spinner_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/perishability_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_seasonality"
+            app:layout_constraintBottom_toBottomOf="@+id/perishability_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/perishability_label"
+            app:layout_constraintTop_toTopOf="@+id/perishability_label" />
+
+        <TextView
+            android:id="@+id/business_skill_set_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Business Skillset"
+            app:layout_constraintEnd_toStartOf="@+id/business_skill_set_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/perishability_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/business_skill_set_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_seasonality"
+            app:layout_constraintBottom_toBottomOf="@+id/business_skill_set_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/business_skill_set_label"
+            app:layout_constraintTop_toTopOf="@+id/business_skill_set_label" />
+
+        <TextView
+            android:id="@+id/succession_plan_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Succession Plan"
+            app:layout_constraintBottom_toBottomOf="@+id/succession_plan_switch"
+            app:layout_constraintEnd_toStartOf="@+id/succession_plan_switch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/succession_plan_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/succession_plan_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:checked="false"
+            android:fontFamily="@font/lato_regular"
+            android:padding="4dp"
+            android:text="No"
+            android:textColor="#696969"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/succession_plan_label"
+            app:layout_constraintTop_toBottomOf="@+id/business_skill_set_label" />
+
+        <TextView
+            android:id="@+id/collateral_ownership_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Collateral Owership"
+            app:layout_constraintEnd_toStartOf="@+id/collateral_ownership_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/succession_plan_switch" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/collateral_ownership_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_collateral_ownership"
+            app:layout_constraintBottom_toBottomOf="@+id/collateral_ownership_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/collateral_ownership_label"
+            app:layout_constraintTop_toTopOf="@+id/collateral_ownership_label" />
+
+        <TextView
+            android:id="@+id/reference_check_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Reference Check"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/collateral_ownership_label" />
+
+        <TextView
+            android:id="@+id/business_reference_client_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Business reference - Does the cleint pay on time"
+            app:layout_constraintEnd_toStartOf="@+id/business_reference_client_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reference_check_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/business_reference_client_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_business_reference_client"
+            app:layout_constraintBottom_toBottomOf="@+id/business_reference_client_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/business_reference_client_label"
+            app:layout_constraintTop_toTopOf="@+id/business_reference_client_label" />
+
+        <TextView
+            android:id="@+id/business_reference_customer_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Business reference - If customer needed an advance or credit from you would you allow that"
+            app:layout_constraintEnd_toStartOf="@+id/business_reference_customer_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/business_reference_client_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/business_reference_customer_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_business_reference_customer"
+            app:layout_constraintBottom_toBottomOf="@+id/business_reference_customer_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/business_reference_customer_label"
+            app:layout_constraintTop_toTopOf="@+id/business_reference_customer_label" />
+
+        <TextView
+            android:id="@+id/lady_co_applicant_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Lady coapplicant"
+            app:layout_constraintBottom_toBottomOf="@+id/lady_co_applicant_switch"
+            app:layout_constraintEnd_toStartOf="@+id/lady_co_applicant_switch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lady_co_applicant_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/lady_co_applicant_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:checked="false"
+            android:fontFamily="@font/lato_regular"
+            android:padding="4dp"
+            android:text="No"
+            android:textColor="#696969"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lady_co_applicant_label"
+            app:layout_constraintTop_toBottomOf="@+id/business_reference_customer_label" />
+
+        <TextView
+            android:id="@+id/demographic_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Demographic"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lady_co_applicant_label" />
+
+        <TextView
+            android:id="@+id/time_at_current_location_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Time at Current Location ( Years)"
+            app:layout_constraintEnd_toStartOf="@+id/time_at_current_location_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/demographic_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/time_at_current_location_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_time_of_current_location"
+            app:layout_constraintBottom_toBottomOf="@+id/time_at_current_location_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/time_at_current_location_label"
+            app:layout_constraintTop_toTopOf="@+id/time_at_current_location_label" />
+
+        <TextView
+            android:id="@+id/office_premises_ownership_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Office Premises ownership"
+            app:layout_constraintEnd_toStartOf="@+id/office_premises_ownership_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_at_current_location_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/office_premises_ownership_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_office_premises_home_ownership"
+            app:layout_constraintBottom_toBottomOf="@+id/office_premises_ownership_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/office_premises_ownership_label"
+            app:layout_constraintTop_toTopOf="@+id/office_premises_ownership_label" />
+
+        <TextView
+            android:id="@+id/home_ownership_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Home Ownership"
+            app:layout_constraintEnd_toStartOf="@+id/home_ownership_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/office_premises_ownership_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/home_ownership_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_office_premises_home_ownership"
+            app:layout_constraintBottom_toBottomOf="@+id/home_ownership_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/home_ownership_label"
+            app:layout_constraintTop_toTopOf="@+id/home_ownership_label" />
+
+        <TextView
+            android:id="@+id/business_maintenance_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Maintenance of Business records"
+            app:layout_constraintBottom_toBottomOf="@+id/business_maintenance_checkbox"
+            app:layout_constraintEnd_toStartOf="@+id/business_maintenance_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/business_maintenance_checkbox" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/business_maintenance_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/business_maintenance_label"
+            app:layout_constraintTop_toBottomOf="@+id/home_ownership_label" />
+
+        <TextView
+            android:id="@+id/neighbour_association_reference_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Reference from neighbours and assocaitions"
+            app:layout_constraintEnd_toStartOf="@+id/neighbour_association_reference_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/business_maintenance_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/neighbour_association_reference_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_neighbour_association_references"
+            app:layout_constraintBottom_toBottomOf="@+id/neighbour_association_reference_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/neighbour_association_reference_label"
+            app:layout_constraintTop_toTopOf="@+id/neighbour_association_reference_label" />
+
+        <TextView
+            android:id="@+id/adequate_business_inventory_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Does the Business has adequate inventory"
+            app:layout_constraintBottom_toBottomOf="@+id/adequate_business_inventory_switch"
+            app:layout_constraintEnd_toStartOf="@+id/adequate_business_inventory_switch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/adequate_business_inventory_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/adequate_business_inventory_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:checked="false"
+            android:fontFamily="@font/lato_regular"
+            android:padding="4dp"
+            android:text="No"
+            android:textColor="#696969"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/adequate_business_inventory_label"
+            app:layout_constraintTop_toBottomOf="@+id/neighbour_association_reference_label" />
+
+        <TextView
+            android:id="@+id/neighbour_reference_stability_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Neighbour reference - Stability"
+            app:layout_constraintEnd_toStartOf="@+id/neighbour_reference_stability_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/adequate_business_inventory_switch" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/neighbour_reference_stability_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_neighbour_stability_reference"
+            app:layout_constraintBottom_toBottomOf="@+id/neighbour_reference_stability_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/neighbour_reference_stability_label"
+            app:layout_constraintTop_toTopOf="@+id/neighbour_reference_stability_label" />
+
+        <TextView
+            android:id="@+id/home_location_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Home Location"
+            app:layout_constraintEnd_toStartOf="@+id/home_location_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/neighbour_reference_stability_label" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/home_location_spinner"
+            style="@style/AppTheme.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:entries="@array/arr_home_location"
+            app:layout_constraintBottom_toBottomOf="@+id/home_location_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/home_location_label"
+            app:layout_constraintTop_toTopOf="@+id/home_location_label" />
+
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ic_next_enabled"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="32dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="32dp"
+            android:paddingBottom="4dp"
+            android:text="Continue"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_location_spinner" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
