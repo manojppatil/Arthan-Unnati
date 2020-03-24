@@ -176,7 +176,7 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
                 img_shop.visibility = View.VISIBLE
                 Glide.with(this).load(shopUri).into(img_shop)
                 checkForProceed()
-                detectFace()
+               // detectFace()
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
