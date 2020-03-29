@@ -3,6 +3,7 @@ package com.example.arthan.dashboard.bm
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.Toast
@@ -41,24 +42,78 @@ class DocumentVerificationFragment : BaseFragment() {
     private var isApplicantpproved=false
     private var docDetails:DocDetails?=null
     private var mContext:Context?=null
+    private var textColor:Int=Color.parseColor("#09327a")
     override fun init() {
 
         btn_aadhar_approve.setOnClickListener {
             isAdhaarFrontApproved = true
+            btn_aadhar_approve.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_aadhar_disapprove.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_aadhar_approve.setTextColor(Color.WHITE)
+            btn_aadhar_back_disapprove.setTextColor(textColor)
         }
-        btn_aadhar_disapprove.setOnClickListener { isAdhaarFrontApproved = false }
+        btn_aadhar_disapprove.setOnClickListener { isAdhaarFrontApproved = false
+            btn_aadhar_disapprove.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_aadhar_approve.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_aadhar_disapprove.setTextColor(Color.WHITE)
+            btn_aadhar_approve.setTextColor(textColor)
+        }
 
-        btn_aadhar_back_disapprove.setOnClickListener { isAdhaarBackApproved = false }
-        btn_aadhar_back_approve.setOnClickListener { isAdhaarBackApproved = true }
+        btn_aadhar_back_disapprove.setOnClickListener { isAdhaarBackApproved = false
+            btn_aadhar_back_disapprove.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_aadhar_back_approve.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_aadhar_back_disapprove.setTextColor(Color.WHITE)
+            btn_aadhar_back_approve.setTextColor(textColor)
+        }
 
-        btn_pan_approve.setOnClickListener { isPanApproved = true }
-        btn_pan_disapprove.setOnClickListener { isPanApproved = false }
+        btn_aadhar_back_approve.setOnClickListener { isAdhaarBackApproved = true
+            btn_aadhar_back_approve.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_aadhar_back_disapprove.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_aadhar_back_approve.setTextColor(Color.WHITE)
+            btn_aadhar_back_disapprove.setTextColor(textColor)
+        }
 
-        btn_voter_approve.setOnClickListener { isVoterApproved = true }
-        btn_voter_disapprove.setOnClickListener { isVoterApproved = false }
+        btn_pan_approve.setOnClickListener { isPanApproved = true
+            btn_pan_approve.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_pan_disapprove.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_pan_approve.setTextColor(Color.WHITE)
+            btn_pan_disapprove.setTextColor(textColor)
+        }
 
-        btn_applicant_approve.setOnClickListener { isApplicantpproved = true }
-        btn_applicant_disapprove.setOnClickListener { isApplicantpproved = false }
+        btn_pan_disapprove.setOnClickListener { isPanApproved = false
+            btn_pan_disapprove.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_pan_approve.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_pan_disapprove.setTextColor(Color.WHITE)
+            btn_pan_approve.setTextColor(textColor)
+        }
+
+        btn_voter_approve.setOnClickListener { isVoterApproved = true
+            btn_voter_approve.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_voter_disapprove.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_voter_approve.setTextColor(Color.WHITE)
+            btn_voter_disapprove.setTextColor(textColor)
+        }
+
+        btn_voter_disapprove.setOnClickListener { isVoterApproved = false
+            btn_voter_disapprove.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_voter_approve.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_voter_disapprove.setTextColor(Color.WHITE)
+            btn_voter_approve.setTextColor(textColor)
+        }
+
+        btn_applicant_approve.setOnClickListener { isApplicantpproved = true
+            btn_applicant_approve.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_applicant_disapprove.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_applicant_approve.setTextColor(Color.WHITE)
+            btn_applicant_disapprove.setTextColor(textColor)
+        }
+
+        btn_applicant_disapprove.setOnClickListener { isApplicantpproved = false
+            btn_applicant_disapprove.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_applicant_approve.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_applicant_disapprove.setTextColor(Color.WHITE)
+            btn_applicant_approve.setTextColor(textColor)
+        }
         btn_next.setOnClickListener {
 
             val progressBar = ProgrssLoader(mContext!!)
@@ -86,6 +141,7 @@ class DocumentVerificationFragment : BaseFragment() {
                 )
             if (response.isSuccessful && response.body() != null) {
 
+                progressBar.dismmissLoading()
                 if (response.body()?.apiCode == "200") {
 
                     actvity.moveToData()
