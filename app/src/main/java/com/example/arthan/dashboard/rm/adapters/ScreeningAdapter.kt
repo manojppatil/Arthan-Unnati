@@ -68,7 +68,7 @@ class ScreeningAdapter(private val context: Context,private val data: List<Scree
             customerName.text= data[position].name
             date.text= data[position].leadDate
             amount.text= "Amount: ₹${data[position].loanAmt}"
-          data[position].id
+//          data[position]
 
             itemView.findViewById<TextView>(R.id.txt_loan_id).text= "Loan ID: ${data[position].loanId}"
             itemView.findViewById<TextView>(R.id.txt_mobile).text= "Mobile NO: ${data[position].mobileNo}"

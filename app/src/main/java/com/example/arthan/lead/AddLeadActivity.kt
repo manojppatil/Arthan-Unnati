@@ -1,5 +1,6 @@
 package com.example.arthan.lead
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.EventLog
@@ -19,7 +20,6 @@ class AddLeadActivity : AppCompatActivity() {
         {
             moveToScreen(intent.getStringExtra("screen")!!)
 
-
         }
 
     }
@@ -31,55 +31,56 @@ class AddLeadActivity : AppCompatActivity() {
             this,
             R.id.nav_host_fragment_container
         )
-        if(screenId.equals("loan",ignoreCase = false))
+        if(screenId.equals("loan",ignoreCase = true))
         {
             navController.popBackStack(R.id.addLoanDetailsFragment, true);
 
             navController.navigate(R.id.addLoanDetailsFragment)
         }
-        else if(screenId.equals("eligibility",ignoreCase = false))
+        else if(screenId.equals("eligibility",ignoreCase = true))
         {
             navController.popBackStack(R.id.loanEligibilityFragment, true);
 
             navController.navigate(R.id.loanEligibilityFragment)
         }
-        else if(screenId.equals("kyc",ignoreCase = false))
+        else if(screenId.equals("kyc",ignoreCase = true))
         {
             navController.popBackStack(R.id.addKYCDetailsFragment, true);
 
             navController.navigate(R.id.addKYCDetailsFragment)
         }
-        else if(screenId.equals("consent",ignoreCase = false))
+        else if(screenId.equals("consent",ignoreCase = true))
         {
-            navController.popBackStack(R.id.approveConsentFragment, true);
+            /*navController.popBackStack(R.id.approveConsentFragment, true);
 
-            navController.navigate(R.id.approveConsentFragment)
+            navController.navigate(R.id.approveConsentFragment)*/
+            startActivity(Intent(this,ConsentActivity::class.java))
         }
-        else if(screenId.equals("otp",ignoreCase = false))
+        else if(screenId.equals("otp",ignoreCase = true))
         {
             navController.popBackStack(R.id.OTPValidationFragment, true);
 
             navController.navigate(R.id.OTPValidationFragment)
         }
-        else if(screenId.equals("AppFee",ignoreCase = false))
+        else if(screenId.equals("AppFee",ignoreCase = true))
         {
             navController.popBackStack(R.id.applicationFeePaymentFragment, true);
 
             navController.navigate(R.id.applicationFeePaymentFragment)
         }
-        else if(screenId.equals("paymentFinal",ignoreCase = false))
+        else if(screenId.equals("paymentFinal",ignoreCase = true))
         {
             navController.popBackStack(R.id.paymentStatusFragment, true);
 
             navController.navigate(R.id.paymentStatusFragment)
         }
-        else if(screenId.equals("business",ignoreCase = false))
+        else if(screenId.equals("business",ignoreCase = true))
         {
             navController.popBackStack(R.id.completeDetailsFragment, true);
 
             navController.navigate(R.id.completeDetailsFragment)
         }
-        else if(screenId.equals("income",ignoreCase = false))
+        else if(screenId.equals("income",ignoreCase = true))
         {
             navController.popBackStack(R.id.completeDetailsFragment, true);
 
@@ -87,20 +88,20 @@ class AddLeadActivity : AppCompatActivity() {
             b.putString("screenTo",screenId)
             navController.navigate(R.id.completeDetailsFragment,b)
         }
-        else if(screenId.equals("others",ignoreCase = false))
+        else if(screenId.equals("others",ignoreCase = true))
         {
             navController.popBackStack(R.id.completeDetailsFragment,true)
             navController.navigate(R.id.completeDetailsFragment)
         }
 
-        else if(screenId.equals("documents",ignoreCase = false))
+        else if(screenId.equals("documents",ignoreCase = true))
         {
             navController.popBackStack(R.id.completeDetailsFragment, true);
 
             navController.navigate(R.id.completeDetailsFragment)
         }
 
-        else if(screenId.equals("complete",ignoreCase = false))
+        else if(screenId.equals("complete",ignoreCase = true))
         {
             navController.popBackStack(R.id.completeDetailsFragment, true);
 

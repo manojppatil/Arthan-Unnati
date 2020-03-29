@@ -34,7 +34,7 @@ class ApproveConsentFragment : NavHostFragment() {
         super.onViewCreated(view, savedInstanceState)
         val messageText = "Your in principle amount is : "
         val spannableStringBuilder = SpannableStringBuilder(
-//            "$messageText${intent.getStringExtra(ArgumentKey.InPrincipleAmount)}"
+            "$messageText${activity?.intent?.getStringExtra(ArgumentKey.InPrincipleAmount)}"
         )
         spannableStringBuilder.setSpan(
             StyleSpan(Typeface.BOLD),

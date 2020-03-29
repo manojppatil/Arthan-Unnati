@@ -68,6 +68,7 @@
             android:layout_marginTop="24dp"
             android:buttonTint="#f75002"
             android:fontFamily="@font/lato_regular"
+            android:visibility="gone"
             android:gravity="top"
             android:letterSpacing="0.05"
             android:lineSpacingExtra="7.1sp"
