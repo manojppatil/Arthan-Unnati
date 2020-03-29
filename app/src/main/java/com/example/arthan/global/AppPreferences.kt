@@ -101,6 +101,7 @@ class AppPreferences(context: Context) {
         const val CustomerId = "customer_id"
         const val PrincipleLoanAmount = "in_principle_lian_amount"
         const val BusinessId = "business_id"
+        const val Eligibility="Eligibility"
     }
 
     companion object {

@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
@@ -272,7 +273,19 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                             progressBar.dismmissLoading()
                             AppPreferences.getInstance()
                                 .addString(AppPreferences.Key.LoanId, result.loanId)
-                            LeadEligibilityActivity.startMe(this@LoanDetailActivity, mLeadId)
+                            if(result.eligibility.equals("N",ignoreCase = true))
+                            {
+
+                                startActivity(Intent(this@LoanDetailActivity,RMDashboardActivity::class.java))
+                                finish()
+                            }else {
+                                startActivity(Intent(this@LoanDetailActivity, LeadEligibilityActivity::class.java).apply {
+                                    putExtra(ArgumentKey.LeadId,mLeadId)
+                                    putExtra(ArgumentKey.Eligibility,result.eligibility)
+                                })
+                                finish()
+//                                LeadEligibilityActivity.startMe(this@LoanDetailActivity, mLeadId,result.eligibility)
+                            }
                         }
                     } else {
                         stopLoading(progressBar, result?.apiDesc)

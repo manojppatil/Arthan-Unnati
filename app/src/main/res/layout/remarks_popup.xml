@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:id="@+id/title"
+            android:text="Remarks"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="16dp"
+            android:text="Enter your remarks"
+            android:id="@+id/heading"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_remark"
+            android:layout_below="@+id/heading"
+            android:layout_marginTop="16dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/et_remark"
+            android:layout_marginTop="16dp"
+            android:id="@+id/btn_submit"
+            android:background="@color/enable"
+            android:text="Submit"
+            android:textColor="#fff"
+            android:layout_marginBottom="16dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_toLeftOf="@+id/btn_submit"
+            android:layout_marginRight="16dp"
+            android:layout_below="@+id/et_remark"
+            android:layout_marginTop="16dp"
+            android:id="@+id/btn_cancel"
+            android:background="@color/disable"
+            android:text="Cancel"
+            android:textColor="#000"
+            android:layout_marginBottom="16dp"/>
+    </RelativeLayout>
+</RelativeLayout>

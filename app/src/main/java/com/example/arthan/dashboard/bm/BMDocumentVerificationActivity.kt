@@ -73,10 +73,11 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
                         ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateData(
-                            result?.docDetails
+                            result?.docDetails,this@BMDocumentVerificationActivity
                         )
                         ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateData(
-                            result
+                            result,
+                            customerId
                         )
                         ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
                             loanId,
@@ -105,6 +106,10 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
 
     override fun screenTitle() = "Document Verification"
 
+    fun moveToData()
+    {
+        vp_profile.currentItem = 1
+    }
     companion object {
         fun startMe(
             context: Context?,

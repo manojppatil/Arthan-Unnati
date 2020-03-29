@@ -36,11 +36,14 @@ class DataFragment : Fragment() {
         vp_profile?.offscreenPageLimit = 4
     }
 
-    fun updateData(data: CustomerDocumentAndDataResponseData?) {
+    fun updateData(
+        data: CustomerDocumentAndDataResponseData?,
+        customerId: String?
+    ) {
         val adapter = vp_profile?.adapter as? DataPagerFragmentAdapter
         (adapter?.getItem(0) as? PersonalDetailFragment)?.updateData(data?.personalDetails)
         (adapter?.getItem(1) as? BusinessInformationFragment)?.updateData(data?.businessDetails)
-        (adapter?.getItem(2) as? IncomeInformationFragment)?.updateData(data?.incomeDetails)
+        (adapter?.getItem(2) as? IncomeInformationFragment)?.updateData(data?.incomeDetails,customerId)
         (adapter?.getItem(3) as? OtherDetailsFragment)?.updateData(
             data?.neighborRefDetails,
             data?.tradeRefDetails,

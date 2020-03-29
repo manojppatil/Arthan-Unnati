@@ -2,15 +2,20 @@ package com.example.arthan.lead
 
 import android.content.Intent
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.*
+import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.fragment_documents.*
 import kotlinx.android.synthetic.main.fragment_documents.txt_balSheet_card
 import kotlinx.android.synthetic.main.fragment_documents.txt_pfp_card
 import kotlinx.android.synthetic.main.fragment_documents.txt_finStatement_id
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DocumentFragment : BaseFragment(), View.OnClickListener {
 
@@ -50,9 +55,31 @@ class DocumentFragment : BaseFragment(), View.OnClickListener {
                 }, VOTER_ID_REQ_CODE)
             }
             R.id.btn_submit -> {
-                val intent = Intent(activity, RMDashboardActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+
+                if(arguments!=null) {
+                    var map = HashMap<String, String>()
+                    map["loanId"] = arguments?.getString("loanId")!!
+                    map["custId"] = arguments?.getString("custId")!!
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val respo = RetrofitFactory.getApiService().submitPresanctionDocs(
+                            map
+                        )
+
+                        val result = respo.body()
+                        Toast.makeText(activity,"customer Id "+arguments?.getString("custId")!!,Toast.LENGTH_LONG).show()
+
+                        if (respo.isSuccessful && respo.body() != null&&result?.apiCode=="200") {
+
+                            val intent = Intent(activity, RMDashboardActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                        }else
+                        {
+                            Toast.makeText(activity,"Please try again later",Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+
             }
         }
     }

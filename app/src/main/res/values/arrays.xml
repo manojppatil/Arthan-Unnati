@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="rejection">
+        <item>Good</item>
+        <item>Bad</item>
+    </string-array>
+</resources>

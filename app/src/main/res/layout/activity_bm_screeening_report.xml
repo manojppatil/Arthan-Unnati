@@ -124,6 +124,7 @@
         android:backgroundTint="@color/colorPrimaryDark"
         android:gravity="center_vertical"
         android:padding="8dp"
+        android:visibility="gone"
         android:drawableRight="@drawable/ic_next"
         android:drawableTint="@color/white"
         android:layout_marginTop="24dp"

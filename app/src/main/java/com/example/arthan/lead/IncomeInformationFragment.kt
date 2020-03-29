@@ -2,7 +2,6 @@ package com.example.arthan.lead
 
 import android.Manifest
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -42,7 +41,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
 import java.io.File
-import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener,
@@ -557,7 +555,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
         val postBody = IncomeDetailsPostData(
             loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-            customerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
+            customerId = mCustomerId,
             anyOtherSourceofIncome = if (switch_other_sources?.isChecked == true) "Yes" else "No",
             incomes = sourceOfIncomeList,
             numberofFamilyMembers = family_members_count?.text?.toString(),
@@ -928,7 +926,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         }
     }
 
-    fun updateData(incomeDetails: IncomeDetails?) {
+    fun updateData(
+        incomeDetails: IncomeDetails?,
+        customerId: String?
+    ) {
         switch_other_sources?.isChecked = false
         if (incomeDetails?.incomes?.size != 0) {
             switch_other_sources?.isChecked = true
@@ -940,7 +941,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         total_amount_input?.setText(incomeDetails?.monthlyhouseholdexpenditures)
         txt_income_list_msg?.setText(activity?.resources?.getString(R.string.list_all_sources_of_income_1) + " (" + incomeDetails?.incomes?.size + ")")
         mLoanId = incomeDetails?.loanId
-        mCustomerId = incomeDetails?.customerId
+//        mCustomerId = incomeDetails?.customerId
+        mCustomerId = customerId
         for (item in incomeDetails?.expenditures ?: listOf()) {
             when {
                 item.expenditureName?.equals(

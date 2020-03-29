@@ -15,6 +15,8 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
 
     override fun onToolbarBackPressed() = onBackPressed()
 
+    private var loanId:String?=null
+    private var custId:String?=null
     override fun init() {
         txt_recommend_bcm.setOnClickListener(this)
         txt_recommend_rm.setOnClickListener(this)
@@ -22,6 +24,14 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
 
         btn_search.visibility= View.GONE
         btn_filter.visibility= View.GONE
+
+        txt_industry.text=intent.getStringExtra("indSeg")
+        txt_date.text=intent.getStringExtra("loginDate")
+        loanId=intent.getStringExtra("loanId")
+        txt_amount.text=intent.getStringExtra("loanAmt")
+        txt_customer_name.text=intent.getStringExtra("cname")
+         custId=intent.getStringExtra("custId")
+
 
     }
 
@@ -32,16 +42,31 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
             R.id.txt_recommend_bcm -> {
                 startActivity(Intent(this,SubmitFinalReportActivity::class.java).apply {
                     putExtra(STATUS,"Recommend To BCM")
+                    putExtra("indSeg",intent.getStringExtra("indSeg"))
+                    putExtra("loginDate",intent.getStringExtra("loginDate"))
+                    putExtra("loanId",loanId)
+                    putExtra("custId",custId)
+
                 })
             }
             R.id.txt_recommend_rm -> {
                 startActivity(Intent(this,SubmitFinalReportActivity::class.java).apply {
                     putExtra(STATUS,"Recommend To RM")
+                    putExtra("indSeg",intent.getStringExtra("indSeg"))
+                    putExtra("loginDate",intent.getStringExtra("loginDate"))
+                    putExtra("loanId",loanId)
+                    putExtra("custId",custId)
+
                 })
             }
             R.id.txt_reject -> {
                 startActivity(Intent(this,SubmitFinalReportActivity::class.java).apply {
                     putExtra(STATUS,"Reject")
+                    putExtra("indSeg",intent.getStringExtra("indSeg"))
+                    putExtra("loginDate",intent.getStringExtra("loginDate"))
+                    putExtra("loanId",loanId)
+                    putExtra("custId",custId)
+
                 })
             }
         }

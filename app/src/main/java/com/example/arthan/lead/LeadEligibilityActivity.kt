@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.model.ELIGIBILITY_SCREEN
 import com.example.arthan.model.UpdateEligibilityAndPaymentReq
@@ -15,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.views.activities.SplashActivity
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
@@ -24,8 +26,21 @@ class LeadEligibilityActivity : BaseActivity() {
 
     override fun onToolbarBackPressed() = onBackPressed()
 
+    private var isEligible=true
     override fun init() {
+
+        val eligibility=intent.getStringExtra("Eligibility")
+        if(eligibility!=null)
+        {
+            isEligible = eligibility.equals("y",ignoreCase = true)
+
+        }
+        if(!isEligible)
+        {
+         txt_msg.text="Sorry, You are not eligible for Loan"
+        }
         btn_ok.setOnClickListener {
+
 
             val progressBar = ProgrssLoader(this)
             progressBar.showLoading()
@@ -46,17 +61,23 @@ class LeadEligibilityActivity : BaseActivity() {
                         )
 
                     if (response.isSuccessful && response.body() != null) {
-
                         if (response.body()?.apiCode == "200") {
 
                             withContext(Dispatchers.Main) {
                                 progressBar.dismmissLoading()
-                                startActivity(
-                                    Intent(
-                                        this@LeadEligibilityActivity,
-                                        AddLeadStep2Activity::class.java
+//                                if(response.body()?.eligibility.equals("Y",ignoreCase = true)) {
+                                if(isEligible) {
+                                    startActivity(
+                                        Intent(
+                                            this@LeadEligibilityActivity,
+                                            AddLeadStep2Activity::class.java
+                                        )
                                     )
-                                )
+                                    finish()
+                                }else{
+                                    startActivity(Intent(this@LeadEligibilityActivity,RMDashboardActivity::class.java))
+                                    finish()
+                                }
                             }
                         } else {
                             withContext(Dispatchers.Main) {
@@ -90,9 +111,11 @@ class LeadEligibilityActivity : BaseActivity() {
     override fun screenTitle() = "Eligibility"
 
     companion object {
-        fun startMe(context: Context?, leadId: String) =
+        fun startMe(context: Context?, leadId: String,eligibility:String?) =
+
             context?.startActivity(Intent(context, LeadEligibilityActivity::class.java).apply {
                 putExtra(ArgumentKey.LeadId,leadId)
+                putExtra(ArgumentKey.Eligibility,"N")
             })
     }
 }

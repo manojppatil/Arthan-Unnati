@@ -77,7 +77,7 @@
     <string name="add_another">Add Another</string>
     <string name="upload_supporting_documents">Upload Supporting Documents</string>
     <string name="reasons_must_include_details_like">Reasons must include details like...</string>
-    <string name="state_the_reasons_for_the_approval_of_this_application">State the reasons for the approval of this application.</string>
+    <string name="state_the_reasons_for_the_approval_of_this_application">State the reasons for the %s of this application.</string>
     <string name="approve">Approve</string>
     <string name="search_for_customers">Search for Customers</string>
     <string name="loan_amount">Loan Amount</string>

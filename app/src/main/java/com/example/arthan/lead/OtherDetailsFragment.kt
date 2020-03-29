@@ -1,25 +1,34 @@
 package com.example.arthan.lead
 
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
 import com.example.arthan.R
+import com.example.arthan.dashboard.bm.BMDashboardActivity
+import com.example.arthan.dashboard.bm.BMScreeningReportActivity
+import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.views.activities.PendingCustomersActivity
+import com.example.arthan.views.activities.SubmitFinalReportActivity
 import kotlinx.android.synthetic.main.fragment_other_details.*
+import kotlinx.android.synthetic.main.remarks_popup.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -107,6 +116,50 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             ) else null
 
         btn_save_continue?.setOnClickListener {
+
+            var dialog=AlertDialog.Builder(activity)
+            var view:View?=activity?.layoutInflater?.inflate(R.layout.remarks_popup,null)
+            dialog.setView(view)
+            var et_remarks=view?.findViewById<EditText>(R.id.et_remark)?.text.toString()
+            var btn_submit_remark=view?.findViewById<Button>(R.id.btn_submit)
+            btn_submit_remark?.setOnClickListener {
+                var map = HashMap<String, String>()
+                map.put("loanId", mLoanId!!)
+                map.put("custId", mCustomerId!!)
+                map.put("remarks", et_remarks)
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respo = RetrofitFactory.getApiService().updateOtherDetails(
+                        map
+                    )
+
+                    val result = respo.body()
+                    if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+
+                        if(result?.discrepancy.equals("y",ignoreCase = true))
+                        {
+                            startActivity(
+                                Intent(
+                                    activity,
+                                    PendingCustomersActivity::class.java
+                                ).apply {
+                                    putExtra("FROM", "BM")
+                                })
+                        }else
+                        {
+                            val intent = Intent(activity, BMScreeningReportActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                        }
+
+                    } else {
+                        Toast.makeText(activity, "Please try again later", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+
+            dialog.create().show()
             if (navController != null) {
                 val progressLoader: ProgrssLoader? =
                     if (context != null) ProgrssLoader(context!!) else null
@@ -119,7 +172,11 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         withContext(uiContext) {
                             progressLoader?.dismmissLoading()
                             val intent = Intent(activity, DocumentActivity::class.java)
+                            intent.putExtra("loanId",mLoanId)
+                            intent.putExtra("custId",mCustomerId)
                             startActivity(intent)
+
+
                         }
                     }
                 }

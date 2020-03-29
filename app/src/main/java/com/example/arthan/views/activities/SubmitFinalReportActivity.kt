@@ -8,17 +8,23 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMDashboardActivity
+import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.global.STATUS
+import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.DateFormatUtil
 import com.example.arthan.views.adapters.DocumentAdapter
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import kotlinx.android.synthetic.main.activity_submit_final_report.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
@@ -41,6 +47,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         ll_upload_document.setOnClickListener(this)
 
         txt_status.text = "Status: ${intent.getStringExtra(STATUS)}"
+        txt_reason_msg.text=(resources.getString(R.string.state_the_reasons_for_the_approval_of_this_application,intent.getStringExtra(STATUS)))
 
         et_reason.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -78,9 +85,45 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
-                val intent = Intent(this, BMDashboardActivity::class.java)
+
+                var rejection=""
+                if(intent.getStringExtra(STATUS).contains("reject",ignoreCase = true))
+                {
+                    rejectReason.visibility=View.VISIBLE
+                   rejection= rejectReason.selectedItem.toString()
+                }
+                var map=HashMap<String,String>()
+                map["loanId"] = intent.getStringExtra("loanId")
+                map["custId"] = intent.getStringExtra("custId")
+                map["bmDecision"] = intent.getStringExtra(STATUS)
+                map["rejectReason"] = rejection
+                map["remarks"] = et_reason.text.toString()
+                map["supportingDoc"] = ""
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respo = RetrofitFactory.getApiService().bmSubmit(
+                        map
+                    )
+
+                    val result = respo.body()
+                    if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+
+                        startActivity(Intent(
+                            this@SubmitFinalReportActivity,
+                            PendingCustomersActivity::class.java
+                        ).apply {
+                            putExtra("FROM", "BM")
+                        })
+                        finish()
+
+                    } else {
+                        Toast.makeText(this@SubmitFinalReportActivity, "Please try again later", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+              /*  val intent = Intent(this, BMDashboardActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                startActivity(intent)*/
             }
 
             R.id.ll_upload_document -> capture()

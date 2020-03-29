@@ -172,6 +172,7 @@ object ArgumentKey {
     const val VoterDetails = "voter_details"
     const val ApplicantPhoto= "applicant_photo"
     const val PDData = "pd_data"
+    const val Eligibility="Eligibility"
 }
 
 object ConstantValue {

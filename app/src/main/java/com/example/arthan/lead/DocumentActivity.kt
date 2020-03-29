@@ -14,9 +14,14 @@ class DocumentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_document)
         toolbar_title.setText("Documents")
         // ToDo set a title Documents
+        var documentFragment=DocumentFragment()
+        var b=Bundle()
+        b.putString("loanId",intent.getStringExtra("loanId"))
+        b.putString("custId",intent.getStringExtra("custId"))
+        documentFragment.arguments=b
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.fragment_container, DocumentFragment())
+            .add(R.id.fragment_container, documentFragment)
             .commit()
     }
 }

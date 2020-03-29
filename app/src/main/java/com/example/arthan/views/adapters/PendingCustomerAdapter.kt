@@ -147,7 +147,15 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
             }
 
             root.findViewById<ConstraintLayout>(R.id.cl_take_decision).setOnClickListener {
-                mContext.startActivity(Intent(mContext, BMScreeningReportActivity::class.java))
+                mContext.startActivity(Intent(mContext, BMScreeningReportActivity::class.java).apply {
+                    putExtra("indSeg",customer.indSeg)
+                    putExtra("loginDate",customer.loginDate)
+                    putExtra("loanId",customer.loanId)
+                    putExtra("loanAmt",customer.loanAmt)
+                    putExtra("cname",customer.customerName)
+                    putExtra("custId",customer.customerId)
+                })
+
             }
 
            /* if (from == "BCM") {

@@ -344,6 +344,7 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
                             AppPreferences.getInstance()
                                 .addString(AppPreferences.Key.LeadId, result.leadId)
                             LoanDetailActivity.startMe(this@AddLeadStep1Activity, result.leadId)
+                            finish()
                         }
                     } else {
                         stopLoading(progressBar, result?.apiDesc)

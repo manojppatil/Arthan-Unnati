@@ -127,7 +127,7 @@ interface ApiService {
     suspend fun savePD1(@Body body: PD1PostData?): Response<ResponseBody>?
 
     @POST("pd23")
-    suspend fun savePD23(@Body body: PD23PostData?): Response<ResponseBody>?
+    suspend fun savePD23(@Body body: PD23PostData?): Response<BaseResponseData>?
 
     @POST("cust360")
     suspend fun saveCustomer360(@Body body: Map<String, String>?): Response<Customer360ResponseData>?
@@ -212,20 +212,33 @@ interface ApiService {
 
     @POST("getScreenDetails")
     suspend fun getScreenDetails(@Body body: Map<String,String>):Response<ScreenDetailsToNavigateData>
-   /* @POST("getScreenDetails")
-    Request:
-    {
-        "loanId":"R1234"
-    }
 
-    Response:
-    {
-        "screenId":"businessId",
-        "leadId":"LE1234",
-        "loanId":"LO1234",
-        "customerId":"c1234",
-        "businessId":"b123",
-        "incomeId":"b123"
-    }*/
+    @POST("submitPresanctionDocs")
+    suspend fun submitPresanctionDocs(@Body body: Map<String, String>):Response<BaseResponseData>
+
+    @POST("docScreeningStatus")
+    suspend fun docScreeningStatus(@Body body: DocScreeningStatusPost):Response<BaseResponseData>
+
+    @POST("updateOtherDetails")
+    suspend fun updateOtherDetails(@Body body: Map<String, String>):Response<BaseResponseData>
+
+    @POST("bmSubmit")
+    suspend fun bmSubmit(@Body body: Map<String, String>):Response<BaseResponseData>
+
+    /* @POST("getScreenDetails")
+     Request:
+     {
+         "loanId":"R1234"
+     }
+
+     Response:
+     {
+         "screenId":"businessId",
+         "leadId":"LE1234",
+         "loanId":"LO1234",
+         "customerId":"c1234",
+         "businessId":"b123",
+         "incomeId":"b123"
+     }*/
 
 }

@@ -773,7 +773,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="32dp"
             android:paddingBottom="12dp"
-            android:text="@string/save_amp_continue"
+            android:text="Submit"
             android:textColor="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

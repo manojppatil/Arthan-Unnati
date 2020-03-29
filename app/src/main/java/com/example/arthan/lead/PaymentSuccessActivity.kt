@@ -3,6 +3,7 @@ package com.example.arthan.lead
 import android.content.Intent
 import android.widget.Toast
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.model.ELIGIBILITY_SCREEN
 import com.example.arthan.model.PAYMENT_SCREEN
@@ -53,12 +54,22 @@ class PaymentSuccessActivity: BaseActivity() {
 
                             withContext(Dispatchers.Main) {
                                 progressBar.dismmissLoading()
-                                startActivity(
-                                    Intent(
-                                        this@PaymentSuccessActivity,
-                                        LeadInfoCaptureActivity::class.java
+                                if (response.body()?.eligibility.equals("N", ignoreCase = true)) {
+                                    startActivity(
+                                        Intent(
+                                            this@PaymentSuccessActivity,
+                                            RMDashboardActivity::class.java
+                                        )
                                     )
-                                )
+                                    finish()
+                                } else {
+                                    startActivity(
+                                        Intent(
+                                            this@PaymentSuccessActivity,
+                                            LeadInfoCaptureActivity::class.java
+                                        )
+                                    )
+                                }
                             }
                         } else {
                             withContext(Dispatchers.Main) {

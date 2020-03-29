@@ -65,11 +65,21 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_status"/>
 
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:id="@+id/rejectReason"
+                android:layout_marginTop="8dp"
+                android:entries="@array/rejection"
+                app:layout_constraintTop_toBottomOf="@+id/txt_reason_msg"
+                />
+
+
             <EditText
                 android:id="@+id/et_reason"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="28dp"
                 android:maxLines="15"
                 android:minLines="10"
                 android:hint="@string/reasons_must_include_details_like"
@@ -84,7 +94,7 @@
                 android:backgroundTint="#e1e1e1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_reason_msg"/>
+                app:layout_constraintTop_toBottomOf="@id/rejectReason"/>
 
             <LinearLayout
                 android:id="@+id/ll_upload_document"

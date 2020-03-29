@@ -1,6 +1,7 @@
 package com.example.arthan.dashboard.ops
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.BCMDashboardActivity
+import com.example.arthan.dashboard.bm.Customer360Activity
 import com.example.arthan.dashboard.ops.adapter.BCDDataAdapter
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.model.postdata.PD1PostData
@@ -17,7 +20,9 @@ import com.example.arthan.lead.model.responsedata.BaseResponseData
 import com.example.arthan.model.PD2Data
 import com.example.arthan.model.PD3Data
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.fragments.PDFragmentSaveClickListener
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_bcmdata.*
@@ -129,10 +134,25 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
+                        if(result?.eligibility.equals("y",ignoreCase = true))
+                        {
+                            context?.startActivity(Intent(context, Customer360Activity::class.java).apply {
+                                putExtra(ArgumentKey.LoanId, mLoanId)
+                            })
+                        }else
+                        {
+                            startActivity(Intent(
+                                activity,
+                                PendingCustomersActivity::class.java
+                            ).apply {
+                                putExtra("FROM", "BCM")
+                            })
+                        }
+                        }
                         activity?.finish()
                         progressBar.dismmissLoading()
                     }
-                } else {
+                 else {
                     try {
 //                        val result: BaseResponseData? = Gson().fromJson(
 //                            response?.errorBody()?.string(),
