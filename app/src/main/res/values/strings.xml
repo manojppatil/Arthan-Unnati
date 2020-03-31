@@ -41,7 +41,7 @@
     <string name="verify_by_entering_otp">Verify by entering OTP</string>
     <string name="submit">SUBMIT</string>
     <string name="otp_will_be_resent_in_45s">OTP will be resent in 45s</string>
-    <string name="business_turnover">Business Turnover</string>
+    <string name="business_turnover">Annual Business Turnover</string>
     <string name="net_margin_as_per_customer">Net Margin as per \nCustomer</string>
     <string name="list_all_sources_of_income_1">List all sources of income </string>
     <string name="income_per_month">Income Per Month</string>
@@ -80,7 +80,7 @@
     <string name="state_the_reasons_for_the_approval_of_this_application">State the reasons for the %s of this application.</string>
     <string name="approve">Approve</string>
     <string name="search_for_customers">Search for Customers</string>
-    <string name="loan_amount">Loan Amount</string>
+    <string name="loan_amount">Loan Amount Requested</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="interested">Interested</string>
@@ -129,6 +129,8 @@
         <item>Loan Type</item>
         <item>Secure</item>
         <item>Unsecure</item>
+        <item>Quasi Secured</item>
+        <item>Negative Lien</item>
     </string-array>
 
     <string-array name="arr_loan_sanctioned_by">
@@ -344,7 +346,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="property_value">Property Value</string>
-    <string name="net_profit_margin">Net profit margin</string>
+    <string name="net_profit_margin">Net Profit Margin in %</string>
     <string name="name">Name</string>
     <string name="any_associate_firm">Any associate firm</string>
     <string name="name_of_associate_firm">Name of Associate firm</string>

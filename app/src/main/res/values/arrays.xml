@@ -4,4 +4,8 @@
         <item>Good</item>
         <item>Bad</item>
     </string-array>
+    <string-array name="notinterested">
+    <item>No Requirement</item>
+    <item>Interest High</item>
+</string-array>
 </resources>

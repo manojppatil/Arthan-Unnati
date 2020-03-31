@@ -48,6 +48,7 @@ class DataFragment : Fragment() {
             data?.neighborRefDetails,
             data?.tradeRefDetails,
             data?.collateralDetails
+
         )
     }
 

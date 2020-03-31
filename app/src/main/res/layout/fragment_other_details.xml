@@ -547,6 +547,13 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/name_of_associate_firm" />
         </com.google.android.material.textfield.TextInputLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/colateralSection"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_2_product_purchase_sale" >
 
         <TextView
             android:id="@+id/collateral_property_details"
@@ -556,10 +563,10 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="Collateral Property Details"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_2_product_purchase_sale" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textStyle="bold"/>
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/nature_of_property_spinner"
@@ -758,7 +765,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_market_value" />
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <Button
             android:id="@+id/btn_save_continue"
             android:layout_width="wrap_content"
@@ -778,7 +785,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/property_type_spinner"
+            app:layout_constraintTop_toBottomOf="@+id/colateralSection"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed" />
 

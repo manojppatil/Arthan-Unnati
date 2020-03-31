@@ -196,6 +196,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/tl_area_pincode"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:switchPadding="8dp" />
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:entries="@array/notinterested"
+                android:id="@+id/sp_notinterestReason"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/switch_interested"
+                app:layout_constraintBottom_toTopOf="@+id/txt_later"
+                />
+
 
 
             <TextView
@@ -203,17 +215,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/lato_black"
                 android:letterSpacing="0.05"
                 android:lineSpacingExtra="8.3sp"
                 android:text="@string/later"
                 android:textColor="#000000"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/chk_later"
+                app:layout_constraintTop_toBottomOf="@+id/sp_notinterestReason"
                 app:layout_constraintEnd_toStartOf="@+id/chk_later"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/chk_later" />
+                 />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/chk_later"
@@ -224,7 +237,7 @@
                 android:fontFamily="@font/lato_regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/txt_later"
-                app:layout_constraintTop_toBottomOf="@+id/txt_interested" />
+                app:layout_constraintTop_toBottomOf="@+id/sp_notinterestReason" />
 
             <EditText
                 android:id="@+id/et_date"

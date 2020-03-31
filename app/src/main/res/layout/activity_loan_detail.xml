@@ -243,6 +243,32 @@
                         android:textColor="#000000"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/rg_period"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_business_turnover"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    android:weightSum="2"
+                    >
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:text="Monthly"
+                        android:id="@+id/rb_monthly"/>
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:text="Yearly"
+                        android:id="@+id/rb_yearly"/>
+                </RadioGroup>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_net_profit_margin"
@@ -252,7 +278,7 @@
                     app:hintEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_business_turnover"
+                    app:layout_constraintTop_toBottomOf="@+id/rg_period"
                     app:layout_constraintVertical_chainStyle="packed">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -455,6 +481,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/tl_household_expenses"
                     app:layout_constraintVertical_bias="0"
                     app:layout_constraintVertical_chainStyle="packed" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--            <androidx.constraintlayout.widget.ConstraintLayout-->

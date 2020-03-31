@@ -11,6 +11,7 @@ import com.example.arthan.R
 import com.example.arthan.network.S3UploadFile
 import com.example.arthan.network.S3Utility
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.utils.loadImage
 import com.example.arthan.views.fragments.BaseFragment
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
@@ -61,7 +62,7 @@ class MyProfileActivity : BaseFragment(){ //: AppCompatActivity() {
                 }
                 val loader = ProgrssLoader(activity!!)
                 loader.showLoading()
-                /*val file = Utility.copyFile(activity, data.data!!)
+    /*            val file = Utility.copyFile(activity, data.data!!)
                 val fileList: MutableList<S3UploadFile> = mutableListOf()
                 fileList.add(S3UploadFile(file!!, file.name))
                 S3Utility.getInstance(activity!!)
@@ -72,25 +73,25 @@ class MyProfileActivity : BaseFragment(){ //: AppCompatActivity() {
                         }) {
                         runOnUiThread { loader.dismmissLoading() }
                     }*/
-//                Utility.loadImage(this, img_document_front, data.data!!, { filePath ->
-//                    try {
-//                        val file: File = File(filePath)
-//                        val url = file.name + file.extension
-//                        val fileList: MutableList<S3UploadFile> = mutableListOf()
-//                        fileList.add(S3UploadFile(file, url))
-//                        S3Utility.getInstance(applicationContext)
-//                            .uploadFile(fileList,
-//                                {
-//                                    profileImage = fileList[0].url ?: filePath
-//                                    runOnUiThread { loader.dismmissLoading() }
-//                                }) {
-//                                runOnUiThread { loader.dismmissLoading() }
-//                            }
-//                    } catch (e: Exception) {
-//                        runOnUiThread { loader.dismmissLoading() }
-//                        e.printStackTrace()
-//                    }
-//                })
+                loadImage(activity!!, img_document_front, data.data!!, { filePath ->
+                    try {
+                        val file: File = File(filePath)
+                        val url = file.name + file.extension
+                        val fileList: MutableList<S3UploadFile> = mutableListOf()
+                        fileList.add(S3UploadFile(file, url))
+                        S3Utility.getInstance(activity!!)
+                            .uploadFile(fileList,
+                                {
+                                    profileImage = fileList[0].url ?: filePath
+                                    runOnUiThread { loader.dismmissLoading() }
+                                }) {
+                                runOnUiThread { loader.dismmissLoading() }
+                            }
+                    } catch (e: Exception) {
+                        runOnUiThread { loader.dismmissLoading() }
+                        e.printStackTrace()
+                    }
+                })
             }
         }
     }

@@ -84,10 +84,15 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
         }
 
         switch_interested.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked)
+            if (isChecked) {
                 switch_interested.text = getString(R.string.yes)
-            else
+                sp_notinterestReason.visibility=View.GONE
+
+            }
+            else {
                 switch_interested.text = getString(R.string.no)
+                sp_notinterestReason.visibility = View.VISIBLE
+            }
         }
 
         et_customer_name.addTextChangedListener(this)
