@@ -34,7 +34,7 @@ class CompleteDetailsFragment : NavHostFragment() {
         super.onViewCreated(view, savedInstanceState)
         if(arguments?.getString("screenTo")!=null)
         {
-            if(arguments?.getString("screenTo").equals("income",ignoreCase = true)) {
+            if(arguments?.getString("screenTo").equals("business",ignoreCase = true)) {
                 enableInCome()
                 val navController: NavController? = if (activity is AddLeadActivity) Navigation.findNavController(
                     activity!!,
@@ -48,7 +48,9 @@ class CompleteDetailsFragment : NavHostFragment() {
                     activity!!,
                     R.id.frag_container
                 ) else null
-                navController?.navigate(R.id.action_business_to_income)
+                var b=Bundle()
+                b.putString("from","rmIncome")
+                navController?.navigate(R.id.frag_income_info,b)
             }
             if(arguments?.getString("screenTo").equals("others",ignoreCase = true)) {
                 enableInCome()

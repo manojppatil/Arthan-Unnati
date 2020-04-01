@@ -84,7 +84,7 @@
                     android:paddingLeft="4dp"
                     android:fontFamily="@font/lato_light"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintTop_toBottomOf="@id/txt_industry_title"
+                    app:layout_constraintTop_toBottomOf="@id/txt_industry"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/txt_loan_type"/>
 

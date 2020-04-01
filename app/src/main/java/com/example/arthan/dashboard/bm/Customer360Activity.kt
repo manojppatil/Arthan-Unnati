@@ -33,6 +33,9 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
     override fun contentView() = R.layout.activity_customer360
 
     override fun onToolbarBackPressed() = onBackPressed()
+    private var loanId:String?=null
+    private var customerId:String?=null
+
 
     override fun init() {
 
@@ -48,6 +51,12 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
         cl_assets.setOnClickListener(this)
         cl_score_card.setOnClickListener(this)
         cl_pd.setOnClickListener(this)
+        txt_industry.text=intent.getStringExtra("indSeg")
+        txt_amount.text=intent.getStringExtra("loanAmt")
+        txt_loan_type.text=intent.getStringExtra("loanType")
+        loanId=intent.getStringExtra("loanId")
+        customerId=intent.getStringExtra("custId")
+
 
         loadInitialData()
 
@@ -72,6 +81,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                     .getCustomer360Details(intent.getStringExtra(ArgumentKey.LoanId))
                 if (apiResponse?.isSuccessful == true) {
                     mCustomer360Data = apiResponse.body()
+                    setDataToFields(mCustomer360Data)
                     stopLoading(progressBar, null)
                 } else {
                     stopLoading(progressBar, "Something went wrong!!")
@@ -80,6 +90,14 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun setDataToFields(mCustomer360Data: Cust360ResponseData?) {
+
+//        txt_industry.text=mCustomer360Data.collateralVO.
+        txt_addressline1.text=mCustomer360Data?.collateralVO?.addressline1
+        txt_addressline2.text=mCustomer360Data?.collateralVO?.addressline2
+        txt_addressline3.text=mCustomer360Data?.collateralVO?.areaname
     }
 
     override fun screenTitle() = "Customer 360"

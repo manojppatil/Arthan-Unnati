@@ -101,11 +101,19 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             bills_text_view_button?.visibility = View.GONE
             obligations_text_view?.visibility = View.GONE
         } else {
-            cl_banking?.visibility = View.GONE
-            itr_container?.visibility = View.GONE
-            gst_container?.visibility = View.GONE
-            bill_container?.visibility = View.GONE
+            if(arguments?.getString("from").equals("rmIncome")){
+                banking_text_view?.visibility = View.GONE
+                gst_text_view_button?.visibility = View.GONE
+                bills_text_view_button?.visibility = View.GONE
+                obligations_text_view?.visibility = View.GONE
+            }else {
+                cl_banking?.visibility = View.GONE
+                itr_container?.visibility = View.GONE
+                gst_container?.visibility = View.GONE
+                bill_container?.visibility = View.GONE
+            }
         }
+
         et_from?.setOnClickListener { dateSelection(context!!, et_from) }
         et_to?.setOnClickListener { dateSelection(context!!, et_to) }
         getRupeeSymbol(
@@ -675,7 +683,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         )
                 withContext(Dispatchers.Main) {
                     try {
+                        Toast.makeText(
+                            activity, "Report generated successfully...",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         mDocId = response?.docId ?: "DOC00053300"
+
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }

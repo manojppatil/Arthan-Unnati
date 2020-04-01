@@ -6,5 +6,6 @@ data class Customer(
     val loanAmt: String?,
     val indSeg: String?,
     val loanId: String?,
-    val customerId: String?
+    val customerId: String?,
+    val loanType: String?
 )

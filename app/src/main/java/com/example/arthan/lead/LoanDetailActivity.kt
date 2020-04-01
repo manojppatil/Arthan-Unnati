@@ -273,7 +273,13 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                             progressBar.dismmissLoading()
                             AppPreferences.getInstance()
                                 .addString(AppPreferences.Key.LoanId, result.loanId)
-                            if(result.eligibility.equals("N",ignoreCase = true))
+                            startActivity(Intent(this@LoanDetailActivity, LeadEligibilityActivity::class.java).apply {
+                                putExtra(ArgumentKey.LeadId,mLeadId)
+                                putExtra(ArgumentKey.Eligibility,result.eligibility)
+                            })
+                            finish()
+                            //removed @@@
+                           /* if(result.eligibility.equals("N",ignoreCase = true))
                             {
 
                                 startActivity(Intent(this@LoanDetailActivity,RMDashboardActivity::class.java))
@@ -285,7 +291,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                                 })
                                 finish()
 //                                LeadEligibilityActivity.startMe(this@LoanDetailActivity, mLeadId,result.eligibility)
-                            }
+                            }*/ //removed @@
                         }
                     } else {
                         stopLoading(progressBar, result?.apiDesc)

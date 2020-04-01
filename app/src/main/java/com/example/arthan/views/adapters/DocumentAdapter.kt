@@ -43,7 +43,7 @@ class DocumentAdapter(private val mContext:SubmitFinalReportActivity, private va
         }
     }
 
-    override fun getItemCount()= docs.size +1
+    override fun getItemCount()= docs.size+1
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is HeaderVH)
@@ -55,7 +55,8 @@ class DocumentAdapter(private val mContext:SubmitFinalReportActivity, private va
     inner class DocumentVH(private val root: View): RecyclerView.ViewHolder(root){
 
         fun bind(position: Int){
-            Glide.with(mContext).load(docs[position]).into(root.findViewById(R.id.img_doc))
+            if(position!=0)
+            Glide.with(mContext).load(docs[position-1]).into(root.findViewById(R.id.img_doc))
         }
     }
 

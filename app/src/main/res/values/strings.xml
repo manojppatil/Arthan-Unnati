@@ -46,7 +46,7 @@
     <string name="list_all_sources_of_income_1">List all sources of income </string>
     <string name="income_per_month">Income Per Month</string>
     <string name="add_another_obligation">Add Another Obligation</string>
-    <string name="number_of_family_members">Number of Family Members</string>
+    <string name="number_of_family_members">Family Count</string>
     <string name="monthly_family_income">Monthly Family Income</string>
     <string name="monthly_household_expenditures">Monthly Household Expenditures</string>
     <string name="total_amount_per_month">Total Amount per Month</string>

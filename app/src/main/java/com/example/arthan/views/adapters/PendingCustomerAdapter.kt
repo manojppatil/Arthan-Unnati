@@ -134,7 +134,16 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
             )
 
             mViewCustomer360.setOnClickListener {
-                Customer360Activity.startMe(itemView.context, customer.loanId)
+                mContext.startActivity(Intent(mContext, Customer360Activity::class.java).apply {
+                putExtra("indSeg",customer.indSeg)
+                putExtra("loginDate",customer.loginDate)
+                putExtra("loanId",customer.loanId)
+                putExtra("loanAmt",customer.loanAmt)
+                putExtra("cname",customer.customerName)
+                putExtra("custId",customer.customerId)
+                putExtra("loanType",customer.loanType)
+
+            })
             }
 
             root.findViewById<ConstraintLayout>(R.id.cl_view_document).setOnClickListener {
@@ -154,6 +163,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                     putExtra("loanAmt",customer.loanAmt)
                     putExtra("cname",customer.customerName)
                     putExtra("custId",customer.customerId)
+
                 })
 
             }

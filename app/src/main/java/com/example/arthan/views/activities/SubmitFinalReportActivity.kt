@@ -1,25 +1,35 @@
 package com.example.arthan.views.activities
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toFile
+import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.global.STATUS
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.network.S3UploadFile
+import com.example.arthan.network.S3Utility
+import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.utils.DateFormatUtil
+import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.utils.loadImage
 import com.example.arthan.views.adapters.DocumentAdapter
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
+import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.activity_submit_final_report.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 import kotlinx.coroutines.CoroutineScope
@@ -62,6 +72,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         })
 
         mDocAdapter = DocumentAdapter(this, docList)
+        rv_docs.adapter=mDocAdapter
     }
 
     override fun screenTitle() = "Final Report"
@@ -179,16 +190,43 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
         when (requestCode) {
             100 -> {
-                /* if (resultCode == Activity.RESULT_OK){
                      ll_upload_document.visibility= View.GONE
                      rv_docs.visibility= View.VISIBLE
-
-                     docList.add(currentCapture!!)
+                     val loader = ProgrssLoader(this)
+//                     loader.showLoading()
+                     /*docList.add(currentCapture!!)
+                if(mDocAdapter?.itemCount==0)
+                {
+                    rv_docs.adapter=mDocAdapter
+                }*/
+//                mDocAdapter?.notifyDataSetChanged()
                      mDocAdapter?.addNewDoc(currentCapture!!)
 
-                     Log.e("DOC SIZE","::: ${docList.size}")
+//               mDocAdapter?.notifyDataSetChanged()
+//                capture.setImageURI(currentCapture)
 
-                 }*/
+                    /* loadImage(this, img_document_front, data?.data!!, { filePath ->
+                         try {
+                             val file: File = File(filePath)
+                             val url = file.name + file.extension
+                             val fileList: MutableList<S3UploadFile> = mutableListOf()
+                             fileList.add(S3UploadFile(file, url))
+                             S3Utility.getInstance(this)
+                                 .uploadFile(fileList,
+                                     {
+                                       //  MyProfileActivity.profileImage = fileList[0].url ?: filePath
+                                         ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                                     }) {
+                                     ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                                 }
+                         } catch (e: Exception) {
+                             ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                             e.printStackTrace()
+                         }
+                     })*/
+//                     Log.e("DOC SIZE","::: ${docList.size}")
+
+
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
