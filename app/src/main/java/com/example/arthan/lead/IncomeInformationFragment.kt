@@ -563,7 +563,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
         val postBody = IncomeDetailsPostData(
             loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-            customerId = mCustomerId,
+            customerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
             anyOtherSourceofIncome = if (switch_other_sources?.isChecked == true) "Yes" else "No",
             incomes = sourceOfIncomeList,
             numberofFamilyMembers = family_members_count?.text?.toString(),
