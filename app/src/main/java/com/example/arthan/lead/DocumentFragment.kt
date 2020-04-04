@@ -35,18 +35,18 @@ class DocumentFragment : BaseFragment(), View.OnClickListener {
         when (view?.id) {
             R.id.txt_pfp_card -> {
                 startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
-                    putExtra(DOC_TYPE, PAN_CARD_REQ_CODE)
-                }, PAN_CARD_REQ_CODE)
+                    putExtra(DOC_TYPE, PFP)
+                }, PFP)
             }
             R.id.txt_balSheet_card -> {
                 startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
-                    putExtra(DOC_TYPE, AADHAR_CARD_REQ_CODE)
-                }, AADHAR_CARD_REQ_CODE)
+                    putExtra(DOC_TYPE, BALSHEET)
+                }, BALSHEET)
             }
             R.id.txt_finStatement_id -> {
                 startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
-                    putExtra(DOC_TYPE, VOTER_ID_REQ_CODE)
-                }, VOTER_ID_REQ_CODE)
+                    putExtra(DOC_TYPE, FINSTATEMENT)
+                }, FINSTATEMENT)
             }
             
             R.id.txt_property_doc -> {

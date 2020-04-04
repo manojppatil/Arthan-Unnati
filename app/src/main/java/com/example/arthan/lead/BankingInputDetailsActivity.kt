@@ -41,7 +41,7 @@ class BankingInputDetailsActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_banking_input_details)
 
-        toolbar_title?.text = "Bills Details"
+        toolbar_title?.text = "Banking Details"
         back_button?.setOnClickListener { onBackPressed() }
         submit_button?.setOnClickListener {
             saveBankDetails()

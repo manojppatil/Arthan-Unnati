@@ -76,6 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="High Per week Amount" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Medium Per week Amount" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,6 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Low Per week Amount" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,6 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="High Per Day Amount" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,6 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Medium Per Day Amount" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -161,6 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Low Per Day Amount" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,6 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Gross Margin as verified by BCM" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -206,6 +213,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Other Income- Salaries" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -223,6 +231,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Other Income- Rent" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -240,6 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Other Income- Agriculture" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -257,6 +267,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Any other Income" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -285,6 +296,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Salaries" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -302,6 +314,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Rent" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -319,6 +332,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Utilities" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -336,6 +350,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="License Renewal" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -353,6 +368,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Transportation" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -370,6 +386,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Financial Expenses" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -387,6 +404,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Other" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -415,6 +433,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Food" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -432,6 +451,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Rent" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -449,6 +469,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Utilities (electricty, gas, cable,phone, water etc.)" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -466,6 +487,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Clothing" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -483,6 +505,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Education" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -500,6 +523,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Healthcare" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -517,6 +541,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Personal Debt" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -534,6 +559,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Any Other" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -551,6 +577,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
                 android:hint="Loan amount recommended" />
         </com.google.android.material.textfield.TextInputLayout>
 

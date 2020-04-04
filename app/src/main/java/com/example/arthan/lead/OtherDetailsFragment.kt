@@ -214,6 +214,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
     private fun saveTradeReferenceDataAsync(): Deferred<Boolean> = async(ioContext) {
         try {
+            //trade_reference_1_product_purchase_sale_input?.text?.toString(),
             val postBody = TradeReferencePostData(
                 mutableListOf(
                     TradeRefDetail(
@@ -223,7 +224,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         rshipWithApplicant = (trade_reference_1_relationship_with_applicant_spinner?.selectedItem as? Data)?.value,
                         contactDetails = trade_reference_1_contact_details_input?.text?.toString(),
                         noOfYrsWorkingWith = (trade_reference_1_years_working_with_count?.tag as? Int)?.toString(),
-                        productPurchaseSale = trade_reference_1_product_purchase_sale_input?.text?.toString(),
+                        productPurchaseSale = "",
                         customerId = mCustomerId
                     ),
                     TradeRefDetail(
@@ -452,7 +453,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 trade_reference_1_relationship_with_applicant_spinner?.setSelection(position)
             }
             trade_reference_1_contact_details_input?.setText(tradeRefDetails?.get(0)?.contactDetails)
-            trade_reference_1_product_purchase_sale_input?.setText(tradeRefDetails?.get(0)?.productPurchaseSale)
+         //   trade_reference_1_product_purchase_sale_input?.setText(tradeRefDetails?.get(0)?.productPurchaseSale)
             try {
                 trade_reference_1_years_working_with_count?.tag =
                     tradeRefDetails?.get(0)?.noOfYrsWorkingWith?.toInt()

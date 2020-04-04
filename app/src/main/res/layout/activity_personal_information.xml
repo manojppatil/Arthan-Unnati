@@ -387,8 +387,9 @@
                     android:id="@+id/address_line1_input"
                     android:hint="@string/address_line1"
                     android:textColor="#000000"
-
-                    android:textSize="14sp" />
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/address_line2_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -411,7 +412,8 @@
                     android:hint="@string/address_line2"
                     android:textColor="#000000"
                     android:maxLines="1"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/landmark_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -434,7 +436,8 @@
                     android:hint="@string/landmark_optional"
                     android:textColor="#000000"
                     android:maxLines="1"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/pincode_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -458,7 +461,8 @@
                     android:inputType="number"
                     android:textColor="#000000"
                     android:maxLines="1"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/area_name_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -481,7 +485,8 @@
                     android:hint="@string/area_name"
                     android:maxLines="1"
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/city_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -504,7 +509,8 @@
                     android:hint="@string/city"
                     android:maxLines="1"
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/district_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -527,7 +533,8 @@
                     android:hint="@string/district"
                     android:maxLines="1"
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/state_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

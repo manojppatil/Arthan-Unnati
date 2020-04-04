@@ -42,6 +42,8 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
     val docList = mutableListOf<Uri>()
     var currentCapture: Uri? = null
     var mDocAdapter: DocumentAdapter? = null
+    val fileList: MutableList<S3UploadFile> = mutableListOf()
+
 
     override fun contentView() = R.layout.activity_submit_final_report
 
@@ -193,7 +195,8 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                      ll_upload_document.visibility= View.GONE
                      rv_docs.visibility= View.VISIBLE
                      val loader = ProgrssLoader(this)
-//                     loader.showLoading()
+                docList.add(currentCapture!!)
+                     loader.showLoading()
                      /*docList.add(currentCapture!!)
                 if(mDocAdapter?.itemCount==0)
                 {
@@ -201,29 +204,21 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                 }*/
 //                mDocAdapter?.notifyDataSetChanged()
                      mDocAdapter?.addNewDoc(currentCapture!!)
-
 //               mDocAdapter?.notifyDataSetChanged()
 //                capture.setImageURI(currentCapture)
 
-                    /* loadImage(this, img_document_front, data?.data!!, { filePath ->
-                         try {
-                             val file: File = File(filePath)
-                             val url = file.name + file.extension
-                             val fileList: MutableList<S3UploadFile> = mutableListOf()
-                             fileList.add(S3UploadFile(file, url))
-                             S3Utility.getInstance(this)
-                                 .uploadFile(fileList,
-                                     {
-                                       //  MyProfileActivity.profileImage = fileList[0].url ?: filePath
-                                         ThreadUtils.runOnUiThread { loader.dismmissLoading() }
-                                     }) {
-                                     ThreadUtils.runOnUiThread { loader.dismmissLoading() }
-                                 }
-                         } catch (e: Exception) {
-                             ThreadUtils.runOnUiThread { loader.dismmissLoading() }
-                             e.printStackTrace()
-                         }
-                     })*/
+                val file = File(currentCapture!!.path)
+                val url = file.name + file.extension
+                fileList.add(S3UploadFile(file, url))
+                S3Utility.getInstance(this)
+                    .uploadFile(fileList,
+                        {
+                            //  MyProfileActivity.profileImage = fileList[0].url ?: filePath
+                            ThreadUtils.runOnUiThread {
+                                loader.dismmissLoading() }
+                        }) {
+                        ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                    }
 //                     Log.e("DOC SIZE","::: ${docList.size}")
 
 

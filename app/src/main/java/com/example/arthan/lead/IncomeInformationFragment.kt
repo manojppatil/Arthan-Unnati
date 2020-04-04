@@ -941,7 +941,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
     fun updateData(
         incomeDetails: IncomeDetails?,
-        customerId: String?
+        customerId: String?,
+        loanId: String?
     ) {
         switch_other_sources?.isChecked = false
         if (incomeDetails?.incomes?.size != 0) {
@@ -953,7 +954,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         monthly_income_input?.setText(incomeDetails?.monthlyFamilyIncome)
         total_amount_input?.setText(incomeDetails?.monthlyhouseholdexpenditures)
         txt_income_list_msg?.setText(activity?.resources?.getString(R.string.list_all_sources_of_income_1) + " (" + incomeDetails?.incomes?.size + ")")
-        mLoanId = incomeDetails?.loanId
+        mLoanId = loanId
 //        mCustomerId = incomeDetails?.customerId
         mCustomerId = customerId
         for (item in incomeDetails?.expenditures ?: listOf()) {

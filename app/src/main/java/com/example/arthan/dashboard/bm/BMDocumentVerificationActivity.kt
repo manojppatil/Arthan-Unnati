@@ -76,6 +76,7 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                             result?.docDetails,this@BMDocumentVerificationActivity
                         )
                         ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateData(
+                            loanId,
                             result,
                             customerId
                         )
