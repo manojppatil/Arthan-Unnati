@@ -78,6 +78,8 @@
             </intent-filter>
             -->
         </activity>
+        <activity android:name=".dashboard.bm.DeviationsActivity"/>
+
         <activity android:name=".lead.AddLeadStep2Activity">
 
             <!--

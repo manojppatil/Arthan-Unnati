@@ -1362,6 +1362,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_white_rectangle"
             android:padding="16dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_banking">
@@ -1586,6 +1587,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_white_rectangle"
             android:padding="16dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gst_container">

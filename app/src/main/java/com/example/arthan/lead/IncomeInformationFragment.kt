@@ -2,6 +2,7 @@ package com.example.arthan.lead
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -94,6 +95,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 R.id.frag_container
             ) else null
         loadInitialData()
+        itr_container?.visibility = View.GONE
+        bill_container?.visibility = View.GONE
 
         if (navController != null) {
             banking_text_view?.visibility = View.GONE
@@ -351,30 +354,30 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             updateCount(UpdateCountType.Decrement, no_of_earning_family_member_count)
         }
 
-//        generate_gst_report_checkbox?.setOnClickListener {
-//            val dialogView =
-//                LayoutInflater.from(context).inflate(R.layout.layout_gst_dialog, null, false)
-//            val userName: TextInputEditText? = dialogView?.findViewById(R.id.username_input)
-//            val passwordName: TextInputEditText? = dialogView?.findViewById(R.id.password_input)
-//            val gstNo: TextInputEditText? = dialogView?.findViewById(R.id.gst_input)
-//            AlertDialog.Builder(context!!)
-//                .setView(dialogView)
-//                .setCancelable(false)
-//                .setPositiveButton("Submit") { dialog, which ->
-//                    if (saveGSTDetail(
-//                            userName?.text?.toString() ?: "",
-//                            passwordName?.text?.toString() ?: "",
-//                            gstNo?.text?.toString() ?: ""
-//                        )
-//                    ) {
-//                        dialog?.dismiss()
-//                    }
-//                }
-//                .setNegativeButton("Cancel") { dialog, which ->
-//                    dialog?.dismiss()
-//                }
-//                .show()
-//        }
+        generate_gst_report_checkbox?.setOnClickListener {
+            val dialogView =
+                LayoutInflater.from(context).inflate(R.layout.layout_gst_dialog, null, false)
+            val userName: TextInputEditText? = dialogView?.findViewById(R.id.username_input)
+            val passwordName: TextInputEditText? = dialogView?.findViewById(R.id.password_input)
+            val gstNo: TextInputEditText? = dialogView?.findViewById(R.id.gst_input)
+            AlertDialog.Builder(context!!)
+                .setView(dialogView)
+                .setCancelable(false)
+                .setPositiveButton("Submit") { dialog, _ ->
+                    if (saveGSTDetail(
+                            userName?.text?.toString() ?: "",
+                            passwordName?.text?.toString() ?: "",
+                            gstNo?.text?.toString() ?: ""
+                        )
+                    ) {
+                        dialog?.dismiss()
+                    }
+                }
+                .setNegativeButton("Cancel") { dialog, which ->
+                    dialog?.dismiss()
+                }
+                .show()
+        }
     }
 
     private fun saveGSTDetail(userName: String, password: String, gstNo: String): Boolean {
@@ -409,6 +412,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         stopLoading(progressBar, result?.apiDesc)
                         withContext(Dispatchers.Main) {
                             progressBar.dismmissLoading()
+                            Toast.makeText(
+                                activity, "Report generated successfully...",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
                         stopLoading(progressBar, /*result?.apiDesc*/"Some thing went wrong!!")

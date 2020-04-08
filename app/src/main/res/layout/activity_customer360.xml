@@ -834,6 +834,72 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_deviation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/cl_id_address"
+                app:layout_constraintRight_toRightOf="@id/cl_id_address"
+                app:layout_constraintTop_toBottomOf="@id/cl_assets"
+                android:background="@drawable/bg_white_rectangle"
+                android:backgroundTint="#fafafa"
+                android:paddingTop="8dp"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:id="@+id/img_placeholder_deviation"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_assets"
+                    android:paddingBottom="4dp"
+                    android:paddingTop="4dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/txt_deviation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_placeholder_deviation"
+                    android:textColor="#404040"
+                    android:background="#ffffff"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="7.1sp"
+                    android:text="Deviations"
+                    android:fontFamily="@font/lato_black"
+                    android:gravity="center"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginTop="4dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="8sp"
+                    android:textColor="#ec2a00"
+                    android:letterSpacing="0.03"
+                    android:lineSpacingExtra="4.8sp"
+                    android:text="Incomplete"
+                    android:gravity="center"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:background="#19ec2a00"
+                    android:layout_margin="2dp"
+                    app:layout_constraintLeft_toLeftOf="@id/txt_deviation"
+                    app:layout_constraintRight_toRightOf="@id/txt_deviation"
+                    app:layout_constraintTop_toBottomOf="@id/txt_deviation"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

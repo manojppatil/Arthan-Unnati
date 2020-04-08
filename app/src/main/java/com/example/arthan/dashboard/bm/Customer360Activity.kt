@@ -51,6 +51,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
         cl_assets.setOnClickListener(this)
         cl_score_card.setOnClickListener(this)
         cl_pd.setOnClickListener(this)
+        cl_deviation.setOnClickListener(this)
         txt_industry.text=intent.getStringExtra("indSeg")
         txt_amount.text=intent.getStringExtra("loanAmt")
         txt_loan_type.text=intent.getStringExtra("loanType")
@@ -106,13 +107,22 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
         when (view?.id) {
             R.id.cl_id_address -> startActivity(Intent(this, IDAddressActivity::class.java))
             R.id.cl_bureau -> startActivity(Intent(this, BureauActivity::class.java))
-            R.id.cl_banking -> startActivity(Intent(this, BankingActivity::class.java))
+            R.id.cl_banking -> startActivity(Intent(this, BankingActivity::class.java).apply {
+                putExtra("loanId",loanId)
+                putExtra("custId",customerId)
+                putExtra("cname",intent.getStringExtra("cname"))
+            })
             R.id.cl_collateral -> startActivity(Intent(this, CollateralActivity::class.java))
             R.id.cl_finances -> ""
             R.id.cl_rcu_check -> ""
             R.id.cl_assets -> startActivity(Intent(this, AssetsActivity::class.java))
             R.id.cl_score_card -> ""
             R.id.cl_pd -> PDActivity.startMe(this, mCustomer360Data?.pdVO)
+            R.id.cl_deviation -> startActivity(Intent(this, DeviationsActivity::class.java).apply {
+                putExtra("loanId",loanId)
+                putExtra("custId",customerId)
+                putExtra("custId",intent?.getStringExtra("cname"))
+            })
         }
 
     }

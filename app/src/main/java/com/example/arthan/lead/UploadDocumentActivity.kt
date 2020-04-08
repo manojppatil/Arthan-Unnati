@@ -227,6 +227,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN.jpg"
                     RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT.jpg"
                     RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR.jpg"
+                    PFP -> "${dir.absolutePath}/PFP.jpg"
                     else -> "${dir.absolutePath}/IMG_VOTER.jpg"
                 }
             )

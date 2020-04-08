@@ -66,7 +66,6 @@ class DocumentFragment : BaseFragment(), View.OnClickListener {
                         )
 
                         val result = respo.body()
-                        Toast.makeText(activity,"customer Id "+arguments?.getString("custId")!!,Toast.LENGTH_LONG).show()
 
                         if (respo.isSuccessful && respo.body() != null&&result?.apiCode=="200") {
 

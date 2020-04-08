@@ -159,7 +159,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             }
 
 
-            dialog.create().show()
+//            dialog.create().show()
             if (navController != null) {
                 val progressLoader: ProgrssLoader? =
                     if (context != null) ProgrssLoader(context!!) else null
@@ -398,7 +398,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 natureofProperty = (nature_of_property_spinner?.selectedItem as? Data)?.value,
                 noOfTenants = (no_of_rented_tenants_count?.tag as? Int)?.toString(),
 //            distFromBranch = distance_of_collateral_from_branch_input?.text?.toString(),
-                propertyJurisdiction = property_jurisdiction_spinner?.selectedItem as? String,
+                propertyJurisdiction = (property_jurisdiction_spinner?.selectedItem as Data).description as? String,
                 landArea = land_area_input?.text?.toString(),
                 constructionArea = construction_area_input?.text?.toString(),
                 marketvarue = market_value_input?.text?.toString(),

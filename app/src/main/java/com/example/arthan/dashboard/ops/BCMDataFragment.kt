@@ -44,7 +44,7 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
     private val uiContext: CoroutineContext
         get() = Dispatchers.Main
 
-    private var mLoanId: String? = ""
+    private var mLoanId: String? =  ""
     private var mCustomerId: String? = ""
 
     override fun onCreateView(
@@ -52,6 +52,8 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        mLoanId=activity?.intent?.getStringExtra(ArgumentKey.LoanId)
+        mCustomerId=activity?.intent?.getStringExtra(ArgumentKey.CustomerId)
         return inflater.inflate(R.layout.fragment_bcmdata, container, false)
     }
 
@@ -62,11 +64,13 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
     }
 
     private val pd23Data = PD23PostData(
-        loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-        customerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+        loanId = mLoanId,
+        customerId = mCustomerId
     )
 
     override fun onPD1Fragment(pd1Data: PD1PostData) {
+        mLoanId=activity?.intent?.getStringExtra(ArgumentKey.LoanId)
+        mCustomerId=activity?.intent?.getStringExtra(ArgumentKey.CustomerId)
         pd1Data.loanId = mLoanId
         pd1Data.customerId = mCustomerId
         val progressBar = ProgrssLoader(context ?: return)

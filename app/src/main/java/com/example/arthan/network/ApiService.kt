@@ -1,7 +1,9 @@
 package com.example.arthan.network
 
+import com.example.arthan.dashboard.bm.model.Banking360DetailsResponseData
+import com.example.arthan.dashboard.bm.model.Banking360ReponseList
 import com.example.arthan.dashboard.bm.model.BureauDetails
-import com.example.arthan.lead.model.Data
+import com.example.arthan.dashboard.bm.model.DeviationsResponseData
 import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.lead.model.responsedata.*
 import com.example.arthan.liveness.VerifyCardResponse
@@ -224,6 +226,13 @@ interface ApiService {
 
     @POST("bmSubmit")
     suspend fun bmSubmit(@Body body: Map<String, String>):Response<BaseResponseData>
+    @GET("getDeviations")
+    suspend fun getDeviations(@Query("loanId") loanId: String?): Response<DeviationsResponseData>?
+
+    @GET("getBankingC360")
+    suspend fun getBankingC360(@Query("loanId") loanId: String?): Response<Banking360DetailsResponseData>?
+
+
 
     /* @POST("getScreenDetails")
      Request:

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 
 import com.example.arthan.R
@@ -91,10 +92,10 @@ class PD1Fragment : Fragment(), CoroutineScope {
                     val productView = sales_estimation_list?.getChildAt(childCount)
                     productData.add(
                         ProductData(
-                            product = productView?.findViewById<TextInputEditText?>(R.id.product_input)?.text?.toString(),
-                            unitsSold = productView?.findViewById<TextInputEditText?>(R.id.units_sold_input)?.text?.toString(),
-                            costpriceUnit = productView?.findViewById<TextInputEditText?>(R.id.cost_price_input)?.text?.toString(),
-                            salepriceUnit = productView?.findViewById<TextInputEditText?>(R.id.sales_price_input)?.text?.toString()
+                            product = productView?.findViewById<EditText?>(R.id.product_input)?.text?.toString(),
+                            unitsSold = productView?.findViewById<EditText?>(R.id.units_sold_input)?.text?.toString(),
+                            costpriceUnit = productView?.findViewById<EditText?>(R.id.cost_price_input)?.text?.toString(),
+                            salepriceUnit = productView?.findViewById<EditText?>(R.id.sales_price_input)?.text?.toString()
                         )
                     )
                 }

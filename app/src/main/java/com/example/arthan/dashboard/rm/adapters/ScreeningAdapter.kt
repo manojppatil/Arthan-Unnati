@@ -100,6 +100,8 @@ class ScreeningAdapter(private val context: Context,private val data: List<Scree
                             context.startActivity(Intent(context,AddLeadActivity::class.java).apply {
                                 putExtra("screen",respo.body()!!.screenId)
                                 putExtra("leadId",respo.body()!!.leadId)
+                                putExtra("loanId",respo.body()!!.loanId)
+                                putExtra("custId",respo.body()!!.customerId)
                             })
 
                             // moveToScreen(respo.body()!!.screenId)

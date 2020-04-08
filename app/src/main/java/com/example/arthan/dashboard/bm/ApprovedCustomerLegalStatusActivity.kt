@@ -69,8 +69,8 @@ class ApprovedCustomerLegalStatusActivity: BaseActivity() {
 
         btn_Submit.setOnClickListener {
 
-            if((data.rcuStatus.contentEquals("Y")&&data.techStatus.contentEquals("Y")&&data.legalStatus.contentEquals("y"))
-                &&(data.rcuReport.toLowerCase().contentEquals("positive")&&data.legalReport.toLowerCase().contentEquals("positive")
+            if((data.rcuStatus.equals("Y",ignoreCase = true)&&data.techStatus.equals("Y",ignoreCase = true)&&data.legalStatus.equals("Y",ignoreCase = true))
+                &&(data.rcuReport.toLowerCase().equals("positive",ignoreCase = true)&&data.legalReport.toLowerCase().equals("positive",ignoreCase = true)
                         &&data.techReport.toLowerCase().contentEquals("positive")))
             {
                 startActivity(
@@ -83,7 +83,7 @@ class ApprovedCustomerLegalStatusActivity: BaseActivity() {
                         putExtra("object",intent.getSerializableExtra("object"))
                     })
             }
-            else if((data.rcuStatus.contentEquals("n")&&data.techStatus.contentEquals("Y")&&data.legalStatus.contentEquals("y"))
+            else if((data.rcuStatus.equals("n",ignoreCase = true)&&data.techStatus.equals("Y",ignoreCase = true)&&data.legalStatus.equals("y",ignoreCase = true))
                 &&(data.legalReport.toLowerCase().contentEquals("positive")&&data.techReport.toLowerCase().contentEquals("positive")))
             {
                 startActivity(
