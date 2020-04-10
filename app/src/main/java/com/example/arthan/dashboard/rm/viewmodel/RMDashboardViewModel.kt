@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.arthan.model.*
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ProgrssLoader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +19,6 @@ class RMDashboardViewModel: ViewModel() {
         val response= MutableLiveData<RMDashboardData?>()
 
         try {
-
             CoroutineScope(Dispatchers.IO).launch {
                 val respo = RetrofitFactory.getRMServiceService()
                     .getRMDashboardData(RMDashboardRequest("R1234", ""))

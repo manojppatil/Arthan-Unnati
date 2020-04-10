@@ -238,6 +238,12 @@ interface ApiService {
     @GET("getBusinessData")
     suspend fun getBusinessData(@Query("loanId") loanId: String?): Response<BusinessDetails>?
 
+    @GET("getOtherData")
+    suspend fun getOtherData(@Query("loanId") loanId: String?): Response<CustomerDocumentAndDataResponseData>?
+
+  @GET("getIncomeData")
+    suspend fun getIncomeData(@Query("loanId") loanId: String?): Response<IncomeDetails>?
+
 
 
     /* @POST("getScreenDetails")

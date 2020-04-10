@@ -40,14 +40,16 @@ class RMReAssignListingActivity : AppCompatActivity() {
                 onBackPressed()
             }else
             {
+                toolbar_title.text == "Re-Assigned Cases"
                 showAssignListFragment()
             }
         }
     }
 
     private fun showAssignListFragment() {
-        supportFragmentManager.beginTransaction().replace(R.id.rel_frags,RMAssignListFragment()).addToBackStack("list").commit()
-        toolbar_title.text == "Re-Assigned Cases"
+        toolbar_title?.text = "Re-Assigned Cases"
+        supportFragmentManager.beginTransaction().replace(R.id.rel_frags,RMAssignListFragment()).commit()
+
     }
 
     fun showBusinessFragment(loanId:String)
@@ -68,6 +70,9 @@ class RMReAssignListingActivity : AppCompatActivity() {
                 var b=Bundle()
                 b.putString("task","RM_AssignList")
                 b.putString("loanId","WVMW-FZEA-UJBK")
+                b.putString("from","rmIncome")
+                this.arguments=b
+
             }).commit()
         toolbar_title.text="Income details"
 

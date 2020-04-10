@@ -264,9 +264,42 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             if (natureOfProperty && propertyJurisdiction && propertyType && relationshipWitApplicant) {
                 withContext(uiContext) {
                     progressLoader?.dismmissLoading()
+                    if(arguments?.getString("task").equals("RM_AssignList"))
+                    {
+                        getOthersDataForRm()
+                    }
                 }
             }
         }
+    }
+
+    private fun getOthersDataForRm() {
+
+
+        try{
+            val progressLoader: ProgrssLoader? =
+                if (context != null) ProgrssLoader(context!!) else null
+            progressLoader?.showLoading()
+            CoroutineScope(Dispatchers.IO).launch {
+                val res=RetrofitFactory.getApiService().getOtherData(arguments?.getString("loanId"))
+                withContext(uiContext) {
+                    if (res!!.isSuccessful) {
+                        val responseBody = res.body()
+                        updateData(
+                            responseBody?.neighborRefDetails,
+                            responseBody?.tradeRefDetails,
+                            responseBody?.collateralDetails
+                        )
+                        progressLoader?.dismmissLoading()
+                    }
+                }
+            }
+
+        }catch (e:java.lang.Exception)
+        {
+
+        }
+
     }
 
     private fun fetchAndUpdateNatureOfPropertyAsync(): Deferred<Boolean> =

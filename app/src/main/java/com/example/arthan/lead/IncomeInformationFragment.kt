@@ -95,6 +95,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 R.id.frag_container
             ) else null
         loadInitialData()
+        if(arguments?.getString("task").equals("RM_AssignList"))
+        {
+            getIncomeDetailsFromRm()
+        }
         itr_container?.visibility = View.GONE
         bill_container?.visibility = View.GONE
 
@@ -648,9 +652,33 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             if (collateral) {
                 withContext(uiContext) {
                     progressLoader.dismmissLoading()
+
                 }
             }
         }
+    }
+
+    private fun getIncomeDetailsFromRm() {
+
+        try {
+            val progressLoader = ProgrssLoader(context!!)
+            progressLoader.showLoading()
+            CoroutineScope(ioContext).launch {
+                val response=RetrofitFactory.getApiService().getIncomeData(arguments?.getString("loanId"))
+                withContext(uiContext){
+                    if(response!!.isSuccessful)
+                    {
+                        val res=response.body()
+                        progressLoader.dismmissLoading()
+                        updateData(res,res?.customerId,res?.loanId)
+                    }
+                }
+            }
+        }catch (e:java.lang.Exception)
+        {
+
+        }
+
     }
 
     private fun getAdapter(list: List<Data>?): DataSpinnerAdapter =
