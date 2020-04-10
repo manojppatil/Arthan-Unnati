@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.arthan.R
@@ -19,6 +20,8 @@ import com.example.arthan.lead.model.postdata.BusinessDetails
 import com.example.arthan.lead.model.postdata.BusinessDetailsPostData
 import com.example.arthan.lead.model.postdata.Partner
 import com.example.arthan.lead.model.responsedata.BusinessDetailsResponseData
+import com.example.arthan.model.RMDashboardData
+import com.example.arthan.model.RMDashboardRequest
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.google.android.material.textfield.TextInputEditText
@@ -30,6 +33,11 @@ import kotlinx.coroutines.*
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * This is being used as a common fragment. if this is invoked from RMAssignList ,
+ * checking for task from intent extras and getting related data
+ * Rushi Ayyappa
+ */
 
 class BusinessInformationFragment : Fragment(), CoroutineScope {
 
@@ -262,9 +270,41 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             if (/*industry && */constitution) {
                 withContext(uiContext) {
                     progressLoader.dismmissLoading()
+                    if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true))
+                    {
+                        loadDataFromRMAssignList()
+                    }
                 }
             }
         }
+    }
+
+    private fun loadDataFromRMAssignList() {
+
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val respo = RetrofitFactory.getApiService()
+                    .getBusinessData(arguments?.getString("loanId"))
+                if (respo != null) {
+                    if (respo.isSuccessful && respo.body() != null) {
+                        withContext(Dispatchers.Main) {
+                            updateData(respo.body())
+                            updateSpinnerData(respo.body())
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            //response = null
+                        }
+                    }
+                }
+            }
+        } catch (e: java.lang.Exception){
+           // response = null
+        }
+
+
     }
 
     private fun getAdapter(listlive: List<Data>?): DataSpinnerAdapter =
@@ -315,6 +355,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                         nature_of_association_spinner?.adapter = getAdapter(response.body()?.data)
                         constitution_spinner?.adapter=getAdapter(response.body()?.data)
                         spinnerData=response.body()?.data
+                        if(businessData!=null)
                         updateSpinnerData(businessData)
                     }
                 }

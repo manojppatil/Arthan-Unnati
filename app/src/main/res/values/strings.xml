@@ -357,5 +357,7 @@
     <string name="no_of_years_working_with">No. of years working with</string>
     <string name="property_location_address">Property location/address</string>
     <string name="distance_of_collateral_property_from_branch">Distance of collateral property from Branch</string>
+    <string name="others">Others</string>
+    <string name="documents">Documents</string>
 
 </resources>

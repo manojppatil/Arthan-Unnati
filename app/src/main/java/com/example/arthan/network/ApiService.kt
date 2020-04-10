@@ -185,6 +185,9 @@ interface ApiService {
     @POST("rmReassignList")
     suspend fun getReassignList(@Body request: RMDashboardRequest): Response<ReAssignLeadListResponse>
 
+    @GET("getRMReassigned")
+    suspend fun getRMReassigned(@Query("rmId") rmID: String): Response<ReAssignLeadListResponse>
+
     @POST("fetchApprovedList")
     suspend fun getApprovedList(@Body request: RMDashboardRequest): Response<RMApprovedCaseResponse>
 
@@ -231,6 +234,9 @@ interface ApiService {
 
     @GET("getBankingC360")
     suspend fun getBankingC360(@Query("loanId") loanId: String?): Response<Banking360DetailsResponseData>?
+
+    @GET("getBusinessData")
+    suspend fun getBusinessData(@Query("loanId") loanId: String?): Response<BusinessDetails>?
 
 
 

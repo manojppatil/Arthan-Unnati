@@ -102,11 +102,10 @@ class RMDashboardViewModel: ViewModel() {
         try{
 
         CoroutineScope(Dispatchers.IO).launch {
-            val respo= RetrofitFactory.getRMServiceService().getReassignList(RMDashboardRequest("R1234",
-                REASSIGN_LEAD_SECTION))
+            val respo= RetrofitFactory.getApiService().getRMReassigned("RM1")
             if(respo.isSuccessful && respo.body() != null){
                 withContext(Dispatchers.Main){
-                    response.value= respo.body()?.reAssignList
+                    response.value= respo.body()?.details
                 }
             } else {
                 withContext(Dispatchers.Main){

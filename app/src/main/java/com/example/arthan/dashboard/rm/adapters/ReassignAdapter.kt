@@ -2,6 +2,7 @@ package com.example.arthan.dashboard.rm.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.PendingInfoActivity
+import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.model.ReassignLeadData
 import org.w3c.dom.Text
 
@@ -49,10 +51,56 @@ private val data: List<ReassignLeadData>): RecyclerView.Adapter<ReassignAdapter.
                     root.findViewById<TextView>(R.id.txt_amount).text= "Assigned To: RM"
                 }
             }
-            root.findViewById<TextView>(R.id.txt_caseid).text= data[position].id
-            root.findViewById<TextView>(R.id.txt_customer_name).text= data[position].name
+            root.findViewById<TextView>(R.id.txt_caseid).text= data[position].loanId
+            root.findViewById<TextView>(R.id.txt_customer_name).text= data[position].cname
             root.findViewById<TextView>(R.id.txt_assign_date).text= data[position].assignedDate
-            root.findViewById<TextView>(R.id.txt_stage).text= "Pending: ${data[position].pending}"
+            var btnBusinessRm=root.findViewById<Button>(R.id.btn_business_rm)
+            var btnIncomeRm=root.findViewById<Button>(R.id.btn_income_rm)
+            var btnOthersRm=root.findViewById<Button>(R.id.btn_others_rm)
+            var btnDocumentsRm=root.findViewById<Button>(R.id.btn_documents_rm)
+
+
+            var activity : RMReAssignListingActivity=context as RMReAssignListingActivity
+            btnBusinessRm.setOnClickListener { 
+                activity.showBusinessFragment(data[position].loanId)
+            }
+            btnIncomeRm.setOnClickListener { 
+                activity.showIncomeFragment(data[position].loanId)
+            }
+            btnOthersRm.setOnClickListener { 
+                activity.showOthersFragment(data[position].loanId)
+            }
+            btnDocumentsRm.setOnClickListener {
+
+                activity.showDocumentsFragment(data[position].loanId)
+            }
+            //["Documents","Business","Income","Others"]
+//            root.findViewById<TextView>(R.id.txt_stage).text= "Pending: ${data[position].pending}"
+            for (doc in data[position].pending) {
+                if (doc.equals("Documents", ignoreCase = true)) {
+                    btnDocumentsRm.isEnabled = true
+                    btnDocumentsRm.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
+                    btnDocumentsRm.setTextColor(Color.parseColor("#ffffff"))
+                }
+                if (doc.equals("Business", ignoreCase = true)) {
+                    btnBusinessRm.isEnabled = true
+                    btnBusinessRm.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
+                    btnBusinessRm.setTextColor(Color.parseColor("#ffffff"))
+
+                }
+                if (doc.equals("Income", ignoreCase = true)) {
+                    btnIncomeRm.isEnabled = true
+                    btnIncomeRm.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
+                    btnIncomeRm.setTextColor(Color.parseColor("#ffffff"))
+
+                }
+                if (doc.equals("Others", ignoreCase = true)) {
+                    btnOthersRm.isEnabled = true
+                    btnOthersRm.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
+                    btnOthersRm.setTextColor(Color.parseColor("#ffffff"))
+
+                }
+            }
         }
 
     }
