@@ -1,22 +1,30 @@
 package com.example.arthan.lead
 
+import android.R.attr.scaleHeight
+import android.R.attr.scaleWidth
 import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.ScaleDrawable
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.arthan.R
-import com.example.arthan.global.*
+import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.lead.model.postdata.KYCPostData
 import com.example.arthan.ocr.CardInfo
 import com.example.arthan.ocr.CardResponse
+import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.utils.RequestCode
 import com.example.arthan.views.activities.BaseActivity
 import kotlinx.android.synthetic.main.activity_add_lead_step2.*
-import kotlinx.android.synthetic.main.activity_add_lead_step2.btn_next
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
-import com.example.arthan.utils.ArgumentKey
-import com.example.arthan.utils.RequestCode
+
 
 class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScope {
 
@@ -107,6 +115,9 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         0,
                         0
                     )
+
+
+                    pan_accepted.visibility=View.VISIBLE
                     txt_pan_card.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
@@ -146,6 +157,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         0,
                         0
                     )
+                 //   adhar_accepted.visibility=View.VISIBLE
+
                     txt_aadhar_card.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
@@ -170,6 +183,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         0,
                         0
                     )
+                   // voter_accepted.visibility=View.VISIBLE
+
                     txt_voter_id.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
@@ -188,6 +203,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         0,
                         0
                     )
+                   // applicant_accepted.visibility=View.VISIBLE
+
                     txt_applicant_phot.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }

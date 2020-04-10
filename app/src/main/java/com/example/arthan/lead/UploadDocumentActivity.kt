@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.*
 import com.example.arthan.liveness.VerifyCardResponse
 import com.example.arthan.liveness.VerifyVoterCardResponse
@@ -405,12 +406,24 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
 
                                 uploadToS3(filePath, cardType)
 
-                            } else
-                                Toast.makeText(
-                                    this@UploadDocumentActivity,
-                                    "Please Try again...",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                            } else {
+                                if (cardType == CardType.PANCard) {
+
+                                    Toast.makeText(
+                                        this@UploadDocumentActivity,
+                                        "Case is rejected, since PAN is not Valid",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    startActivity(Intent(this@UploadDocumentActivity,RMDashboardActivity::class.java))
+                                   finish()
+                                } else
+                                    Toast.makeText(
+                                        this@UploadDocumentActivity,
+                                        "Please Try again...",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                            }
                         } else
                             Toast.makeText(
                                 this@UploadDocumentActivity,
