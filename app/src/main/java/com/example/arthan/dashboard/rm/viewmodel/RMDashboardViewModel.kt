@@ -3,9 +3,9 @@ package com.example.arthan.dashboard.rm.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.arthan.dashboard.bm.model.RejectedCaseResponse
 import com.example.arthan.model.*
 import com.example.arthan.network.RetrofitFactory
-import com.example.arthan.utils.ProgrssLoader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -127,9 +127,8 @@ class RMDashboardViewModel: ViewModel() {
         try{
 
         CoroutineScope(Dispatchers.IO).launch {
-            val respo= RetrofitFactory.getApiService().getApprovedList(RMDashboardRequest("R1234",
-                APPROVED_SECTION))
-            if(respo.isSuccessful && respo.body() != null){
+            val respo= RetrofitFactory.getApiService().getRMApproved("RM1")
+            if(respo?.body() != null){
                 withContext(Dispatchers.Main){
                     response.value= respo.body()?.approvedCases
                 }
@@ -146,18 +145,36 @@ class RMDashboardViewModel: ViewModel() {
         return response
     }
 
-    fun loadRejectedList(): LiveData<List<RejectedCaseData>>{
+    fun loadBMRejectedList(from: String?):LiveData<List<RejectedCaseResponse>> {
+        val response = MutableLiveData<List<RejectedCaseResponse>>()
+        if (from.equals("BM")) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val respo = RetrofitFactory.getApiService().getBMRejected("BM")
+                if (respo?.body() != null) {
+                    withContext(Dispatchers.Main) {
+                        response.value = respo.body()?.cases
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        response.value = null
+                    }
+                }
+            }
 
-        val response= MutableLiveData<List<RejectedCaseData>>()
+        }
+        return response
+    }
+    fun loadRejectedList(from: String?): LiveData<List<RejectedCaseResponse>>{
+
+        val response= MutableLiveData<List<RejectedCaseResponse>>()
 
         try{
 
         CoroutineScope(Dispatchers.IO).launch {
-            val respo= RetrofitFactory.getRMServiceService().getRejectedCases(RMDashboardRequest("R1234",
-                REJECTED_SECTION))
-            if(respo.isSuccessful && respo.body() != null){
+            val respo= RetrofitFactory.getApiService().getRMRejected("RM1")
+            if(respo?.body() != null){
                 withContext(Dispatchers.Main){
-                    response.value= respo.body()?.rejectedList
+                    response.value= respo.body()?.cases
                 }
             } else {
                 withContext(Dispatchers.Main){

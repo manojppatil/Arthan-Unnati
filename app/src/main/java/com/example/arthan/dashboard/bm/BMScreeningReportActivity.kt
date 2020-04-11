@@ -41,7 +41,7 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
         when(view?.id){
             R.id.txt_recommend_bcm -> {
                 startActivity(Intent(this,SubmitFinalReportActivity::class.java).apply {
-                    putExtra(STATUS,"Recommend To BCM")
+                    putExtra(STATUS,"Recommend To AA")
                     putExtra("indSeg",intent.getStringExtra("indSeg"))
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)

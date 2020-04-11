@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -18,6 +19,7 @@ import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
+import com.example.arthan.dashboard.bm.model.FinalReportPostData
 import com.example.arthan.global.STATUS
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.network.S3UploadFile
@@ -27,10 +29,13 @@ import com.example.arthan.utils.DateFormatUtil
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.loadImage
 import com.example.arthan.views.adapters.DocumentAdapter
+import com.example.arthan.views.adapters.SanctionAdapter
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import kotlinx.android.synthetic.main.activity_my_profile.*
+import kotlinx.android.synthetic.main.activity_my_profile.btn_next
 import kotlinx.android.synthetic.main.activity_submit_final_report.*
+import kotlinx.android.synthetic.main.fragment_approve_consent.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +48,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
     var currentCapture: Uri? = null
     var mDocAdapter: DocumentAdapter? = null
     val fileList: MutableList<S3UploadFile> = mutableListOf()
+    var sanctionList=ArrayList<String>()
 
 
     override fun contentView() = R.layout.activity_submit_final_report
@@ -61,6 +67,19 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         txt_status.text = "Status: ${intent.getStringExtra(STATUS)}"
         txt_reason_msg.text=(resources.getString(R.string.state_the_reasons_for_the_approval_of_this_application,intent.getStringExtra(STATUS)))
 
+        if(intent?.getStringExtra("FROM")=="BCM")
+        {
+            sanctions.visibility=View.VISIBLE
+        }
+        addSanction.setOnClickListener {
+            if(addSanction.text.toString() == "Add new") {
+                addSanction.text = "Done"
+                addNewSanctionField()
+            }else {
+                saveSanction()
+            }
+        }
+
         et_reason.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 checkForProceed()
@@ -73,8 +92,58 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             }
         })
 
+        cb_sanction.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                addSanction.visibility = View.VISIBLE
+
+            }else {
+                addSanction.visibility = View.GONE
+                sanctionList = ArrayList()
+                sanctionRv.removeAllViews()
+            }
+        }
+
+
         mDocAdapter = DocumentAdapter(this, docList)
         rv_docs.adapter=mDocAdapter
+    }
+
+    private fun saveSanction() {
+
+        var view=  sanctionRv.layoutManager?.findViewByPosition(sanctionList.size-1)
+
+        if(view!=null) {
+            var field = view?.findViewById<EditText>(R.id.field)
+            if (field != null && field?.length()!! > 0) {
+                sanctionList.removeAt(sanctionList.size - 1)
+                sanctionList.add(field.text.toString())
+                addSanction.text = "Add new"
+
+            }
+        }
+    }
+
+     fun removeSanctionField(position:Int) {
+
+        sanctionList
+            .removeAt(position)
+
+         sanctionRv.adapter?.notifyDataSetChanged()
+    }
+
+    private fun addNewSanctionField() {
+        if(sanctionList.isEmpty()) {
+            sanctionList.add("")
+            sanctionRv.adapter = SanctionAdapter(this, sanctionList)
+        }else
+        {
+
+                sanctionList.add("")
+                var adapter:SanctionAdapter=sanctionRv.adapter as SanctionAdapter
+                adapter.notifyDataSetChanged()
+
+            }
+
     }
 
     override fun screenTitle() = "Final Report"
@@ -105,38 +174,84 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     rejectReason.visibility=View.VISIBLE
                    rejection= rejectReason.selectedItem.toString()
                 }
-                var map=HashMap<String,String>()
-                map["loanId"] = intent.getStringExtra("loanId")
-                map["custId"] = intent.getStringExtra("custId")
-                map["bmDecision"] = intent.getStringExtra(STATUS)
-                map["rejectReason"] = rejection
-                map["remarks"] = et_reason.text.toString()
-                map["supportingDoc"] = ""
+                var map=FinalReportPostData(
+                    intent.getStringExtra("loanId"),
+                    intent.getStringExtra("custId"),
+                    intent.getStringExtra(STATUS),
+                    rejection,
+                    et_reason.text.toString(),
+                    "",
+                    sanctionList
+                )
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    val respo = RetrofitFactory.getApiService().bmSubmit(
-                        map
-                    )
+              if(intent.getStringExtra("FROM")=="BM") {
 
-                    val result = respo.body()
-                    if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+                  CoroutineScope(Dispatchers.IO).launch {
+                      val respo = RetrofitFactory.getApiService().bmSubmit(
+                          map
+                      )
 
-                        startActivity(Intent(
-                            this@SubmitFinalReportActivity,
-                            PendingCustomersActivity::class.java
-                        ).apply {
-                            putExtra("FROM", "BM")
-                        })
-                        finish()
+                      val result = respo.body()
+                      if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
 
-                    } else {
-                        Toast.makeText(this@SubmitFinalReportActivity, "Please try again later", Toast.LENGTH_LONG).show()
-                    }
-                }
+                          startActivity(Intent(
+                              this@SubmitFinalReportActivity,
+                              PendingCustomersActivity::class.java
+                          ).apply {
+                              putExtra("FROM", "BM")
+                          })
+                          Toast.makeText(
+                              this@SubmitFinalReportActivity,
+                              "Please try again later",
+                              Toast.LENGTH_LONG
+                          ).show()
+                          finish()
 
-              /*  val intent = Intent(this, BMDashboardActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)*/
+                      } else {
+                          Toast.makeText(
+                              this@SubmitFinalReportActivity,
+                              "Please try again later",
+                              Toast.LENGTH_LONG
+                          ).show()
+                      }
+                  }
+
+              }else if(intent.getStringExtra("FROM")=="BCM") {
+                  CoroutineScope(Dispatchers.IO).launch {
+                      val respo = RetrofitFactory.getApiService().bcmSubmit(
+                          map
+                      )
+
+                      val result = respo.body()
+                      if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+                          Toast.makeText(
+                              this@SubmitFinalReportActivity,
+                              "Case is Successfully submitted to BCM",
+                              Toast.LENGTH_LONG
+                          ).show()
+
+                          startActivity(Intent(
+                              this@SubmitFinalReportActivity,
+                              PendingCustomersActivity::class.java
+                          ).apply {
+                              putExtra("FROM", "BM")
+                          })
+                          finish()
+
+                      } else {
+                          Toast.makeText(
+                              this@SubmitFinalReportActivity,
+                              "Please try again later",
+                              Toast.LENGTH_LONG
+                          ).show()
+                      }
+                  }
+
+              }
+
+                  /*  val intent = Intent(this, BMDashboardActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)*/
             }
 
             R.id.ll_upload_document -> capture()
@@ -196,7 +311,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                      rv_docs.visibility= View.VISIBLE
                      val loader = ProgrssLoader(this)
                 docList.add(currentCapture!!)
-                     loader.showLoading()
+                    //      loader.showLoading()
                      /*docList.add(currentCapture!!)
                 if(mDocAdapter?.itemCount==0)
                 {

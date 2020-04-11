@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.adapter.DeviationsAdapter
+import com.example.arthan.dashboard.bm.model.DeviationsResponseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
@@ -82,10 +83,31 @@ class DeviationsActivity : AppCompatActivity(), CoroutineScope {
                 }
             })
         }
+        submit_button.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val adapter=recycler_list.adapter as DeviationsAdapter
+                val list=adapter.mList
+                for(i in list)
+                {
+                    if(i.deviationRemark==null)
+                        i.deviationRemark=""
+                    if(i.deviationDecision== null)
+                        i.deviationDecision=""
+                }
+                var response=RetrofitFactory.getApiService().updateDeviations(DeviationsResponseData( list,intent.getStringExtra("loanId"),cb_TriggerDeviations.isChecked.toString()))
+                if(response.body()!=null&&response.body()?.apiCode=="200")
+                {
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(this@DeviationsActivity,"Data submitted successfully",Toast.LENGTH_LONG).show()
+
+                    }
+                }
+            }
+        }
     }
 
     private fun openBottomDialog(onSave: ((data: String?) -> Unit)? = null) {
-        RemarkDialogFragment().also {
+         RemarkDialogFragment().also {
             it.setOnSaveClick(onSave)
         }.show(supportFragmentManager, RemarkDialogFragment.TAG)
     }
@@ -112,6 +134,10 @@ class DeviationsActivity : AppCompatActivity(), CoroutineScope {
                         if (result?.deviations != null) {
                             (recycler_list?.adapter as? DeviationsAdapter)
                                 ?.updateList(result.deviations)
+                            when(result.triggerDevFlag){
+                                "true"->cb_TriggerDeviations.isChecked=true
+                                "false"->cb_TriggerDeviations.isChecked=false
+                            }
                         }
                         stopLoading(progressBar, null)
                     }

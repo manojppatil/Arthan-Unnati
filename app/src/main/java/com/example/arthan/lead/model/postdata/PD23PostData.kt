@@ -40,7 +40,6 @@ data class PD23PostData(
     var impactofCompetition: String? = "",
     var referenceFromNeighboursAndAssociations: String? = "",
 
-
     var demographic: String? = ""
 ) {
     fun add(pd2Data: PD2Data) {

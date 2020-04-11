@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.arthan.R
-import com.example.arthan.dashboard.rm.adapters.LeadsAdapter
 import com.example.arthan.dashboard.rm.adapters.RejectedAdapter
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
 import kotlinx.android.synthetic.main.activity_lisiting.*
@@ -31,14 +30,29 @@ class RMRejectedListingActivity : AppCompatActivity() {
     }
 
     private fun loadRejectedList(){
-        mViewModel.loadRejectedList().observe(this, Observer { data->
-            if(data.isNullOrEmpty()){
-                Toast.makeText(this,"No Record Found", Toast.LENGTH_SHORT).show()
-            } else {
-                rv_listing.adapter = RejectedAdapter(this, intent.getStringExtra("FROM"),data)
-            }
 
-        })
+        if(intent.getStringExtra("FROM") == "BM")
+        {
+            mViewModel.loadBMRejectedList(intent.getStringExtra("FROM")).observe(this, Observer { data->
+                if(data.isNullOrEmpty()){
+                    Toast.makeText(this,"No Record Found", Toast.LENGTH_SHORT).show()
+                } else {
+                    rv_listing.adapter = RejectedAdapter(this, "BM",data)
+                }
+
+            })
+        }else
+        {
+            mViewModel.loadRejectedList(intent.getStringExtra("FROM")).observe(this, Observer { data->
+                if(data.isNullOrEmpty()){
+                    Toast.makeText(this,"No Record Found", Toast.LENGTH_SHORT).show()
+                } else {
+                    rv_listing.adapter = RejectedAdapter(this, "RM",data)
+                }
+
+            })
+        }
+
     }
 
     companion object {

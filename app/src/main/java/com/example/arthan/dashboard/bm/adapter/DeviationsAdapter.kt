@@ -11,7 +11,7 @@ import com.example.arthan.dashboard.bm.model.Deviation
 
 class DeviationsAdapter : RecyclerView.Adapter<DeviationsAdapter.ViewHolder>() {
 
-    private val mList: MutableList<Deviation> = mutableListOf()
+     val mList: MutableList<Deviation> = mutableListOf()
     private var mButtonClickListener: MultipleButtonClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =

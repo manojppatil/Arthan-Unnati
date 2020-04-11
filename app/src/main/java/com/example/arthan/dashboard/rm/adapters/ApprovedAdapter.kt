@@ -1,19 +1,25 @@
 package com.example.arthan.dashboard.rm.adapters
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.ApprovedCustomerLegalStatusActivity
-import com.example.arthan.dashboard.bm.ApprovedCustomerReviewActivity
 import com.example.arthan.model.ApprovedCaseData
+import com.example.arthan.network.RetrofitFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.Serializable
 
 class ApprovedAdapter(private val context: Context,
@@ -40,6 +46,41 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                 }
                 else -> {
                     root.setOnClickListener(null)
+                    root.findViewById<Button>(R.id.btn_rcu).visibility=View.GONE
+                    root.findViewById<Button>(R.id.btn_legal).visibility=View.GONE
+                    root.findViewById<Button>(R.id.btn_tech).visibility=View.GONE
+                    root.findViewById<TextView>(R.id.txt_fee_paid).visibility=View.GONE
+                    root.findViewById<Button>(R.id.btn_collect_fees).setOnClickListener {
+
+                    }
+                    var dailog:AlertDialog?=null
+                    root.findViewById<Button>(R.id.btn_collect_fees).visibility=View.VISIBLE
+                    root.findViewById<Button>(R.id.btn_requestWaiver).visibility=View.VISIBLE
+                    root.findViewById<Button>(R.id.btn_requestWaiver).setOnClickListener {
+
+                        var layoutInflater :LayoutInflater=context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                        var view=layoutInflater.inflate(R.layout.remarks_popup,null)
+                         dailog=AlertDialog.Builder(context).setView(view).create()
+                        dailog!!.show()
+                        var etRemark=view.findViewById<EditText>(R.id.et_remark)
+                        var btnSubmit=view.findViewById<Button>(R.id.btn_submit)
+                        btnSubmit.setOnClickListener {
+
+                            dailog!!.dismiss()
+                            CoroutineScope(Dispatchers.IO).launch {
+                                var map = HashMap<String, String>()
+                                map["loanId"] =data[position].caseId
+                                    map["remarks"] =etRemark.text.toString()
+                                    map["eId"] ="RM1"
+                                var res = RetrofitFactory.getApiService().rmRequestWaiver(map)
+                                if(res?.body()!=null)
+                                {
+
+                                    Toast.makeText(context,"Request successful",Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }
+                    }
                 }
             }
             root.findViewById<TextView>(R.id.txt_case_id).text= "CaseId: ${data[position].caseId}"
@@ -54,24 +95,24 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
             var btnRcu=root.findViewById<Button>(R.id.btn_rcu)
             var btnLegal=root.findViewById<Button>(R.id.btn_legal)
             var btnTech=root.findViewById<Button>(R.id.btn_tech)
-            if(data[position].rcuStatus.toString().contentEquals("Y"))
-            {
-                btnRcu.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
-                btnRcu.setTextColor(Color.WHITE)
-            }
-            if(data[position].legalStatus.toString().contentEquals("Y"))
-            {
-                btnLegal.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
-                btnLegal.setTextColor(Color.WHITE)
-            }
-            if(data[position].techStatus.toString().contentEquals("Y"))
-            {
-                btnTech.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
-                btnTech.setTextColor(Color.WHITE)
-            }
-            if(data[position].feePaidStatus.toString().contentEquals("Y"))
-            {
-                root.findViewById<TextView>(R.id.txt_fee_paid).setTextColor(Color.parseColor("#43A047"))
+
+            if(from=="BM"||from=="BCM") {
+                if (data[position].rcuStatus.toString().contentEquals("Y")) {
+                    btnRcu.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
+                    btnRcu.setTextColor(Color.WHITE)
+                }
+                if (data[position].legalStatus.toString().contentEquals("Y")) {
+                    btnLegal.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
+                    btnLegal.setTextColor(Color.WHITE)
+                }
+                if (data[position].techStatus.toString().contentEquals("Y")) {
+                    btnTech.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
+                    btnTech.setTextColor(Color.WHITE)
+                }
+                if (data[position].feePaidStatus.toString().contentEquals("Y")) {
+                    root.findViewById<TextView>(R.id.txt_fee_paid)
+                        .setTextColor(Color.parseColor("#43A047"))
+                }
             }
 
         }

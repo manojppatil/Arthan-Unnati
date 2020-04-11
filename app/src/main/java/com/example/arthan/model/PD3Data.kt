@@ -7,5 +7,7 @@ data class PD3Data(
     val washingMachine: String,
     val twoWheeler: String,
     val fourWheeler: String,
-    val childrenMedium: String?
+    val childrenMedium: String?,
+    var  rltWOValue:String="",
+    var rltWFeeValue:String=""
 )

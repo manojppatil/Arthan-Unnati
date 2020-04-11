@@ -1,14 +1,13 @@
 package com.example.arthan.network
 
-import com.example.arthan.dashboard.bm.model.Banking360DetailsResponseData
-import com.example.arthan.dashboard.bm.model.Banking360ReponseList
-import com.example.arthan.dashboard.bm.model.BureauDetails
-import com.example.arthan.dashboard.bm.model.DeviationsResponseData
+import com.example.arthan.dashboard.bm.model.*
+import com.example.arthan.dashboard.bm.model.RejectedCaseData
 import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.lead.model.responsedata.*
 import com.example.arthan.liveness.VerifyCardResponse
 import com.example.arthan.liveness.VerifyVoterCardResponse
 import com.example.arthan.model.*
+import com.example.arthan.model.RejectedCaseResponse
 import com.example.arthan.ocr.CardResponse
 import com.example.arthan.ocr.OcrRequest
 import okhttp3.MultipartBody
@@ -228,7 +227,11 @@ interface ApiService {
     suspend fun updateOtherDetails(@Body body: Map<String, String>):Response<BaseResponseData>
 
     @POST("bmSubmit")
-    suspend fun bmSubmit(@Body body: Map<String, String>):Response<BaseResponseData>
+    suspend fun bmSubmit(@Body body: FinalReportPostData):Response<BaseResponseData>
+
+    @POST("bcmSubmit")
+    suspend fun bcmSubmit(@Body body: FinalReportPostData):Response<BaseResponseData>
+
     @GET("getDeviations")
     suspend fun getDeviations(@Query("loanId") loanId: String?): Response<DeviationsResponseData>?
 
@@ -241,8 +244,30 @@ interface ApiService {
     @GET("getOtherData")
     suspend fun getOtherData(@Query("loanId") loanId: String?): Response<CustomerDocumentAndDataResponseData>?
 
-  @GET("getIncomeData")
+    @GET("getIncomeData")
     suspend fun getIncomeData(@Query("loanId") loanId: String?): Response<IncomeDetails>?
+
+    @GET("getBMRejected")
+    suspend fun getBMRejected(@Query("bmId") bmId: String?): Response<RejectedCaseData>?
+
+    @GET("getRMRejected")
+    suspend fun getRMRejected(@Query("rmId") bmId: String?): Response<RejectedCaseData>?
+
+
+    @GET("saveBMReopen")
+    suspend fun saveBMReopen(@Query("loanId") loanId: String?): Response<BaseResponseData>?
+
+    @GET("getRMApproved")
+    suspend fun getRMApproved(@Query("rmId") rmId: String?): Response<RMApprovedCaseResponse>?
+
+    @GET("getCollateralMstr")
+    suspend fun getCollateralMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
+
+    @POST("rmRequestWaiver")
+    suspend fun rmRequestWaiver(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+
+    @POST("updateDeviations")
+    suspend fun updateDeviations(@Body body: DeviationsResponseData):Response<BaseResponseData>
 
 
 

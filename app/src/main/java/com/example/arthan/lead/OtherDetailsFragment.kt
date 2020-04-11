@@ -8,17 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
 import com.example.arthan.R
-import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
-import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
@@ -26,9 +21,8 @@ import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.PendingCustomersActivity
-import com.example.arthan.views.activities.SubmitFinalReportActivity
+import kotlinx.android.synthetic.main.collateral_section.*
 import kotlinx.android.synthetic.main.fragment_other_details.*
-import kotlinx.android.synthetic.main.remarks_popup.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -65,6 +59,14 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         mCustomerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
 
         loadInitialData()
+        if(activity?.intent?.extras?.getString("FROM").equals("BCM"))
+        {
+            bcmCheckBoxes.visibility=View.VISIBLE
+        }else
+        {
+            bcmCheckBoxes.visibility=View.GONE
+
+        }
 
         trade_reference_1_years_working_with_count?.tag = 0
         trade_reference_1_years_working_with_plus_button?.setOnClickListener {
@@ -109,6 +111,84 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         }
 
 
+        val securitySpinner: AdapterView.OnItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    parent?.getItemAtPosition(position)?.let {
+
+                            var list =
+                                (sp_security?.adapter as? DataSpinnerAdapter)?.list
+                            if(list?.get(position)?.description=="Immovable")
+                            {
+                                fetchmstrIdsubSecurity()
+                            }
+                    }
+                }
+            }
+        val subSecuritySpinner: AdapterView.OnItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    parent?.getItemAtPosition(position)?.let {
+                            var list =
+                                (sp_security_subType?.adapter as? DataSpinnerAdapter)?.list
+                        immsubHead.visibility=View.GONE
+                        sp_immovable_security.visibility=View.GONE
+                            if(list?.get(position)?.description=="Imperfect/Quasi")
+                            {
+                                immsubHead.visibility=View.VISIBLE
+                                sp_immovable_security.visibility=View.VISIBLE
+                                fetchmstrIdImmovable(list?.get(position)?.description)
+                            }
+                    }
+                }
+            }
+        val immovableSecurity: AdapterView.OnItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    parent?.getItemAtPosition(position)?.let {
+                        var list =
+                            (sp_immovable_security?.adapter as? DataSpinnerAdapter)?.list
+                        ll_plotType.visibility=View.GONE
+                        ll_namuna.visibility=View.GONE
+                        if(list?.get(position)?.description=="NA Plot(with boundary)")
+                        {
+                            ll_plotType.visibility=View.VISIBLE
+                        }else if(list?.get(position)?.description=="Namuna 8 A Property")
+                        {
+                            ll_namuna.visibility=View.VISIBLE
+
+                        }
+                    }
+                }
+            }
+        sp_security.onItemSelectedListener=securitySpinner
+        sp_security_subType.onItemSelectedListener=subSecuritySpinner
+        sp_immovable_security.onItemSelectedListener=immovableSecurity
+
         val navController: NavController? =
             if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
                 activity!!,
@@ -127,6 +207,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 map.put("loanId", mLoanId!!)
                 map.put("custId", mCustomerId!!)
                 map.put("remarks", et_remarks)
+                map.put("rltWOValue",rltWFeeCheckBox.isChecked.toString())
+                map.put("rltWFeeValue",rltWFeeCheckBox.isChecked.toString())
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val respo = RetrofitFactory.getApiService().updateOtherDetails(
@@ -181,6 +263,46 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     }
                 }
             }
+        }
+    }
+    private fun fetchmstrIdImmovable(value:String) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getApiService().getCollateralMstr("immovable_sub_type")
+                if(response?.body()?.errorCode=="200")
+                {
+
+                    withContext(Dispatchers.Main) {
+                        sp_immovable_security.adapter = getAdapter(response.body()?.data)
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+
+        }
+    }
+
+
+    private fun fetchmstrIdsubSecurity() {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getApiService().getCollateralMstr("immovable_type")
+                if(response?.body()?.errorCode=="200")
+                {
+
+                    withContext(Dispatchers.Main) {
+                        sp_security_subType.adapter = getAdapter(response.body()?.data)
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+
         }
     }
 
@@ -261,6 +383,11 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             val propertyJurisdiction = fetchAndUpdatePropertyJurisdictionAsync().await()
             val propertyType = fetchAndUpdatePropertyTypeAsync().await()
             val relationshipWitApplicant = fetchAndUpdateRelationshipWithApplicantAsync().await()
+
+            fetchmstrId()
+            fetchDocNature()
+            fetchmDocType()
+            fetchoccupiedBy()
             if (natureOfProperty && propertyJurisdiction && propertyType && relationshipWitApplicant) {
                 withContext(uiContext) {
                     progressLoader?.dismmissLoading()
@@ -357,6 +484,78 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             e.printStackTrace()
         }
         return@async true
+    }
+    private fun fetchmstrId() {
+       CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getApiService().getCollateralMstr("security_type")
+                if(response?.body()?.errorCode=="200")
+                {
+
+                    withContext(Dispatchers.Main) {
+                        sp_security.adapter = getAdapter(response.body()?.data)
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+
+        }
+    }
+    private fun fetchoccupiedBy() {
+       CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getApiService().getCollateralMstr("occupied_by")
+                if(response?.body()?.errorCode=="200")
+                {
+
+                    withContext(Dispatchers.Main) {
+                        sp_occupiedBy.adapter = getAdapter(response.body()?.data)
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+
+        }
+    }
+    private fun fetchDocNature() {
+       CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getApiService().getCollateralMstr("doc_nature")
+                if(response?.body()?.errorCode=="200")
+                {
+
+                    withContext(Dispatchers.Main) {
+                        sp_NatureOfDo.adapter = getAdapter(response.body()?.data)
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+
+        }
+    }
+    private fun fetchmDocType() {
+       CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getApiService().getCollateralMstr("doc_type")
+                if(response?.body()?.errorCode=="200")
+                {
+
+                    withContext(Dispatchers.Main) {
+                        sp_typeOfDoc.adapter = getAdapter(response.body()?.data)
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+
+        }
     }
 
     private fun fetchAndUpdateRelationshipWithApplicantAsync(): Deferred<Boolean> =
