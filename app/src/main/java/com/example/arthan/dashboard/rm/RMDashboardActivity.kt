@@ -2,6 +2,7 @@ package com.example.arthan.dashboard.rm
 
 import android.content.Intent
 import android.view.MenuItem
+import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -13,6 +14,7 @@ import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_rm_dashboard.*
+import kotlinx.android.synthetic.main.layout_rm_toolbar.*
 
 class RMDashboardActivity : BaseActivity() {
 
@@ -47,6 +49,12 @@ class RMDashboardActivity : BaseActivity() {
          }*/
 
         btn_logout.setOnClickListener {
+            drawer_layout.closeDrawer(GravityCompat.START)
+            startActivity(Intent(this@RMDashboardActivity, SplashActivity::class.java))
+            finish()
+        }
+        logoutIv.visibility=View.VISIBLE
+        logoutIv.setOnClickListener {
             drawer_layout.closeDrawer(GravityCompat.START)
             startActivity(Intent(this@RMDashboardActivity, SplashActivity::class.java))
             finish()

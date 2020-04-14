@@ -1,7 +1,9 @@
 package com.example.arthan.views.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -37,6 +39,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
         if (findViewById<TextView>(R.id.txt_title) != null)
             findViewById<TextView>(R.id.txt_title).text = screenTitle()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

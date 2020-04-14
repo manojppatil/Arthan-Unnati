@@ -52,9 +52,44 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
 
+        if(intent.getStringExtra("FROM")=="BM") {
+            CoroutineScope(ioContext).launch {
+                try {
+                    val response = RetrofitFactory.getMasterApiService().getBMQueue("2")
+                    if (response?.isSuccessful == true) {
+                        val result = response.body()
+                        withContext(Dispatchers.Main) {
+
+                            rv_pending_customer.adapter =
+                                PendingCustomerAdapter(
+                                    this@PendingCustomersActivity,
+                                    intent.getStringExtra(ArgumentKey.FROM)
+                                ).also {
+                                    it.updateList(result?.myQueue)
+                                }
+                            progressBar.dismmissLoading()
+                        }
+                    } else {
+                        try {
+                            val result: BMQueueResponseData? = Gson().fromJson(
+                                response?.errorBody()?.string(),
+                                BMQueueResponseData::class.java
+                            )
+                            stopLoading(progressBar, result?.message)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            stopLoading(progressBar, "Something went wrong. Please try later!")
+                        }
+                    }
+                } catch (e: Exception) {
+                    stopLoading(progressBar, "Something went wrong. Please try later!")
+                    e.printStackTrace()
+                }
+            }
+        }else if(intent.getStringExtra("FROM")=="BCM")
         CoroutineScope(ioContext).launch {
             try {
-                val response = RetrofitFactory.getMasterApiService().getBMQueue("2")
+                val response = RetrofitFactory.getMasterApiService().getBCMQueue("2")
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {

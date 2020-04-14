@@ -76,7 +76,7 @@ class RMDashboardViewModel: ViewModel() {
         try{
 
         CoroutineScope(Dispatchers.IO).launch {
-            val respo= RetrofitFactory.getRMServiceService().getLeadList(RMDashboardRequest("R1234",
+            val respo= RetrofitFactory.getRMServiceService().getLeadList(RMDashboardRequest("RM1",
                 LEAD_SECTION))
             if(respo.isSuccessful && respo.body() != null){
                 withContext(Dispatchers.Main){
@@ -120,27 +120,44 @@ class RMDashboardViewModel: ViewModel() {
         return response
     }
 
-    fun loadApprovedList(): LiveData<List<ApprovedCaseData>>{
+    fun loadApprovedList(from:String): LiveData<List<ApprovedCaseData>>{
 
         val response= MutableLiveData<List<ApprovedCaseData>>()
 
         try{
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val respo= RetrofitFactory.getApiService().getRMApproved("RM1")
-            if(respo?.body() != null){
-                withContext(Dispatchers.Main){
-                    response.value= respo.body()?.approvedCases
+            if(from=="RM") {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respo = RetrofitFactory.getApiService().getRMApproved("RM1")
+                    if (respo?.body() != null) {
+                        withContext(Dispatchers.Main) {
+                            response.value = respo.body()?.approvedCases
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            response.value = null
+                        }
+                    }
                 }
-            } else {
-                withContext(Dispatchers.Main){
-                    response.value= null
+            }else if(from=="BM")
+            {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respo = RetrofitFactory.getApiService().getBMApproved("bm")
+                    if (respo?.body() != null) {
+                        withContext(Dispatchers.Main) {
+                            response.value = respo.body()?.approvedCases
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            response.value = null
+                        }
+                    }
                 }
             }
-        }
         } catch (e: Exception){
             response.value = null
         }
+
 
         return response
     }

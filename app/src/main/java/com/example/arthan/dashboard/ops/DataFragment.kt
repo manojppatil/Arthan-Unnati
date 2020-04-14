@@ -48,7 +48,8 @@ class DataFragment : Fragment() {
         (adapter?.getItem(3) as? OtherDetailsFragment)?.updateData(
             data?.neighborRefDetails,
             data?.tradeRefDetails,
-            data?.collateralDetails
+            data?.collateralDetails,
+            loanId
 
         )
     }

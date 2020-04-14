@@ -8,6 +8,7 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.*
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.RequestCode
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.fragment_documents.*
 import kotlinx.android.synthetic.main.fragment_documents.txt_balSheet_card
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_documents.txt_finStatement_id
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DocumentFragment : BaseFragment(), View.OnClickListener {
 
@@ -35,24 +37,24 @@ class DocumentFragment : BaseFragment(), View.OnClickListener {
         when (view?.id) {
             R.id.txt_pfp_card -> {
                 startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
-                    putExtra(DOC_TYPE, PFP)
-                }, PFP)
+                    putExtra(DOC_TYPE,  RequestCode.PFP )
+                },  RequestCode.PFP )
             }
             R.id.txt_balSheet_card -> {
                 startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
-                    putExtra(DOC_TYPE, BALSHEET)
-                }, BALSHEET)
+                    putExtra(DOC_TYPE, RequestCode.VoterCard)
+                }, RequestCode.VoterCard)
             }
             R.id.txt_finStatement_id -> {
                 startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
-                    putExtra(DOC_TYPE, FINSTATEMENT)
-                }, FINSTATEMENT)
+                    putExtra(DOC_TYPE, RequestCode.VoterCard)
+                }, RequestCode.VoterCard)
             }
             
             R.id.txt_property_doc -> {
                 startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
-                    putExtra(DOC_TYPE, PROPERTY_DOC)
-                }, VOTER_ID_REQ_CODE)
+                    putExtra(DOC_TYPE, RequestCode.VoterCard)
+                }, RequestCode.VoterCard)
             }
             R.id.btn_submit -> {
 
@@ -69,9 +71,17 @@ class DocumentFragment : BaseFragment(), View.OnClickListener {
 
                         if (respo.isSuccessful && respo.body() != null&&result?.apiCode=="200") {
 
-                            val intent = Intent(activity, RMDashboardActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(intent)
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(
+                                    activity,
+                                    "Case is Successfully submitted to BM",
+                                    Toast.LENGTH_LONG
+                                ).show()
+
+                                val intent = Intent(activity, RMDashboardActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(intent)
+                            }
                         }else
                         {
                             Toast.makeText(activity,"Please try again later",Toast.LENGTH_LONG).show()

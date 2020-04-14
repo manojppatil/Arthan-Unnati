@@ -1,6 +1,7 @@
 package com.example.arthan.lead
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 
 import com.example.arthan.R
+import com.example.arthan.utils.ArgumentKey
 import kotlinx.android.synthetic.main.fragment_loan_eligibility.*
 
 /**
@@ -28,6 +30,7 @@ class LoanEligibilityFragment : NavHostFragment() {
         super.onViewCreated(view, savedInstanceState)
         btn_ok?.setOnClickListener {
             navController?.navigate(R.id.action_loanEligibilityFragment_to_addKYCDetailsFragment)
+
         }
     }
 

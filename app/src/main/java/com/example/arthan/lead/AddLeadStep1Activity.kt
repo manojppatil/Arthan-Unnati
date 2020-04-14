@@ -346,10 +346,15 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
                     if (result?.apiCode == "200") {
                         withContext(Dispatchers.Main) {
                             progressBar.dismmissLoading()
-                            AppPreferences.getInstance()
-                                .addString(AppPreferences.Key.LeadId, result.leadId)
-                            LoanDetailActivity.startMe(this@AddLeadStep1Activity, result.leadId)
-                            finish()
+                            if(chk_later.isChecked||!switch_interested.isChecked){
+
+                                finish()
+                            }else {
+                                AppPreferences.getInstance()
+                                    .addString(AppPreferences.Key.LeadId, result.leadId)
+                                LoanDetailActivity.startMe(this@AddLeadStep1Activity, result.leadId)
+                                finish()
+                            }
                         }
                     } else {
                         stopLoading(progressBar, result?.apiDesc)

@@ -11,7 +11,9 @@ import com.example.arthan.dashboard.rm.RMRejectedListingActivity
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.NotificationActivity
 import com.example.arthan.views.activities.PendingCustomersActivity
+import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_bcm_dashboard.*
+import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 
 class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
 
@@ -21,7 +23,12 @@ class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
 
     override fun init() {
 
-        layout_toolbar.visibility = View.GONE
+        layout_toolbar.visibility = View.VISIBLE
+        txt_title.visibility=View.GONE
+        btn_search.visibility=View.GONE
+        btn_filter.visibility=View.GONE
+        logoutIv.visibility=View.VISIBLE
+
 
         img_notification.setOnClickListener {
             startActivity(Intent(this, NotificationActivity::class.java))
@@ -34,6 +41,10 @@ class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
         cv_reassign_to.setOnClickListener(this)
         cv_reassigned_by.setOnClickListener(this)
         cv_disbursed.setOnClickListener(this)
+        logoutIv.setOnClickListener {
+            startActivity(Intent(this@BCMDashboardActivity, SplashActivity::class.java))
+            finish()
+        }
 
     }
 

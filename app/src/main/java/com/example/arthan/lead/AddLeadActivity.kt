@@ -8,6 +8,7 @@ import android.view.KeyEvent
 import androidx.navigation.Navigation
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMScreeningListingActivity
+import com.example.arthan.utils.ArgumentKey
 
 class AddLeadActivity : AppCompatActivity() {
 
@@ -39,9 +40,15 @@ class AddLeadActivity : AppCompatActivity() {
         }
         else if(screenId.equals("eligibility",ignoreCase = true))
         {
-            navController.popBackStack(R.id.loanEligibilityFragment, true);
+           /* navController.popBackStack(R.id.loanEligibilityFragment, true);
 
-            navController.navigate(R.id.loanEligibilityFragment)
+            navController.navigate(R.id.loanEligibilityFragment)*/
+            startActivity(Intent(this, LeadEligibilityActivity::class.java).apply {
+                putExtra("loanId",intent.getStringExtra("loanId"))
+                putExtra("custId",intent.getStringExtra("custId"))
+                putExtra(ArgumentKey.Eligibility,"y")//hard coded @@
+            })
+            finish()
         }
         else if(screenId.equals("kyc",ignoreCase = true))
         {

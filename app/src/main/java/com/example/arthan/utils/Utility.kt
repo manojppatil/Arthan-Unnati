@@ -197,4 +197,5 @@ object RequestCode {
     const val ApplicantPhoto = 0x0009
     const val PropertyDocument = 0x0010
     const val Passport = 0x000A
+    const val PFP = 0x0011
 }

@@ -21,6 +21,7 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
         txt_recommend_bcm.setOnClickListener(this)
         txt_recommend_rm.setOnClickListener(this)
         txt_reject.setOnClickListener(this)
+        txt_approve.setOnClickListener(this)
 
         btn_search.visibility= View.GONE
         btn_filter.visibility= View.GONE
@@ -32,6 +33,22 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
         txt_customer_name.text=intent.getStringExtra("cname")
          custId=intent.getStringExtra("custId")
 
+        if(intent.getStringExtra("FROM")=="BM")
+        {
+
+            txt_recommend_bcm.text="Recommend to BCM"
+            txt_approve.visibility=View.GONE
+
+
+        }else if(intent.getStringExtra("FROM")=="BCM")
+        {
+            txt_recommend_bcm.text="Recommend to AA"
+
+        }else
+        {
+            txt_approve.visibility=View.GONE
+
+        }
 
     }
 
@@ -41,13 +58,16 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
         when(view?.id){
             R.id.txt_recommend_bcm -> {
                 startActivity(Intent(this,SubmitFinalReportActivity::class.java).apply {
-                    putExtra(STATUS,"Recommend To AA")
+                    putExtra(STATUS,txt_recommend_bcm.text.toString())
                     putExtra("indSeg",intent.getStringExtra("indSeg"))
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
+                    putExtra("FROM",intent.getStringExtra("FROM"))
 
                 })
+                finish()
+
             }
             R.id.txt_recommend_rm -> {
                 startActivity(Intent(this,SubmitFinalReportActivity::class.java).apply {
@@ -56,8 +76,11 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
+                    putExtra("FROM",intent.getStringExtra("FROM"))
 
                 })
+                finish()
+
             }
             R.id.txt_reject -> {
                 startActivity(Intent(this,SubmitFinalReportActivity::class.java).apply {
@@ -66,8 +89,25 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
+                    putExtra("FROM",intent.getStringExtra("FROM"))
 
                 })
+                finish()
+
+            }
+
+            R.id.txt_approve -> {
+                startActivity(Intent(this,SubmitFinalReportActivity::class.java).apply {
+                    putExtra(STATUS,"Approve")
+                    putExtra("indSeg",intent.getStringExtra("indSeg"))
+                    putExtra("loginDate",intent.getStringExtra("loginDate"))
+                    putExtra("loanId",loanId)
+                    putExtra("custId",custId)
+                    putExtra("FROM",intent.getStringExtra("FROM"))
+
+
+                })
+                finish()
             }
         }
     }

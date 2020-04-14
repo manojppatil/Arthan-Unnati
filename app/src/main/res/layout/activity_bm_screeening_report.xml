@@ -96,7 +96,7 @@
         android:textColor="#ffffff"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="8.3sp"
-        android:text="Recommend to AA"
+        android:text="Recommend to BM"
         android:fontFamily="@font/lato_black"
         android:background="@drawable/bg_white_rectangle"
         android:backgroundTint="@color/colorPrimaryDark"

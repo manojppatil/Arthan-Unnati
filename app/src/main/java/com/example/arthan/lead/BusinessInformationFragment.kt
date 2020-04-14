@@ -124,6 +124,22 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             no_of_employee_count?.text = "$count"
             no_of_employee_count?.tag = count
         }
+        ll_partners?.findViewById<EditText>(R.id.et_dob)?.let { view ->
+            view.setOnClickListener {
+                val c = Calendar.getInstance()
+                DatePickerDialog(
+                    activity!!,
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                        val date =
+                            dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                        view.setText(date)
+                    },
+                    c.get(Calendar.YEAR),
+                    c.get(Calendar.MONTH),
+                    c.get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
+        }
 //        sb_no_of_employees?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 //            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 //                seek_bar_current_value?.text = if (progress > 0) {
@@ -464,6 +480,34 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
                     ll_partners?.addView(partnerView)
                 }
+            }else {
+                val partnerView = LayoutInflater.from(context)
+                    .inflate(R.layout.layout_partner_details, null, false)
+                partnerView?.findViewById<View?>(R.id.remove_button)?.let { view ->
+
+                    view.visibility = View.GONE
+                    view.setOnClickListener {
+                        ll_partners?.removeView(partnerView)
+                    }
+                }
+                partnerView?.findViewById<EditText>(R.id.et_dob)?.let { view ->
+                    view.setOnClickListener {
+                        val c = Calendar.getInstance()
+                        DatePickerDialog(
+                            activity!!,
+                            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                                val date =
+                                    dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                                view.setText(date)
+                            },
+                            c.get(Calendar.YEAR),
+                            c.get(Calendar.MONTH),
+                            c.get(Calendar.DAY_OF_MONTH)
+                        ).show()
+                    }
+                }
+
+                ll_partners?.addView(partnerView)
             }
         }
 
@@ -477,7 +521,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
                 any_associate_firm_switch.isChecked=true
             }
-           /* if (it.size > 1) {
+          /*  if (it.size > 1) {
                 for (index in 1 until it.size) {
                     val partnerView = LayoutInflater.from(context)
                         .inflate(R.layout.layout_partner_details, null, false)

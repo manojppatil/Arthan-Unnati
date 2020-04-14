@@ -12,6 +12,7 @@ import com.example.arthan.ocr.CardResponse
 import com.example.arthan.ocr.OcrRequest
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -123,6 +124,9 @@ interface ApiService {
 
     @GET("rest/GetMstr/getBMQueue/{bm_type}")
     suspend fun getBMQueue(@Path("bm_type") bmType: String?): Response<BMQueueResponseData>?
+
+     @GET("rest/GetMstr/getBCMQueue/{bm_type}")
+    suspend fun getBCMQueue(@Path("bm_type") bmType: String?): Response<BMQueueResponseData>?
 
     @POST("pd1")
     suspend fun savePD1(@Body body: PD1PostData?): Response<ResponseBody>?
@@ -260,11 +264,20 @@ interface ApiService {
     @GET("getRMApproved")
     suspend fun getRMApproved(@Query("rmId") rmId: String?): Response<RMApprovedCaseResponse>?
 
+    @GET("bmDecision")
+    suspend fun bmDecision(@Query("loanId") loanId: String?): Response<BMDecisionResponse>?
+
+    @GET("getBMApproved")
+    suspend fun getBMApproved(@Query("bmId") bmId: String?): Response<RMApprovedCaseResponse>?
+
     @GET("getCollateralMstr")
     suspend fun getCollateralMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
 
     @POST("rmRequestWaiver")
     suspend fun rmRequestWaiver(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+
+    @POST("bmRequestWaiver")
+    suspend fun bmRequestWaiver(@Body map: HashMap<String,String>): Response<BaseResponseData>?
 
     @POST("updateDeviations")
     suspend fun updateDeviations(@Body body: DeviationsResponseData):Response<BaseResponseData>

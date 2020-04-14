@@ -17,6 +17,7 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toFile
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.bm.model.FinalReportPostData
@@ -40,6 +41,7 @@ import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
@@ -168,17 +170,23 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
             R.id.btn_submit -> {
 
-                var rejection=""
+                var decision=""
                 if(intent.getStringExtra(STATUS).contains("reject",ignoreCase = true))
                 {
                     rejectReason.visibility=View.VISIBLE
-                   rejection= rejectReason.selectedItem.toString()
+                    decision= rejectReason.selectedItem.toString()
+                }
+                else if(intent.getStringExtra(STATUS).contains("Approve",ignoreCase = true))
+                {
+                    rejectReason.visibility=View.GONE
+                    decision="Approve"
+
                 }
                 var map=FinalReportPostData(
                     intent.getStringExtra("loanId"),
                     intent.getStringExtra("custId"),
                     intent.getStringExtra(STATUS),
-                    rejection,
+                    decision,
                     et_reason.text.toString(),
                     "",
                     sanctionList
@@ -196,23 +204,27 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
                           startActivity(Intent(
                               this@SubmitFinalReportActivity,
-                              PendingCustomersActivity::class.java
+                              BMDashboardActivity::class.java
                           ).apply {
                               putExtra("FROM", "BM")
                           })
-                          Toast.makeText(
-                              this@SubmitFinalReportActivity,
-                              "Please try again later",
-                              Toast.LENGTH_LONG
-                          ).show()
-                          finish()
+                          withContext(Dispatchers.Main) {
+                              Toast.makeText(
+                                  this@SubmitFinalReportActivity,
+                                  "Please try again later",
+                                  Toast.LENGTH_LONG
+                              ).show()
+                              finish()
+                          }
 
                       } else {
-                          Toast.makeText(
-                              this@SubmitFinalReportActivity,
-                              "Please try again later",
-                              Toast.LENGTH_LONG
-                          ).show()
+                          withContext(Dispatchers.Main) {
+                              Toast.makeText(
+                                  this@SubmitFinalReportActivity,
+                                  "Please try again later",
+                                  Toast.LENGTH_LONG
+                              ).show()
+                          }
                       }
                   }
 
@@ -223,27 +235,32 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                       )
 
                       val result = respo.body()
-                      if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
-                          Toast.makeText(
-                              this@SubmitFinalReportActivity,
-                              "Case is Successfully submitted to BCM",
-                              Toast.LENGTH_LONG
-                          ).show()
+                      withContext(Dispatchers.Main) {
+                          if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+                              Toast.makeText(
+                                  this@SubmitFinalReportActivity,
+                                  "Case is Successfully submitted to BCM",
+                                  Toast.LENGTH_LONG
+                              ).show()
 
-                          startActivity(Intent(
-                              this@SubmitFinalReportActivity,
-                              PendingCustomersActivity::class.java
-                          ).apply {
-                              putExtra("FROM", "BM")
-                          })
-                          finish()
+                              startActivity(Intent(
+                                  this@SubmitFinalReportActivity,
+                                  BCMDashboardActivity::class.java
+                              ).apply {
+                                  putExtra("FROM", "BCM")
+                              })
+                              finish()
 
-                      } else {
-                          Toast.makeText(
-                              this@SubmitFinalReportActivity,
-                              "Please try again later",
-                              Toast.LENGTH_LONG
-                          ).show()
+                          } else {
+                              withContext(Dispatchers.Main) {
+                                  Toast.makeText(
+                                      this@SubmitFinalReportActivity,
+                                      "Please try again later",
+                                      Toast.LENGTH_LONG
+                                  ).show()
+                              }
+                          }
+
                       }
                   }
 

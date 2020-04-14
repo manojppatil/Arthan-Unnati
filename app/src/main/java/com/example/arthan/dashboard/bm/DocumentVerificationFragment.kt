@@ -123,11 +123,11 @@ class DocumentVerificationFragment : BaseFragment() {
             var mCustomerId=actvity.intent.getStringExtra(ArgumentKey.CustomerId)
             var list=ArrayList<DocumentsData>()
 
-            list.add(DocumentsData("","aadhar_front",docUrl = docDetails?.aadharFrontUrl,docStatus = isAdhaarFrontApproved))
-            list.add(DocumentsData("","aadhar_back",docDetails?.aadharBackUrl,isAdhaarBackApproved))
-            list.add(DocumentsData("","voter",docDetails?.voterUrl,isVoterApproved))
-            list.add(DocumentsData("","pan",docDetails?.panUrl,isPanApproved))
-            list.add(DocumentsData("","paApplicantPhoto",docDetails?.paApplicantPhoto,isApplicantpproved))
+            list.add(DocumentsData("","aadhar_front",docUrl = docDetails?.aadharFrontUrl,docStatus = isAdhaarFrontApproved.toString()))
+            list.add(DocumentsData("","aadhar_back",docDetails?.aadharBackUrl,isAdhaarBackApproved.toString()))
+            list.add(DocumentsData("","voter",docDetails?.voterUrl,isVoterApproved.toString()))
+            list.add(DocumentsData("","pan",docDetails?.panUrl,isPanApproved.toString()))
+            list.add(DocumentsData("","paApplicantPhoto",docDetails?.paApplicantPhoto,isApplicantpproved.toString()))
             val postBody = DocScreeningStatusPost(
                 loanId = mLoanId,
                 custId = mCustomerId,

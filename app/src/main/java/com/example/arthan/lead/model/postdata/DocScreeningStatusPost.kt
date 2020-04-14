@@ -11,6 +11,6 @@ data class DocScreeningStatusPost(
      val docId:String,
      val docName:String,
      val docUrl:String?,
-     val docStatus:Boolean
+     val docStatus:String
 
  )

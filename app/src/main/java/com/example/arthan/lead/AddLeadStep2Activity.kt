@@ -68,7 +68,6 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 }, RequestCode.ApplicantPhoto)
             }
             R.id.btn_next -> {
-                Toast.makeText(this,"Case is Successfully submitted to BM",Toast.LENGTH_LONG).show()
                 startActivity(Intent(this, PersonalInformationActivity::class.java).also {
                     it.putExtra("PAN_DATA", mKYCPostData)
                     it.putExtra("APPLICANT_PHOTO",applicantPhoto)

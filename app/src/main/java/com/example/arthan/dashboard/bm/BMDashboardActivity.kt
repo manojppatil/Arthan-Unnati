@@ -8,7 +8,9 @@ import com.example.arthan.dashboard.rm.*
 import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.NotificationActivity
+import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_bm_dashboard.*
+import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 
 class BMDashboardActivity : BaseActivity(), OnClickListener {
 
@@ -30,6 +32,11 @@ class BMDashboardActivity : BaseActivity(), OnClickListener {
 
         img_notification.setOnClickListener {
             startActivity(Intent(this, NotificationActivity::class.java))
+        }
+        logoutIv.visibility=View.VISIBLE
+        logoutIv.setOnClickListener {
+            startActivity(Intent(this@BMDashboardActivity, SplashActivity::class.java))
+            finish()
         }
     }
 

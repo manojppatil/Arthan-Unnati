@@ -79,7 +79,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
         CoroutineScope(ioContext).launch {
             try {
                 val apiResponse = RetrofitFactory.getApiService()
-                    .getCustomer360Details(intent.getStringExtra(ArgumentKey.LoanId))
+                    .getCustomer360Details(intent.getStringExtra("loanId"))
                 if (apiResponse?.isSuccessful == true) {
                     mCustomer360Data = apiResponse.body()
                     setDataToFields(mCustomer360Data)

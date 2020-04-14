@@ -182,19 +182,24 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
 
-            <CheckBox
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Trigger RLT W/O Fee"
                 android:layout_marginBottom="12dp"
+                android:checked="true"
                 android:id="@+id/rltPD3WOCheckBox"
                 />
-            <CheckBox
+            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Trigger RLT With Fee"
                 android:layout_marginBottom="12dp"
                 android:id="@+id/rltWFeePD3CheckBox"/>
+            </RadioGroup>
         </LinearLayout>
 
         <Button

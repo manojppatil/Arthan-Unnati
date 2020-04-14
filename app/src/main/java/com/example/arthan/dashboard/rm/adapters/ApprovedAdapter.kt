@@ -7,15 +7,13 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.ApprovedCustomerLegalStatusActivity
 import com.example.arthan.model.ApprovedCaseData
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ProgrssLoader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,6 +41,14 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
 
                         })
                     }
+
+                    root.findViewById<Button>(R.id.btn_rcu).visibility=View.GONE
+                    root.findViewById<Button>(R.id.btn_legal).visibility=View.GONE
+                    root.findViewById<Button>(R.id.btn_tech).visibility=View.GONE
+                    root.findViewById<TextView>(R.id.txt_fee_paid).visibility=View.GONE
+                    root.findViewById<Button>(R.id.btn_collect_fees).visibility=View.GONE
+                    root.findViewById<Button>(R.id.btn_requestWaiver).visibility=View.VISIBLE
+                    root.findViewById<ImageView>(R.id.iv_generate).visibility=View.GONE
                 }
                 else -> {
                     root.setOnClickListener(null)
@@ -56,34 +62,61 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                     var dailog:AlertDialog?=null
                     root.findViewById<Button>(R.id.btn_collect_fees).visibility=View.VISIBLE
                     root.findViewById<Button>(R.id.btn_requestWaiver).visibility=View.VISIBLE
-                    root.findViewById<Button>(R.id.btn_requestWaiver).setOnClickListener {
+                    }
 
-                        var layoutInflater :LayoutInflater=context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                        var view=layoutInflater.inflate(R.layout.remarks_popup,null)
-                         dailog=AlertDialog.Builder(context).setView(view).create()
-                        dailog!!.show()
-                        var etRemark=view.findViewById<EditText>(R.id.et_remark)
-                        var btnSubmit=view.findViewById<Button>(R.id.btn_submit)
-                        btnSubmit.setOnClickListener {
+            }
+            root.findViewById<Button>(R.id.btn_requestWaiver).setOnClickListener {
 
-                            dailog!!.dismiss()
-                            CoroutineScope(Dispatchers.IO).launch {
-                                var map = HashMap<String, String>()
-                                map["loanId"] =data[position].caseId
-                                    map["remarks"] =etRemark.text.toString()
-                                    map["eId"] ="RM1"
-                                var res = RetrofitFactory.getApiService().rmRequestWaiver(map)
-                                if(res?.body()!=null)
-                                {
+                var layoutInflater: LayoutInflater =
+                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                var view = layoutInflater.inflate(R.layout.remarks_popup, null)
+                val dailog = AlertDialog.Builder(context).setView(view).create()
+                dailog!!.show()
+                var etRemark = view.findViewById<EditText>(R.id.et_remark)
+                var btnSubmit = view.findViewById<Button>(R.id.btn_submit)
+                btnSubmit.setOnClickListener {
 
-                                    Toast.makeText(context,"Request successful",Toast.LENGTH_LONG).show()
+                    val progressLoader = ProgrssLoader(context)
+                    progressLoader.showLoading()
+                    dailog!!.dismiss()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        if (from == "RM") {
+
+                            var map = HashMap<String, String>()
+                            map["loanId"] = data[position].caseId
+                            map["remarks"] = etRemark.text.toString()
+                            map["eId"] = "RM1"
+                            var res = RetrofitFactory.getApiService().rmRequestWaiver(map)
+                            if (res?.body() != null) {
+                                withContext(Dispatchers.Main) {
+                                    progressLoader.dismmissLoading()
+                                    Toast.makeText(context, "Request successful", Toast.LENGTH_LONG)
+                                        .show()
                                 }
                             }
+                        } else if (from == "BM") {
+                            var map = HashMap<String, String>()
+                            map["loanId"] = data[position].caseId
+                            map["remarks"] = etRemark.text.toString()
+                            map["eId"] = "bm"
+                            var res = RetrofitFactory.getApiService().bmRequestWaiver(map)
+                            if (res?.body() != null) {
+                                withContext(Dispatchers.Main) {
+                                    progressLoader.dismmissLoading()
+
+                                    Toast.makeText(context, "Request successful", Toast.LENGTH_LONG)
+                                        .show()
+                                }
+                            }
+
                         }
+                        val btnCancel = view.findViewById<Button>(R.id.btn_cancel)
+                        btnCancel.setOnClickListener { dailog.dismiss() }
                     }
                 }
             }
-            root.findViewById<TextView>(R.id.txt_case_id).text= "CaseId: ${data[position].caseId}"
+
+                root.findViewById<TextView>(R.id.txt_case_id).text= "CaseId: ${data[position].caseId}"
             root.findViewById<TextView>(R.id.txt_customer_name).text= "Customer Name: ${data[position].name}"
             root.findViewById<TextView>(R.id.txt_amount).text= "Approved Amount: ${data[position].approvedAmt}"
             root.findViewById<TextView>(R.id.txt_tenure).text= "Tenure: ${data[position].tenure}"
@@ -96,7 +129,7 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
             var btnLegal=root.findViewById<Button>(R.id.btn_legal)
             var btnTech=root.findViewById<Button>(R.id.btn_tech)
 
-            if(from=="BM"||from=="BCM") {
+            if((from=="BM"||from=="BCM")&&data[position].rcuStatus!=null) {
                 if (data[position].rcuStatus.toString().contentEquals("Y")) {
                     btnRcu.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
                     btnRcu.setTextColor(Color.WHITE)

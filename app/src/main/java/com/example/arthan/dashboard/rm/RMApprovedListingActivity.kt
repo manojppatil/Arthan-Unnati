@@ -28,7 +28,7 @@ class RMApprovedListingActivity : AppCompatActivity() {
     }
 
     private fun loadApprovedList(){
-        mViewModel.loadApprovedList().observe(this, Observer { data->
+        mViewModel.loadApprovedList(intent.getStringExtra("FROM")).observe(this, Observer { data->
             if(data.isNullOrEmpty()){
                 Toast.makeText(this,"No Record Found", Toast.LENGTH_SHORT).show()
             } else {

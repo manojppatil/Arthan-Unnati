@@ -99,6 +99,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             }
                             RequestCode.AadharCard -> {
                                 captureCardInfoAsync(it, CardType.AadharCardFront)
+                            } RequestCode.PFP -> {
+                                captureCardInfoAsync(it, CardType.PFP)
                             }
                             else -> {
                                 null
@@ -186,6 +188,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             RequestCode.AadharCard -> "Aadhar Card"
             RequestCode.VoterCard -> "Voter ID"
             RequestCode.ApplicantPhoto -> "Applicant Photo"
+            RequestCode.PFP -> "Profile firm and promoters"
             else -> ""
         }
         txt_msg.text =
@@ -208,6 +211,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             }
             RequestCode.ApplicantPhoto -> {
                 resultIntent.putExtra(ArgumentKey.ApplicantPhoto, mCardData)
+            } RequestCode.PFP -> {
+                resultIntent.putExtra(ArgumentKey.ApplicantPhoto, mCardData)
             }
         }
         setResult(Activity.RESULT_OK, resultIntent)
@@ -228,7 +233,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN.jpg"
                     RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT.jpg"
                     RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR.jpg"
-                    PFP -> "${dir.absolutePath}/PFP.jpg"
+                    RequestCode.PFP -> "${dir.absolutePath}/PFP.jpg"
                     else -> "${dir.absolutePath}/IMG_VOTER.jpg"
                 }
             )
@@ -239,7 +244,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                MyProfileActivity.PICK_IMAGE, RequestCode.PanCard, RequestCode.VoterCard, RequestCode.ApplicantPhoto, RequestCode.AadharFrontCard -> {
+                MyProfileActivity.PICK_IMAGE, RequestCode.PanCard, RequestCode.PFP, RequestCode.VoterCard, RequestCode.ApplicantPhoto, RequestCode.AadharFrontCard -> {
                     if (data?.hasExtra(ArgumentKey.FilePath) == true) {
                         mFrontImagePath = data?.getStringExtra(ArgumentKey.FilePath)
                         loadImage(mFrontImagePath, img_document_front)
@@ -326,19 +331,21 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 }
                 if (response != null && response.isSuccessful) {
                     mCardData = response.body()
-                    if (mCardData != null) {
-                        if (cardType == CardType.PANCard) {
-                            verifyCardDataAsync(filePath, cardType).await()
-                        } else {
-                            uploadToS3(filePath, cardType)
-                        }
-                    } else
-                        Toast.makeText(
-                            this@UploadDocumentActivity,
-                            "Please Try again...",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                } else
+                    withContext(Dispatchers.Main) {
+                        if (mCardData != null) {
+                            if (cardType == CardType.PANCard) {
+                                verifyCardDataAsync(filePath, cardType).await()
+                            } else {
+                                uploadToS3(filePath, cardType)
+                            }
+                        } else
+                            Toast.makeText(
+                                this@UploadDocumentActivity,
+                                "Please Try again...",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                    }
+                }else
                     Toast.makeText(
                         this@UploadDocumentActivity,
                         "Please Try again...",
@@ -480,6 +487,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     }
                     CardType.ApplicantPhoto -> {
                         "_PHOTO"
+                    }CardType.PFP -> {
+                        "_PFP"
                     }
                 }
                 }.${File(filePath).extension}"
@@ -538,4 +547,5 @@ sealed class CardType {
     object AadharCardBack : CardType()
     object VoterIdCard : CardType()
     object ApplicantPhoto : CardType()
+    object PFP : CardType()
 }

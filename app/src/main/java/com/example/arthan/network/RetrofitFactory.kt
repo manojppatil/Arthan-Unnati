@@ -17,6 +17,7 @@ object RetrofitFactory {
     private const val PAN_VERIFY_SERVICE_BASE_URL = "https://cloudapi.accuauth.com/verify/"
     private const val NET_BANKING_BASE_URL = "http://mycomp:8080/comp/api/"
     private const val SERVER_URL = "http://13.233.169.214:8080"
+//    private const val SERVER_URL = "https://www.glairo.com"
     private const val API_BASE_URL = "$SERVER_URL/artlos/"
     private const val MASTER_API_BASE_URL = "$SERVER_URL/JerseyDemos/"
 

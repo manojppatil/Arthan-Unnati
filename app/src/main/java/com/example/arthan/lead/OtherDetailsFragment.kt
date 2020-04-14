@@ -59,7 +59,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         mCustomerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
 
         loadInitialData()
-        if(activity?.intent?.extras?.getString("FROM").equals("BCM"))
+        if(activity?.intent?.extras?.getString("FROM").equals("BCM")||activity?.intent?.extras?.getString("FROM").equals("BM"))
         {
             bcmCheckBoxes.visibility=View.VISIBLE
         }else
@@ -197,68 +197,70 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
         btn_save_continue?.setOnClickListener {
 
-            var dialog=AlertDialog.Builder(activity)
-            var view:View?=activity?.layoutInflater?.inflate(R.layout.remarks_popup,null)
-            dialog.setView(view)
-            var et_remarks=view?.findViewById<EditText>(R.id.et_remark)?.text.toString()
-            var btn_submit_remark=view?.findViewById<Button>(R.id.btn_submit)
-            btn_submit_remark?.setOnClickListener {
-                var map = HashMap<String, String>()
-                map.put("loanId", mLoanId!!)
-                map.put("custId", mCustomerId!!)
-                map.put("remarks", et_remarks)
-                map.put("rltWOValue",rltWFeeCheckBox.isChecked.toString())
-                map.put("rltWFeeValue",rltWFeeCheckBox.isChecked.toString())
+            if(activity?.intent?.getStringExtra("FROM")=="BM") {
+                var dialog = AlertDialog.Builder(activity)
+                var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
+                dialog.setView(view)
+                var et_remarks = view?.findViewById<EditText>(R.id.et_remark)?.text.toString()
+                var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+                btn_submit_remark?.setOnClickListener {
+                    var map = HashMap<String, String>()
+                    map["loanId"] = mLoanId!!
+                    map["custId"] = mCustomerId!!
+                    map["remarks"] = et_remarks
+                    map["rltWOValue"] = ""+rltWOCheckBox.isChecked
+                    map["rltWFeeValue"] = ""+rltWFeeCheckBox.isChecked
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    val respo = RetrofitFactory.getApiService().updateOtherDetails(
-                        map
-                    )
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val respo = RetrofitFactory.getApiService().updateOtherDetails(
+                            map
+                        )
 
-                    val result = respo.body()
-                    if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+                        val result = respo.body()
+                        if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
 
-                        if(result?.discrepancy.equals("y",ignoreCase = true))
-                        {
-                            startActivity(
-                                Intent(
-                                    activity,
-                                    PendingCustomersActivity::class.java
-                                ).apply {
-                                    putExtra("FROM", "BM")
-                                })
-                        }else
-                        {
-                            val intent = Intent(activity, BMScreeningReportActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(intent)
+                            if (result?.discrepancy.equals("y", ignoreCase = true)) {
+                                startActivity(
+                                    Intent(
+                                        activity,
+                                        PendingCustomersActivity::class.java
+                                    ).apply {
+                                        putExtra("FROM", "BM")
+                                    })
+                            } else {
+                                val intent = Intent(activity, BMScreeningReportActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(intent)
+                            }
+
+                        } else {
+                            Toast.makeText(activity, "Please try again later", Toast.LENGTH_LONG)
+                                .show()
                         }
-
-                    } else {
-                        Toast.makeText(activity, "Please try again later", Toast.LENGTH_LONG).show()
                     }
                 }
-            }
 
 
-//            dialog.create().show()
-            if (navController != null) {
-                val progressLoader: ProgrssLoader? =
-                    if (context != null) ProgrssLoader(context!!) else null
-                progressLoader?.showLoading()
-                launch(ioContext) {
-                    val isTradeReferenceSaved = saveTradeReferenceDataAsync().await()
-                    val isNeighbourReferenceSaved = saveNeighbourReferenceAsync().await()
-                    val isCollateralSaved = saveCollateralDataAsync().await()
-                    if (isCollateralSaved && isNeighbourReferenceSaved && isTradeReferenceSaved) {
-                        withContext(uiContext) {
-                            progressLoader?.dismmissLoading()
-                            val intent = Intent(activity, DocumentActivity::class.java)
-                            intent.putExtra("loanId",mLoanId)
-                            intent.putExtra("custId",mCustomerId)
-                            startActivity(intent)
+                dialog.create().show()
+            }else {
+                if (navController != null) {
+                    val progressLoader: ProgrssLoader? =
+                        if (context != null) ProgrssLoader(context!!) else null
+                    progressLoader?.showLoading()
+                    launch(ioContext) {
+                        val isTradeReferenceSaved = saveTradeReferenceDataAsync().await()
+                        val isNeighbourReferenceSaved = saveNeighbourReferenceAsync().await()
+                        val isCollateralSaved = saveCollateralDataAsync().await()
+                        if (isCollateralSaved && isNeighbourReferenceSaved && isTradeReferenceSaved) {
+                            withContext(uiContext) {
+                                progressLoader?.dismmissLoading()
+                                val intent = Intent(activity, DocumentActivity::class.java)
+                                intent.putExtra("loanId", mLoanId)
+                                intent.putExtra("custId", mCustomerId)
+                                startActivity(intent)
 
 
+                            }
                         }
                     }
                 }
@@ -415,7 +417,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         updateData(
                             responseBody?.neighborRefDetails,
                             responseBody?.tradeRefDetails,
-                            responseBody?.collateralDetails
+                            responseBody?.collateralDetails,
+                            arguments?.getString("loanId")
                         )
                         progressLoader?.dismmissLoading()
                     }
@@ -653,9 +656,10 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
     fun updateData(
         neighborReference: List<NeighborReference>?,
         tradeRefDetails: List<TradeRefDetail>?,
-        collateralDetails: CollateralDetails?
+        collateralDetails: CollateralDetails?,
+        loanId: String?
     ) {
-        mLoanId = collateralDetails?.loanId
+        mLoanId = loanId
         if ((neighborReference?.size ?: 0) > 0) {
             mCustomerId = neighborReference?.get(0)?.customerId
             neighbour_reference_1_name_input?.setText(neighborReference?.get(0)?.name)

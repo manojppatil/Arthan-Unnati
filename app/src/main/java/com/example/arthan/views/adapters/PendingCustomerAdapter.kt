@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
@@ -15,8 +16,15 @@ import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.bm.Customer360Activity
 import com.example.arthan.model.Customer
+import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.getPixelFromDP
 import com.example.arthan.utils.getRupeeSymbol
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
 
 class PendingCustomerAdapter(private val mContext: Context, private val from: String) :
     RecyclerView.Adapter<PendingCustomerAdapter.PendingCustomerVH>() {
@@ -156,15 +164,60 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
             }
 
             root.findViewById<ConstraintLayout>(R.id.cl_take_decision).setOnClickListener {
-                mContext.startActivity(Intent(mContext, BMScreeningReportActivity::class.java).apply {
-                    putExtra("indSeg",customer.indSeg)
-                    putExtra("loginDate",customer.loginDate)
-                    putExtra("loanId",customer.loanId)
-                    putExtra("loanAmt",customer.loanAmt)
-                    putExtra("cname",customer.customerName)
-                    putExtra("custId",customer.customerId)
 
-                })
+                if(from=="BM") {
+                    val progressLoader = ProgrssLoader(mContext)
+                    progressLoader.showLoading()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val res = RetrofitFactory.getApiService().bmDecision(customer.loanId)
+                        if (res?.body() != null) {
+                            progressLoader.dismmissLoading()
+
+                            val canDecide= res.body()!!.canDecide
+                            withContext(Dispatchers.Main) {
+                                if (canDecide == "N") {
+
+                                    Toast.makeText(mContext,"Please verify Documents & Data before taking a decision",Toast.LENGTH_LONG).show()
+                                } else {
+                                    mContext.startActivity(
+                                        Intent(
+                                            mContext,
+                                            BMScreeningReportActivity::class.java
+                                        ).apply {
+                                            putExtra("indSeg", customer.indSeg)
+                                            putExtra("loginDate", customer.loginDate)
+                                            putExtra("loanId", customer.loanId)
+                                            putExtra("loanAmt", customer.loanAmt)
+                                            putExtra("cname", customer.customerName)
+                                            putExtra("custId", customer.customerId)
+                                            putExtra("FROM", "BM")
+
+                                        })
+                                }
+                            }
+                        }else
+                        {
+                            progressLoader.dismmissLoading()
+                        }
+                    }
+                }else
+                {
+                    mContext.startActivity(
+                        Intent(
+                            mContext,
+                            BMScreeningReportActivity::class.java
+                        ).apply {
+                            putExtra("indSeg", customer.indSeg)
+                            putExtra("loginDate", customer.loginDate)
+                            putExtra("loanId", customer.loanId)
+                            putExtra("loanAmt", customer.loanAmt)
+                            putExtra("cname", customer.customerName)
+                            putExtra("custId", customer.customerId)
+                            putExtra("FROM", from)
+
+                        })
+                }
+
 
             }
 

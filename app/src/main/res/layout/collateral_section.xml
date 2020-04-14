@@ -10,10 +10,22 @@
         android:orientation="vertical"
         android:layout_margin="16dp"
         >
+
+        <TextView
+            android:id="@+id/collateral_property_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Collateral Property Details"
+            android:textStyle="bold"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Security Type"
+            android:layout_marginTop="24dp"
+            android:textStyle="bold"
 
             android:layout_marginLeft="8dp"/>
         <Spinner
@@ -26,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Security SubType"
+            android:textStyle="bold"
 
             android:layout_marginLeft="8dp"/>
         <Spinner
@@ -38,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Immovable SubType"
+            android:textStyle="bold"
 
             android:id="@+id/immsubHead"
             android:visibility="gone"
@@ -64,6 +78,7 @@
             android:text="Plot Type:"
             android:textColor="#000"
             android:layout_marginTop="8dp"
+            android:textStyle="bold"
 
             android:layout_marginLeft="8dp"/>
         <RadioGroup
@@ -101,6 +116,8 @@
             android:text="NAMUNA 8A Property Type:"
             android:layout_marginTop="8dp"
             android:textColor="#000"
+            android:textStyle="bold"
+
             android:layout_marginLeft="8dp"/>
         <RadioGroup
             android:layout_width="match_parent"
@@ -113,14 +130,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="BOUNDARY"
+                android:text="Online"
                 android:id="@+id/rb_online"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
-                android:text="NO BOUNDARY"
+                android:text="Offline"
                 android:id="@+id/rb_offline"/>
         </RadioGroup>
         </LinearLayout>
@@ -129,6 +146,7 @@
             android:layout_height="wrap_content"
             android:text="Occupied By"
             android:layout_marginTop="8dp"
+            android:textStyle="bold"
 
             android:layout_marginLeft="8dp"/>
         <Spinner
@@ -140,6 +158,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nature of Doc"
+            android:textStyle="bold"
 
             android:layout_marginLeft="8dp"/>
         <Spinner
@@ -151,6 +170,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Type of Doc"
+            android:textStyle="bold"
 
             android:layout_marginLeft="8dp"/>
         <Spinner
@@ -175,6 +195,7 @@
                 android:layout_height="wrap_content"
                 android:text="Doc Status"
                 android:layout_marginLeft="8dp"
+                android:textStyle="bold"
 
                 android:textColor="#000"
                />
