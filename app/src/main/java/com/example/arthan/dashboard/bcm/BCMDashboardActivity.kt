@@ -1,7 +1,10 @@
 package com.example.arthan.dashboard.bcm
 
 import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.InProgressListingActivity
 import com.example.arthan.dashboard.rm.RMApprovedListingActivity
@@ -29,7 +32,7 @@ class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
         btn_filter.visibility=View.GONE
         logoutIv.visibility=View.VISIBLE
 
-
+       setSupportActionBar(layout_toolbar as Toolbar?)
         img_notification.setOnClickListener {
             startActivity(Intent(this, NotificationActivity::class.java))
         }
@@ -41,6 +44,7 @@ class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
         cv_reassign_to.setOnClickListener(this)
         cv_reassigned_by.setOnClickListener(this)
         cv_disbursed.setOnClickListener(this)
+        logoutIv.visibility=View.GONE
         logoutIv.setOnClickListener {
             startActivity(Intent(this@BCMDashboardActivity, SplashActivity::class.java))
             finish()
@@ -100,5 +104,28 @@ class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
                 )
             )
         }
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+
+        menuInflater.inflate(R.menu.more,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.homeMenu->{
+                finish()
+
+            }
+            R.id.logoutMenu->
+            {
+                finish()
+                startActivity(Intent(this, SplashActivity::class.java))
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

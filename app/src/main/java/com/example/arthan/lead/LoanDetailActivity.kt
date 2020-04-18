@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
@@ -21,6 +23,7 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.getRupeeSymbol
+import com.example.arthan.views.activities.SplashActivity
 
 class LoanDetailActivity : BaseActivity(), CoroutineScope {
 
@@ -256,6 +259,10 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             securityJurisdiction = security_jurisdiction_spinner?.selectedItem as? String ?: "",
             propertyValue = property_value_input?.text?.toString() ?: "",
             turnover = business_turnover_input?.text?.toString() ?: "",
+            turnoverFreq=when(rb_monthly.isChecked){
+                true->"Monthly"
+                false->"Yearly"
+            },
             netprofitMargin = net_profit_margin_input?.text?.toString() ?: "",
             existingLoan = existing_loan_input?.text?.toString() ?: "",
             existingLoanObligationPm = existing_loan_obligation_input?.text?.toString() ?: "",
@@ -392,5 +399,28 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             context?.startActivity(Intent(context, LoanDetailActivity::class.java).apply {
                 putExtra(ArgumentKey.LeadId, leadId)
             })
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+
+        menuInflater.inflate(R.menu.more,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.homeMenu->{
+                finish()
+
+            }
+            R.id.logoutMenu->
+            {
+                finish()
+                startActivity(Intent(this, SplashActivity::class.java))
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

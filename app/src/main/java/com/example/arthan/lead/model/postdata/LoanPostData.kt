@@ -9,6 +9,7 @@ data class LoanPostData(
     var securityJurisdiction: String? = "",
     var propertyValue: String? = "",
     var turnover: String? = "",
+    var turnoverFreq: String? = "",
     var netprofitMargin: String? = "",
     var existingLoan: String? = "",
     var existingLoanObligationPm: String? = "",

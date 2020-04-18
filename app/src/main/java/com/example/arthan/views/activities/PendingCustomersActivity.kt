@@ -3,8 +3,11 @@ package com.example.arthan.views.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.example.arthan.R
 import com.example.arthan.lead.model.responsedata.BMQueueResponseData
 import com.example.arthan.network.RetrofitFactory
@@ -33,6 +36,7 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bcm_pending_customers)
 
+        setSupportActionBar(toolbar as Toolbar?)
         back_button?.setOnClickListener { onBackPressed() }
         toolbar_title?.text = getString(R.string.pending_placeholder, 31)
 
@@ -121,7 +125,29 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
             }
         }
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
+
+        menuInflater.inflate(R.menu.more,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.homeMenu->{
+                finish()
+
+            }
+            R.id.logoutMenu->
+            {
+                finish()
+                startActivity(Intent(this, SplashActivity::class.java))
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
     companion object {
         fun startMe(context: Context?, from: String) =
             context?.startActivity(Intent(context, PendingCustomersActivity::class.java).apply {

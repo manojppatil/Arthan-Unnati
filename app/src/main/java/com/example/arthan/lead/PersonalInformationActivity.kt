@@ -1,5 +1,8 @@
 package com.example.arthan.lead
 
+import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
@@ -13,6 +16,7 @@ import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.dateSelection
 import com.example.arthan.views.activities.BaseActivity
+import com.example.arthan.views.activities.SplashActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_personal_information.*
 import kotlinx.coroutines.*
@@ -352,6 +356,28 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             }
             return@async true
         }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
+
+        menuInflater.inflate(R.menu.more,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.homeMenu->{
+                finish()
+
+            }
+            R.id.logoutMenu->
+            {
+                finish()
+                startActivity(Intent(this, SplashActivity::class.java))
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
     override fun screenTitle() = "Personal Details"
 }

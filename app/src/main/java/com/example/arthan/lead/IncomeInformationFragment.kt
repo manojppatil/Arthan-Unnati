@@ -3,6 +3,8 @@ package com.example.arthan.lead
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -42,6 +44,9 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
 import java.io.File
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener,
@@ -87,6 +92,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
     private var mLoanId: String? = null
     private var mCustomerId: String? = null
 
+    private var sourceInceomeAdapter:DataSpinnerAdapter?=null
     override fun init() {
 
         navController =
@@ -122,7 +128,24 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         }
 
         et_from?.setOnClickListener { dateSelection(context!!, et_from) }
-        et_to?.setOnClickListener { dateSelection(context!!, et_to) }
+        et_to?.setOnClickListener {
+
+            val c = Calendar.getInstance()
+            DatePickerDialog(
+                context!!,
+                DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                    val date= dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                    if( SimpleDateFormat("dd-MM-yyyy").parse(date).after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString())))
+                       et_to.setText(date)
+                    else
+                        Toast.makeText(activity,"Please select date greater than from date",Toast.LENGTH_LONG).show()
+                },
+                c.get(Calendar.YEAR),
+                c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH)
+            ).show()
+
+        }
         getRupeeSymbol(
             context,
             grocery_expenditure_input?.textSize ?: 14f,
@@ -292,7 +315,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 LayoutInflater.from(activity!!).inflate(R.layout.layout_income_source, null, false)
             partnerView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
                 ll_income_source?.removeView(partnerView)
+
             }
+            partnerView?.findViewById<Spinner>(R.id.source_of_income_input)?.adapter=sourceInceomeAdapter
+
             partnerView?.findViewById<TextView?>(R.id.income_per_month_input)?.let { tv ->
                 tv.setCompoundDrawablesWithIntrinsicBounds(
                     getRupeeSymbol(
@@ -329,10 +355,22 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             loanView.findViewById<AppCompatSpinner?>(R.id.spnr_loan_type)?.onItemSelectedListener =
                 mOnLoanTypeItemSelectedListener
             loanView?.findViewById<View?>(R.id.et_to)?.setOnClickListener {
-                dateSelection(
-                    context!!,
-                    loanView.findViewById<EditText?>(R.id.et_to)
-                )
+
+                val c = Calendar.getInstance()
+                    DatePickerDialog(
+                        context!!,
+                        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                            val date= dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                            if( SimpleDateFormat("dd-MM-yyyy").parse(date).after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString())))
+                            loanView.findViewById<EditText>(R.id.et_to)?.setText(date)
+                            else
+                                Toast.makeText(activity,"Please select date greater than from date",Toast.LENGTH_LONG).show()
+                        },
+                        c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH),
+                        c.get(Calendar.DAY_OF_MONTH)
+                    ).show()
+
             }
             ll_loan_details.addView(loanView)
         }
@@ -344,15 +382,24 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         family_members_count?.tag = 0
         family_members_plus_button?.setOnClickListener {
             updateCount(UpdateCountType.Increment, family_members_count)
+
         }
         family_members_minus_button?.setOnClickListener {
+            if((no_of_earning_family_member_count.tag as Int) <= (family_members_count.tag as Int))
+            {
+                Toast.makeText(activity,"Earning count should be less than Family count",Toast.LENGTH_LONG).show()
+
+            }else
             updateCount(UpdateCountType.Decrement, family_members_count)
         }
 
         no_of_earning_family_member_count?.tag = 0
         no_of_earning_family_member_count.text = "0"
         no_of_earning_family_member_plus_button?.setOnClickListener {
+            if((family_members_count.tag as Int)>(no_of_earning_family_member_count.tag as Int))
             updateCount(UpdateCountType.Increment, no_of_earning_family_member_count)
+            else
+                Toast.makeText(activity,"Earning count should be less than Family count",Toast.LENGTH_LONG).show()
         }
         no_of_earning_family_member_minus_button?.setOnClickListener {
             updateCount(UpdateCountType.Decrement, no_of_earning_family_member_count)
@@ -453,15 +500,16 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         }
     }
 
+
     private fun saveBusinessData() {
         val progressBar = ProgrssLoader(context ?: return)
         progressBar.showLoading()
         val sourceOfIncomeList: MutableList<Income> = mutableListOf()
-        if (income_per_month_input?.text?.isNotEmpty() == true && source_of_income_input?.text?.isNotEmpty() == true) {
-            sourceOfIncomeList?.add(
+        if (income_per_month_input?.text?.isNotEmpty() == true && source_of_income_input?.selectedItem.toString().isNotEmpty()) {
+            sourceOfIncomeList.add(
                 Income(
                     incomePerMonth = income_per_month_input?.text?.toString(),
-                    incomeSource = source_of_income_input?.text?.toString()
+                    incomeSource = source_of_income_input?.selectedItem.toString()
                 )
             )
 
@@ -471,7 +519,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     sourceOfIncomeList.add(
                         Income(
                             incomePerMonth = sourceOfIncome?.findViewById<TextInputEditText?>(R.id.income_per_month_input)?.text?.toString(),
-                            incomeSource = sourceOfIncome?.findViewById<TextInputEditText?>(R.id.source_of_income_input)?.text?.toString()
+                            incomeSource = source_of_income_input?.selectedItem.toString()
                         )
                     )
                 }
@@ -691,6 +739,13 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             try {
                 val response = RetrofitFactory.getMasterApiService().getCollateral()
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
+                    val respone=RetrofitFactory.getApiService().getIncSrcMstr()
+                    if(respone!=null)
+                    {
+
+                        sourceInceomeAdapter=getAdapter(respone.body()?.data)
+                        source_of_income_input.adapter=sourceInceomeAdapter
+                    }
                     withContext(uiContext) {
                         //                        spnr_nature_of_collateral?.adapter = getAdapter(response.body()?.data)
                     }
@@ -1113,15 +1168,31 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     )
                 }*/
             loanView?.findViewById<EditText?>(R.id.et_to)?.setOnClickListener {
-                dateSelection(
+
+
+                val c = Calendar.getInstance()
+                DatePickerDialog(
                     context!!,
-                    loanView.findViewById(R.id.et_to)
-                )
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                        val date= dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+
+                        if( SimpleDateFormat("dd-MM-yyyy").parse(date).after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString())))
+                        loanView.findViewById<EditText>(R.id.et_to)?.setText(date)
+                        else
+                            Toast.makeText(activity,"Please select date greater than from date",Toast.LENGTH_LONG).show()
+                    },
+                    c.get(Calendar.YEAR),
+                    c.get(Calendar.MONTH),
+                    c.get(Calendar.DAY_OF_MONTH)
+                ).show()
+
             }
             loanView.findViewById<AppCompatSpinner?>(R.id.spnr_loan_type)?.onItemSelectedListener =
                 mOnLoanTypeItemSelectedListener
             loanView?.findViewById<EditText?>(R.id.et_to)?.let {
                 it.setOnClickListener {
+
+
                     dateSelection(
                         context!!,
                         loanView.findViewById(R.id.et_to)

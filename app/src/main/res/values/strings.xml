@@ -41,7 +41,7 @@
     <string name="verify_by_entering_otp">Verify by entering OTP</string>
     <string name="submit">SUBMIT</string>
     <string name="otp_will_be_resent_in_45s">OTP will be resent in 45s</string>
-    <string name="business_turnover">Annual Business Turnover</string>
+    <string name="business_turnover">Business Turnover</string>
     <string name="net_margin_as_per_customer">Net Margin as per \nCustomer</string>
     <string name="list_all_sources_of_income_1">List all sources of income </string>
     <string name="income_per_month">Income Per Month</string>

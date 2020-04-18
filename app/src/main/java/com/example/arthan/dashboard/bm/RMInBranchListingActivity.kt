@@ -4,12 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.adapter.RmInBranchAdapter
 import com.example.arthan.views.adapters.BranchAdapter
 import kotlinx.android.parcel.Parcelize
 import com.example.arthan.utils.ArgumentKey
+import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 
@@ -20,6 +24,7 @@ class RMInBranchListingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lisiting)
 
+        setSupportActionBar(toolbar as Toolbar?)
         toolbar_title?.text =
             when (intent?.getParcelableExtra<BranchLaunchType?>(ArgumentKey.BranchLaunchType)) {
                 is BranchLaunchType.BM -> {
@@ -35,7 +40,29 @@ class RMInBranchListingActivity : AppCompatActivity() {
         back_button?.setOnClickListener { onBackPressed() }
         rv_listing.adapter = RmInBranchAdapter(this)
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
+
+        menuInflater.inflate(R.menu.more,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.homeMenu->{
+                finish()
+
+            }
+            R.id.logoutMenu->
+            {
+                finish()
+                startActivity(Intent(this, SplashActivity::class.java))
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
     companion object {
         fun startMe(context: Context?, launchType: BranchLaunchType) =
             context?.startActivity(Intent(context, RMInBranchListingActivity::class.java).apply {
@@ -43,6 +70,7 @@ class RMInBranchListingActivity : AppCompatActivity() {
             })
     }
 }
+
 
 sealed class BranchLaunchType : Parcelable {
     @Parcelize

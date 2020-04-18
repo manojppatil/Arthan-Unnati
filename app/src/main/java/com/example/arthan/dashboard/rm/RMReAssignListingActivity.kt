@@ -1,9 +1,13 @@
 package com.example.arthan.dashboard.rm
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.arthan.R
@@ -14,6 +18,7 @@ import com.example.arthan.lead.BusinessInformationFragment
 import com.example.arthan.lead.DocumentFragment
 import com.example.arthan.lead.IncomeInformationFragment
 import com.example.arthan.lead.OtherDetailsFragment
+import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 
@@ -26,6 +31,7 @@ class RMReAssignListingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lisiting)
         toolbar_title?.text = "Re-Assigned Cases"
 
+        setSupportActionBar(toolbar as Toolbar?)
         if(intent.getStringExtra("FROM") == "REASSIGN") {
 
             rel_frags.visibility=View.VISIBLE
@@ -102,6 +108,29 @@ class RMReAssignListingActivity : AppCompatActivity() {
             }).commit()
         toolbar_title.text="Documents"
 
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+
+        menuInflater.inflate(R.menu.more,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.homeMenu->{
+                finish()
+
+            }
+            R.id.logoutMenu->
+            {
+                finish()
+                startActivity(Intent(this, SplashActivity::class.java))
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

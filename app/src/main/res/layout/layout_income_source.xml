@@ -19,29 +19,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tl_source_of_income"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:hintEnabled="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed">
+        android:id="@+id/ll_source_of_income"
+        android:layout_margin="16dp"
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/source_of_income"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
             android:fontFamily="@font/lato_regular"
             android:id="@+id/source_of_income_input"
-            android:hint="@string/source_of_income"
             android:singleLine="true"
             android:textColor="#000000"
+
             android:textSize="14sp" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
+    </LinearLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +58,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tl_source_of_income"
+        app:layout_constraintTop_toBottomOf="@id/ll_source_of_income"
         app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.TextInputEditText

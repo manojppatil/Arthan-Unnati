@@ -282,6 +282,8 @@ interface ApiService {
     @POST("updateDeviations")
     suspend fun updateDeviations(@Body body: DeviationsResponseData):Response<BaseResponseData>
 
+ @GET("getIncSrcMstr")
+ suspend fun getIncSrcMstr(): Response<CollateralResponseData>?
 
 
     /* @POST("getScreenDetails")

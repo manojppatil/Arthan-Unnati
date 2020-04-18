@@ -83,7 +83,11 @@ class PD1Fragment : Fragment(), CoroutineScope {
                     product = product_input?.text?.toString(),
                     unitsSold = units_sold_input?.text?.toString(),
                     costpriceUnit = cost_price_input?.text?.toString(),
-                    salepriceUnit = sales_price_input?.text?.toString()
+                    salepriceUnit = sales_price_input?.text?.toString(),
+                    turnoverFreq = when(rb_monthly.isChecked){
+                                  true->"monthly"
+                                 false->"Yearly"
+                    }
                 )
             )
 
@@ -95,7 +99,11 @@ class PD1Fragment : Fragment(), CoroutineScope {
                             product = productView?.findViewById<EditText?>(R.id.product_input)?.text?.toString(),
                             unitsSold = productView?.findViewById<EditText?>(R.id.units_sold_input)?.text?.toString(),
                             costpriceUnit = productView?.findViewById<EditText?>(R.id.cost_price_input)?.text?.toString(),
-                            salepriceUnit = productView?.findViewById<EditText?>(R.id.sales_price_input)?.text?.toString()
+                            salepriceUnit = productView?.findViewById<EditText?>(R.id.sales_price_input)?.text?.toString(),
+                            turnoverFreq = when(rb_monthly.isChecked){
+                                true->"monthly"
+                                false->"Yearly"
+                            }
                         )
                     )
                 }

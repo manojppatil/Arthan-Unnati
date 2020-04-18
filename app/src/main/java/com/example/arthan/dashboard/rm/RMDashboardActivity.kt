@@ -1,6 +1,7 @@
 package com.example.arthan.dashboard.rm
 
 import android.content.Intent
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.GravityCompat
@@ -53,12 +54,29 @@ class RMDashboardActivity : BaseActivity() {
             startActivity(Intent(this@RMDashboardActivity, SplashActivity::class.java))
             finish()
         }
-        logoutIv.visibility=View.VISIBLE
+        logoutIv.visibility=View.GONE
         logoutIv.setOnClickListener {
             drawer_layout.closeDrawer(GravityCompat.START)
             startActivity(Intent(this@RMDashboardActivity, SplashActivity::class.java))
             finish()
         }
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+
+        menuInflater.inflate(R.menu.more,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+
+            R.id.logoutMenu->
+                logoutIv.performClick()
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.fl_container).navigateUp()

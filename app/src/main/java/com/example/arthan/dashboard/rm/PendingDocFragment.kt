@@ -39,7 +39,8 @@ class PendingDocFragment : Fragment() {
     }
 
     fun init() {
-        toolbar.visibility = View.GONE
+
+//        toolbar.visibility = View.GONE
         rv_listing.adapter = PDTDocAdapter(activity!!, object : PDTDocAdapter.OnUploadListener {
 
             override fun onUpload() {

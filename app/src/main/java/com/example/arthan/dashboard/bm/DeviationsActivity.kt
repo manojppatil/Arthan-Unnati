@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.adapter.DeviationsAdapter
@@ -14,6 +12,7 @@ import com.example.arthan.dashboard.bm.model.DeviationsResponseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.views.activities.SplashActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_deviations.*
 import kotlinx.android.synthetic.main.bottom_dialog_remark.*
@@ -157,6 +156,29 @@ class DeviationsActivity : AppCompatActivity(), CoroutineScope {
                 putExtra(ArgumentKey.LoanId, loanId)
             })
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+
+        menuInflater.inflate(R.menu.more,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.homeMenu->{
+                finish()
+
+            }
+            R.id.logoutMenu->
+            {
+                finish()
+                startActivity(Intent(this, SplashActivity::class.java))
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
 
 interface MultipleButtonClickListener {
@@ -195,4 +217,5 @@ class RemarkDialogFragment : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "RemarkDialogFragment"
     }
+
 }

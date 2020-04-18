@@ -10,6 +10,8 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -27,6 +29,7 @@ import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.BitmapUtils
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
+import com.example.arthan.views.activities.SplashActivity
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.gson.Gson
@@ -68,6 +71,29 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
 
     override fun onToolbarBackPressed() = onBackPressed()
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+
+        menuInflater.inflate(R.menu.more,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.homeMenu->{
+                finish()
+
+            }
+            R.id.logoutMenu->
+            {
+                finish()
+                startActivity(Intent(this, SplashActivity::class.java))
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
     override fun init() {
 
         loadInitialData()

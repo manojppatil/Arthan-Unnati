@@ -9,6 +9,7 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.PendingDataAdapter
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.activity_lisiting.*
+import kotlinx.android.synthetic.main.activity_lisiting.toolbar
 import kotlinx.android.synthetic.main.custom_toolbar.*
 
 class PendingDataFragment : Fragment() {
