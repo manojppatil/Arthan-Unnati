@@ -4,7 +4,9 @@ import `in`.finbox.mobileriskmanager.FinBox
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
@@ -13,15 +15,22 @@ import com.example.arthan.dashboard.ops.OpsDashboardActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.OTPValidationActivity
+import com.example.arthan.network.RetrofitFactory
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_splash)
+
 
         /*GlobalScope.launch(context = Dispatchers.Main) {
             delay(500)
@@ -118,6 +127,34 @@ class SplashActivity : AppCompatActivity() {
                             )
                         )
                         finish()
+                    }
+                }. let {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
+
+                            FirebaseInstanceId.getInstance().instanceId
+                                .addOnCompleteListener(OnCompleteListener { task ->
+                                    if (!task.isSuccessful) {
+                                        Log.w("TAG", "getInstanceId failed", task.exception)
+                                        return@OnCompleteListener
+                                    }
+
+                                    // Get new Instance ID token
+                                    val token = task.result?.token
+
+                                    CoroutineScope(Dispatchers.IO).launch {
+
+                                    var map=HashMap<String,String>()
+                                    map["userId"] = et_role?.text?.toString()!!
+                                    map["token"] = token!!
+                                    val res=RetrofitFactory.getApiService().sendToken(map = map)
+                                    Log.w("TAG", "getInstanceId :$token")
+
+
+                                }
+
+                                })
+                        }
                     }
                 }
             }

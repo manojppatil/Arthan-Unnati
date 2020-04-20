@@ -441,6 +441,7 @@
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/mobile_number"
                 android:inputType="number"
+                android:maxLength="10"
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textSize="14sp" />
@@ -466,6 +467,7 @@
                 android:hint="@string/whatsapp_number"
                 android:inputType="number"
                 android:singleLine="true"
+                android:maxLength="10"
                 android:textColor="#000000"
                 android:textSize="14sp" />
 
@@ -489,6 +491,7 @@
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/email_id"
                 android:singleLine="true"
+                android:inputType="textEmailAddress"
                 android:textColor="#000000"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>

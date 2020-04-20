@@ -209,11 +209,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                               putExtra("FROM", "BM")
                           })
                           withContext(Dispatchers.Main) {
-                              Toast.makeText(
-                                  this@SubmitFinalReportActivity,
-                                  "Please try again later",
-                                  Toast.LENGTH_LONG
-                              ).show()
+
                               finish()
                           }
 

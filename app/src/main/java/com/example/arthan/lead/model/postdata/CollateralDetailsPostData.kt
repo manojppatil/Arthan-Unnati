@@ -1,23 +1,19 @@
 package com.example.arthan.lead.model.postdata
 
 data class CollateralDetailsPostData(
-    var propertyType: String? = "",
     var loanId: String? = "",
-    var propertyJurisdiction: String? = "",
-    var noOfTenants: String? = "",
-    var natureofProperty: String? = "",
-    var marketvarue: String? = "",
-    var landArea: String? = "",
-    var distFromBranch: String? = "",
-    var constructionArea: String? = "",
-    var customerId: String? = "",
+       var custId:String?="",
+      var  securityType:String?="",
+      var  securitySubType:String?="",
+       var immovableSubType:String?="",
+       var plotType:String?="",
+       var namunaType:String?="",
+      var  occupiedBy:String?="",
+      var  natureOfDoc:String?="",
+       var typeOfDoc:String?="",
+       var docDesc:String?="",
+      var  docStatus:String?=""
 
-    var addressline1: String? = "",
-    var addressline2: String? = "",
-    var areaname: String? = "",
-    var city: String? = "",
-    var district: String? = "",
-    var landmark: String? = "",
-    var pincode: String? = "",
-    var state: String? = ""
+
+
 )

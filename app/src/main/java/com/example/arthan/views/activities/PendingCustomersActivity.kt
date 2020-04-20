@@ -82,11 +82,11 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                             stopLoading(progressBar, result?.message)
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            stopLoading(progressBar, "Something went wrong. Please try later!")
+                        //    stopLoading(progressBar, "Something went wrong. Please try later!")
                         }
                     }
                 } catch (e: Exception) {
-                    stopLoading(progressBar, "Something went wrong. Please try later!")
+                   // stopLoading(progressBar, "Something went wrong. Please try later!")
                     e.printStackTrace()
                 }
             }
@@ -116,11 +116,11 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        stopLoading(progressBar, "Something went wrong. Please try later!")
+                       // stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
-                stopLoading(progressBar, "Something went wrong. Please try later!")
+                //stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
             }
         }

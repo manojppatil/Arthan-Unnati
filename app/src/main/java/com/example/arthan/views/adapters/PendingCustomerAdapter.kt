@@ -200,6 +200,42 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                             progressLoader.dismmissLoading()
                         }
                     }
+                }
+                else if(from=="BCM") {
+                    val progressLoader = ProgrssLoader(mContext)
+                    progressLoader.showLoading()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val res = RetrofitFactory.getApiService().bcmDecision(customer.loanId)
+                        if (res?.body() != null) {
+                            progressLoader.dismmissLoading()
+
+                            val canDecide= res.body()!!.canDecide
+                            withContext(Dispatchers.Main) {
+                                if (canDecide == "N") {
+
+                                    Toast.makeText(mContext,"Please verify Documents & Data before taking a decision",Toast.LENGTH_LONG).show()
+                                } else {
+                                    mContext.startActivity(
+                                        Intent(
+                                            mContext,
+                                            BMScreeningReportActivity::class.java
+                                        ).apply {
+                                            putExtra("indSeg", customer.indSeg)
+                                            putExtra("loginDate", customer.loginDate)
+                                            putExtra("loanId", customer.loanId)
+                                            putExtra("loanAmt", customer.loanAmt)
+                                            putExtra("cname", customer.customerName)
+                                            putExtra("custId", customer.customerId)
+                                            putExtra("FROM", "BCM")
+
+                                        })
+                                }
+                            }
+                        }else
+                        {
+                            progressLoader.dismmissLoading()
+                        }
+                    }
                 }else
                 {
                     mContext.startActivity(

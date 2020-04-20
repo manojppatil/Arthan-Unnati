@@ -16,144 +16,110 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/txt_pfp_card"
             app:layout_constraintVertical_chainStyle="packed"
             android:layout_margin="32dp"
-            android:textSize="12sp"
-            android:textColor="#696969"
+            android:textSize="16sp"
+            android:textColor="#000"
             android:letterSpacing="0.05"
             android:lineSpacingExtra="6.5sp"
-            android:fontFamily="@font/lato_regular"
-            android:text="@string/start_adding_the_details_of_your_125th_sale_choose_any_one_of_the_following_to_continue" />
-
-        <TextView
-            android:id="@+id/txt_pfp_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_upload_doc_msg"
-            app:layout_constraintBottom_toTopOf="@id/txt_balSheet_card"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:drawableLeft="@drawable/ic_document_attach_pending"
-            android:drawablePadding="16dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            android:padding="12dp"
-            android:textSize="14sp"
-            android:textColor="#696969"
-            android:letterSpacing="0.05"
-            android:lineSpacingExtra="6.5sp"
+            android:text="Documents"
             android:textStyle="bold"
-            android:text="Proﬁle of the Firm and Promoters"
-            android:fontFamily="@font/lato_bold"
-            android:background="@drawable/bg_white_rectangle"/>
+            android:fontFamily="@font/lato_regular"/>
 
-        <TextView
-            android:id="@+id/txt_balSheet_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_pfp_card"
-            app:layout_constraintBottom_toTopOf="@id/txt_finStatement_id"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:drawablePadding="16dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:drawableLeft="@drawable/ic_document_attach_pending"
-            android:padding="12dp"
-            android:textSize="14sp"
-            android:textColor="#696969"
-            android:letterSpacing="0.05"
-            android:lineSpacingExtra="6.5sp"
-            android:textStyle="bold"
-            android:text="Self-Certiﬁed Provisional Balance Sheet and P&amp;L A/c "
-            android:fontFamily="@font/lato_bold"
-            android:background="@drawable/bg_white_rectangle"/>
-
-        <TextView
-            android:id="@+id/txt_finStatement_id"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_balSheet_card"
-            app:layout_constraintBottom_toTopOf="@id/txt_passport"
-            app:layout_constraintVertical_bias="0"
-            android:drawablePadding="16dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:drawableLeft="@drawable/ic_document_attach_pending"
-            android:padding="12dp"
-            android:textSize="14sp"
-            android:textColor="#696969"
-            android:letterSpacing="0.05"
-            android:lineSpacingExtra="6.5sp"
-            android:text="Audited Financial Statement of the last 2/3 years"
-            android:textStyle="bold"
-            android:fontFamily="@font/lato_bold"
-            android:background="@drawable/bg_white_rectangle"/>
-
-    <TextView
-        android:id="@+id/txt_passport"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/ll_docs"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_finStatement_id"
-        app:layout_constraintBottom_toTopOf="@id/txt_property_doc"
-        app:layout_constraintVertical_bias="0"
-        android:drawablePadding="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        android:layout_marginBottom="8dp"
-        android:drawableLeft="@drawable/ic_document_attach_pending"
-        android:padding="12dp"
-        android:textSize="14sp"
-        android:textColor="#696969"
-        android:letterSpacing="0.05"
-        android:lineSpacingExtra="6.5sp"
-        android:text="Passport"
-        android:textStyle="bold"
-        android:fontFamily="@font/lato_bold"
-        android:background="@drawable/bg_white_rectangle"/>
-
-    <TextView
-        android:id="@+id/txt_property_doc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txt_upload_doc_msg"
         app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_passport"
-        app:layout_constraintBottom_toTopOf="@id/btn_next"
-        app:layout_constraintVertical_bias="0"
-        android:drawablePadding="16dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:drawableLeft="@drawable/ic_document_attach_pending"
-        android:padding="12dp"
-        android:textSize="14sp"
-        android:textColor="#696969"
-        android:letterSpacing="0.05"
-        android:lineSpacingExtra="6.5sp"
-        android:text="Property Document"
-        android:textStyle="bold"
-        android:fontFamily="@font/lato_bold"
-        android:background="@drawable/bg_white_rectangle"/>
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Id Proof"
+            android:textStyle="bold"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/spinner_idProof"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Address Proof"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/spinner_AddProof"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Proof of Continuity of Business"
+            android:layout_marginTop="8dp"
+
+            android:textStyle="bold"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/spinner_PFP"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Office Address Proof"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/spinner_idPBS"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Proof of Income"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/spinner_AFS"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Property Documents"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/spinner_propertyDocument"
+            />
+
+
+    </LinearLayout>
 
         <Button
             android:id="@+id/btn_submit"
@@ -162,7 +128,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_property_doc"
+            app:layout_constraintTop_toBottomOf="@id/ll_docs"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0"
             android:gravity="center"

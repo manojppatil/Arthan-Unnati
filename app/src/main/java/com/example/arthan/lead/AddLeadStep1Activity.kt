@@ -3,8 +3,13 @@ package com.example.arthan.lead
 import android.Manifest
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
@@ -15,6 +20,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.example.arthan.R
@@ -41,7 +47,7 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 
-class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, CoroutineScope {
+class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, CoroutineScope,LocationListener {
 
     private val job = Job()
     override val coroutineContext: CoroutineContext
@@ -70,6 +76,8 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
     override fun contentView() = R.layout.activity_add_lead_step1
 
     override fun onToolbarBackPressed() = onBackPressed()
+    private var lat:Long=0
+    private var lng:Long=0
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
@@ -355,8 +363,8 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
             interested = if (switch_interested?.isChecked == true) "Yes" else "No",
             later = if (chk_later?.isChecked == true) "Yes" else "No",
             laterDate = et_date?.text?.toString() ?: "",
-            lat = "12.1",
-            long = "15.2",
+            lat = lat.toString(),
+            long = lng.toString(),
             createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
         )
         CoroutineScope(Dispatchers.IO).launch {
@@ -410,11 +418,14 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
             R.id.ll_upload_photo -> {
                 val request = permissionsBuilder(
                     Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
                 ).build()
                 request.listeners {
                     onAccepted {
-                        navigateToCamera()
+                        fetchLocation()
+
                         /* val bundle = Bundle()
 
                          val intent = Intent().apply {
@@ -448,6 +459,53 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
                 ).show()
             }
         }
+    }
+
+    private fun fetchLocation() {
+
+        var mLocationManager = getSystemService(LOCATION_SERVICE) as LocationManager;
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        mLocationManager.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER, 5000,
+            1.0f, this);
+    }
+
+    override fun onLocationChanged(location: Location?) {
+
+        if(location!= null)
+        {
+            lat= location.latitude.toLong()
+            lng= location.longitude.toLong()
+            Log.d("latlng",lng.toString())
+            navigateToCamera()
+        }
+    }
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+
+    }
+
+    override fun onProviderEnabled(provider: String?) {
+    }
+
+    override fun onProviderDisabled(provider: String?) {
     }
 
 }

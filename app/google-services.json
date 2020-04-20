@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "1065164159504",
-    "firebase_url": "https://arthan-a1638.firebaseio.com",
-    "project_id": "arthan-a1638",
-    "storage_bucket": "arthan-a1638.appspot.com"
+    "project_number": "427766379610",
+    "firebase_url": "https://testka18-72ca3.firebaseio.com",
+    "project_id": "testka18-72ca3",
+    "storage_bucket": "testka18-72ca3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1065164159504:android:9d934df80038f5c882e895",
+        "mobilesdk_app_id": "1:427766379610:android:e8cbb3f9cf41be972fd463",
         "android_client_info": {
           "package_name": "com.example.arthan"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1065164159504-2o30uia8qe5tsfq8hfuat1u2nn6n5s31.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.arthan",
-            "certificate_hash": "94ad4b1cb211f772fd005d4c878a2c6f8097ba7d"
-          }
-        },
-        {
-          "client_id": "1065164159504-o4llti45mkfkm53rb2l1u3d916jhdc0j.apps.googleusercontent.com",
+          "client_id": "427766379610-ek4hu0kes7sfu7mmrrfpsc9tjklcblde.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB3monV4d4ZIGeNS6m6BC6J-Mt26oD21j4"
+          "current_key": "AIzaSyBsqEkdAQr6bSirWWjnAiLprzpWVlAzw3k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1065164159504-o4llti45mkfkm53rb2l1u3d916jhdc0j.apps.googleusercontent.com",
+              "client_id": "427766379610-ek4hu0kes7sfu7mmrrfpsc9tjklcblde.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

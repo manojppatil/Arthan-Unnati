@@ -209,6 +209,9 @@
 
     <string-array name="arr_presently_banking_with">
         <item>Presently banking with</item>
+        <item>SBI</item>
+        <item>ICICI</item>
+        <item>HDFC</item>
     </string-array>
 
     <string-array name="arr_nature_of_property">

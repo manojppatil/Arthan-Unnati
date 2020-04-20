@@ -267,11 +267,17 @@ interface ApiService {
     @GET("bmDecision")
     suspend fun bmDecision(@Query("loanId") loanId: String?): Response<BMDecisionResponse>?
 
+    @GET("bcmDecision")
+    suspend fun bcmDecision(@Query("loanId") loanId: String?): Response<BMDecisionResponse>?
+
     @GET("getBMApproved")
     suspend fun getBMApproved(@Query("bmId") bmId: String?): Response<RMApprovedCaseResponse>?
 
     @GET("getCollateralMstr")
     suspend fun getCollateralMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
+
+    @GET("getDocMstr")
+    suspend fun getDocMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
 
     @POST("rmRequestWaiver")
     suspend fun rmRequestWaiver(@Body map: HashMap<String,String>): Response<BaseResponseData>?
@@ -279,11 +285,15 @@ interface ApiService {
     @POST("bmRequestWaiver")
     suspend fun bmRequestWaiver(@Body map: HashMap<String,String>): Response<BaseResponseData>?
 
+    @POST("sendToken")
+    suspend fun sendToken(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+
     @POST("updateDeviations")
     suspend fun updateDeviations(@Body body: DeviationsResponseData):Response<BaseResponseData>
 
  @GET("getIncSrcMstr")
  suspend fun getIncSrcMstr(): Response<CollateralResponseData>?
+
 
 
     /* @POST("getScreenDetails")

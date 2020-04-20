@@ -156,6 +156,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             type3_expenditure_input?.setCompoundDrawablesWithIntrinsicBounds(it, null, null, null)
             type4_expenditure_input?.setCompoundDrawablesWithIntrinsicBounds(it, null, null, null)
             type5_expenditure_input?.setCompoundDrawablesWithIntrinsicBounds(it, null, null, null)
+            type6_expenditure_input?.setCompoundDrawablesWithIntrinsicBounds(it, null, null, null)
             emi_input?.setCompoundDrawablesWithIntrinsicBounds(it, null, null, null)
             loan_amount_input?.setCompoundDrawablesWithIntrinsicBounds(it, null, null, null)
             outstanding_amount_input?.setCompoundDrawablesWithIntrinsicBounds(it, null, null, null)

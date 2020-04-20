@@ -539,6 +539,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
+                android:visibility="gone"
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/total_amount_per_month"
                 android:inputType="numberDecimal"
@@ -591,7 +592,7 @@
             android:drawablePadding="8dp"
             android:drawableTint="#f75002"
             android:fontFamily="@font/lato_black"
-            android:text="Type1"
+            android:text="Salaries"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tl_type1_expenditure"
             app:layout_constraintEnd_toStartOf="@+id/tl_type1_expenditure"
@@ -632,7 +633,7 @@
             android:drawablePadding="8dp"
             android:drawableTint="#f75002"
             android:fontFamily="@font/lato_black"
-            android:text="Type2"
+            android:text="Rent"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tl_type2_expenditure"
             app:layout_constraintEnd_toStartOf="@+id/tl_type2_expenditure"
@@ -673,7 +674,7 @@
             android:drawablePadding="8dp"
             android:drawableTint="#f75002"
             android:fontFamily="@font/lato_black"
-            android:text="Type3"
+            android:text="Utilities"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tl_type3_expenditure"
             app:layout_constraintEnd_toStartOf="@+id/tl_type3_expenditure"
@@ -715,7 +716,7 @@
             android:drawablePadding="8dp"
             android:drawableTint="#f75002"
             android:fontFamily="@font/lato_black"
-            android:text="Type4"
+            android:text="License Renewal"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tl_type4_expenditure"
             app:layout_constraintEnd_toStartOf="@+id/tl_type4_expenditure"
@@ -746,22 +747,8 @@
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <CheckBox
-            android:id="@+id/chk_type5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:button="@null"
-            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
-            android:drawablePadding="8dp"
-            android:drawableTint="#f75002"
-            android:fontFamily="@font/lato_black"
-            android:text="Type5"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tl_type5_expenditure"
-            app:layout_constraintEnd_toStartOf="@+id/tl_type5_expenditure"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tl_type5_expenditure" />
+
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_type5_expenditure"
@@ -786,7 +773,62 @@
                 android:textColor="#000000"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
+        <CheckBox
+            android:id="@+id/chk_type5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:drawableTint="#f75002"
+            android:fontFamily="@font/lato_black"
+            android:text="Transportation"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_type5_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_type5_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_type5_expenditure" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_type6_expenditure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chk_type5"
+            app:layout_constraintTop_toBottomOf="@+id/tl_type5_expenditure"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/type6_expenditure_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/total_amount_per_month"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <CheckBox
+            android:id="@+id/chk_type6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:button="@null"
+            android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+            android:drawablePadding="8dp"
+            android:drawableTint="#f75002"
+            android:fontFamily="@font/lato_black"
+            android:text="Financial Expenses"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tl_type6_expenditure"
+            app:layout_constraintEnd_toStartOf="@+id/tl_type6_expenditure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tl_type6_expenditure" />
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_business_exp_amount"
             android:layout_width="match_parent"
@@ -795,7 +837,7 @@
             app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl_type5_expenditure"
+            app:layout_constraintTop_toBottomOf="@+id/tl_type6_expenditure"
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -806,6 +848,7 @@
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/total_amount_per_month"
                 android:inputType="numberDecimal"
+                android:visibility="gone"
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textSize="14sp" />

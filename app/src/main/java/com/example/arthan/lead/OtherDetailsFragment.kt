@@ -629,16 +629,27 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         try {
             val postBody = CollateralDetailsPostData(
                 loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-                customerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
-                natureofProperty = (nature_of_property_spinner?.selectedItem as? Data)?.value,
-                noOfTenants = (no_of_rented_tenants_count?.tag as? Int)?.toString(),
-//            distFromBranch = distance_of_collateral_from_branch_input?.text?.toString(),
-                propertyJurisdiction = (property_jurisdiction_spinner?.selectedItem as Data).description as? String,
-                landArea = land_area_input?.text?.toString(),
-                constructionArea = construction_area_input?.text?.toString(),
-                marketvarue = market_value_input?.text?.toString(),
-                propertyType = property_type_spinner?.selectedItem as? String
-            )
+                custId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
+                securityType = sp_security.selectedItem.toString(),
+                securitySubType = sp_security_subType.selectedItem.toString(),
+                immovableSubType = sp_immovable_security.selectedItem.toString(),
+                plotType = when(rb_boundary.isChecked){
+                    true->"Boundary"
+                    false->"No Boundary"
+                },namunaType = when(rb_online.isChecked){
+                    true->"Online"
+                    false->"Offline"
+                },
+                occupiedBy = sp_occupiedBy.selectedItem.toString(),
+                natureOfDoc = sp_NatureOfDo.selectedItem.toString(),
+                typeOfDoc = sp_typeOfDoc.selectedItem.toString(),
+                docDesc = et_docDesc.text.toString(),
+                docStatus = when(rb_received.isChecked)
+                {
+                    true->"Received"
+                    false->"Not Received"
+                }
+               )
             val response = RetrofitFactory.getApiService().saveCollateralDetail(postBody)
             return@async if (response?.isSuccessful == true) {
                 val result = response?.body()
