@@ -22,7 +22,7 @@ val techStatus: String,
 val rcuReport: String,
 val legalReport: String,
 val techReport: String,
-val feePaidStatus: String,
+val feePaidStatus: String="",
 val roi: String,
 val pf: String,
 val insurance: String):Serializable

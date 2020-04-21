@@ -273,6 +273,9 @@ interface ApiService {
     @GET("getBMApproved")
     suspend fun getBMApproved(@Query("bmId") bmId: String?): Response<RMApprovedCaseResponse>?
 
+    @GET("getBCMApproved")
+    suspend fun getBCMApproved(@Query("bcmId") bcmId: String?): Response<RMApprovedCaseResponse>?
+
     @GET("getCollateralMstr")
     suspend fun getCollateralMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
 

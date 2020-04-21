@@ -209,7 +209,11 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                               putExtra("FROM", "BM")
                           })
                           withContext(Dispatchers.Main) {
-
+                              Toast.makeText(
+                                  this@SubmitFinalReportActivity,
+                                  "Case is Successfully submitted to BCM",
+                                  Toast.LENGTH_LONG
+                              ).show()
                               finish()
                           }
 
@@ -235,7 +239,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                           if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
                               Toast.makeText(
                                   this@SubmitFinalReportActivity,
-                                  "Case is Successfully submitted to BCM",
+                                  "Case is Successfully submitted to AA",
                                   Toast.LENGTH_LONG
                               ).show()
 

@@ -29,7 +29,7 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
         fun bind(position: Int) {
 
             when(from){
-                "BM","BCM" -> {
+                "BM" -> {
                     root.setOnClickListener {
                         context.startActivity(Intent(context, ApprovedCustomerLegalStatusActivity::class.java).apply {
                             putExtra("FROM",from)
@@ -49,6 +49,27 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                     root.findViewById<Button>(R.id.btn_collect_fees).visibility=View.GONE
                     root.findViewById<Button>(R.id.btn_requestWaiver).visibility=View.VISIBLE
                     root.findViewById<ImageView>(R.id.iv_generate).visibility=View.GONE
+                }
+                "BCM"->{
+                    root.setOnClickListener {
+                        context.startActivity(Intent(context, ApprovedCustomerLegalStatusActivity::class.java).apply {
+                            putExtra("FROM",from)
+                            putExtra("Name",this@ApprovedAdapter.data.get(position).name)
+                            putExtra("rcu",this@ApprovedAdapter.data.get(position).rcuStatus)
+                            putExtra("legal",this@ApprovedAdapter.data.get(position).legalStatus)
+                            putExtra("tech",this@ApprovedAdapter.data.get(position).techStatus)
+                            putExtra("object",this@ApprovedAdapter.data.get(position) as Serializable)
+
+                        })
+                    }
+
+                    root.findViewById<Button>(R.id.btn_rcu).visibility=View.VISIBLE
+                    root.findViewById<Button>(R.id.btn_legal).visibility=View.VISIBLE
+                    root.findViewById<Button>(R.id.btn_tech).visibility=View.VISIBLE
+                    root.findViewById<TextView>(R.id.txt_fee_paid).visibility=View.VISIBLE
+                    root.findViewById<Button>(R.id.btn_collect_fees).visibility=View.GONE
+                    root.findViewById<Button>(R.id.btn_requestWaiver).visibility=View.GONE
+                    root.findViewById<ImageView>(R.id.iv_generate).visibility=View.VISIBLE
                 }
                 else -> {
                     root.setOnClickListener(null)
@@ -130,6 +151,7 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
             var btnTech=root.findViewById<Button>(R.id.btn_tech)
 
             if((from=="BM"||from=="BCM")&&data[position].rcuStatus!=null) {
+
                 if (data[position].rcuStatus.toString().contentEquals("Y")) {
                     btnRcu.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
                     btnRcu.setTextColor(Color.WHITE)
@@ -142,7 +164,7 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                     btnTech.setBackgroundResource(R.drawable.curve_rect_btn_bg_enabled)
                     btnTech.setTextColor(Color.WHITE)
                 }
-                if (data[position].feePaidStatus.toString().contentEquals("Y")) {
+                if (data[position].feePaidStatus!=null&&data[position].feePaidStatus.toString().contentEquals("Y")) {
                     root.findViewById<TextView>(R.id.txt_fee_paid)
                         .setTextColor(Color.parseColor("#43A047"))
                 }

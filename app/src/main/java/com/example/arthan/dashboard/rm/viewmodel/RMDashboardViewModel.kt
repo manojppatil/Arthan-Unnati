@@ -153,6 +153,20 @@ class RMDashboardViewModel: ViewModel() {
                         }
                     }
                 }
+            }else if(from=="BCM")
+            {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respo = RetrofitFactory.getApiService().getBCMApproved("bcm")
+                    if (respo?.body() != null) {
+                        withContext(Dispatchers.Main) {
+                            response.value = respo.body()?.approvedCases
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            response.value = null
+                        }
+                    }
+                }
             }
         } catch (e: Exception){
             response.value = null

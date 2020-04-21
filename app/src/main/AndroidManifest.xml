@@ -38,7 +38,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".lead.DocumentActivity"></activity>
+        <activity android:name=".dashboard.bm.ScoreCardActivity"></activity>
+        <activity android:name=".lead.DocumentActivity" />
         <activity android:name=".lead.BankingInputDetailsActivity" />
         <activity android:name=".lead.ObligationsInputDetailsActivity" />
         <activity android:name=".lead.BillsInputDetailsActivity" />
@@ -78,8 +79,7 @@
             </intent-filter>
             -->
         </activity>
-        <activity android:name=".dashboard.bm.DeviationsActivity"/>
-
+        <activity android:name=".dashboard.bm.DeviationsActivity" />
         <activity android:name=".lead.AddLeadStep2Activity">
 
             <!--
@@ -169,8 +169,8 @@
         <activity android:name=".dashboard.bm.ApproveActivity" />
         <activity android:name=".views.activities.WebContentPreviewActivity" />
         <activity android:name=".views.activities.CustomerCameraActivity" />
-        <service
-            android:name=".utils.MyFirebaseInstanceIdService">
+
+        <service android:name=".utils.MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

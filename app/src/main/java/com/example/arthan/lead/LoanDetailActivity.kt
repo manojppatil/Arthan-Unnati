@@ -278,13 +278,23 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                     if (result?.apiCode == "200") {
                         withContext(Dispatchers.Main) {
                             progressBar.dismmissLoading()
-                            AppPreferences.getInstance()
-                                .addString(AppPreferences.Key.LoanId, result.loanId)
-                            startActivity(Intent(this@LoanDetailActivity, LeadEligibilityActivity::class.java).apply {
-                                putExtra(ArgumentKey.LeadId,mLeadId)
-                                putExtra(ArgumentKey.Eligibility,result.eligibility)
-                            })
-                            finish()
+                            if(result.eligibility?.toLowerCase()=="y") {
+                                AppPreferences.getInstance()
+                                    .addString(AppPreferences.Key.LoanId, result.loanId)
+                                startActivity(
+                                    Intent(
+                                        this@LoanDetailActivity,
+                                        LeadEligibilityActivity::class.java
+                                    ).apply {
+                                        putExtra(ArgumentKey.LeadId, mLeadId)
+                                        putExtra(ArgumentKey.Eligibility, result.eligibility)
+                                    })
+                                finish()
+                            }else
+                            {
+                                startActivity(Intent(this@LoanDetailActivity,RMDashboardActivity::class.java))
+                                finish()
+                            }
                             //removed @@@
                            /* if(result.eligibility.equals("N",ignoreCase = true))
                             {

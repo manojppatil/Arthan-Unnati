@@ -10,6 +10,7 @@ data class Cust360ResponseData(
     val gstDetailsVO: GstDetailsVO?,
     val ipAddressVO: IpAddressVO?,
     val pdVO: PdX?,
+    val scVO: SCVO?,
     val pd1DetailsVO: Pd1?,
     val pd23DetailsVO: Pd23?
 ) : Parcelable

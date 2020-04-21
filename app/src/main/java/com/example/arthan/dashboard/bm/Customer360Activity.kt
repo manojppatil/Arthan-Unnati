@@ -119,7 +119,13 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
             R.id.cl_finances -> ""
             R.id.cl_rcu_check -> ""
             R.id.cl_assets -> startActivity(Intent(this, AssetsActivity::class.java))
-            R.id.cl_score_card -> ""
+            R.id.cl_score_card -> startActivity(Intent(this, ScoreCardActivity::class.java).apply {
+                putExtra("scVOdata",mCustomer360Data?.scVO)
+//                putExtra("scVOdata",mCustomer360Data?.scVO)
+//                putExtra("scVOdata",mCustomer360Data?.scVO)
+//                putExtra("scVOdata",mCustomer360Data?.scVO)
+//                putExtra("scVOdata",mCustomer360Data?.scVO)
+            })
             R.id.cl_pd -> PDActivity.startMe(this, mCustomer360Data?.pdVO)
             R.id.cl_deviation -> startActivity(Intent(this, DeviationsActivity::class.java).apply {
                 putExtra("loanId",loanId)

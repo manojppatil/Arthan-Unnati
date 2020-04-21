@@ -1,6 +1,7 @@
 package com.example.arthan.lead
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
 
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.postdata.LoanPostData
@@ -123,9 +125,17 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
                     if (result?.apiCode == "200") {
                         withContext(Dispatchers.Main) {
                             progressBar?.dismmissLoading()
-                            AppPreferences.getInstance()
-                                .addString(AppPreferences.Key.LoanId, result.loanId)
-                            navController?.navigate(R.id.action_addLoanDetailsFragment_to_loanEligibilityFragment)
+                            if (result.eligibility?.toLowerCase() == "y") {
+                                AppPreferences.getInstance()
+                                    .addString(AppPreferences.Key.LoanId, result.loanId)
+                                navController?.navigate(R.id.action_addLoanDetailsFragment_to_loanEligibilityFragment)
+                            } else {
+
+                                startActivity(Intent(activity,RMDashboardActivity::class.java))
+                                activity?.finish()
+
+                            }
+
                         }
                     } else {
                         stopLoading(progressBar, result?.apiDesc)

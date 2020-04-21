@@ -21,6 +21,7 @@ import androidx.core.view.size
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.INCOME
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
@@ -644,11 +645,19 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         withContext(Dispatchers.Main) {
                             progressBar.dismmissLoading()
 
-                            if (activity is LeadInfoCaptureActivity) {
-                                (activity as LeadInfoCaptureActivity).enableDoc()
-                                (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
+                            if (result.eligibility?.toLowerCase() == "y") {
+                                if (activity is LeadInfoCaptureActivity) {
+                                    (activity as LeadInfoCaptureActivity).enableDoc()
+                                    (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
+                                }
+                                navController?.navigate(R.id.action_income_to_doc)
                             }
-                            navController?.navigate(R.id.action_income_to_doc)
+                            else
+                            {
+                                startActivity(Intent(activity,RMDashboardActivity::class.java))
+                                activity?.finish()
+
+                            }
                         }
                     } else {
                         stopLoading(progressBar, result?.apiDesc)
