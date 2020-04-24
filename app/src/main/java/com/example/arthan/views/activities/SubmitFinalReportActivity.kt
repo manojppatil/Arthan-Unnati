@@ -189,7 +189,9 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     decision,
                     et_reason.text.toString(),
                     "",
-                    sanctionList
+                    sanctionList,intent.getStringExtra("FROM")
+
+
                 )
 
               if(intent.getStringExtra("FROM")=="BM") {
@@ -209,9 +211,15 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                               putExtra("FROM", "BM")
                           })
                           withContext(Dispatchers.Main) {
+                            var  msg =
+                                  if(intent.getStringExtra(STATUS).contains("reject",ignoreCase = true)) {
+                                      "Case is Rejected Successfully"
+                                  }else{
+                                      "Case is Successfully submitted to BCM"
+                                  }
                               Toast.makeText(
                                   this@SubmitFinalReportActivity,
-                                  "Case is Successfully submitted to BCM",
+                                  msg,
                                   Toast.LENGTH_LONG
                               ).show()
                               finish()
@@ -219,6 +227,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
                       } else {
                           withContext(Dispatchers.Main) {
+
                               Toast.makeText(
                                   this@SubmitFinalReportActivity,
                                   "Please try again later",
@@ -237,11 +246,26 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                       val result = respo.body()
                       withContext(Dispatchers.Main) {
                           if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+
+                              var  msg =
+                                  when {
+                                      intent.getStringExtra(STATUS).contains("Approve",ignoreCase = true) -> {
+                                          "Case is Approved Successfully"
+                                      }
+                                      intent.getStringExtra(STATUS).contains("reject",ignoreCase = true) -> {
+                                          "Case is Rejected Successfully"
+                                      }
+                                      else -> {
+
+                                          "Case is Successfully Submitted to AA"
+                                      }
+                                  }
                               Toast.makeText(
                                   this@SubmitFinalReportActivity,
-                                  "Case is Successfully submitted to AA",
+                                  msg,
                                   Toast.LENGTH_LONG
                               ).show()
+
 
                               startActivity(Intent(
                                   this@SubmitFinalReportActivity,

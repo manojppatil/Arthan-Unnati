@@ -2,9 +2,11 @@ package com.example.arthan.lead
 
 import android.Manifest
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -23,6 +25,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
+import com.example.arthan.AppLocationProvider
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
@@ -47,7 +50,7 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 
-class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, CoroutineScope,LocationListener {
+open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, CoroutineScope,LocationListener {
 
     private val job = Job()
     override val coroutineContext: CoroutineContext
@@ -78,7 +81,8 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
     override fun onToolbarBackPressed() = onBackPressed()
     private var lat:Long=0
     private var lng:Long=0
-
+      var  locationListener:LocationListener=this
+    var locationManager:LocationManager?=null
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
 
@@ -213,7 +217,7 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
             100 -> {
                 ll_upload_photo.visibility = View.GONE
                 img_shop.visibility = View.VISIBLE
-                Glide.with(this).load(shopUri).into(img_shop)
+                Glide.with(this).load(shopUri).error(R.mipmap.ic_launcher).into(img_shop)
                 checkForProceed()
                // detectFace()
             }
@@ -269,7 +273,9 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
         btn_next.isEnabled = et_customer_name.text?.isNotEmpty() == true &&
                 et_mobile_number.text?.isNotEmpty() == true &&
                 et_establishment_name.text?.isNotEmpty() == true &&
-                et_area_pincode.text?.isNotEmpty() == true
+                et_area_pincode.text?.isNotEmpty() == true &&
+                et_area_pincode.length()==6
+
     }
 
     private fun loadInitialData() {
@@ -462,9 +468,21 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
     }
 
     private fun fetchLocation() {
+        AppLocationProvider().getLocation(this, object : AppLocationProvider.LocationCallBack {
+            override fun locationResult(location: Location?) {
 
+                lat= location?.latitude!!.toLong()
+                lng= location.longitude.toLong()
+                Log.d("latlng",lng.toString())
+                navigateToCamera()
+                AppLocationProvider().stopLocation()
+
+                // use location, this might get called in a different thread if a location is a last known location. In that case, you can post location on main thread
+            }
+        })
+
+/*
         var mLocationManager = getSystemService(LOCATION_SERVICE) as LocationManager;
-
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -483,19 +501,13 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
             return
         }
         mLocationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER, 5000,
-            1.0f, this);
-    }
+            LocationManager.GPS_PROVIDER, 0,
+            0f, this);
+   */ }
 
     override fun onLocationChanged(location: Location?) {
 
-        if(location!= null)
-        {
-            lat= location.latitude.toLong()
-            lng= location.longitude.toLong()
-            Log.d("latlng",lng.toString())
-            navigateToCamera()
-        }
+
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
@@ -509,3 +521,5 @@ class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListener, 
     }
 
 }
+
+

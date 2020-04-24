@@ -47,8 +47,8 @@ class PD3Fragment : Fragment() {
                     twoWheeler = if (two_wheeler_checkbox?.isChecked == true) "Yes" else "No",
                     fourWheeler = if (four_wheeler_checkbox?.isChecked == true) "Yes" else "No",
                     childrenMedium = children_education_medium_spinner?.selectedItem as? String,
-                    rltWOValue = rltWOCheckBox.isChecked.toString(),
-                    rltWFeeValue = rltPD3WOCheckBox.isChecked.toString()
+                    rltWOValue = rltPD3WOCheckBox.isChecked.toString(),
+                    rltWFeeValue = rltWFeePD3CheckBox.isChecked.toString()
                 )
             )
         }

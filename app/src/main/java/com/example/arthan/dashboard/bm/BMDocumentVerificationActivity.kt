@@ -98,7 +98,7 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        stopLoading(progressBar, "Something went wrong. Please try later!")
+                        stopLoading(progressBar, "Data missing. Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {

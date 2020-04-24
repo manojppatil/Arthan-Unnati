@@ -21,5 +21,6 @@ data class LoanPostData(
     var indiNonindiLoan: String? = "",
     var ageofCustomer: String? = "",
     var businessVintage: String? = "",
-    var createdBy: String? = ""
+    var createdBy: String? = "",
+    var userId: String? = ""
 )

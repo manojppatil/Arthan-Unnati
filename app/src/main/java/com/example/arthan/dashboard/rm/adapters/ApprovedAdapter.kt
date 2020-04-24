@@ -107,6 +107,7 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                             map["loanId"] = data[position].caseId
                             map["remarks"] = etRemark.text.toString()
                             map["eId"] = "RM1"
+                            map["userId"]=from
                             var res = RetrofitFactory.getApiService().rmRequestWaiver(map)
                             if (res?.body() != null) {
                                 withContext(Dispatchers.Main) {
@@ -120,6 +121,8 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                             map["loanId"] = data[position].caseId
                             map["remarks"] = etRemark.text.toString()
                             map["eId"] = "bm"
+                            map["userId"]=from
+
                             var res = RetrofitFactory.getApiService().bmRequestWaiver(map)
                             if (res?.body() != null) {
                                 withContext(Dispatchers.Main) {

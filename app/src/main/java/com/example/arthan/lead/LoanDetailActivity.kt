@@ -268,7 +268,8 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             existingLoanObligationPm = existing_loan_obligation_input?.text?.toString() ?: "",
             additionalIncomePm = additional_income_input?.text?.toString() ?: "",
             householdExpensesPm = household_expenses_input?.text?.toString() ?: "",
-            createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
+            createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType),
+            userId="RM1"
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {

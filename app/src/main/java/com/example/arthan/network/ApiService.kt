@@ -291,6 +291,12 @@ interface ApiService {
     @POST("sendToken")
     suspend fun sendToken(@Body map: HashMap<String,String>): Response<BaseResponseData>?
 
+    @POST("bcmRLTSubmit")
+    suspend fun bcmRLTSubmit(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+
+ @POST("submitLPC")
+    suspend fun submitLPC(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+
     @POST("updateDeviations")
     suspend fun updateDeviations(@Body body: DeviationsResponseData):Response<BaseResponseData>
 

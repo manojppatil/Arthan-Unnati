@@ -185,25 +185,25 @@
             app:layout_constraintVertical_chainStyle="packed"
             android:id="@+id/radioGroup">
 
-        <RadioButton
-            android:id="@+id/btn_approve"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:enabled="true"
-            android:fontFamily="@font/lato_black"
-            android:gravity="center"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:paddingLeft="36dp"
-            android:paddingTop="8dp"
-            android:paddingRight="36dp"
-            android:paddingBottom="8dp"
-            android:text="Approve"
-            android:textAllCaps="false"
-            android:textColor="#000"
-            android:textStyle="bold"
-            />
+            <RadioButton
+                android:id="@+id/btn_approve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:checked="true"
+                android:enabled="true"
+                android:fontFamily="@font/lato_black"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="36dp"
+                android:paddingTop="8dp"
+                android:paddingRight="36dp"
+                android:paddingBottom="8dp"
+                android:text="Approve"
+                android:textAllCaps="false"
+                android:textColor="#000"
+                android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/btn_reject"

@@ -6,12 +6,18 @@ import android.view.MenuItem
 import android.view.View
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
+import com.example.arthan.dashboard.rm.RMApprovedListingActivity
 import com.example.arthan.model.ApprovedCaseData
+import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_approved_customer_review.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ApprovedCustomerReviewActivity : BaseActivity() {
 
@@ -25,39 +31,116 @@ class ApprovedCustomerReviewActivity : BaseActivity() {
         btn_filter.visibility = View.GONE
         setupUI()
 
+        var data=intent.extras?.get("object") as ApprovedCaseData
+        tv_loan_id_value.text=data.caseId
+        tv_loan_name_value.text=data.name
+        et_loan_amt.setText("₹"+data.approvedAmt)
+        et_tenure.setText(data.tenure)
+        et_rate_of_interest.setText("%"+data.roi)
+        et_processing_fees.setText(data.pf)
+        et_insurance.setText(data.insurance)
+
         btn_submit.setOnClickListener {
 
-           var toMoveToQueueORApproved= checkForScreenNavigations()
-            if(toMoveToQueueORApproved.contentEquals("next")) {
-                startActivity(
-                    Intent(
-                        this@ApprovedCustomerReviewActivity,
-                        ApproveActivity::class.java
-                    ).apply {
-                        putExtra("FROM", intent.getStringExtra("FROM"))
-                        putExtra("Name", intent.getStringExtra("Name"))
-                    })
+            var loanAmtOld=data.approvedAmt
+            var tenureOld=data.tenure
+            var roiOld=data.roi
+            var pfOld=data.pf
+            var insurance=data.insurance
+
+            var loanAmtNew=""
+            var tenureNew=""
+            var roiNew=""
+            var pfNew=""
+            var insuranceNew=""
+            if(loanAmtOld!=et_loan_amt.text.toString())
+            {
+                loanAmtNew=et_loan_amt.text.toString().replace("₹","")
             }
-            if(toMoveToQueueORApproved.contentEquals("queue")) {
-                startActivity(
-                    Intent(
-                        this@ApprovedCustomerReviewActivity,
-                        PendingCustomersActivity::class.java
-                    ).apply {
-                        putExtra("FROM", intent.getStringExtra("FROM"))
-                        putExtra("Name", intent.getStringExtra("Name"))
-                    })
+            if(tenureOld!=et_tenure.text.toString())
+            {
+                tenureNew=et_tenure.text.toString()
             }
-            if(toMoveToQueueORApproved.contentEquals("approve")) {
-                startActivity(
-                    Intent(
-                        this@ApprovedCustomerReviewActivity,
-                        BCMDashboardActivity::class.java
-                    ).apply {
-                        putExtra("FROM", intent.getStringExtra("FROM"))
-                        putExtra("Name", intent.getStringExtra("Name"))
-                    })
+            if(roiOld!=et_rate_of_interest.text.toString())
+            {
+                roiNew=et_rate_of_interest.text.toString().replace("%","")
             }
+            if(pfOld!=et_processing_fees.text.toString())
+            {
+                pfNew=et_processing_fees.text.toString()
+            }
+            if(insurance!=et_insurance.text.toString())
+            {
+                insuranceNew=et_insurance.text.toString()
+            }
+          //  val data=intent.getSerializableExtra("object") as ApprovedCaseData
+
+
+            val map=HashMap<String,String>()
+                map["loanId"]=data.caseId
+                map["loanAmtOld"]=loanAmtOld
+                map["loanAmtNew"]=loanAmtNew
+                map["tenureOld"]=tenureOld
+                map["tenureNew"]=tenureNew
+                map["roiOld"]=roiOld
+                map["roiNew"]=roiNew
+                map["pfOld"]=pfOld
+                map["pfNew"]=pfNew
+                map["insuranceOld"]=insurance
+                map["insuranceNew"]=insuranceNew
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val res=RetrofitFactory.getApiService().submitLPC(map)
+                if(res?.body()!= null)
+                {
+                    withContext(Dispatchers.Main) {
+                        if (res.body()!!.eligibility!!.equals( "y",ignoreCase = true)) {
+                            var toMoveToQueueORApproved = checkForScreenNavigations()
+                            if (toMoveToQueueORApproved.contentEquals("next")) {
+                                startActivity(
+                                    Intent(
+                                        this@ApprovedCustomerReviewActivity,
+                                        ApproveActivity::class.java
+                                    ).apply {
+                                        putExtra("FROM", intent.getStringExtra("FROM"))
+                                        putExtra("Name", intent.getStringExtra("Name"))
+                                    })
+                            }
+                            if (toMoveToQueueORApproved.contentEquals("queue")) {
+                                startActivity(
+                                    Intent(
+                                        this@ApprovedCustomerReviewActivity,
+                                        PendingCustomersActivity::class.java
+                                    ).apply {
+                                        putExtra("FROM", intent.getStringExtra("FROM"))
+                                        putExtra("Name", intent.getStringExtra("Name"))
+                                    })
+                            }
+                            if (toMoveToQueueORApproved.contentEquals("approve")) {
+                                startActivity(
+                                    Intent(
+                                        this@ApprovedCustomerReviewActivity,
+                                        BCMDashboardActivity::class.java
+                                    ).apply {
+                                        putExtra("FROM", intent.getStringExtra("FROM"))
+                                        putExtra("Name", intent.getStringExtra("Name"))
+                                    })
+                            }
+                        } else {
+                           startActivity( Intent(
+                                this@ApprovedCustomerReviewActivity,
+                                RMApprovedListingActivity::class.java
+                            ).apply {
+                                putExtra("FROM", intent.getStringExtra("FROM"))
+                            })
+                            finish()
+
+                        }
+                    }
+                }
+            }
+
+
             /*startActivity(
                 Intent(
                     this@ApprovedCustomerReviewActivity,
@@ -110,14 +193,6 @@ class ApprovedCustomerReviewActivity : BaseActivity() {
 
     private fun setupUI() {
 
-   var data=intent.extras?.get("object") as ApprovedCaseData
-        tv_loan_id_value.text=data.caseId
-        tv_loan_name_value.text=data.name
-        et_loan_amt.setText("₹"+data.approvedAmt)
-        et_tenure.setText(data.tenure)
-        et_rate_of_interest.setText("%"+data.roi)
-        et_processing_fees.setText(data.pf)
-        et_insurance.setText(data.insurance)
 
 
 

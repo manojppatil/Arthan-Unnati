@@ -32,7 +32,7 @@ private val data: List<RejectedCaseResponse>): RecyclerView.Adapter<RejectedAdap
                 root.findViewById<Button>(R.id.btn_reopen).setOnClickListener {
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        var response=RetrofitFactory.getApiService().saveBMReopen("BM")
+                        var response=RetrofitFactory.getApiService().saveBMReopen(data[position].caseId)
                         withContext(Dispatchers.Main) {
 
                             if (response?.body()?.apiCode == "200") {

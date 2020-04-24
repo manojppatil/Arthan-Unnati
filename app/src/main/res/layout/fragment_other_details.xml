@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Neighbour name"
+                android:inputType="textPersonName"
                 android:nextFocusDown="@id/neighbour_reference_1_mobile_input"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,6 +129,7 @@
                 android:id="@+id/neighbour_reference_2_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:hint="Neighbour name" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -214,6 +216,7 @@
                 android:id="@+id/trade_reference_1_firm_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:hint="@string/name_of_firm"
                 android:nextFocusDown="@id/trade_reference_1_person_name_dealing_with_input"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -232,6 +235,7 @@
                 android:id="@+id/trade_reference_1_person_name_dealing_with_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:hint="@string/name_of_person_dealing_with"
                 android:nextFocusDown="@id/trade_reference_1_relationship_with_applicant_spinner"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -401,6 +405,7 @@
                 android:id="@+id/trade_reference_2_firm_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/name_of_firm" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -418,6 +423,7 @@
                 android:id="@+id/trade_reference_2_person_name_dealing_with_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:hint="@string/name_of_person_dealing_with" />
         </com.google.android.material.textfield.TextInputLayout>
 

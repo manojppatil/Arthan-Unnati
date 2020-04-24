@@ -471,7 +471,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                             ).show()
                         }
                     } else {
-                        stopLoading(progressBar, /*result?.apiDesc*/"Some thing went wrong!!")
+                        stopLoading(progressBar, /*result?.apiDesc*/"Something went wrong!!")
                     }
                 } else {
                     try {
@@ -1103,8 +1103,22 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             } else {
                 partnerView?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
             }
-            partnerView?.findViewById<TextView?>(R.id.source_of_income_input)?.text =
-                item.incomeSource
+            var spinner=partnerView?.findViewById<Spinner?>(R.id.source_of_income_input)
+
+            spinner?.adapter=sourceInceomeAdapter
+
+            val listAdap =
+                (spinner?.adapter as? DataSpinnerAdapter)?.list
+            if (listAdap != null) {
+                for (i in listAdap) {
+
+                    if(i.value==item.incomeSource)
+                    {
+                        spinner?.setSelection(listAdap.indexOf(i))
+                    }
+                }
+            }
+
             partnerView?.findViewById<TextView?>(R.id.income_per_month_input)?.let { tv ->
                 tv.setCompoundDrawablesWithIntrinsicBounds(
                     getRupeeSymbol(
@@ -1113,7 +1127,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         tv.currentTextColor
                     ), null, null, null
                 )
-                tv.text = item.incomeSource
+                tv.text = item.incomePerMonth
                 ll_income_source.addView(partnerView)
             }
         }

@@ -156,6 +156,7 @@ android:orientation="vertical">
                 android:hint="@string/area_pincode"
                 android:inputType="number"
                 android:maxLines="1"
+                android:maxLength="6"
                 android:singleLine="true"
                 android:textColor="#404040"
                 android:textSize="14sp" />

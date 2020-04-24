@@ -76,7 +76,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                 spinner = spinner_AFS
             }
             "PROPDOC" -> {
-                call = "INCPROOF"
+                call = "PROPDOC"
                 spinner = spinner_propertyDocument
             }
         }
@@ -87,10 +87,13 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                 if (response?.body()?.errorCode == "200") {
 
                     withContext(Dispatchers.Main) {
-                        if (call == "INCPROOF") {
+                        if (call == "PROPDOC") {
                             progressLoader!!.dismmissLoading()
                         }
-                        spinner?.adapter = getAdapter(response.body()?.data)
+                        var data=response.body()?.data as ArrayList
+                        data.add(0,Data("Select type","100","Select type"))
+
+                        spinner?.adapter = getAdapter(data)
                     }
                 }
 
@@ -130,6 +133,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                     var map = HashMap<String, String>()
                     map["loanId"] = arguments?.getString("loanId")!!
                     map["custId"] = arguments?.getString("custId")!!
+                    map["userId"] = "RM1"
                     CoroutineScope(Dispatchers.IO).launch {
                         val respo = RetrofitFactory.getApiService().submitPresanctionDocs(
                             map
@@ -211,7 +215,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
 
 
         parent?.getItemAtPosition(position)?.let {
-            if(check==0) {
+            if(check==0||check<=5) {
                 check++
                 return
             }

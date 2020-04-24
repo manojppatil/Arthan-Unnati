@@ -248,6 +248,7 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
         if (et_customer_name.text.isNullOrBlank() ||
             et_mobile_number.text.isNullOrBlank() ||
             et_establishment_name.text.isNullOrBlank() ||
+            et_area_pincode.length()!=6||
             et_mobile_number.text.isNullOrBlank() /*||
                 img_shop.visibility == View.GONE*/) {
             btn_next.isEnabled = false

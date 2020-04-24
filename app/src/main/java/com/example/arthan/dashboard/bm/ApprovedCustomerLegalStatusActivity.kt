@@ -2,80 +2,101 @@ package com.example.arthan.dashboard.bm
 
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.NonNull
 import com.example.arthan.R
 import com.example.arthan.model.ApprovedCaseData
+import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_approved_customer_legal_status.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jetbrains.annotations.NotNull
 
-class ApprovedCustomerLegalStatusActivity: BaseActivity() {
-    
-    override fun contentView()= R.layout.activity_approved_customer_legal_status
+class ApprovedCustomerLegalStatusActivity : BaseActivity() {
 
-    override fun onToolbarBackPressed()  = onBackPressed()
+    override fun contentView() = R.layout.activity_approved_customer_legal_status
 
-    private var statusSelected="";
+    override fun onToolbarBackPressed() = onBackPressed()
+
+    private var statusSelected = "";
     override fun init() {
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
 
 
         screenTitle()
-        var data=intent.getSerializableExtra("object") as ApprovedCaseData
+        var data = intent.getSerializableExtra("object") as ApprovedCaseData
 
-        if(data.rcuStatus.contentEquals("Y"))
-        {
+        if (data.rcuStatus.contentEquals("Y")) {
             iv_RCU.setImageResource(R.drawable.checked)
 
-        }
-        else
-        {
+        } else {
             iv_RCU.setImageResource(R.drawable.quit)
         }
-        if(data.legalStatus.toString().contentEquals("Y"))
-        {
+        if (data.legalStatus.toString().contentEquals("Y")) {
             iv_legal.setImageResource(R.drawable.checked)
 
-        }
-        else
-        {
+        } else {
             iv_legal.setImageResource(R.drawable.quit)
 
         }
-        if(data.techStatus.toString().contentEquals("Y"))
-        {
+        if (data.techStatus.toString().contentEquals("Y")) {
             iv_tech.setImageResource(R.drawable.checked)
 
-        }else
-        {
+        } else {
             iv_tech.setImageResource(R.drawable.quit)
 
         }
-       btn_approve.setOnCheckedChangeListener { buttonView, isChecked ->
-           statusSelected="approve"
-       }
-        btn_reject.setOnCheckedChangeListener { buttonView, isChecked ->
-            statusSelected="reject"
+        btn_approve.setOnCheckedChangeListener { _, _ ->
+            statusSelected = "approve"
         }
-        btn_recommendCC.setOnCheckedChangeListener { buttonView, isChecked ->
-            statusSelected="recommend"
+        btn_reject.setOnCheckedChangeListener { _, _ ->
+            statusSelected = "reject"
+        }
+        btn_recommendCC.setOnCheckedChangeListener { _, _ ->
+            statusSelected = "recommend"
         }
 
 
 
         btn_Submit.setOnClickListener {
 
-            if((data.rcuStatus.equals("Y",ignoreCase = true)&&data.techStatus.equals("Y",ignoreCase = true)&&data.legalStatus.equals("Y",ignoreCase = true))
-                &&(data.rcuReport.toLowerCase().equals("positive",ignoreCase = true)&&data.legalReport.toLowerCase().equals("positive",ignoreCase = true)
-                        &&data.techReport.toLowerCase().contentEquals("positive")))
-            {
+            CoroutineScope(Dispatchers.IO).launch {
+                var map = HashMap<String, String>()
+                map["loanId"] = data.caseId
+                map["userId"] = intent.getStringExtra("FROM")
+                map["decision"] = statusSelected
+                var response = RetrofitFactory.getApiService().bcmRLTSubmit(map)
+
+                if (response?.body() != null) {
+                    Log.d("bcmRLTSubmit", response.body().toString())
+                    /*     {
+                    "apiCode":"200",
+                    "apiDesc":"Success",
+                    "eligibility":"Y"
+                            }
+
+                     */
+                }
+            }
+            if ((data.rcuStatus.equals("Y", ignoreCase = true) && data.techStatus.equals(
+                    "Y",
+                    ignoreCase = true
+                ) && data.legalStatus.equals("Y", ignoreCase = true))
+                && (data.rcuReport.toLowerCase().equals(
+                    "positive",
+                    ignoreCase = true
+                ) && data.legalReport.toLowerCase().equals("positive", ignoreCase = true)
+                        && data.techReport.toLowerCase().contentEquals("positive"))
+            ) {
                 startActivity(
                     Intent(
                         this@ApprovedCustomerLegalStatusActivity,
@@ -83,12 +104,16 @@ class ApprovedCustomerLegalStatusActivity: BaseActivity() {
                     ).apply {
                         putExtra("FROM", intent.getStringExtra("FROM"))
                         putExtra("Name", intent.getStringExtra("Name"))
-                        putExtra("object",intent.getSerializableExtra("object"))
+                        putExtra("object", intent.getSerializableExtra("object"))
                     })
-            }
-            else if((data.rcuStatus.equals("n",ignoreCase = true)&&data.techStatus.equals("Y",ignoreCase = true)&&data.legalStatus.equals("y",ignoreCase = true))
-                &&(data.legalReport.toLowerCase().contentEquals("positive")&&data.techReport.toLowerCase().contentEquals("positive")))
-            {
+            } else if ((data.rcuStatus.equals("n", ignoreCase = true) && data.techStatus.equals(
+                    "Y",
+                    ignoreCase = true
+                ) && data.legalStatus.equals("y", ignoreCase = true))
+                && (data.legalReport.toLowerCase().contentEquals("positive") && data.techReport.toLowerCase().contentEquals(
+                    "positive"
+                ))
+            ) {
                 startActivity(
                     Intent(
                         this@ApprovedCustomerLegalStatusActivity,
@@ -96,11 +121,9 @@ class ApprovedCustomerLegalStatusActivity: BaseActivity() {
                     ).apply {
                         putExtra("FROM", intent.getStringExtra("FROM"))
                         putExtra("Name", intent.getStringExtra("Name"))
-                        putExtra("object",intent.getSerializableExtra("object"))
+                        putExtra("object", intent.getSerializableExtra("object"))
                     })
-            }
-            else
-            {
+            } else {
                 startActivity(
                     Intent(
                         this@ApprovedCustomerLegalStatusActivity,
@@ -113,22 +136,22 @@ class ApprovedCustomerLegalStatusActivity: BaseActivity() {
 
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
 
-        menuInflater.inflate(R.menu.more,menu)
+        menuInflater.inflate(R.menu.more, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
-            R.id.homeMenu->{
+        when (item.itemId) {
+            R.id.homeMenu -> {
                 finish()
 
             }
-            R.id.logoutMenu->
-            {
+            R.id.logoutMenu -> {
                 finish()
                 startActivity(Intent(this, SplashActivity::class.java))
             }
@@ -136,5 +159,6 @@ class ApprovedCustomerLegalStatusActivity: BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-    override fun screenTitle()= intent.getStringExtra("Name")
+
+    override fun screenTitle() = intent.getStringExtra("Name")
 }

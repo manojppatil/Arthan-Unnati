@@ -81,26 +81,89 @@
                 android:paddingLeft="16dp"/>
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="#0b41af"
+                android:textColor="#696969"
                 android:letterSpacing="0.05"
                 android:lineSpacingExtra="8.3sp"
-                android:text="View Address Proof"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:text="#ID value"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_applicant_dob"
+                android:id="@+id/IdValue"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="PAN Card:"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/IdValue"
+                android:id="@+id/pancardLabel"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="BIOPE4444M"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_applicant_dob"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/IdValue"
+                android:id="@+id/panCardValue"/>
+
+            <TextView
+                android:id="@+id/btnViewPan"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
                 android:background="#eef8fa"
+                android:gravity="center"
+                android:text="View"
+                android:textColor="#0b41af"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/panCardValue"
+                app:layout_constraintEnd_toEndOf="@+id/img_applicant_profile"
+                app:layout_constraintLeft_toRightOf="@+id/panCardValue"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/img_applicant_profile"
+                app:layout_constraintTop_toBottomOf="@id/IdValue" />
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#eef8fa"
+                android:drawableRight="@android:drawable/arrow_down_float"
                 android:fontFamily="@font/lato_black"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
                 android:paddingLeft="16dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:drawableRight="@android:drawable/arrow_down_float"/>
+                android:paddingBottom="8dp"
+                android:text="View Address Proof"
+                android:textColor="#0b41af"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pancardLabel" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -178,6 +241,73 @@
                 android:paddingLeft="16dp"/>
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="#ID value"
+                android:visibility="gone"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_coapplicant_dob"
+                android:id="@+id/IdValue_coapp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="PAN Card:"
+                android:visibility="gone"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/IdValue_coapp"
+                android:id="@+id/pancardLabel_co"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="BIOPE4444M"
+                android:visibility="gone"
+
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/IdValue_coapp"
+                android:id="@+id/panCardValue_co"/>
+
+            <TextView
+                android:id="@+id/btnViewPan_co"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
+                android:background="#eef8fa"
+                android:gravity="center"
+                android:text="View"
+                android:textColor="#0b41af"
+                android:visibility="gone"
+
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/panCardValue_co"
+                app:layout_constraintEnd_toEndOf="@+id/img_coapplicant_profile"
+                app:layout_constraintLeft_toRightOf="@+id/panCardValue_co"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/img_coapplicant_profile"
+                app:layout_constraintTop_toBottomOf="@id/IdValue_coapp" />
+
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -189,7 +319,7 @@
                 android:layout_marginBottom="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_coapplicant_dob"
+                app:layout_constraintTop_toBottomOf="@id/panCardValue_co"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:background="#eef8fa"
                 android:fontFamily="@font/lato_black"
@@ -273,6 +403,75 @@
                 android:fontFamily="@font/lato_regular"
                 android:layout_marginTop="8dp"
                 android:paddingLeft="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="#ID value"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:visibility="gone"
+
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_guarantor_dob"
+                android:id="@+id/IdValue_guarantor"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="PAN Card:"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:visibility="gone"
+
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/IdValue_guarantor"
+                android:id="@+id/pancardLabel_guarantor"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="BIOPE4444M"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/IdValue_guarantor"
+                android:id="@+id/panCardValue_guarantor"/>
+
+            <TextView
+                android:id="@+id/btnViewPan_guarantor"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
+                android:background="#eef8fa"
+                android:gravity="center"
+                android:text="View"
+                android:visibility="gone"
+
+                android:textColor="#0b41af"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/panCardValue_guarantor"
+                app:layout_constraintEnd_toEndOf="@+id/img_guarantor_profile"
+                app:layout_constraintLeft_toRightOf="@+id/panCardValue_guarantor"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/img_guarantor_profile"
+                app:layout_constraintTop_toBottomOf="@id/IdValue_guarantor" />
+
 
             <TextView
                 android:layout_width="0dp"
@@ -286,7 +485,7 @@
                 android:layout_marginBottom="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_guarantor_dob"
+                app:layout_constraintTop_toBottomOf="@id/pancardLabel_guarantor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:background="#eef8fa"
                 android:fontFamily="@font/lato_black"

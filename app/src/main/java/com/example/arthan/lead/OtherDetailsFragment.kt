@@ -210,6 +210,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     map["remarks"] = et_remarks
                     map["rltWOValue"] = ""+rltWOCheckBox.isChecked
                     map["rltWFeeValue"] = ""+rltWFeeCheckBox.isChecked
+                    map["userId"] = activity?.intent?.getStringExtra("FROM")+""
 
                     CoroutineScope(Dispatchers.IO).launch {
                         val respo = RetrofitFactory.getApiService().updateOtherDetails(
@@ -632,7 +633,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 custId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
                 securityType = sp_security.selectedItem.toString(),
                 securitySubType = sp_security_subType.selectedItem.toString(),
-                immovableSubType = sp_immovable_security.selectedItem.toString(),
+                immovableSubType = sp_immovable_security.selectedItem?.toString(),
                 plotType = when(rb_boundary.isChecked){
                     true->"Boundary"
                     false->"No Boundary"
@@ -642,7 +643,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 },
                 occupiedBy = sp_occupiedBy.selectedItem.toString(),
                 natureOfDoc = sp_NatureOfDo.selectedItem.toString(),
-                typeOfDoc = sp_typeOfDoc.selectedItem.toString(),
+                typeOfDoc = sp_typeOfDoc.selectedItem?.toString(),
                 docDesc = et_docDesc.text.toString(),
                 docStatus = when(rb_received.isChecked)
                 {
