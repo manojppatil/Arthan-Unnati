@@ -5,18 +5,17 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import com.example.arthan.R
-import com.example.arthan.dashboard.bm.Customer360Activity
 import com.example.arthan.lead.model.responsedata.PdX
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.getRupeeSymbol
-import kotlinx.android.synthetic.main.activity_pd.*
+import kotlinx.android.synthetic.main.activity_finance360.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 
-class PDActivity : BaseActivity() {
+class FinanceFragmentCust360 : BaseActivity() {
 
     private var mPDData: PdX? = null
 
-    override fun contentView() = R.layout.activity_pd
+    override fun contentView() = R.layout.activity_finance360
 
     override fun onToolbarBackPressed() = onBackPressed()
 
@@ -81,11 +80,15 @@ class PDActivity : BaseActivity() {
         }
     }
 
-    override fun screenTitle() = "PD * Customer Full Name_1"
+    override fun screenTitle() = "Financials"
 
     companion object {
-        fun startMe(context: Context?, pdData: PdX?) =
-            context?.startActivity(Intent(context, PDActivity::class.java).apply {
+        fun startMe(
+            context: Context?,
+            pdData: PdX?,
+            stringExtra: String?
+        ) =
+            context?.startActivity(Intent(context, FinanceFragmentCust360::class.java).apply {
                 putExtra(ArgumentKey.PDData, pdData)
             })
     }

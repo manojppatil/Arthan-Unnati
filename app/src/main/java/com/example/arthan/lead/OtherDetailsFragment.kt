@@ -65,6 +65,10 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         }else
         {
             bcmCheckBoxes.visibility=View.GONE
+            if(activity?.intent?.getStringExtra("loanType").equals("unsecured",ignoreCase = true))
+            {
+                    ll_collateral.visibility=View.GONE
+            }
 
         }
 
@@ -671,6 +675,10 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         collateralDetails: CollateralDetails?,
         loanId: String?
     ) {
+        if(collateralDetails?.loanType.equals("unsecure",ignoreCase = true))
+        {
+            ll_collateral.visibility=View.GONE
+        }
         mLoanId = loanId
         if ((neighborReference?.size ?: 0) > 0) {
             mCustomerId = neighborReference?.get(0)?.customerId

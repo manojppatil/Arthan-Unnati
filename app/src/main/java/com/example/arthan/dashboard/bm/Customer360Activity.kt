@@ -7,12 +7,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.PDActivity
 import com.example.arthan.lead.model.responsedata.Cust360ResponseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
-import com.example.arthan.views.activities.PDActivity
+import com.example.arthan.views.activities.FinanceFragmentCust360
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_customer360.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
@@ -116,7 +117,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                 putExtra("cname",intent.getStringExtra("cname"))
             })
             R.id.cl_collateral -> startActivity(Intent(this, CollateralActivity::class.java))
-            R.id.cl_finances -> ""
+            R.id.cl_finances ->  FinanceFragmentCust360.startMe(this, mCustomer360Data?.pdVO,intent.getStringExtra("cname"))
             R.id.cl_rcu_check -> ""
             R.id.cl_assets -> startActivity(Intent(this, AssetsActivity::class.java))
             R.id.cl_score_card -> startActivity(Intent(this, ScoreCardActivity::class.java).apply {
@@ -126,7 +127,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
 //                putExtra("scVOdata",mCustomer360Data?.scVO)
 //                putExtra("scVOdata",mCustomer360Data?.scVO)
             })
-            R.id.cl_pd -> PDActivity.startMe(this, mCustomer360Data?.pdVO)
+            R.id.cl_pd ->PDActivity.startMe(this, mCustomer360Data?.pdVO,intent.getStringExtra("cname"))
             R.id.cl_deviation -> startActivity(Intent(this, DeviationsActivity::class.java).apply {
                 putExtra("loanId",loanId)
                 putExtra("custId",customerId)

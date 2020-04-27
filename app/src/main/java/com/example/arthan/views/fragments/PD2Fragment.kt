@@ -31,6 +31,19 @@ class PD2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        succession_plan_switch.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked){
+                true->succession_plan_switch.text="Yes"
+                false->succession_plan_switch.text="No"
+            }
+        }
+        adequate_business_inventory_switch.setOnCheckedChangeListener { _, isChecked ->
+            when(isChecked){
+                true->adequate_business_inventory_switch.text="Yes"
+                false->adequate_business_inventory_switch.text="No"
+            }
+        }
+
 
         btn_continue?.setOnClickListener {
             mPdFragmentClickListener?.onPD2Fragment(

@@ -38,7 +38,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.bm.ScoreCardActivity"></activity>
+        <activity android:name=".dashboard.bcm.PDActivity"></activity>
+        <activity android:name=".dashboard.bm.ScoreCardActivity" />
         <activity android:name=".lead.DocumentActivity" />
         <activity android:name=".lead.BankingInputDetailsActivity" />
         <activity android:name=".lead.ObligationsInputDetailsActivity" />
@@ -131,7 +132,7 @@
             -->
         </activity>
         <activity android:name=".views.activities.PendingCustomersActivity" />
-        <activity android:name=".views.activities.PDActivity" />
+        <activity android:name=".views.activities.FinanceFragmentCust360" />
         <activity android:name=".views.activities.IncomeAnalysisActivity" />
         <activity android:name=".views.activities.TakeDecisionActivity" />
         <activity android:name=".dashboard.ops.OpsDashboardActivity" />

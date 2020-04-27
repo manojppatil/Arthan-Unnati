@@ -18,5 +18,6 @@ data class CollateralDetails(
     val pincode: String?,
     val propertyJurisdiction: String?,
     val propertyType: String?,
-    val state: String?
+    val state: String?,
+    val loanType: String?=""
 )

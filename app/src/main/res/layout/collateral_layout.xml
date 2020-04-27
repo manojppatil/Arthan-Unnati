@@ -20,9 +20,8 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/txt_property_type"
+        android:id="@+id/txt_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,12 +29,44 @@
         android:fontFamily="@font/lato_light"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="7.1sp"
-        android:text="Type Of Property"
+        android:text="Address"
         android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/img_profile"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/txt_address_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/lato_bold"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Value"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_profile"
+        app:layout_constraintTop_toBottomOf="@id/txt_address" />
+
+    <TextView
+        android:id="@+id/txt_property_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/lato_light"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="7.1sp"
+        android:text="Type Of Collateral"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_address_value"
+        app:layout_constraintEnd_toStartOf="@id/img_profile"
+        />
 
     <TextView
         android:id="@+id/txt_property_type_value"
@@ -62,7 +93,7 @@
         android:fontFamily="@font/lato_light"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="7.1sp"
-        android:text="Jurisdiction"
+        android:text="Occupied By"
         android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +101,7 @@
         app:layout_constraintTop_toBottomOf="@id/txt_property_type_value" />
 
     <TextView
-        android:id="@+id/txt_jurisdiction_value"
+        android:id="@+id/txt_occBy_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -85,10 +116,43 @@
         app:layout_constraintEnd_toStartOf="@id/img_profile"
         app:layout_constraintTop_toBottomOf="@id/txt_jurisdiction" />
 
+
+    <TextView
+        android:id="@+id/txt_area_property"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/lato_light"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="7.1sp"
+        android:text="Area of Property"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_profile"
+        app:layout_constraintTop_toBottomOf="@id/txt_occBy_value" />
+
+    <TextView
+        android:id="@+id/txt_area_property_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/lato_bold"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Pune"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_profile"
+        app:layout_constraintTop_toBottomOf="@id/txt_area_property" />
+
     <ImageView
         android:id="@+id/img_profile"
         android:layout_width="108dp"
-        android:layout_height="0dp"
+        android:layout_height="100dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/bg_upload_photo"
         android:backgroundTint="#f8f8f8"
@@ -97,41 +161,11 @@
         android:scaleType="centerInside"
         android:src="@drawable/ic_add_photo"
         android:tint="#939393"
-        app:layout_constraintBottom_toBottomOf="@id/txt_jurisdiction_value"
-        app:layout_constraintStart_toEndOf="@id/txt_property_type"
+        app:layout_constraintStart_toEndOf="@id/txt_address"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/txt_property_type" />
+        app:layout_constraintTop_toTopOf="@id/txt_address" />
 
-    <TextView
-        android:id="@+id/txt_tentative_value_msg"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/lato_regular"
-        android:letterSpacing="0.05"
-        android:lineSpacingExtra="8.3sp"
-        android:text="Tentative Value"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/txt_tentative_value"
-        app:layout_constraintTop_toBottomOf="@id/txt_jurisdiction_value" />
 
-    <TextView
-        android:id="@+id/txt_tentative_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/lato_bold"
-        android:letterSpacing="0.05"
-        android:lineSpacingExtra="8.3sp"
-        android:text="₹ 40,000"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@id/txt_tentative_value_msg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/txt_tentative_value_msg" />
 
     <TextView
         android:id="@+id/txt_property_value_basedon"
@@ -144,6 +178,7 @@
         android:letterSpacing="0.05"
         android:lineSpacingExtra="7.1sp"
         android:text="As per BCM"
+        android:visibility="gone"
         android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/txt_tentative_value_msg"
@@ -164,7 +199,7 @@
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/txt_market_value"
-        app:layout_constraintTop_toBottomOf="@id/txt_property_value_basedon" />
+        app:layout_constraintTop_toBottomOf="@id/txt_area_property_value" />
 
     <TextView
         android:id="@+id/txt_market_value"
@@ -180,6 +215,36 @@
         app:layout_constraintStart_toEndOf="@id/txt_market_value_msg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/txt_market_value_msg" />
+    <TextView
+        android:id="@+id/txt_tentative_value_msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/lato_regular"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Tentative Value"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/txt_market_value"
+        app:layout_constraintTop_toBottomOf="@id/txt_market_value_msg" />
+
+    <TextView
+        android:id="@+id/txt_tentative_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/lato_bold"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="₹ 40,000"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/txt_tentative_value_msg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_tentative_value_msg" />
 
     <TextView
         android:id="@+id/txt_market_value_basedon"
@@ -188,6 +253,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:visibility="gone"
         android:fontFamily="@font/lato_light"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="7.1sp"
@@ -197,6 +263,100 @@
         app:layout_constraintStart_toStartOf="@id/txt_market_value_msg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_market_value_msg" />
+
+
+    <TextView
+        android:id="@+id/txt_4bound"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/lato_regular"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:text="4 Boundaries Math"
+        app:layout_constraintStart_toStartOf="@id/txt_tentative_value_msg"
+        app:layout_constraintEnd_toStartOf="@+id/txt_tentative_value"
+        app:layout_constraintTop_toBottomOf="@id/txt_tentative_value" />
+
+    <TextView
+        android:id="@+id/txt_4bound_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/lato_bold"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Yes"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/txt_4bound"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_4bound" />
+
+
+    <TextView
+        android:id="@+id/txt_LTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/lato_regular"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:text="LTV Considered"
+        app:layout_constraintStart_toStartOf="@id/txt_4bound"
+        app:layout_constraintEnd_toStartOf="@+id/txt_4bound_value"
+        app:layout_constraintTop_toBottomOf="@id/txt_4bound" />
+
+    <TextView
+        android:id="@+id/txt_LTV_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/lato_bold"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Yes"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/txt_LTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_LTV" />
+
+    <TextView
+        android:id="@+id/txt_Remarks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/lato_regular"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:text="Remarks"
+        app:layout_constraintStart_toStartOf="@id/txt_LTV"
+        app:layout_constraintEnd_toStartOf="@+id/txt_LTV_value"
+        app:layout_constraintTop_toBottomOf="@id/txt_LTV" />
+
+    <TextView
+        android:id="@+id/txt_Remarks_Value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/lato_bold"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="Remarks value"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/txt_Remarks"
+        app:layout_constraintTop_toBottomOf="@+id/txt_Remarks"
+        />
+
 
     <TextView
         android:layout_width="0dp"
@@ -210,6 +370,7 @@
         android:fontFamily="@font/lato_black"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="8.3sp"
+        android:visibility="visible"
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
         android:paddingRight="16dp"
@@ -220,6 +381,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_market_value_basedon" />
+        app:layout_constraintTop_toBottomOf="@id/txt_Remarks_Value" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

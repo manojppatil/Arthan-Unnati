@@ -129,22 +129,23 @@
 
     <RadioGroup
         android:id="@+id/rgrp_frequecy"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_frequency">
 
         <RadioButton
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1"
             android:button="@null"
+            android:checked="true"
+            android:layout_marginTop="8dp"
             android:drawableStart="@drawable/radio_selector"
             android:drawablePadding="8dp"
             android:text="@string/weekly"
@@ -154,11 +155,11 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:id="@+id/monthly_radio_button"
-            android:layout_weight="1"
             android:button="@null"
             android:drawableStart="@drawable/radio_selector"
             android:drawablePadding="8dp"
@@ -168,12 +169,44 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+
+            android:id="@+id/qtrly_radio_button"
+            android:button="@null"
+            android:drawableStart="@drawable/radio_selector"
+            android:drawablePadding="8dp"
+            android:text="@string/qtrly"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:id="@+id/halfyearly_radio_button"
+            android:button="@null"
+            android:drawableStart="@drawable/radio_selector"
+            android:drawablePadding="8dp"
+            android:text="@string/hyearly"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:id="@+id/yearly_radio_button"
             android:button="@null"
+            android:layout_marginTop="8dp"
+
             android:drawableStart="@drawable/radio_selector"
             android:drawablePadding="8dp"
             android:text="@string/yearly"

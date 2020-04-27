@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -37,6 +38,8 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_income_information.*
+import kotlinx.android.synthetic.main.fragment_income_information.btn_save_continue
+import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.layout_income_source.*
 import kotlinx.android.synthetic.main.layout_loan_details.*
 import kotlinx.coroutines.*
@@ -120,6 +123,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 gst_text_view_button?.visibility = View.GONE
                 bills_text_view_button?.visibility = View.GONE
                 obligations_text_view?.visibility = View.GONE
+
             }else {
                 cl_banking?.visibility = View.GONE
                 itr_container?.visibility = View.GONE
@@ -583,6 +587,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         monthly_radio_button?.text?.toString()
                     } else if (yearly_radio_button?.isChecked == true) {
                         yearly_radio_button?.text?.toString()
+                    }else if (qtrly_radio_button?.isChecked == true) {
+                        qtrly_radio_button?.text?.toString()
+                    } else if (halfyearly_radio_button?.isChecked == true) {
+                        halfyearly_radio_button?.text?.toString()
                     } else {
                         ""
                     },
@@ -609,6 +617,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                                     ?.text?.toString()
                             } else if (loanDetails?.findViewById<RadioButton?>(R.id.yearly_radio_button)?.isChecked == true) {
                                 loanDetails?.findViewById<RadioButton?>(R.id.yearly_radio_button)
+                                    ?.text?.toString()
+                            }else if (loanDetails?.findViewById<RadioButton?>(R.id.qtrly_radio_button)?.isChecked == true) {
+                                loanDetails?.findViewById<RadioButton?>(R.id.qtrly_radio_button)
+                                    ?.text?.toString()
+                            } else if (loanDetails?.findViewById<RadioButton?>(R.id.halfyearly_radio_button)?.isChecked == true) {
+                                loanDetails?.findViewById<RadioButton?>(R.id.halfyearly_radio_button)
                                     ?.text?.toString()
                             } else {
                                 ""
@@ -650,7 +664,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                                     (activity as LeadInfoCaptureActivity).enableDoc()
                                     (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
                                 }
-                                navController?.navigate(R.id.action_income_to_doc)
+                                var b=Bundle()
+                                b.putString("loanType","unsecured")
+                                activity?.intent?.putExtra("loanType","unsecured")
+                                navController?.navigate(R.id.action_income_to_doc,b)
                             }
                             else
                             {
@@ -1174,6 +1191,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 }
                 item.frequencyOfInstallment?.equals("yearly", ignoreCase = true) -> {
                     loanView?.findViewById<RadioButton>(R.id.yearly_radio_button)?.isChecked = true
+                }
+                item.frequencyOfInstallment?.equals("Quarterly", ignoreCase = true) -> {
+                    loanView?.findViewById<RadioButton>(R.id.qtrly_radio_button)?.isChecked = true
+                }
+                item.frequencyOfInstallment?.equals("Half yearly", ignoreCase = true) -> {
+                    loanView?.findViewById<RadioButton>(R.id.halfyearly_radio_button)?.isChecked = true
                 }
             }
 

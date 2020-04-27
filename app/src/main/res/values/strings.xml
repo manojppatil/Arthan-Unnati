@@ -56,6 +56,8 @@
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
+    <string name="qtrly">Quarterly</string>
+    <string name="hyearly">Half yearly</string>
     <string name="loan_tenure">Loan Tenure</string>
     <string name="property_details">Property Details</string>
     <string name="outstanding_amount">Outstanding Amount</string>
