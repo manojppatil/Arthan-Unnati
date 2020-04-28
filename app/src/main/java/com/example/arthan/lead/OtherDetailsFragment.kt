@@ -65,7 +65,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         }else
         {
             bcmCheckBoxes.visibility=View.GONE
-            if(activity?.intent?.getStringExtra("loanType").equals("unsecured",ignoreCase = true))
+            if(activity?.intent?.getStringExtra("loanType").equals("unsecure",ignoreCase = true))
             {
                     ll_collateral.visibility=View.GONE
             }
@@ -205,8 +205,14 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 var dialog = AlertDialog.Builder(activity)
                 var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
                 dialog.setView(view)
-                var et_remarks = view?.findViewById<EditText>(R.id.et_remark)?.text.toString()
+                var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)?.text.toString()
                 var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+                var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
+
+                var alert= dialog.create() as AlertDialog
+                btn_cancel?.setOnClickListener {
+                    alert.dismiss()
+                }
                 btn_submit_remark?.setOnClickListener {
                     var map = HashMap<String, String>()
                     map["loanId"] = mLoanId!!
@@ -246,7 +252,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 }
 
 
-                dialog.create().show()
+               alert.show()
             }else {
                 if (navController != null) {
                     val progressLoader: ProgrssLoader? =
@@ -761,20 +767,29 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        property_location_address_input?.setText(collateralDetails?.addressline1)
-        land_area_input?.setText(collateralDetails?.landArea)
-        construction_area_input?.setText(collateralDetails?.constructionArea)
-        market_value_input?.setText(collateralDetails?.marketValue)
-        position = -1
-        list =
-            (property_type_spinner?.adapter as? DataSpinnerAdapter)?.list
-        for (index in 0 until (list?.size ?: 0)) {
-            if (list?.get(index)?.value == collateralDetails?.propertyType) {
-                position = index
-            }
+        try{
+            property_location_address_input?.setText(collateralDetails?.addressline1)
+            land_area_input?.setText(collateralDetails?.landArea)
+            construction_area_input?.setText(collateralDetails?.constructionArea)
+            market_value_input?.setText(collateralDetails?.marketValue)
+            position = -1
+            if((property_type_spinner?.adapter as? DataSpinnerAdapter)!=null){
+            list = (property_type_spinner?.adapter as? DataSpinnerAdapter)?.list
+          if(list!=null) {
+              for (index in 0 until (list.size ?: 0)) {
+                  if (list[index].value == collateralDetails?.propertyType) {
+                      position = index
+                  }
+              }
+              if (position != -1) {
+                  property_type_spinner?.setSelection(position)
+              }
+          }
+          }
+        }catch (e:Exception){
+
+            Toast.makeText(context,"this ere",Toast.LENGTH_LONG).show()
         }
-        if (position != -1) {
-            property_type_spinner?.setSelection(position)
-        }
+
     }
 }

@@ -24,6 +24,7 @@ import androidx.navigation.Navigation
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.BUSINESS
 import com.example.arthan.global.INCOME
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
@@ -225,7 +226,13 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 //        collateral_container?.visibility = View.VISIBLE
         spnr_loan_type?.onItemSelectedListener = mOnLoanTypeItemSelectedListener
         btn_save_continue?.setOnClickListener {
-            saveBusinessData()
+//
+                   if(activity?.intent?.getStringExtra("FROM")=="BM") {
+            updateIncomeDetails()
+        }else
+                   {
+                       saveBusinessData()
+                   }
         }
 
         banking_text_view?.setOnClickListener {
@@ -434,6 +441,67 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     dialog?.dismiss()
                 }
                 .show()
+        }
+    }
+
+    private fun updateIncomeDetails() {
+
+        if(activity?.intent?.getStringExtra("FROM")=="BM") {
+            var dialog = AlertDialog.Builder(activity)
+            var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
+            dialog.setView(view)
+            var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
+            var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+            var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
+            var alert= dialog.create() as AlertDialog
+            btn_cancel?.setOnClickListener {
+                alert.dismiss()
+            }
+
+            btn_submit_remark?.setOnClickListener {
+                val progressBar = ProgrssLoader(this.context!!)
+                progressBar.showLoading()
+                var map = HashMap<String, String>()
+                map["loanId"] = mLoanId!!
+                map["remarks"] = et_remarks?.text.toString()
+                map["userId"] = activity?.intent?.getStringExtra("FROM")+""
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respo = RetrofitFactory.getApiService().updateIncomeDetails(
+                        map
+                    )
+
+                    val result = respo?.body()
+                    if (respo?.body() != null && result?.apiCode == "200") {
+
+                        withContext(Dispatchers.Main) {
+                            /*  AppPreferences.getInstance()
+                                  .addString(AppPreferences.Key.BusinessId, result.businessId)*/
+                            progressBar.dismmissLoading()
+                            if (activity is LeadInfoCaptureActivity) {
+                                (activity as LeadInfoCaptureActivity).enableDoc()
+                                (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
+                            }
+                            var b=Bundle()
+                            b.putString("loanType","unsecured")
+                            activity?.intent?.putExtra("loanType","unsecured")
+                            navController?.navigate(R.id.action_income_to_doc,b)
+                        }
+                    }else
+                    {
+                        withContext(Dispatchers.Main) {
+
+                            progressBar.dismmissLoading()
+                            Toast.makeText(activity, "something went wrong", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+
+                }
+            }
+
+
+           alert.show()
         }
     }
 
@@ -665,8 +733,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                                     (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
                                 }
                                 var b=Bundle()
-                                b.putString("loanType","unsecured")
-                                activity?.intent?.putExtra("loanType","unsecured")
+                                b.putString("loanType",result.loanType)
+                                activity?.intent?.putExtra("loanType",result.loanType)
                                 navController?.navigate(R.id.action_income_to_doc,b)
                             }
                             else

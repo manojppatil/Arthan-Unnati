@@ -600,6 +600,110 @@
             <!--                    android:textSize="14sp" />-->
             <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/ll_catogories"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_state"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="#404040"
+                    android:textSize="12sp"
+                    android:text="Category"/>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+                    <RadioButton android:id="@+id/cat_SC"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="SC"
+                        /> <RadioButton android:id="@+id/cat_OBC"
+                        android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                        android:text="OBC"
+                        /> <RadioButton android:id="@+id/cat_General"
+                        android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                        android:text="General"
+                        />
+                </RadioGroup>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="#404040"
+                    android:textSize="12sp"
+                    android:text="Religion"/>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+                    <RadioButton android:id="@+id/Rel_hindu"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:checked="true"
+                        android:layout_weight="1"
+                        android:text="Hindu"
+                        /> <RadioButton android:id="@+id/Rel_Muslim"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Muslim"
+                    />
+                </RadioGroup>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="#404040"
+                    android:textSize="12sp"
+                    android:text="Marital status"/>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+                    <RadioButton android:id="@+id/rb_married"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:checked="true"
+                        android:layout_weight="1"
+                        android:text="Married"
+                        /> <RadioButton android:id="@+id/rb_unmarried"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="UnMarried"
+                    />
+                </RadioGroup>
+            </LinearLayout>
             <Button
                 android:id="@+id/btn_next"
                 android:layout_width="wrap_content"
@@ -619,7 +723,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tl_state"
+                app:layout_constraintTop_toBottomOf="@+id/ll_catogories"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintVertical_chainStyle="packed" />
 

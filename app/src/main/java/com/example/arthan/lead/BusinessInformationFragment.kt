@@ -1,10 +1,13 @@
 package com.example.arthan.lead
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -12,6 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.arthan.R
+import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.BUSINESS
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
@@ -24,10 +28,13 @@ import com.example.arthan.model.RMDashboardData
 import com.example.arthan.model.RMDashboardRequest
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.views.activities.PendingCustomersActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_business_information.*
+import kotlinx.android.synthetic.main.fragment_business_information.btn_save_continue
 import kotlinx.android.synthetic.main.fragment_business_information.email_id_input
+import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.layout_partner_details.*
 import kotlinx.coroutines.*
 import java.util.*
@@ -73,7 +80,13 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
         ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_save_continue.setOnClickListener {
-            saveBusinessData()
+//            saveBusinessData() //comment temporarily
+            if(activity?.intent?.getStringExtra("FROM")=="BM") {
+
+                updateBusinessDetails()
+            }else{
+                saveBusinessData()
+            }
 //            navController?.navigate(R.id.action_business_to_income)
         }
 
@@ -155,6 +168,70 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 //            override fun onStopTrackingTouch(seekBar: SeekBar?) {
 //            }
 //        })
+    }
+
+    private fun updateBusinessDetails() {
+
+        if(activity?.intent?.getStringExtra("FROM")=="BM") {
+            var dialog = AlertDialog.Builder(activity)
+            var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
+            dialog.setView(view)
+            var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
+            var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+            var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
+
+            var alert= dialog.create() as AlertDialog
+            btn_cancel?.setOnClickListener {
+                alert.dismiss()
+            }
+            btn_submit_remark?.setOnClickListener {
+                val progressBar = ProgrssLoader(this.context!!)
+                progressBar.showLoading()
+                var map = HashMap<String, String>()
+                map["loanId"] = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)!!
+                map["remarks"] = et_remarks?.text.toString()
+                map["userId"] = activity?.intent?.getStringExtra("FROM")+""
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respo = RetrofitFactory.getApiService().updateBusinessDetails(
+                        map
+                    )
+
+                    val result = respo?.body()
+                    if (respo?.body() != null && result?.apiCode == "200") {
+
+                        withContext(Dispatchers.Main) {
+                          /*  AppPreferences.getInstance()
+                                .addString(AppPreferences.Key.BusinessId, result.businessId)*/
+                            progressBar.dismmissLoading()
+                            val navController: NavController? =
+                                if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
+                                    activity!!,
+                                    R.id.frag_container
+                                ) else null
+                            navController?.navigate(R.id.action_business_to_income)
+
+                            if (activity is LeadInfoCaptureActivity) {
+                                (activity as LeadInfoCaptureActivity).enableInCome()
+                                (activity as LeadInfoCaptureActivity).infoCompleteState(BUSINESS)
+                            }
+                        }
+                        }else
+                    {
+                        withContext(Dispatchers.Main) {
+
+                            progressBar.dismmissLoading()
+                            Toast.makeText(activity, "something went wrong", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+
+                }
+            }
+
+
+           alert.show()
+        }
     }
 
     private suspend fun stopLoading(progressBar: ProgrssLoader, message: String?) {

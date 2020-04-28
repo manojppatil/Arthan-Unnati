@@ -83,10 +83,12 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                             result,
                             customerId
                         )
-                        ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
-                            loanId,
-                            customerId
-                        )
+                        if(vp_profile.adapter?.count!!>2) {
+                            ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
+                                loanId,
+                                customerId
+                            )
+                        }
                         progressBar.dismmissLoading()
                     }
                 } else {

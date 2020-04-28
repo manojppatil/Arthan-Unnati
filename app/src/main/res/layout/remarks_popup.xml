@@ -26,14 +26,14 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/et_remark"
+            android:id="@+id/et_remarks"
             android:layout_below="@+id/heading"
             android:layout_marginTop="16dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/et_remark"
+            android:layout_below="@+id/et_remarks"
             android:layout_marginTop="16dp"
             android:id="@+id/btn_submit"
             android:background="@color/enable"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
            android:layout_toLeftOf="@+id/btn_submit"
             android:layout_marginRight="16dp"
-            android:layout_below="@+id/et_remark"
+            android:layout_below="@+id/et_remarks"
             android:layout_marginTop="16dp"
             android:id="@+id/btn_cancel"
             android:background="@color/disable"
