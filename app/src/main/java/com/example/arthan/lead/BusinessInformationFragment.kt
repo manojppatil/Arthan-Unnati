@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
+import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.BUSINESS
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
@@ -37,6 +38,7 @@ import kotlinx.android.synthetic.main.fragment_business_information.email_id_inp
 import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.layout_partner_details.*
 import kotlinx.coroutines.*
+import retrofit2.Response
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -298,8 +300,29 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitFactory.getApiService().saveBusinessDetail(postBody)
-                if (response?.isSuccessful == true) {
+                var response: Response<BusinessDetailsResponseData>?=null
+                response = if(arguments?.getString("from")=="rmbusiness"&&arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)){
+
+                    RetrofitFactory.getApiService().rmResubmitBusiness(postBody)
+
+                }else{
+                    RetrofitFactory.getApiService().saveBusinessDetail(postBody)
+
+                }
+                if(response?.isSuccessful==true&&arguments?.getString("from")=="rmbusiness")
+                {
+                    withContext(Dispatchers.Main) {
+                        if(context is RMReAssignListingActivity)
+                        {
+                            var con=context as RMReAssignListingActivity
+                            con.showAssignListFragment()
+                        }
+                        progressBar.dismmissLoading()
+                    }
+
+
+                }
+                 else if (response?.isSuccessful == true) {
                     val result = response.body()
                     if (result?.apiCode == "200") {
                         withContext(Dispatchers.Main) {

@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
+import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.BUSINESS
 import com.example.arthan.global.INCOME
@@ -30,6 +31,7 @@ import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.lead.model.responsedata.BaseResponseData
+import com.example.arthan.lead.model.responsedata.BusinessDetailsResponseData
 import com.example.arthan.model.BankindDocUploadRequest
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.*
@@ -48,6 +50,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -720,8 +723,27 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitFactory.getApiService().saveIncomeDetail(postBody)
-                if (response?.isSuccessful == true) {
+                var response:  Response<BaseResponseData>?=null
+                response = if(arguments?.getString("from")=="rmIncome"&&arguments?.getString("task").equals("RM_AssignList",ignoreCase = true))
+                {
+                     RetrofitFactory.getApiService().rmResubmitIncome(postBody)
+                }else {
+                      RetrofitFactory.getApiService().saveIncomeDetail(postBody)
+                }
+                if(response?.isSuccessful==true&&arguments?.getString("from")=="rmIncome")
+                {
+                    withContext(Dispatchers.Main) {
+                       if(context is RMReAssignListingActivity)
+                       {
+                           var con=context as RMReAssignListingActivity
+                           con.showAssignListFragment()
+                       }
+                        progressBar.dismmissLoading()
+                    }
+
+
+                }
+                else if (response!!.isSuccessful) {
                     val result = response.body()
                     if (result?.apiCode == "200") {
                         withContext(Dispatchers.Main) {

@@ -6,7 +6,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
+import androidx.core.view.accessibility.AccessibilityViewCommand
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
@@ -24,6 +27,7 @@ import kotlin.coroutines.CoroutineContext
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.getRupeeSymbol
 import com.example.arthan.views.activities.SplashActivity
+import kotlinx.android.synthetic.main.activity_add_lead_step1.*
 
 class LoanDetailActivity : BaseActivity(), CoroutineScope {
 
@@ -44,16 +48,46 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
     private val nTextChangeListener = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) = Unit
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
-            checkForProceed()
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            var case: Boolean = checkForProceed()
+
+            if(case){
+                btn_submit?.isEnabled =case
+            }else
+            {
+                if(property_value_input.hasFocus())
+                {
+                    if(property_value_input?.text.toString().isNotEmpty() && loan_amount_input?.text.toString().isNotEmpty()&&
+                        loan_amount_input?.text.toString().toInt()>property_value_input?.text.toString().toInt())
+                    {
+                        Toast.makeText(this@LoanDetailActivity,"Loan Amount cant be more than Property Value",Toast.LENGTH_LONG).show()
+                    }
+                }
+                if(loan_amount_input.hasFocus())
+                {
+                    if(property_value_input?.text.toString().isNotEmpty()  && loan_amount_input?.text.toString().isNotEmpty()&&
+                        loan_amount_input?.text.toString().toInt()>property_value_input?.text.toString().toInt())
+                    {
+                        Toast.makeText(this@LoanDetailActivity,"Loan Amount cant be more than Property Value",Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+
     }
 
-    private fun checkForProceed() {
-        btn_submit?.isEnabled =
-            loan_amount_input?.text?.isNotEmpty() == true && property_value_input?.text?.isNotEmpty() == true
+    private fun checkForProceed(): Boolean {
+
+          return  loan_amount_input?.text?.isNotEmpty() == true && property_value_input?.text?.isNotEmpty() == true
+                    && (property_value_input?.text.toString().isNotEmpty() &&(property_value_input?.text.toString().toInt()>0))
+                    &&(business_turnover_input?.text.toString().isNotEmpty() &&(business_turnover_input?.text.toString().toInt()>0))
+                    &&(net_profit_margin_input?.text.toString().isNotEmpty() &&(net_profit_margin_input?.text.toString().toInt()>0))
                     && business_turnover_input?.text?.isNotEmpty() == true && net_profit_margin_input?.text?.isNotEmpty() == true
                     && existing_loan_input?.text?.isNotEmpty() == true && existing_loan_obligation_input?.text?.isNotEmpty() == true
                     && additional_income_input?.text?.isNotEmpty() == true && household_expenses_input?.text?.isNotEmpty() == true
+                   && (property_value_input?.text.toString().isNotEmpty() &&(property_value_input?.text.toString().toInt()>0) &&
+                  loan_amount_input?.text.toString().isNotEmpty() &&(loan_amount_input?.text.toString().toInt()>0)&&
+                  loan_amount_input?.text.toString().toInt()<property_value_input?.text.toString().toInt())
     }
 
     override fun init() {
@@ -84,23 +118,58 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             ), null, null, null
         )
 
-        et_years?.tag = 0
+        et_years?.tag = 1
         btn_plus?.setOnClickListener {
-            var years = et_years?.tag as? Int ?: 0
+            var years = et_years?.tag as? Int ?: 1
             years++
-            et_years?.text = "$years yrs"
-            et_years?.tag = years
+            if(years<=7) {
+                et_years?.text = "$years yrs"
+                et_years?.tag = years
+            }else
+            {
+                Toast.makeText(this,"maximum tenure is 7 years",Toast.LENGTH_LONG).show()
+            }
         }
 
         btn_minus?.setOnClickListener {
-            var years = et_years.tag as? Int ?: 0
+            var years = et_years.tag as? Int ?: 1
             years--
-            if (years < 0)
-                years = 0
-            et_years?.text = "$years yrs"
-            et_years?.tag = years
+            if (years >= 1) {
+                et_years?.text = "$years yrs"
+                et_years?.tag = years
+            }else
+            {
+                Toast.makeText(this,"miniumum tenure is 1 year",Toast.LENGTH_LONG).show()
+
+            }
         }
 
+
+        loan_type_spinner?.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if(parent?.getItemAtPosition(position) == "Unsecure")
+                    {
+                        security_offered_spinner.visibility=View.GONE
+                        security_jurisdiction_spinner.visibility=View.GONE
+                        tl_property_value.visibility=View.GONE
+                    }else
+                    {
+                        security_offered_spinner.visibility=View.VISIBLE
+                        security_jurisdiction_spinner.visibility=View.VISIBLE
+                        tl_property_value.visibility=View.VISIBLE
+                    }
+                }
+            }
         btn_submit?.setOnClickListener {
             saveLoanDetails()
 //            startActivity(Intent(this@LoanDetailActivity,LeadScreeningActivity::class.java))

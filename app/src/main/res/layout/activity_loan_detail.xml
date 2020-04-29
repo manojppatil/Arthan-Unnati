@@ -91,7 +91,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:singleLine="true"
-                    android:text="0 Yrs"
+                    android:text="1 Yrs"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold"

@@ -205,7 +205,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 var dialog = AlertDialog.Builder(activity)
                 var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
                 dialog.setView(view)
-                var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)?.text.toString()
+                var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
                 var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
                 var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
 
@@ -217,7 +217,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     var map = HashMap<String, String>()
                     map["loanId"] = mLoanId!!
                     map["custId"] = mCustomerId!!
-                    map["remarks"] = et_remarks
+                    map["remarks"] = et_remarks?.text.toString()
                     map["rltWOValue"] = ""+rltWOCheckBox.isChecked
                     map["rltWFeeValue"] = ""+rltWFeeCheckBox.isChecked
                     map["userId"] = activity?.intent?.getStringExtra("FROM")+""

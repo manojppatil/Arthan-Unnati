@@ -52,7 +52,8 @@ class RMReAssignListingActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAssignListFragment() {
+
+     fun showAssignListFragment() {
         toolbar_title?.text = "Re-Assigned Cases"
         supportFragmentManager.beginTransaction().replace(R.id.rel_frags,RMAssignListFragment()).commit()
 
@@ -63,7 +64,9 @@ class RMReAssignListingActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.rel_frags,BusinessInformationFragment().apply {
             var b=Bundle()
             b.putString("task","RM_AssignList")
-            b.putString("loanId","WVMW-FZEA-UJBK")
+            b.putString("loanId",loanId)
+            b.putString("from","rmbusiness")
+
             this.arguments=b
         }).commit()
         toolbar_title.text="Business details"
@@ -75,7 +78,7 @@ class RMReAssignListingActivity : AppCompatActivity() {
             .apply {
                 var b=Bundle()
                 b.putString("task","RM_AssignList")
-                b.putString("loanId","WVMW-FZEA-UJBK")
+                b.putString("loanId",loanId)
                 b.putString("from","rmIncome")
                 this.arguments=b
 
@@ -90,7 +93,7 @@ class RMReAssignListingActivity : AppCompatActivity() {
             .apply {
                 var b=Bundle()
                 b.putString("task","RM_AssignList")
-                b.putString("loanId","WVMW-FZEA-UJBK")
+                b.putString("loanId",loanId)
                 this.arguments=b
             }).commit()
 
@@ -103,7 +106,7 @@ class RMReAssignListingActivity : AppCompatActivity() {
             .apply {
                 var b=Bundle()
                 b.putString("task","RM_AssignList")
-                b.putString("loanId","WVMW-FZEA-UJBK")
+                b.putString("loanId",loanId)
                 this.arguments=b
             }).commit()
         toolbar_title.text="Documents"

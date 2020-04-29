@@ -46,6 +46,7 @@ import kotlinx.android.synthetic.main.activity_add_lead_step1.*
 import kotlinx.coroutines.*
 import retrofit2.HttpException
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -457,7 +458,18 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                     this,
                     DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                         val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
-                        et_date.setText(date)
+
+
+                        var timenow=Calendar.getInstance().time
+                        var simpleDateFormat:SimpleDateFormat= SimpleDateFormat("")
+                        var formatDate:String=simpleDateFormat.format(timenow)
+                        if(SimpleDateFormat("dd-MM-yyyy").parse(date).after(Date())){
+                            et_date.setText(date)
+
+                        }else
+                        {
+                            Toast.makeText(this,"Later should be greater than current date",Toast.LENGTH_LONG).show()
+                        }
                     },
                     c.get(Calendar.YEAR),
                     c.get(Calendar.MONTH),

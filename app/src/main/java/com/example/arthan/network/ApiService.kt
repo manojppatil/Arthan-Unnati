@@ -113,8 +113,14 @@ interface ApiService {
     @POST("saveBusinessDetails")
     suspend fun saveBusinessDetail(@Body body: BusinessDetailsPostData?): Response<BusinessDetailsResponseData>?
 
+    @POST("rmResubmitBusiness")
+    suspend fun rmResubmitBusiness(@Body body: BusinessDetailsPostData?): Response<BusinessDetailsResponseData>?
+
     @POST("saveIncomeDetails")
     suspend fun saveIncomeDetail(@Body body: IncomeDetailsPostData?): Response<BaseResponseData>?
+
+    @POST("rmResubmitIncome")
+    suspend fun rmResubmitIncome(@Body body: IncomeDetailsPostData?): Response<BaseResponseData>?
 
     @POST("saveTradeReference")
     suspend fun saveTradeReference(@Body body: TradeReferencePostData?): Response<BaseResponseData>?

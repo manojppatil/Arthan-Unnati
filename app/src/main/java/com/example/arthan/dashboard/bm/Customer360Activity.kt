@@ -109,7 +109,12 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
 
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.cl_id_address -> startActivity(Intent(this, IDAddressActivity::class.java))
+            R.id.cl_id_address -> startActivity(Intent(this, IDAddressActivity::class.java).apply {
+                putExtra("loanId",loanId)
+                putExtra("custId",customerId)
+                putExtra("cname",intent.getStringExtra("cname"))
+                putExtra("idData",mCustomer360Data?.ipAddressVO)
+            })
             R.id.cl_bureau -> startActivity(Intent(this, BureauActivity::class.java))
             R.id.cl_banking -> startActivity(Intent(this, BankingActivity::class.java).apply {
                 putExtra("loanId",loanId)
