@@ -47,6 +47,12 @@
             android:layout_marginTop="8dp"
             android:id="@+id/sp_security_subType"
             />
+        <include layout="@layout/liquid_type_layout"
+            android:id="@+id/liquid_type"
+            />
+        <include layout="@layout/movable_type_layout"
+            android:id="@+id/movable_type"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
