@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
+    android:orientation="vertical"
     >
 
     <TextView
@@ -11,5 +12,124 @@
         android:text="Liquid details"
         android:textStyle="bold"
         android:textSize="16sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ownership"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:weightSum="1"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:text="Individual"
+            android:id="@+id/rb_individual"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:id="@+id/rb_joint"
+            android:text="Joint"/>
+    </RadioGroup>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:weightSum="1">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:text="Policy No."
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/policyNo"
+            android:inputType="text"
+            android:layout_weight="0.7"/>
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:text="Issue Date:"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/issueDate"
+                android:layout_weight="0.7"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:text="Validity Date:"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/validityDate"
+                android:layout_weight="0.7"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:text="Current value:"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/currentValue"
+                android:inputType="number"
+                android:layout_weight="0.7"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:text="Remarks:"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:layout_width="0dp"
+                android:inputType="text"
+                android:layout_height="wrap_content"
+                android:id="@+id/remarks"
+                android:layout_weight="0.7"/>
+        </LinearLayout>
+
 
 </LinearLayout>

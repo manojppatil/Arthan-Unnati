@@ -133,6 +133,22 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                           /*  if(list?.get(position)?.description=="Immovable")
                             {*/
                                 fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
+                        if(list?.get(position)?.description.toLowerCase()=="movable")
+                        {
+                            movable_type.visibility=View.VISIBLE
+                        }else
+                        {
+                            movable_type.visibility=View.GONE
+
+                        }
+                        if(list?.get(position)?.description.toLowerCase()=="liquid")
+                        {
+                            liquid_type.visibility=View.VISIBLE
+                        }else
+                        {
+                            liquid_type.visibility=View.GONE
+
+                        }
 //                            }
                     }
                 }
