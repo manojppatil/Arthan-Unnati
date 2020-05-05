@@ -1,5 +1,7 @@
 package com.example.arthan.lead
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
@@ -65,7 +67,13 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
 //        ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_next.setOnClickListener {
-            savePersonalData()
+            if(intent.getStringExtra("type")==null) {
+                savePersonalData("PA")
+            }else
+            {
+                savePersonalData(intent.getStringExtra("type"))
+
+            }
         }
 
         et_dob.setOnClickListener {
@@ -105,7 +113,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         }
     }
 
-    private fun savePersonalData() {
+    private fun savePersonalData( applicantType:String) {
+
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
         val postBody = PersonalPostData(
@@ -139,7 +148,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             city = city_input?.text?.toString() ?: "",
             district = district_input?.text?.toString() ?: "",
             state = state_input?.text?.toString() ?: "",
-            applicantType = "PA"
+            applicantType = applicantType
         )
 
         CoroutineScope(ioContext).launch {
@@ -176,6 +185,71 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                             it.remove(AppPreferences.Key.Pincode)
                                         }
                                         progressBar.dismmissLoading()
+                                        if (applicantType == "PA") {
+                                            var alert =
+                                                AlertDialog.Builder(this@PersonalInformationActivity)
+                                            alert.setMessage("Do you want to add co-applicant ?")
+                                            alert.setPositiveButton(
+                                                "Yes",
+                                                DialogInterface.OnClickListener { dialog, which ->
+                                                    dialog.dismiss()
+
+                                                    startActivity(
+                                                        Intent(
+                                                            this@PersonalInformationActivity,
+                                                            AddLeadStep2Activity::class.java
+                                                        ).apply {
+                                                            putExtra("type", "CA")
+                                                        })
+                                                    finish()
+
+                                                })
+                                            alert.setNegativeButton(
+                                                "No",
+                                                DialogInterface.OnClickListener { dialog, which ->
+                                                    ConsentActivity.startMe(
+                                                        this@PersonalInformationActivity,
+                                                        result.inPrincipleLnAmt
+                                                    )
+                                                    dialog.dismiss()
+                                                })
+                                            alert.show()
+
+                                        }
+                                        if (applicantType == "CA") {
+                                            var alert =
+                                                AlertDialog.Builder(this@PersonalInformationActivity)
+                                            alert.setMessage("Do you want to add Guarantor ?")
+                                            alert.setPositiveButton(
+                                                "Yes",
+                                                DialogInterface.OnClickListener { dialog, which ->
+                                                    dialog.dismiss()
+
+                                                    startActivity(
+                                                        Intent(
+                                                            this@PersonalInformationActivity,
+                                                            AddLeadStep2Activity::class.java
+                                                        ).apply {
+                                                            putExtra("type", "G")
+                                                        })
+                                                    finish()
+
+                                                })
+                                            alert.setNegativeButton(
+                                                "No",
+                                                DialogInterface.OnClickListener { dialog, which ->
+                                                    ConsentActivity.startMe(
+                                                        this@PersonalInformationActivity,
+                                                        result.inPrincipleLnAmt
+                                                    )
+                                                    dialog.dismiss()
+                                                })
+
+                                            alert.show()
+                                        }
+                                    }
+                                    if (applicantType == "G") {
+
                                         ConsentActivity.startMe(
                                             this@PersonalInformationActivity,
                                             result.inPrincipleLnAmt
@@ -207,7 +281,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 } else {
                     try {
                         val result: PersonalResponseData? = Gson().fromJson(
-                            response?.errorBody()?.string(),
+                            response?.errorBody()?.toString(),
                             PersonalResponseData::class.java
                         )
                         stopLoading(progressBar, result?.message)
@@ -379,5 +453,15 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         }
         return super.onOptionsItemSelected(item)
     }
-    override fun screenTitle() = "Personal Details"
+    override fun screenTitle() =
+        when(intent.getStringExtra("type"))
+        {
+            null-> "Personal Details"
+            "CA"->"Co-Applicant Details"
+            "G"->"Guarantor Details"
+            else->"Personal Details"
+
+        }
+
+
 }

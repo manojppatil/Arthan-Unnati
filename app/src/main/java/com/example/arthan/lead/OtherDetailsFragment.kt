@@ -796,7 +796,6 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
           }
         }catch (e:Exception){
 
-            Toast.makeText(context,"this ere",Toast.LENGTH_LONG).show()
         }
 
     }

@@ -74,6 +74,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 startActivity(Intent(this, PersonalInformationActivity::class.java).also {
                     it.putExtra("PAN_DATA", mKYCPostData)
                     it.putExtra("APPLICANT_PHOTO",applicantPhoto)
+                    it.putExtra("type",intent.getStringExtra("type"))
                 })
             }
         }
