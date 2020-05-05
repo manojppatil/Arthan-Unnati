@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.TypedValue
 import android.widget.EditText
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.example.arthan.lead.CardType
 import java.io.*
 import java.util.*
 
@@ -173,6 +175,44 @@ object ArgumentKey {
     const val ApplicantPhoto= "applicant_photo"
     const val PDData = "pd_data"
     const val Eligibility="Eligibility"
+
+    const val Passport = "Passport"
+    const val PFP = "PFP"
+
+    const val electricityBill="Electricity Bill"
+    const val DrivingLicense="Driving License"
+    const val waterBill="Water Bill"
+    const val telephoneBill="Telephone Bill"
+
+    const val SalesTaxRegistration="SalesTaxRegistration"
+    const val VatOrder="VatOrder"
+    const val LicenseissuedunderShop="LicenseissuedunderShop"
+    const val EstablishmentAct="EstablishmentAct"
+    const val CST="CST"
+    const val VAT="VAT"
+    const val GSTCert="GSTCert"
+    const val CurrentACofbankStmt="CurrentACofbankStmt"
+    const val SSIcertificate="SSIcertificate"
+    const val  LatestTelephoneBill="LatestTelephoneBill"
+    const val  ElectricityBill="ElectricityBill"
+    const val  BankStatement="BankStatement"
+    const val  LeaveandLicenceagreement="LeaveandLicenceagreement"
+
+
+    const val Last2yearsITR="Last2yearsITR"
+    const val Auditedbalancesheet="Auditedbalancesheet"
+    const val SaleDeed="SaleDeed"
+    const val ChainDocument="ChainDocument"
+    const val PropertyTaxReceipt="PropertyTaxReceipt"
+    const val ROR="ROR"
+    const val NOC="NOC"
+    const val _7by12="_7by12"
+    const val Mutation="Mutation"
+    const val FerfarCertificate="FerfarCertificate"
+    const val Others="Others"
+    const val AadharCardAddrProof="AadharCardAddrProof"
+    const val LoanDoc="LoanDoc"
+
 }
 
 object ConstantValue {
@@ -185,6 +225,39 @@ object ConstantValue {
 }
 
 object RequestCode {
+    const val electricityBill=0x1001
+    const val DrivingLicense=0x1000
+    const val waterBill=0x1002
+    const val telephonebill=0x1003
+
+    const val SalesTaxRegistration=0x1004
+    const val VatOrder=0x1005
+    const val LicenseissuedunderShop=0x1006
+    const val EstablishmentAct=0x1007
+    const val CST=0x1008
+    const val VAT=0x1009
+    const val GSTCert=0x1011
+    const val CurrentACofbankStmt=0x1012
+    const val SSIcertificate=0x1013
+
+    const val  LatestTelephoneBill=0x1014
+    const val  ElectricityBill=0x1015
+    const val  BankStatement=0x1016
+    const val  LeaveandLicenceagreement=0x1017
+
+
+    const val Last2yearsITR=0x1018
+    const val Auditedbalancesheet=0x1019
+    const val SaleDeed=0x1020
+    const val ChainDocument=0x1021
+    const val PropertyTaxReceipt=0x1022
+    const val ROR=0x1023
+    const val NOC=0x1024
+    const val _7by12=0x1025
+    const val Mutation=0x1026
+    const val FerfarCertificate=0x1027
+    const val Others=0x1028
+
     const val GSTDetailsActivity = 0x0000
     const val BillsDetailsActivity = 0x0001
     const val ObligationsDetailsActivity = 0x0002
@@ -198,4 +271,8 @@ object RequestCode {
     const val PropertyDocument = 0x0010
     const val Passport = 0x000A
     const val PFP = 0x0011
+    const val AadharCardAddrProof = 0x1029
+    const val LoanDoc = 0x1030
+
+
 }

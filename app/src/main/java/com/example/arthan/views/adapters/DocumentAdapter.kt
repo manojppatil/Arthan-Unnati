@@ -6,11 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.bumptech.glide.Glide
 import com.example.arthan.R
+import com.example.arthan.network.S3UploadFile
+import com.example.arthan.network.S3Utility
+import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.utils.loadImage
 import com.example.arthan.views.activities.SubmitFinalReportActivity
+import java.io.File
 
-class DocumentAdapter(private val mContext:SubmitFinalReportActivity, private val docs: MutableList<Uri>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DocumentAdapter(
+    private val mContext: SubmitFinalReportActivity,
+    private val docs: MutableList<Uri>,
+    private val docUrlList: ArrayList<String>
+):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val HEADER_VIEW= 0
     val DOC_VIEW=1
@@ -57,7 +67,32 @@ class DocumentAdapter(private val mContext:SubmitFinalReportActivity, private va
         fun bind(position: Int){
             if(position!=0)
             Glide.with(mContext).load(docs[position-1]).into(root.findViewById(R.id.img_doc))
+            val loader = ProgrssLoader(context = mContext)
+            loader.showLoading()
+            loadImage(mContext, root.findViewById(R.id.img_doc), docs[position-1], { filePath ->
+                try {
+                    val file: File = File(filePath)
+                    val url = file.name
+                    val fileList: MutableList<S3UploadFile> = mutableListOf()
+                    fileList.add(S3UploadFile(file, url))
+                    S3Utility.getInstance(mContext)
+                        .uploadFile(fileList,
+                            {
+                               val url = fileList[0].url ?: filePath
+                                docUrlList.add(url)
+                                ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                            }) {
+                            ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                        }
+                } catch (e: Exception) {
+                    ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                    e.printStackTrace()
+                }
+            })
         }
+    }
+    fun getDocUrlList(): ArrayList<String> {
+        return docUrlList
     }
 
     inner class HeaderVH(private val root: View): RecyclerView.ViewHolder(root){

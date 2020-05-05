@@ -1,31 +1,26 @@
 package com.example.arthan.views.activities
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toFile
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
-import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.bm.model.FinalReportPostData
 import com.example.arthan.global.STATUS
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.network.S3UploadFile
 import com.example.arthan.network.S3Utility
-import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.utils.DateFormatUtil
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.loadImage
@@ -33,10 +28,7 @@ import com.example.arthan.views.adapters.DocumentAdapter
 import com.example.arthan.views.adapters.SanctionAdapter
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
-import kotlinx.android.synthetic.main.activity_my_profile.*
-import kotlinx.android.synthetic.main.activity_my_profile.btn_next
 import kotlinx.android.synthetic.main.activity_submit_final_report.*
-import kotlinx.android.synthetic.main.fragment_approve_consent.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,6 +43,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
     var mDocAdapter: DocumentAdapter? = null
     val fileList: MutableList<S3UploadFile> = mutableListOf()
     var sanctionList=ArrayList<String>()
+    var docUrlList:String=""
 
 
     override fun contentView() = R.layout.activity_submit_final_report
@@ -106,8 +99,8 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         }
 
 
-        mDocAdapter = DocumentAdapter(this, docList)
-        rv_docs.adapter=mDocAdapter
+       // mDocAdapter = DocumentAdapter(this, docList,docUrlList)
+     //   rv_docs.adapter=mDocAdapter
     }
 
     private fun saveSanction() {
@@ -169,6 +162,8 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
+                val progressBar = ProgrssLoader(this)
+                progressBar.showLoading()
 
                 var decision=""
                 if(intent.getStringExtra(STATUS).contains("reject",ignoreCase = true))
@@ -188,7 +183,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     intent.getStringExtra(STATUS),
                     decision,
                     et_reason.text.toString(),
-                    "",
+                    docUrlList,
                     sanctionList,intent.getStringExtra("FROM")
 
 
@@ -204,6 +199,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                       val result = respo.body()
                       if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
 
+                          progressBar.dismmissLoading()
                           startActivity(Intent(
                               this@SubmitFinalReportActivity,
                               BMDashboardActivity::class.java
@@ -228,6 +224,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                       } else {
                           withContext(Dispatchers.Main) {
 
+                              progressBar.dismmissLoading()
                               Toast.makeText(
                                   this@SubmitFinalReportActivity,
                                   "Please try again later",
@@ -245,6 +242,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
                       val result = respo.body()
                       withContext(Dispatchers.Main) {
+                          progressBar.dismmissLoading()
                           if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
 
                               var  msg =
@@ -350,8 +348,32 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             100 -> {
                      ll_upload_document.visibility= View.GONE
                      rv_docs.visibility= View.VISIBLE
-                     val loader = ProgrssLoader(this)
-                docList.add(currentCapture!!)
+
+
+                val loader = ProgrssLoader(context = this)
+                loader.showLoading()
+                loadImage(this, rv_docs, currentCapture!!, { filePath ->
+                    try {
+                        val file: File = File(filePath)
+                        val url = file.name
+                        val fileList: MutableList<S3UploadFile> = mutableListOf()
+                        fileList.add(S3UploadFile(file, url))
+                        S3Utility.getInstance(this)
+                            .uploadFile(fileList,
+                                {
+                                    docUrlList = fileList[0].url ?: filePath
+                                    println("docurlList-"+docUrlList)
+                                    ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                                }) {
+                                ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                            }
+                    } catch (e: Exception) {
+                        ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                        e.printStackTrace()
+                    }
+                })
+              //  docList.add(currentCapture!!)//used
+
                     //      loader.showLoading()
                      /*docList.add(currentCapture!!)
                 if(mDocAdapter?.itemCount==0)
@@ -359,9 +381,14 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     rv_docs.adapter=mDocAdapter
                 }*/
 //                mDocAdapter?.notifyDataSetChanged()
-                     mDocAdapter?.addNewDoc(currentCapture!!)
+                   //  mDocAdapter?.addNewDoc(currentCapture!!)//used
 //               mDocAdapter?.notifyDataSetChanged()
 //                capture.setImageURI(currentCapture)
+
+
+
+
+/*
 
                 val file = File(currentCapture!!.path)
                 val url = file.name + file.extension
@@ -376,6 +403,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                         ThreadUtils.runOnUiThread { loader.dismmissLoading() }
                     }
 //                     Log.e("DOC SIZE","::: ${docList.size}")
+*/
 
 
             }

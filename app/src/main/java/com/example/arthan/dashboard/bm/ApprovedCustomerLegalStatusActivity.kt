@@ -1,15 +1,18 @@
 package com.example.arthan.dashboard.bm
 
+import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.NonNull
+import android.widget.Button
+import android.widget.EditText
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.CommonApprovedListingActivity
 import com.example.arthan.model.ApprovedCaseData
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.activities.SplashActivity
@@ -18,7 +21,7 @@ import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.NotNull
+import kotlinx.coroutines.withContext
 
 class ApprovedCustomerLegalStatusActivity : BaseActivity() {
 
@@ -26,12 +29,14 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
 
     override fun onToolbarBackPressed() = onBackPressed()
 
-    private var statusSelected = "";
+    private var statusSelected = "approve";
     override fun init() {
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
 
-
+        if(intent.getStringExtra("FROM")=="BCM"){
+            btn_moveToBCMQueue.visibility=View.VISIBLE
+        }
         screenTitle()
         var data = intent.getSerializableExtra("object") as ApprovedCaseData
 
@@ -55,84 +60,174 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
             iv_tech.setImageResource(R.drawable.quit)
 
         }
-        btn_approve.setOnCheckedChangeListener { _, _ ->
+        btn_approve.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked)
             statusSelected = "approve"
         }
-        btn_reject.setOnCheckedChangeListener { _, _ ->
+        btn_reject.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked)
             statusSelected = "reject"
         }
-        btn_recommendCC.setOnCheckedChangeListener { _, _ ->
+        btn_recommendCC.setOnCheckedChangeListener { _, isChecked ->
+
+            if(isChecked)
             statusSelected = "recommend"
+        }
+        btn_moveToBCMQueue.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked)
+            statusSelected = "Move to My Queue"
         }
 
 
 
-        btn_Submit.setOnClickListener {
+        btn_Submit_data.setOnClickListener {
 
-            CoroutineScope(Dispatchers.IO).launch {
-                var map = HashMap<String, String>()
-                map["loanId"] = data.caseId
-                map["userId"] = intent.getStringExtra("FROM")
-                map["decision"] = statusSelected
-                var response = RetrofitFactory.getApiService().bcmRLTSubmit(map)
 
-                if (response?.body() != null) {
-                    Log.d("bcmRLTSubmit", response.body().toString())
-                    /*     {
-                    "apiCode":"200",
-                    "apiDesc":"Success",
-                    "eligibility":"Y"
+            var dialog = AlertDialog.Builder(this@ApprovedCustomerLegalStatusActivity)
+            var view: View? = this@ApprovedCustomerLegalStatusActivity.layoutInflater.inflate(R.layout.remarks_popup, null)
+            dialog.setView(view)
+            var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
+            var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+            var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
+
+            var alert= dialog.create() as AlertDialog
+            alert.show()
+            btn_cancel?.setOnClickListener {
+                alert.dismiss()
+            }
+            btn_submit_remark?.setOnClickListener {
+
+                val progressBar = ProgrssLoader(this)
+                progressBar.showLoading()
+                alert.dismiss()
+                CoroutineScope(Dispatchers.IO).launch {
+                    var map = HashMap<String, String>()
+                    map["loanId"] = data.caseId
+                    map["userId"] = intent.getStringExtra("FROM")
+                    map["decision"] = statusSelected
+                    map["remarks"] = et_remarks?.text.toString()
+                    var response = RetrofitFactory.getApiService().bcmRLTSubmit(map)
+
+                    if (response?.body() != null) {
+                        Log.d("bcmRLTSubmit", response.body().toString())
+                        /*     {
+                        "apiCode":"200",
+                        "apiDesc":"Success",
+                        "eligibility":"Y"
+                                }
+
+                         */
+                        withContext(Dispatchers.Main) {
+                            progressBar.dismmissLoading()
+                            if ((data.rcuStatus.equals(
+                                    "Y",
+                                    ignoreCase = true
+                                ) && data.techStatus.equals(
+                                    "Y",
+                                    ignoreCase = true
+                                ) && data.legalStatus.equals("Y", ignoreCase = true))
+                                && (data.rcuReport.toLowerCase().equals(
+                                    "positive",
+                                    ignoreCase = true
+                                ) && data.legalReport.toLowerCase().equals(
+                                    "positive",
+                                    ignoreCase = true
+                                )
+                                        && data.techReport.toLowerCase().contentEquals("positive"))
+                            ) {
+                                when (statusSelected) {
+                                    "approve" -> {
+                                        startActivity(
+                                            Intent(
+                                                this@ApprovedCustomerLegalStatusActivity,
+                                                LPCActivity::class.java
+                                            ).apply {
+                                                putExtra("FROM", intent.getStringExtra("FROM"))
+                                                putExtra("Name", intent.getStringExtra("Name"))
+                                                putExtra(
+                                                    "object",
+                                                    intent.getSerializableExtra("object")
+                                                )
+                                            })
+                                    }
+                                    "reject", "recommend", "Move to My Queue" -> {
+                                        startActivity(
+                                            Intent(
+                                                this@ApprovedCustomerLegalStatusActivity,
+                                                CommonApprovedListingActivity::class.java
+                                            ).apply {
+                                                putExtra("FROM", intent.getStringExtra("FROM"))
+                                                putExtra("Name", intent.getStringExtra("Name"))
+                                                putExtra(
+                                                    "object",
+                                                    intent.getSerializableExtra("object")
+                                                )
+                                            })
+
+                                    }
+                                }
+
+                            } else if ((data.rcuStatus.equals(
+                                    "n",
+                                    ignoreCase = true
+                                ) && data.techStatus.equals(
+                                    "Y",
+                                    ignoreCase = true
+                                ) && data.legalStatus.equals("y", ignoreCase = true))
+                                && (data.legalReport.toLowerCase().contentEquals("positive") && data.techReport.toLowerCase().contentEquals(
+                                    "positive"
+                                ))
+                            ) {
+                                when (statusSelected) {
+                                    "approve" -> {
+                                        startActivity(
+                                            Intent(
+                                                this@ApprovedCustomerLegalStatusActivity,
+                                                LPCActivity::class.java
+                                            ).apply {
+                                                putExtra("FROM", intent.getStringExtra("FROM"))
+                                                putExtra("Name", intent.getStringExtra("Name"))
+                                                putExtra(
+                                                    "object",
+                                                    intent.getSerializableExtra("object")
+                                                )
+                                            })
+                                    }
+                                    "reject", "recommend", "Move to My Queue" -> {
+                                        startActivity(
+                                            Intent(
+                                                this@ApprovedCustomerLegalStatusActivity,
+                                                CommonApprovedListingActivity::class.java
+                                            ).apply {
+                                                putExtra("FROM", intent.getStringExtra("FROM"))
+                                                putExtra("Name", intent.getStringExtra("Name"))
+                                                putExtra(
+                                                    "object",
+                                                    intent.getSerializableExtra("object")
+                                                )
+                                            })
+
+                                    }
+                                }
+                            } else {
+                                startActivity(
+                                    Intent(
+                                        this@ApprovedCustomerLegalStatusActivity,
+                                        PendingCustomersActivity::class.java
+                                    ).apply {
+                                        putExtra("FROM", intent.getStringExtra("FROM"))
+
+                                    })
                             }
-
-                     */
+                        }
+                    }else
+                    {
+                        progressBar.dismmissLoading()
+                    }
                 }
             }
-            if ((data.rcuStatus.equals("Y", ignoreCase = true) && data.techStatus.equals(
-                    "Y",
-                    ignoreCase = true
-                ) && data.legalStatus.equals("Y", ignoreCase = true))
-                && (data.rcuReport.toLowerCase().equals(
-                    "positive",
-                    ignoreCase = true
-                ) && data.legalReport.toLowerCase().equals("positive", ignoreCase = true)
-                        && data.techReport.toLowerCase().contentEquals("positive"))
-            ) {
-                startActivity(
-                    Intent(
-                        this@ApprovedCustomerLegalStatusActivity,
-                        ApprovedCustomerReviewActivity::class.java
-                    ).apply {
-                        putExtra("FROM", intent.getStringExtra("FROM"))
-                        putExtra("Name", intent.getStringExtra("Name"))
-                        putExtra("object", intent.getSerializableExtra("object"))
-                    })
-            } else if ((data.rcuStatus.equals("n", ignoreCase = true) && data.techStatus.equals(
-                    "Y",
-                    ignoreCase = true
-                ) && data.legalStatus.equals("y", ignoreCase = true))
-                && (data.legalReport.toLowerCase().contentEquals("positive") && data.techReport.toLowerCase().contentEquals(
-                    "positive"
-                ))
-            ) {
-                startActivity(
-                    Intent(
-                        this@ApprovedCustomerLegalStatusActivity,
-                        ApprovedCustomerReviewActivity::class.java
-                    ).apply {
-                        putExtra("FROM", intent.getStringExtra("FROM"))
-                        putExtra("Name", intent.getStringExtra("Name"))
-                        putExtra("object", intent.getSerializableExtra("object"))
-                    })
-            } else {
-                startActivity(
-                    Intent(
-                        this@ApprovedCustomerLegalStatusActivity,
-                        PendingCustomersActivity::class.java
-                    ).apply {
-                        putExtra("FROM", intent.getStringExtra("FROM"))
 
-                    })
-            }
+
 
         }
     }

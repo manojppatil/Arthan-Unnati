@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import com.example.arthan.R
+import com.example.arthan.global.AppPreferences
 import kotlinx.android.synthetic.main.activity_document.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 
@@ -18,6 +19,7 @@ class DocumentActivity : AppCompatActivity() {
         var b=Bundle()
         b.putString("loanId",intent.getStringExtra("loanId"))
         b.putString("custId",intent.getStringExtra("custId"))
+        AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,intent.getStringExtra("loanId"))
         documentFragment.arguments=b
         supportFragmentManager
             .beginTransaction()

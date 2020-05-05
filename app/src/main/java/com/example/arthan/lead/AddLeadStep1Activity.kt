@@ -1,6 +1,7 @@
 package com.example.arthan.lead
 
 import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -24,6 +25,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.bumptech.glide.Glide
 import com.example.arthan.AppLocationProvider
 import com.example.arthan.R
@@ -35,14 +37,35 @@ import com.example.arthan.lead.model.responsedata.LeadResponseData
 import com.example.arthan.liveness.LivenessRequest
 import com.example.arthan.liveness.LivenessResponse
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.network.S3UploadFile
+import com.example.arthan.network.S3Utility
+import com.example.arthan.ocr.CardResponse
+import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.utils.BitmapUtils
+import com.example.arthan.utils.ConstantValue
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.utils.loadImage
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_add_lead_step1.*
+import kotlinx.android.synthetic.main.activity_add_lead_step1.btn_next
+import kotlinx.android.synthetic.main.activity_add_lead_step1.business_industry_spinner
+import kotlinx.android.synthetic.main.activity_add_lead_step1.chk_later
+import kotlinx.android.synthetic.main.activity_add_lead_step1.et_area_pincode
+import kotlinx.android.synthetic.main.activity_add_lead_step1.et_customer_name
+import kotlinx.android.synthetic.main.activity_add_lead_step1.et_date
+import kotlinx.android.synthetic.main.activity_add_lead_step1.et_establishment_name
+import kotlinx.android.synthetic.main.activity_add_lead_step1.et_mobile_number
+import kotlinx.android.synthetic.main.activity_add_lead_step1.img_shop
+import kotlinx.android.synthetic.main.activity_add_lead_step1.industry_segment_spinner
+import kotlinx.android.synthetic.main.activity_add_lead_step1.industry_type_spinner
+import kotlinx.android.synthetic.main.activity_add_lead_step1.ll_upload_photo
+import kotlinx.android.synthetic.main.activity_add_lead_step1.switch_interested
+import kotlinx.android.synthetic.main.activity_my_profile.*
+import kotlinx.android.synthetic.main.fragment_add_new_lead.*
 import kotlinx.coroutines.*
 import retrofit2.HttpException
 import java.io.File
@@ -63,6 +86,8 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
     private val uiContext: CoroutineContext
         get() = Dispatchers.Main
 
+
+    private var shopUrl: String? = ""
     override fun afterTextChanged(p0: Editable?) {
         checkForProceed()
     }
@@ -174,9 +199,18 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
         )
         if (!dir.exists())
             dir.mkdirs()
-        return File(
-            dir.absolutePath + "/IMG_shop.jpg"
-        )
+/*
+        var file:File=File(
+            dir.absolutePath+ "/"+(0..10000).random() +"/IMG_shop.jpg"
+        )*/
+
+
+           /* file.delete()
+            file=File(
+                dir.absolutePath +"/IMG_shop.jpg"
+            )*/
+        return  File(
+            dir.absolutePath +"/${(0..1000).random()}_IM_shop.jpg")
     }
 
     private fun navigateToCamera() {
@@ -216,15 +250,43 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 
              }*/
             100 -> {
+                if(File(shopUri?.path).length()>0) {
                 ll_upload_photo.visibility = View.GONE
                 img_shop.visibility = View.VISIBLE
                 Glide.with(this).load(shopUri).error(R.mipmap.ic_launcher).into(img_shop)
                 checkForProceed()
-               // detectFace()
+
+
+                    val loader = ProgrssLoader(this)
+                    loader.showLoading()
+                    loadImage(this, img_shop, shopUri!!, { filePath ->
+                        try {
+                            val file: File = File(filePath)
+                            val url = file.name
+                            val fileList: MutableList<S3UploadFile> = mutableListOf()
+                            fileList.add(S3UploadFile(file, url))
+                            S3Utility.getInstance(this)
+                                .uploadFile(fileList,
+                                    {
+                                        shopUrl = fileList[0].url ?: filePath
+                                        ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                                    }) {
+                                    ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                                }
+                        } catch (e: Exception) {
+                            ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                            e.printStackTrace()
+                        }
+                    })
+                }
+
+
+                // detectFace()
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
+
 
     private fun detectFace() {
         if (shopUri != null) {
@@ -372,6 +434,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             laterDate = et_date?.text?.toString() ?: "",
             lat = lat.toString(),
             long = lng.toString(),
+            shopPicUrl=shopUrl,
             createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
         )
         CoroutineScope(Dispatchers.IO).launch {

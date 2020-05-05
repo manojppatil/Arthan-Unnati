@@ -31,18 +31,27 @@ import com.example.arthan.lead.model.responsedata.LeadResponseData
 import com.example.arthan.liveness.LivenessRequest
 import com.example.arthan.liveness.LivenessResponse
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.network.S3UploadFile
+import com.example.arthan.network.S3Utility
+import com.example.arthan.ocr.CardResponse
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.BitmapUtils
+import com.example.arthan.utils.ConstantValue
 import com.example.arthan.utils.ProgrssLoader
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_upload_document.*
 import kotlinx.android.synthetic.main.fragment_add_new_lead.*
+import kotlinx.android.synthetic.main.fragment_add_new_lead.btn_next
 import kotlinx.coroutines.*
 import retrofit2.HttpException
 import java.io.File
 import java.util.*
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * A simple [Fragment] subclass.
@@ -58,8 +67,10 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
 
     private val uiContext: CoroutineContext
         get() = Dispatchers.Main
+    private var mCardData: CardResponse? = null
 
     private var mShopUri: Uri? = null
+    private var shopUrl: String? = null
     private val nTextChanged = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) = checkForProceed()
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -160,6 +171,59 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                 }
             }
     }
+    private  fun uploadToS3(
+        filePath: String
+    ) {
+
+        val progressBar = ProgrssLoader(context!!)
+        progressBar.showLoading()
+        val fileList = mutableListOf(
+            S3UploadFile(
+                File(filePath),
+                "${et_customer_name}${
+                        "_shopUrl"
+                }.${File(filePath).extension}"
+            )
+        )
+        S3Utility.getInstance()
+            .uploadFile(fileList,
+                {
+                    if (mCardData == null) {
+                        mCardData = CardResponse("", "", "", "", null)
+                    }
+                        mCardData?.cardFrontUrl = fileList[0].url
+
+                    Log.e("URL", ":::: ${fileList[0].url}")
+
+                    CoroutineScope(uiContext).launch {
+
+                            if (mCardData?.status?.equals(
+                                    ConstantValue.CardStatus.Ok,
+                                    true
+                                ) == true
+                            ){
+                                shopUrl= mCardData!!.cardFrontUrl
+                                progressBar.dismmissLoading()
+                            }
+                            else {
+                                progressBar.dismmissLoading()
+                                Toast.makeText(
+                                    activity,
+                                    "Please capture again",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                    }
+                }
+            ) {
+                Toast.makeText(
+                    activity,
+                    "$it",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -170,6 +234,8 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                 Glide.with(this).load(mShopUri).into(img_shop)
                 checkForProceed()
                 detectFace()
+                uploadToS3(mShopUri.toString())
+
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }

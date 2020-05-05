@@ -8,7 +8,7 @@ data class Cust360ResponseData(
     val bankDetailsVO: String?,
     val collateralVO: CollateralVO?,
     val gstDetailsVO: GstDetailsVO?,
-    val ipAddressVO: IpAddressVO?,
+    val ipAddressVO: ipAddressVO?,
     val pdVO: PdX?,
     val scVO: SCVO?,
     val pd1DetailsVO: Pd1?,

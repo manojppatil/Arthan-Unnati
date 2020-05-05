@@ -245,10 +245,31 @@
             android:textColor="#000"
             android:textStyle="bold"
             />
+            <RadioButton
+            android:id="@+id/btn_moveToBCMQueue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+
+                android:visibility="gone"
+            android:enabled="true"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingLeft="36dp"
+            android:paddingTop="8dp"
+            android:paddingRight="36dp"
+            android:paddingBottom="8dp"
+            android:text="Move to My Queue"
+            android:textAllCaps="false"
+            android:textColor="#000"
+            android:textStyle="bold"
+            />
         </RadioGroup>
 
         <Button
-            android:id="@+id/btn_Submit"
+            android:id="@+id/btn_Submit_data"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_next_enabled"

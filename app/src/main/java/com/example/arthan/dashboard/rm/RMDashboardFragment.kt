@@ -3,11 +3,9 @@ package com.example.arthan.dashboard.rm
 import android.content.Intent
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.arthan.R
-import com.example.arthan.dashboard.bm.InProgressListingActivity
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
 import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.views.fragments.BaseFragment
@@ -94,7 +92,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
             R.id.cv_approved -> startActivity(
                 Intent(
                     activity,
-                    RMApprovedListingActivity::class.java
+                    CommonApprovedListingActivity::class.java
                 ).apply {
                     putExtra("FROM", "RM")
                 })

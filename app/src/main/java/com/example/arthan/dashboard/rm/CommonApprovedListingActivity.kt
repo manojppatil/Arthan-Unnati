@@ -17,7 +17,7 @@ import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 
-class RMApprovedListingActivity : AppCompatActivity() {
+class CommonApprovedListingActivity : AppCompatActivity() {
 
     private lateinit var mViewModel: RMDashboardViewModel
 

@@ -11,7 +11,7 @@ import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activtiy_approve.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 
-class ApproveActivity: BaseActivity() {
+class PostSanctionDocActivity: BaseActivity() {
 
     override fun contentView()= R.layout.activtiy_approve
 

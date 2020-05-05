@@ -215,7 +215,7 @@
                     android:orientation="vertical"/>
 
             </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
+           <!-- <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_docs"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
@@ -225,6 +225,16 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ll_upload_document"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"/>-->
+             <ImageView
+                android:id="@+id/rv_docs"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="16dp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_upload_document"
                 android:orientation="horizontal"/>
 
             <Button

@@ -130,10 +130,10 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                             var list =
                                 (sp_security?.adapter as? DataSpinnerAdapter)?.list
-                            if(list?.get(position)?.description=="Immovable")
-                            {
-                                fetchmstrIdsubSecurity()
-                            }
+                          /*  if(list?.get(position)?.description=="Immovable")
+                            {*/
+                                fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
+//                            }
                     }
                 }
             }
@@ -299,16 +299,24 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
     }
 
 
-    private fun fetchmstrIdsubSecurity() {
+    private fun fetchmstrIdsubSecurity(str:String) {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitFactory.getApiService().getCollateralMstr("immovable_type")
+                val response = RetrofitFactory.getApiService().getCollateralMstr(str)
                 if(response?.body()?.errorCode=="200")
                 {
 
                     withContext(Dispatchers.Main) {
+                        sp_security_subType.adapter=null
                         sp_security_subType.adapter = getAdapter(response.body()?.data)
+                    }
+                }else
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        sp_security_subType.adapter=null
+
                     }
                 }
 
@@ -642,7 +650,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
                 custId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
                 securityType = sp_security.selectedItem.toString(),
-                securitySubType = sp_security_subType.selectedItem.toString(),
+                securitySubType = sp_security_subType?.selectedItem?.toString(),
                 immovableSubType = sp_immovable_security.selectedItem?.toString(),
                 plotType = when(rb_boundary.isChecked){
                     true->"Boundary"

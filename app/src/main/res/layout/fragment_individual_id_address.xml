@@ -28,7 +28,7 @@
                 app:layout_constraintLeft_toRightOf="@id/txt_primary_applicant"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txt_applicant_name"
-                app:layout_constraintBottom_toBottomOf="@id/txt_applicant_dob"/>
+                app:layout_constraintBottom_toBottomOf="@id/ll_applicant_dob"/>
 
             <TextView
                 android:id="@+id/txt_primary_applicant"
@@ -50,35 +50,71 @@
 
             <TextView
                 android:id="@+id/txt_applicant_name"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/lato_regular"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:paddingLeft="16dp"
+                android:text="Applicant’s  Name"
+                android:textColor="#696969"
+                android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/img_applicant_profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_primary_applicant" />
+            <TextView
+                android:id="@+id/txt_applicant_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@id/txt_applicant_name"
                 app:layout_constraintTop_toBottomOf="@id/txt_primary_applicant"
                 android:layout_marginTop="8dp"
                 android:textSize="14sp"
                 android:textColor="#696969"
                 android:letterSpacing="0.05"
                 android:lineSpacingExtra="8.3sp"
-                android:text="Applicant’s Full Name"
+                android:text="Applicant’s  Name"
                 android:fontFamily="@font/lato_regular"
                 android:paddingLeft="16dp"/>
 
-            <TextView
-                android:id="@+id/txt_applicant_dob"
-                android:layout_width="0dp"
+            <LinearLayout
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#696969"
-                android:letterSpacing="0.05"
-                android:lineSpacingExtra="8.3sp"
-                android:text="Date of Birth"
+                android:weightSum="1"
+                android:id="@+id/ll_applicant_dob"
+                android:orientation="horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/img_applicant_profile"
                 app:layout_constraintTop_toBottomOf="@id/txt_applicant_name"
-                android:fontFamily="@font/lato_regular"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="16dp"/>
+                android:layout_width="match_parent">
+                <TextView
+                    android:id="@+id/txt_applicant_dob"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:textSize="14sp"
+                    android:textColor="#696969"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="8.3sp"
+                    android:text="DOB: "
+                       android:fontFamily="@font/lato_regular"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="16dp"
+                    android:layout_width="0dp" />
+                <TextView
+                    android:id="@+id/txt_applicant_dob_value"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textSize="14sp"
+                    android:textColor="#696969"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="8.3sp"
+                    android:text="DOB"
+                    android:fontFamily="@font/lato_regular"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="0dp" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,12 +123,12 @@
                 android:textColor="#696969"
                 android:letterSpacing="0.05"
                 android:lineSpacingExtra="8.3sp"
-                android:text="#ID value"
+                android:text="ID#"
                 android:fontFamily="@font/lato_regular"
                 android:paddingLeft="16dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_applicant_dob"
+                app:layout_constraintTop_toBottomOf="@id/ll_applicant_dob"
                 android:id="@+id/IdValue"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -108,6 +144,69 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/IdValue"
                 android:id="@+id/pancardLabel"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="Address#"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pancardLabel"
+                android:id="@+id/AddProof"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#696969"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:text="Address#"
+                android:fontFamily="@font/lato_regular"
+                android:paddingLeft="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/AddProof"
+                android:id="@+id/AddProofLabel"/>
+
+            <TextView
+                android:id="@+id/addreValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/lato_regular"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="8.3sp"
+                android:paddingLeft="16dp"
+                android:text="PAN Card:"
+                android:textColor="#696969"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/AddProofLabel"
+                app:layout_constraintStart_toStartOf="@+id/panCardValue"
+                app:layout_constraintTop_toBottomOf="@id/AddProof" />
+
+            <TextView
+                android:id="@+id/btnViewadddproof"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
+                android:background="#eef8fa"
+                android:gravity="center"
+                android:text="View"
+                android:textColor="#0b41af"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/img_applicant_profile"
+                app:layout_constraintLeft_toRightOf="@+id/panCardValue"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/img_applicant_profile"
+                app:layout_constraintTop_toBottomOf="@id/AddProof" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -140,7 +239,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/img_applicant_profile"
                 app:layout_constraintTop_toBottomOf="@id/IdValue" />
-
 
             <TextView
                 android:id="@+id/textView"

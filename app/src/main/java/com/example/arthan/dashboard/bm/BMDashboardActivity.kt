@@ -69,7 +69,7 @@ class BMDashboardActivity : BaseActivity(), OnClickListener {
             R.id.cv_approved -> startActivity(
                 Intent(
                     this@BMDashboardActivity,
-                    RMApprovedListingActivity::class.java
+                    CommonApprovedListingActivity::class.java
                 ).apply {
                     putExtra("FROM", "BM")
                 })

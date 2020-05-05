@@ -52,15 +52,33 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                 }
                 "BCM"->{
                     root.setOnClickListener {
-                        context.startActivity(Intent(context, ApprovedCustomerLegalStatusActivity::class.java).apply {
-                            putExtra("FROM",from)
-                            putExtra("Name",this@ApprovedAdapter.data.get(position).name)
-                            putExtra("rcu",this@ApprovedAdapter.data.get(position).rcuStatus)
-                            putExtra("legal",this@ApprovedAdapter.data.get(position).legalStatus)
-                            putExtra("tech",this@ApprovedAdapter.data.get(position).techStatus)
-                            putExtra("object",this@ApprovedAdapter.data.get(position) as Serializable)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            var res=RetrofitFactory.getApiService().checkRLTStatus(data[position].caseId)
+                            if(res?.body()!=null)
+                            {
+                                if(res.body()!!.canDecide.equals("y",ignoreCase = true))
+                                {
+                                    withContext(Dispatchers.Main){
+                                        context.startActivity(Intent(context, ApprovedCustomerLegalStatusActivity::class.java).apply {
+                                            putExtra("FROM",from)
+                                            putExtra("Name",this@ApprovedAdapter.data.get(position).name)
+                                            putExtra("rcu",this@ApprovedAdapter.data.get(position).rcuStatus)
+                                            putExtra("legal",this@ApprovedAdapter.data.get(position).legalStatus)
+                                            putExtra("tech",this@ApprovedAdapter.data.get(position).techStatus)
+                                            putExtra("object",this@ApprovedAdapter.data.get(position) as Serializable)
 
-                        })
+                                        })
+                                    }
+                                }else
+                                {
+                                    withContext(Dispatchers.Main)
+                                    {
+                                        Toast.makeText(context,"Reports are not yet ready",Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
+                        }
+
                     }
 
                     root.findViewById<Button>(R.id.btn_rcu).visibility=View.VISIBLE
@@ -79,6 +97,16 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                     root.findViewById<TextView>(R.id.txt_fee_paid).visibility=View.GONE
                     root.findViewById<Button>(R.id.btn_collect_fees).setOnClickListener {
 
+                        CoroutineScope(Dispatchers.IO).launch {
+                            var res=RetrofitFactory.getApiService().sendPaymentLink(data[position].caseId)
+                            if(res?.body()!=null)
+                            {
+                                withContext(Dispatchers.Main)
+                                {
+                                    Toast.makeText(context,"Payment link sent to customer successfully",Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }
                     }
                     var dailog:AlertDialog?=null
                     root.findViewById<Button>(R.id.btn_collect_fees).visibility=View.VISIBLE
@@ -93,7 +121,7 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                 var view = layoutInflater.inflate(R.layout.remarks_popup, null)
                 val dailog = AlertDialog.Builder(context).setView(view).create()
                 dailog!!.show()
-                var etRemark = view.findViewById<EditText>(R.id.et_remark)
+                var etRemark = view.findViewById<EditText>(R.id.et_remarks)
                 var btnSubmit = view.findViewById<Button>(R.id.btn_submit)
                 btnSubmit.setOnClickListener {
 

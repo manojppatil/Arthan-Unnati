@@ -45,7 +45,7 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
 
         }else if(intent.getStringExtra("FROM")=="BCM")
         {
-            txt_recommend_bcm.text="Recommend to AA"
+            txt_recommend_bcm.text="Recommend to CC"
 
         }else
         {

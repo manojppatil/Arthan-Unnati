@@ -149,7 +149,7 @@
         <activity android:name=".dashboard.rm.RMDisbursedListingActivity" />
         <activity android:name=".dashboard.rm.RMTobeDisbursedListingActivity" />
         <activity android:name=".dashboard.rm.RMReAssignListingActivity" />
-        <activity android:name=".dashboard.rm.RMApprovedListingActivity" />
+        <activity android:name=".dashboard.rm.CommonApprovedListingActivity" />
         <activity android:name=".dashboard.rm.RMRejectedListingActivity" />
         <activity android:name=".dashboard.bm.RMInBranchListingActivity" />
         <activity android:name=".dashboard.bm.Customer360Activity" />
@@ -165,9 +165,9 @@
         <activity android:name=".dashboard.bm.BureauActivity" />
         <activity android:name=".dashboard.rm.PDTDocUploadActivity" />
         <activity android:name=".dashboard.rm.PendingInfoActivity" />
-        <activity android:name=".dashboard.bm.ApprovedCustomerReviewActivity" />
+        <activity android:name=".dashboard.bm.LPCActivity" />
         <activity android:name=".dashboard.bm.ApprovedCustomerLegalStatusActivity" />
-        <activity android:name=".dashboard.bm.ApproveActivity" />
+        <activity android:name=".dashboard.bm.PostSanctionDocActivity" />
         <activity android:name=".views.activities.WebContentPreviewActivity" />
         <activity android:name=".views.activities.CustomerCameraActivity" />
 

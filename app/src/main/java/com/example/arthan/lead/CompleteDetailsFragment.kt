@@ -53,7 +53,7 @@ class CompleteDetailsFragment : NavHostFragment() {
                 navController?.navigate(R.id.frag_income_info,b)
             }
             if(arguments?.getString("screenTo").equals("others",ignoreCase = true)) {
-                enableInCome()
+                enableBusiness()
                 val navController: NavController? = if (activity is AddLeadActivity) Navigation.findNavController(
                     activity!!,
                     R.id.frag_container

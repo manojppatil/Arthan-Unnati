@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.arthan.views.fragments.PD1Fragment
 import com.example.arthan.views.fragments.PD2Fragment
 import com.example.arthan.views.fragments.PD3Fragment
+import com.example.arthan.views.fragments.PD4Fragment
 
 class BCDDataAdapter(fragmentManager: FragmentManager) :
     FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -13,7 +14,8 @@ class BCDDataAdapter(fragmentManager: FragmentManager) :
     val fragmentList: MutableList<BCMAdapterListItem> = mutableListOf(
         BCMAdapterListItem("PD1", PD1Fragment()),
         BCMAdapterListItem("PD2", PD2Fragment()),
-        BCMAdapterListItem("PD3", PD3Fragment())
+        BCMAdapterListItem("PD3", PD3Fragment()),
+        BCMAdapterListItem("PD4", PD4Fragment())
     )
 
     override fun getItem(position: Int): Fragment = fragmentList[position].fragment

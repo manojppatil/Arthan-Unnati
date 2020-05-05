@@ -88,6 +88,9 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                    && (property_value_input?.text.toString().isNotEmpty() &&(property_value_input?.text.toString().toInt()>0) &&
                   loan_amount_input?.text.toString().isNotEmpty() &&(loan_amount_input?.text.toString().toInt()>0)&&
                   loan_amount_input?.text.toString().toInt()<property_value_input?.text.toString().toInt())
+                  &&(netMonthlyIncomet?.text.toString().isNotEmpty() &&(netMonthlyIncomet?.text.toString().toInt()>0))
+
+
     }
 
     override fun init() {
@@ -167,6 +170,29 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                         security_offered_spinner.visibility=View.VISIBLE
                         security_jurisdiction_spinner.visibility=View.VISIBLE
                         tl_property_value.visibility=View.VISIBLE
+                    }
+                }
+            }
+
+        security_offered_spinner?.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if(parent?.getItemAtPosition(position) == "Other Properties") {
+
+                        tl_otherSecurity.visibility=View.VISIBLE
+                    }else
+                    {
+                        tl_otherSecurity.visibility=View.GONE
+
                     }
                 }
             }
@@ -315,6 +341,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
         }
     }
 
+    // TODO netMonthlyIncomet
     private fun saveLoanDetails() {
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()

@@ -21,11 +21,13 @@ import androidx.core.content.FileProvider
 import androidx.core.view.size
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.BUSINESS
+import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.global.INCOME
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
@@ -34,12 +36,16 @@ import com.example.arthan.lead.model.responsedata.BaseResponseData
 import com.example.arthan.lead.model.responsedata.BusinessDetailsResponseData
 import com.example.arthan.model.BankindDocUploadRequest
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.network.S3UploadFile
+import com.example.arthan.network.S3Utility
+import com.example.arthan.ocr.CardResponse
 import com.example.arthan.utils.*
 import com.example.arthan.views.fragments.BaseFragment
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_add_lead_step1.*
 import kotlinx.android.synthetic.main.fragment_income_information.*
 import kotlinx.android.synthetic.main.fragment_income_information.btn_save_continue
 import kotlinx.android.synthetic.main.fragment_other_details.*
@@ -60,6 +66,7 @@ import kotlin.coroutines.CoroutineContext
 class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener,
     CoroutineScope {
 
+    private  var loanDocUrl: String=""
     private val mOnLoanTypeItemSelectedListener: AdapterView.OnItemSelectedListener =
         object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -293,6 +300,26 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 //            generateReport("9876543210")
 //        }
 
+        uploadLoanDoc.setOnClickListener {
+            val request = permissionsBuilder(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ).build()
+            request.listeners {
+                onAccepted {
+                    val pdfPickerIntent = Intent(Intent.ACTION_GET_CONTENT)
+                    pdfPickerIntent.type = "application/pdf"
+                    startActivityForResult(
+                        Intent.createChooser(pdfPickerIntent, "Choose File"),
+                        102
+                    )
+                }
+                onDenied {
+                }
+                onPermanentlyDenied {
+                }
+            }
+            request.send()
+        }
         btn_statement_upload.setOnClickListener {
             val request = permissionsBuilder(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -667,7 +694,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     },
                     loanTenureFrom = et_from?.text?.toString(),
                     loanTenureTo = et_to?.text?.toString(),
-                    outstandingAmount = outstanding_amount_input?.text?.toString()
+                    outstandingAmount = outstanding_amount_input?.text?.toString(),
+                    loanDocumentUrl = loanDocUrl
                 )
             )
 
@@ -859,11 +887,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     val respone=RetrofitFactory.getApiService().getIncSrcMstr()
                     if(respone!=null)
                     {
-
+                        withContext(uiContext) {
                         sourceInceomeAdapter=getAdapter(respone.body()?.data)
                         source_of_income_input.adapter=sourceInceomeAdapter
                     }
-                    withContext(uiContext) {
                         //                        spnr_nature_of_collateral?.adapter = getAdapter(response.body()?.data)
                     }
                 }
@@ -1014,6 +1041,14 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
+                RequestCode.waterBill -> {
+                    data?.let {
+                        val loanDoc: CardResponse? =
+                            it.extras?.getParcelable<CardResponse>(ArgumentKey.LoanDoc)
+                        loanDocUrl= loanDoc?.cardFrontUrl.toString()
+
+                    }
+                }
                 100 -> {
                     uploadDocument()
                 }
@@ -1023,6 +1058,15 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         val file = copyFile(context!!, this.data!!)
                         if (file != null && file?.absolutePath.isNotEmpty()) {
                             uploadStatement(file?.absolutePath)
+                        }
+                    }
+                }
+                102->{
+                    data?.apply {
+                        if (this.data == null) return
+                        val file = copyFile(context!!, this.data!!)
+                        if (file != null && file?.absolutePath.isNotEmpty()) {
+                            uploadLoanDoc(file?.absolutePath)
                         }
                     }
                 }
@@ -1041,6 +1085,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 else -> super.onActivityResult(requestCode, resultCode, data)
             }
         }
+    }
+
+    private fun uploadLoanDoc(absolutePath: String) {
+        startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
+            putExtra(DOC_TYPE,  RequestCode.LoanDoc )
+        },  RequestCode.LoanDoc )
     }
 
     private fun uploadDocument() {

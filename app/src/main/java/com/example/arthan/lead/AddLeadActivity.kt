@@ -97,8 +97,10 @@ class AddLeadActivity : AppCompatActivity() {
         }
         else if(screenId.equals("others",ignoreCase = true))
         {
+            var b=Bundle()
+            b.putString("screenTo",screenId)
             navController.popBackStack(R.id.completeDetailsFragment,true)
-            navController.navigate(R.id.completeDetailsFragment)
+            navController.navigate(R.id.completeDetailsFragment,b)
         }
 
         else if(screenId.equals("documents",ignoreCase = true))

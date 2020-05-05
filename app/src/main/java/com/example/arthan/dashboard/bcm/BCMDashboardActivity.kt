@@ -7,7 +7,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.InProgressListingActivity
-import com.example.arthan.dashboard.rm.RMApprovedListingActivity
+import com.example.arthan.dashboard.rm.CommonApprovedListingActivity
 import com.example.arthan.dashboard.rm.RMDisbursedListingActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.dashboard.rm.RMRejectedListingActivity
@@ -66,7 +66,7 @@ class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
             R.id.cv_approved -> startActivity(
                 Intent(
                     this@BCMDashboardActivity,
-                    RMApprovedListingActivity::class.java
+                    CommonApprovedListingActivity::class.java
                 ).apply {
                     putExtra("FROM", "BCM")
                 })

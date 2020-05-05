@@ -2,6 +2,7 @@ package com.example.arthan.network
 
 import com.example.arthan.dashboard.bm.model.*
 import com.example.arthan.dashboard.bm.model.RejectedCaseData
+import com.example.arthan.lead.model.CheckRLTStatusResponse
 import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.lead.model.responsedata.*
 import com.example.arthan.liveness.VerifyCardResponse
@@ -287,6 +288,12 @@ interface ApiService {
 
     @GET("getDocMstr")
     suspend fun getDocMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
+
+    @GET("checkRLTStatus")
+    suspend fun checkRLTStatus(@Query("loanId") loanId: String?): Response<CheckRLTStatusResponse>?
+
+    @GET("sendPaymentLink")
+    suspend fun sendPaymentLink(@Query("loanId") loanId: String?): Response<BaseResponseData>?
 
     @POST("rmRequestWaiver")
     suspend fun rmRequestWaiver(@Body map: HashMap<String,String>): Response<BaseResponseData>?
