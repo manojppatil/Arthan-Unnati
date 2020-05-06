@@ -532,6 +532,9 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                     withContext(Dispatchers.Main) {
                         sp_security.adapter = getAdapter(response.body()?.data)
+                        if(response.body()!=null&&(response.body()!!.data[0].description.toLowerCase()=="liquid"))
+                        liquid_type.visibility=View.VISIBLE
+
                     }
                 }
 
