@@ -147,6 +147,32 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             }
         }
 
+        et_months?.tag = 0
+        btn_plus_months?.setOnClickListener {
+            var months = et_months?.tag as? Int ?: 0
+            months++
+            if(months<=12) {
+                et_months?.text = "$months months"
+                et_months?.tag = months
+            }else
+            {
+//                Toast.makeText(this,"maximum tenure is 7 years",Toast.LENGTH_LONG).show()
+            }
+        }
+
+        btn_minus_months?.setOnClickListener {
+            var months = et_months.tag as? Int ?: 0
+            months--
+            if (months >= 0) {
+                et_months?.text = "$months months"
+                et_months?.tag = months
+            }else
+            {
+//                Toast.makeText(this,"miniumum tenure is 1 year",Toast.LENGTH_LONG).show()
+
+            }
+        }
+
 
         loan_type_spinner?.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -349,6 +375,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             leadId = mLeadId,
             loanAmount = loan_amount_input?.text?.toString() ?: "",
             tenure = (et_years?.tag as? Int)?.toString() ?: "",
+            tenorMonth = (et_months?.tag as? Int)?.toString() ?: "",
             loanType = loan_type_spinner?.selectedItem as? String ?: "",
             purposeofLoan = (spnr_loan_purpose?.selectedItem as? Data)?.value ?: "",
             collateralType = (security_offered_spinner?.selectedItem as? Data)?.value ?: "",

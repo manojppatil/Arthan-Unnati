@@ -129,7 +129,6 @@
 
     <string-array name="arr_loan_type">
         <item>--select Loan Type--</item>
-        <item>Loan Type</item>
         <item>Secure</item>
         <item>Unsecure</item>
         <item>Quasi Secured</item>

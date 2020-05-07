@@ -4,6 +4,7 @@ data class LoanPostData(
     var leadId: String? = "",
     var loanAmount: String? = "",
     var tenure: String? = "",
+    var tenorMonth: String? = "",
     var loanType: String? = "",
     var purposeofLoan: String? = "",
     var securityJurisdiction: String? = "",

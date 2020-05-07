@@ -23,6 +23,7 @@ import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.PendingCustomersActivity
 import kotlinx.android.synthetic.main.collateral_section.*
 import kotlinx.android.synthetic.main.fragment_other_details.*
+import kotlinx.android.synthetic.main.movable_type_layout.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -141,6 +142,14 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             movable_type.visibility=View.GONE
 
                         }
+                        if(list?.get(position)?.description.toLowerCase()=="immovable")
+                        {
+                            immovableType.visibility=View.VISIBLE
+                        }else
+                        {
+                            immovableType.visibility=View.GONE
+
+                        }
                         if(list?.get(position)?.description.toLowerCase()=="liquid")
                         {
                             liquid_type.visibility=View.VISIBLE
@@ -215,6 +224,56 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 R.id.frag_container
             ) else null
 
+        yearsCount?.tag = 0
+        plusYears?.setOnClickListener {
+            var years = yearsCount?.tag as? Int ?: 0
+            years++
+         //   if(years<=7) {
+                yearsCount?.text = "$years yrs"
+                yearsCount?.tag = years
+           /* }else
+            {
+                Toast.makeText(this,"maximum tenure is 7 years",Toast.LENGTH_LONG).show()
+            }*/
+        }
+
+        minusYears?.setOnClickListener {
+            var years = yearsCount.tag as? Int ?: 0
+            years--
+            if (years >= 0) {
+                yearsCount?.text = "$years yrs"
+                yearsCount?.tag = years
+            }/*else
+            {
+                Toast.makeText(this,"miniumum tenure is 1 year",Toast.LENGTH_LONG).show()
+
+            }*/
+        }
+        monthsCount?.tag = 0
+        plusMonths?.setOnClickListener {
+            var years = monthsCount?.tag as? Int ?: 0
+            years++
+            //   if(years<=7) {
+            monthsCount?.text = "$years months"
+            monthsCount?.tag = years
+            /* }else
+             {
+                 Toast.makeText(this,"maximum tenure is 7 years",Toast.LENGTH_LONG).show()
+             }*/
+        }
+
+        minusMonths?.setOnClickListener {
+            var months = monthsCount.tag as? Int ?: 0
+            months--
+            if (months >= 0) {
+                monthsCount?.text = "$months months"
+                monthsCount?.tag = months
+            }/*else
+            {
+                Toast.makeText(this,"miniumum tenure is 1 year",Toast.LENGTH_LONG).show()
+
+            }*/
+        }
         btn_save_continue?.setOnClickListener {
 
             if(activity?.intent?.getStringExtra("FROM")=="BM") {
@@ -319,7 +378,11 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitFactory.getApiService().getCollateralMstr(str)
+                var temp=str
+                if(temp=="immovable"){
+                    temp="immovable_type"
+                }
+                val response = RetrofitFactory.getApiService().getCollateralMstr(temp)
                 if(response?.body()?.errorCode=="200")
                 {
 
@@ -532,9 +595,12 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                     withContext(Dispatchers.Main) {
                         sp_security.adapter = getAdapter(response.body()?.data)
-                        if(response.body()!=null&&(response.body()!!.data[0].description.toLowerCase()=="liquid"))
-                        liquid_type.visibility=View.VISIBLE
+                        if(response.body()!=null&&(response.body()!!.data[0].description.toLowerCase()=="liquid")) {
+                            liquid_type.visibility = View.VISIBLE
 
+                            immovableType.visibility=View.GONE
+                            movable_type.visibility=View.GONE
+                        }
                     }
                 }
 
@@ -818,4 +884,5 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         }
 
     }
+
 }

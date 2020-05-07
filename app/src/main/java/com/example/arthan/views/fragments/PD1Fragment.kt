@@ -136,7 +136,8 @@ class PD1Fragment : Fragment(), CoroutineScope {
             healthcare = household_expenses_health_care_input?.text?.toString(),
             personalDebt = household_expenses_personal_debt_input?.text?.toString(),
             otherhhExpnse = household_expenses_any_other_input?.text?.toString(),
-            loanamountrecommended = loan_amount_recommended_input?.text?.toString()
+            loanamountrecommended = loan_amount_recommended_input?.text?.toString(),
+            comfEmi=customerComfortableEMi?.text.toString()
         )
         mPdFragmentClickListener?.onPD1Fragment(postData)
 

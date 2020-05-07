@@ -34,6 +34,22 @@
             android:layout_marginTop="8dp"
             android:id="@+id/sp_security"
             />
+    <include layout="@layout/liquid_type_layout"
+        android:id="@+id/liquid_type"
+        android:visibility="gone"
+        />
+    <include layout="@layout/movable_type_layout"
+        android:id="@+id/movable_type"
+        android:visibility="gone"
+
+        />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        android:id="@+id/immovableType"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,16 +63,7 @@
             android:layout_marginTop="8dp"
             android:id="@+id/sp_security_subType"
             />
-        <include layout="@layout/liquid_type_layout"
-            android:id="@+id/liquid_type"
-            android:visibility="gone"
-            />
-        <include layout="@layout/movable_type_layout"
-            android:id="@+id/movable_type"
-            android:visibility="gone"
-
-            />
-        <TextView
+               <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Immovable SubType"
@@ -227,5 +234,6 @@
                 android:id="@+id/rb_notReceived"/>
         </RadioGroup>
         </LinearLayout>
+    </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
                 android:inputType="numberDecimal"
-                android:hint="High Per Day Count" />
+                android:hint="High Per Day Amount" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -580,6 +580,23 @@
                 android:inputType="numberDecimal"
                 android:hint="Loan amount recommended" />
         </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/customerComfortableEMiTin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loan_amount_recommended_text_input_layout">
+
+            <EditText
+                android:id="@+id/customerComfortableEMi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
+                android:hint="Customer Comfortable EMI" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_save_continue"
@@ -598,7 +615,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loan_amount_recommended_text_input_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/customerComfortableEMiTin" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
