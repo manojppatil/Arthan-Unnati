@@ -250,7 +250,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 
              }*/
             100 -> {
-                if(File(shopUri?.path).length()>0) {
+//                if(File(shopUri?.path).length()>0) {
                 ll_upload_photo.visibility = View.GONE
                 img_shop.visibility = View.VISIBLE
                 Glide.with(this).load(shopUri).error(R.mipmap.ic_launcher).into(img_shop)
@@ -278,7 +278,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                             e.printStackTrace()
                         }
                     })
-                }
+            //    }
 
 
                 // detectFace()

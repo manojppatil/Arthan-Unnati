@@ -338,11 +338,11 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                     offcAddrProof= LatestTelephoneBill?.cardFrontUrl.toString()
 
                 }
-            } RequestCode.ElectricityBill -> {
+            } RequestCode.ElectricityBillOfcAdd -> {
             data?.let {
-                val ElectricityBill: CardResponse? =
-                    it.extras?.getParcelable<CardResponse>(ArgumentKey.ElectricityBill)
-                offcAddrProof= ElectricityBill?.cardFrontUrl.toString()
+                val ElectricityBillOfcAdd: CardResponse? =
+                    it.extras?.getParcelable<CardResponse>(ArgumentKey.ElectricityBillOfcAdd)
+                offcAddrProof= ElectricityBillOfcAdd?.cardFrontUrl.toString()
 
             }
         }RequestCode.BankStatement -> {
@@ -589,8 +589,8 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                         }
                         "Electricity Bill" -> {
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
-                                putExtra(DOC_TYPE,  RequestCode.ElectricityBill )
-                            },  RequestCode.ElectricityBill )
+                                putExtra(DOC_TYPE,  RequestCode.ElectricityBillOfcAdd )
+                            },  RequestCode.ElectricityBillOfcAdd )
                         }
                         "Bank Statement " -> {
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {

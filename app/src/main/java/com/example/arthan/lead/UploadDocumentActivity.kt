@@ -112,83 +112,212 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     uploadFront?.await()
                     uploadBack?.await()
 
-                    if (uploadFront == null && mFrontImagePath != null&& RequestCode.ApplicantPhoto==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.ApplicantPhoto)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.Passport==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.Passport)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.DrivingLicense==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.driverLicense)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.electricityBill==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.electricityBill)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.waterBill==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.waterBill)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.telephonebill==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.telephoneBill)
-                    }
-                    else if (uploadFront == null && mFrontImagePath != null&& RequestCode.AadharCardAddrProof==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.AadharCardAddrProof)
-                    }
+                    try {
+                        if (uploadFront == null && mFrontImagePath != null && RequestCode.ApplicantPhoto == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.ApplicantPhoto)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.Passport == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.Passport)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.DrivingLicense == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.driverLicense)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.electricityBill == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.ElectricityBillProof)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.waterBill == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.waterBill)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.telephonebill == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.telephoneBill)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.AadharCardAddrProof == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.AadharCardAddrProof)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.SalesTaxRegistration == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.SalesTaxRegistration)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.VatOrder == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.VatOrder)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.LicenseissuedunderShop == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.LicenseissuedunderShop)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.EstablishmentAct == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.EstablishmentAct)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.CST == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.CST)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.VAT == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.VAT)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.GSTCert == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.GSTCert)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.CurrentACofbankStmt == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.CurrentACofbankStmt)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.SSIcertificate == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.SSIcertificate)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.LatestTelephoneBill == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.LatestTelephoneBill)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.ElectricityBillOfcAdd == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.ElectricityBillOfcAdd)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.BankStatement == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.BankStatement)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.LeaveandLicenceagreement == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.LeaveandLicenceagreement)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.Last2yearsITR == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.Last2yearsITR)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.Auditedbalancesheet == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.Auditedbalancesheet)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.SaleDeed == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.SaleDeed)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.ChainDocument == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.ChainDocument)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.PropertyTaxReceipt == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.PropertyTaxReceipt)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.ROR == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.ROR)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.NOC == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.NOC)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode._7by12 == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType._7by12)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.Mutation == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.Mutation)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.ROR == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.ROR)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.FerfarCertificate == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.FerfarCertificate)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.Others == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.Others)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.LoanDoc == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.LoanDoc)
+                        }
+                        withContext(uiContext) {
+                            finishActivity(progressLoader)
+                        }
+                    }catch (e:Exception)
+                    {
 
-
-                    else if (uploadFront == null && mFrontImagePath != null&& RequestCode.SalesTaxRegistration==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.SalesTaxRegistration)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.VatOrder==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.VatOrder)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.LicenseissuedunderShop==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.LicenseissuedunderShop)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.EstablishmentAct==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.EstablishmentAct)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.CST==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.CST)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.VAT==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.VAT)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.GSTCert==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.GSTCert)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.CurrentACofbankStmt==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.CurrentACofbankStmt)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.SSIcertificate==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.SSIcertificate)
-                    }
-
-                    else if (uploadFront == null && mFrontImagePath != null&& RequestCode.LatestTelephoneBill==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.LatestTelephoneBill)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.ElectricityBill==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.ElectricityBill)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.BankStatement==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.BankStatement)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.LeaveandLicenceagreement==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.LeaveandLicenceagreement)
-                    }
-                    else if (uploadFront == null && mFrontImagePath != null&& RequestCode.Last2yearsITR==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.Last2yearsITR)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.Auditedbalancesheet==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.Auditedbalancesheet)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.SaleDeed==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.SaleDeed)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.ChainDocument==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.ChainDocument)
-                    }
-                    else if (uploadFront == null && mFrontImagePath != null&& RequestCode.PropertyTaxReceipt==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.PropertyTaxReceipt)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.ROR==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.ROR)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.NOC==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.NOC)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode._7by12==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType._7by12)
-                    } else if (uploadFront == null && mFrontImagePath != null&& RequestCode.Mutation==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.Mutation)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.ROR==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.ROR)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.FerfarCertificate==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.FerfarCertificate)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.Others==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.Others)
-                    }else if (uploadFront == null && mFrontImagePath != null&& RequestCode.LoanDoc==intent?.getIntExtra(DOC_TYPE, 0)) {
-                        uploadToS3(mFrontImagePath!!, CardType.LoanDoc)
-                    }
-                    withContext(uiContext) {
-                        finishActivity(progressLoader)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -322,8 +451,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
 
             RequestCode.LatestTelephoneBill -> {
                 resultIntent.putExtra(ArgumentKey.LatestTelephoneBill, mCardData)
-            } RequestCode.ElectricityBill -> {
-            resultIntent.putExtra(ArgumentKey.ElectricityBill, mCardData)
+            } RequestCode.ElectricityBillOfcAdd -> {
+            resultIntent.putExtra(ArgumentKey.ElectricityBillOfcAdd, mCardData)
             }RequestCode.BankStatement -> {
             resultIntent.putExtra(ArgumentKey.BankStatement, mCardData)
             }RequestCode.LeaveandLicenceagreement -> {
@@ -395,7 +524,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     RequestCode.SSIcertificate -> "${dir.absolutePath}/SSIcertificate.jpg"
 
                     RequestCode.LatestTelephoneBill -> "${dir.absolutePath}/LatestTelephoneBill.jpg"
-                    RequestCode.ElectricityBill -> "${dir.absolutePath}/ElectricityBill.jpg"
+                    RequestCode.ElectricityBillOfcAdd -> "${dir.absolutePath}/ElectricityBillOfcAdd.jpg"
                     RequestCode.BankStatement -> "${dir.absolutePath}/BankStatement.jpg"
                     RequestCode.LeaveandLicenceagreement -> "${dir.absolutePath}/LeaveandLicenceagreement.jpg"
 
@@ -425,6 +554,40 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             when (requestCode) {
                 MyProfileActivity.PICK_IMAGE, RequestCode.PanCard, RequestCode.PFP, RequestCode.VoterCard,
                 RequestCode.ApplicantPhoto, RequestCode.DrivingLicense, RequestCode.Passport,
+               RequestCode. electricityBill,
+               RequestCode. waterBill,
+               RequestCode. telephonebill,
+
+               RequestCode. SalesTaxRegistration,
+               RequestCode. VatOrder,
+               RequestCode. LicenseissuedunderShop,
+               RequestCode. EstablishmentAct,
+               RequestCode. CST,
+               RequestCode. VAT,
+               RequestCode. GSTCert,
+               RequestCode. CurrentACofbankStmt,
+               RequestCode. SSIcertificate,
+
+               RequestCode.  LatestTelephoneBill,
+               RequestCode.  ElectricityBillOfcAdd,
+               RequestCode.  BankStatement,
+               RequestCode.  LeaveandLicenceagreement,
+
+
+               RequestCode. Last2yearsITR,
+               RequestCode. Auditedbalancesheet,
+               RequestCode. SaleDeed,
+               RequestCode. ChainDocument,
+               RequestCode. PropertyTaxReceipt,
+               RequestCode. ROR,
+               RequestCode. NOC,
+               RequestCode. _7by12,
+               RequestCode. Mutation,
+               RequestCode. FerfarCertificate,
+               RequestCode. Others,
+                RequestCode. AadharCardAddrProof ,
+                RequestCode. LoanDoc,
+
                 RequestCode.AadharFrontCard -> {
                     if (data?.hasExtra(ArgumentKey.FilePath) == true) {
                         mFrontImagePath = data?.getStringExtra(ArgumentKey.FilePath)
@@ -681,7 +844,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         "_AadharCardAddrProof"
                     }CardType.waterBill -> {
                         "_Water_Bill"
-                    }CardType.electricityBill -> {
+                    }CardType.ElectricityBillProof -> {
                         "_Electricity_Bill"
                     }CardType.SalesTaxRegistration -> {
                         "_SalesTaxRegistration"
@@ -705,8 +868,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
 
                     CardType.LatestTelephoneBill -> {
                         "_LatestTelephoneBill"
-                    }CardType.ElectricityBill -> {
-                        "_ElectricityBill"
+                    }CardType.ElectricityBillOfcAdd -> {
+                        "_ElectricityBillOfcAdd"
                     }CardType.BankStatement -> {
                         "_BankStatement"
                     }CardType.LeaveandLicenceagreement -> {
@@ -799,7 +962,7 @@ sealed class CardType {
     object Passport:CardType()
     object driverLicense:CardType()
     object waterBill:CardType()
-    object electricityBill:CardType()
+    object ElectricityBillProof:CardType()
     object telephoneBill:CardType()
     object AadharCardAddrProof:CardType()
     object SalesTaxRegistration:CardType()
@@ -813,7 +976,7 @@ sealed class CardType {
     object SSIcertificate:CardType()
 
     object LatestTelephoneBill:CardType()
-    object ElectricityBill:CardType()
+    object ElectricityBillOfcAdd:CardType()
     object BankStatement:CardType()
     object LeaveandLicenceagreement:CardType()
 

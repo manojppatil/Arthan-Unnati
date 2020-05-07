@@ -5,6 +5,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class PdX(
+    val data1:DataPD,
+    val data2:DataPD
+): Parcelable
+@Parcelize
+data class DataPD(
+
     val comfortableEMICustomer: String? = "",
     val emiExistLoan: String? = "",
     val finalEligibleAmt: String? = "",
@@ -33,4 +39,5 @@ data class PdX(
     val roi: String? = "",
     val tenure: String? = "",
     val turnover: String? = ""
-): Parcelable
+
+):Parcelable

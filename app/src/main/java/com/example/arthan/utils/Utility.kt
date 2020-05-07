@@ -194,7 +194,7 @@ object ArgumentKey {
     const val CurrentACofbankStmt="CurrentACofbankStmt"
     const val SSIcertificate="SSIcertificate"
     const val  LatestTelephoneBill="LatestTelephoneBill"
-    const val  ElectricityBill="ElectricityBill"
+    const val  ElectricityBillOfcAdd="ElectricityBill"
     const val  BankStatement="BankStatement"
     const val  LeaveandLicenceagreement="LeaveandLicenceagreement"
 
@@ -241,7 +241,7 @@ object RequestCode {
     const val SSIcertificate=0x1013
 
     const val  LatestTelephoneBill=0x1014
-    const val  ElectricityBill=0x1015
+    const val  ElectricityBillOfcAdd=0x1015
     const val  BankStatement=0x1016
     const val  LeaveandLicenceagreement=0x1017
 

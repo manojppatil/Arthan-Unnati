@@ -86,8 +86,10 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                     .getCustomer360Details(intent.getStringExtra("loanId"))
                 if (apiResponse?.isSuccessful == true) {
                     mCustomer360Data = apiResponse.body()
+                    withContext(Dispatchers.Main) {
                     setDataToFields(mCustomer360Data)
                     stopLoading(progressBar, null)
+                }
                 } else {
                     stopLoading(progressBar, "Something went wrong!!")
                 }
@@ -132,7 +134,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
 //                putExtra("scVOdata",mCustomer360Data?.scVO)
 //                putExtra("scVOdata",mCustomer360Data?.scVO)
             })
-            R.id.cl_pd ->PDActivity.startMe(this, mCustomer360Data?.pdVO,intent.getStringExtra("cname"))
+            R.id.cl_pd ->PDActivity.startMe(this, mCustomer360Data?.pdCust,intent.getStringExtra("cname"))
             R.id.cl_deviation -> startActivity(Intent(this, DeviationsActivity::class.java).apply {
                 putExtra("loanId",loanId)
                 putExtra("custId",customerId)

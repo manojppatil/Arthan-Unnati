@@ -331,6 +331,7 @@
             android:id="@+id/txt_sanction_conditions"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
+            android:visibility="gone"
             android:gravity="center"
             android:padding="8dp"
             android:fontFamily="@font/lato_black"
