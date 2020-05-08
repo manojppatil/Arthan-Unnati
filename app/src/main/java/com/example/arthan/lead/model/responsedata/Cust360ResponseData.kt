@@ -1,6 +1,7 @@
 package com.example.arthan.lead.model.responsedata
 
 import android.os.Parcelable
+import com.example.arthan.dashboard.bm.model.BureauDetails
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -13,8 +14,10 @@ data class Cust360ResponseData(
     val scVO: SCVO?,
     val pd1DetailsVO: Pd1?,
     val pd23DetailsVO: Pd23?,
-    val pdCust: PdCust?
-) : Parcelable
+    val pdCust: PdCust?,
+    val bureauData: BureauDetails?
+
+    ) : Parcelable
 
 @Parcelize
 data class PdCust(

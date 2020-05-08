@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+<!--
+    text is changed programmatically
+-->
     <include
         android:id="@+id/toolbar"
         layout="@layout/layout_bm_toolbar" />
@@ -14,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_app"
+        android:visibility="gone"
         android:padding="24dp">
 
         <TextView
@@ -245,4 +249,358 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_coapplicant" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_height="match_parent"
+            android:background="#F6F6F6"
+            android:layout_width="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_rectangle"
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="16dp"
+                    android:padding="16dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/txt_appName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#000"
+                        android:letterSpacing="0.05"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="Name of the Applicant:"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/txt_scoreValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#000"
+                        android:letterSpacing="0.05"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="Score:"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_appName"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/SummaryText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#000"
+                        android:letterSpacing="0.05"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="Summary"
+                        android:fontFamily="@font/lato_black"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_scoreValue"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/txt_avg_bal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#696969"
+                        android:letterSpacing="0.05"
+                        android:visibility="gone"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="Average Bank Balance"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_bold"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/txt_avg_bal_amt"
+                        app:layout_constraintTop_toBottomOf="@id/SummaryText"/>
+
+                    <TextView
+                        android:id="@+id/txt_avg_bal_amt"
+                        android:layout_width="0dp"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#000000"
+                        android:letterSpacing="0.05"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="₹ 15,000"
+                        android:gravity="right"
+                        android:fontFamily="@font/lato_bold"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintLeft_toRightOf="@id/txt_avg_bal"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/txt_avg_bal"
+                        app:layout_constraintBottom_toBottomOf="@id/txt_avg_bal"/>
+
+                    <TextView
+                        android:id="@+id/txt_emi_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="#696969"
+                        android:letterSpacing="0.05"
+                        android:lineSpacingExtra="7.1sp"
+                        android:visibility="gone"
+                        android:text="Taken on 5th of every month"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/lato_light"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_avg_bal"/>
+
+                    <TextView
+                        android:id="@+id/noOfLoans"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#0b41af"
+                        android:letterSpacing="0.05"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="No Of Loans"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:fontFamily="@font/lato_black"
+                        android:background="@drawable/bg_white_rectangle"
+                        android:backgroundTint="#eef8fa"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_emi_date"/>
+
+                    <TextView
+                        android:id="@+id/noOfActiveLoans"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#0b41af"
+                        android:letterSpacing="0.05"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="No of Active cases"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:fontFamily="@font/lato_black"
+                        android:background="@drawable/bg_white_rectangle"
+                        android:backgroundTint="#eef8fa"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/noOfLoans"/>
+
+                    <TextView
+                        android:id="@+id/moOfUnsecuredLoans"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#0b41af"
+                        android:letterSpacing="0.05"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="Name of Business"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:fontFamily="@font/lato_black"
+                        android:background="@drawable/bg_white_rectangle"
+                        android:backgroundTint="#eef8fa"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/noOfActiveLoans"/>
+
+                    <TextView
+                        android:id="@+id/txt_vintage_of_bus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#0b41af"
+                        android:letterSpacing="0.05"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="Vintage of Business"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:fontFamily="@font/lato_black"
+                        android:background="@drawable/bg_white_rectangle"
+                        android:backgroundTint="#eef8fa"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/moOfUnsecuredLoans"/>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#0b41af"
+                        android:letterSpacing="0.05"
+                        android:lineSpacingExtra="8.3sp"
+                        android:text="Number of employees/workers"
+                        android:id="@+id/moOfsecuredLoans"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:fontFamily="@font/lato_black"
+                        android:background="@drawable/bg_white_rectangle"
+                        android:backgroundTint="#eef8fa"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_vintage_of_bus"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/moOfsecuredLoans">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="#0b41af"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="8.3sp"
+                            android:text="Business Ownership"
+                            android:id="@+id/noOfDpdAccounts"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:fontFamily="@font/lato_black"
+                            android:background="@drawable/bg_white_rectangle"
+                            android:backgroundTint="#eef8fa"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/txt_no_of_credit_entries"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="#0b41af"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="8.3sp"
+                            android:text="No of Deviations"
+                            android:id="@+id/defaultCreditLoan"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:fontFamily="@font/lato_black"
+                            android:background="@drawable/bg_white_rectangle"
+                            android:backgroundTint="#eef8fa"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/txt_no_of_credit_entries"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="#0b41af"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="8.3sp"
+                            android:text="Purpose of Loan"
+                            android:id="@+id/defaultInAutoLoans"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:fontFamily="@font/lato_black"
+                            android:background="@drawable/bg_white_rectangle"
+                            android:backgroundTint="#eef8fa"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/txt_no_of_credit_entries"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="#0b41af"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="8.3sp"
+                            android:text="Banking with"
+                            android:id="@+id/NoOfSuitFiled"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:fontFamily="@font/lato_black"
+                            android:background="@drawable/bg_white_rectangle"
+                            android:backgroundTint="#eef8fa"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/txt_no_of_credit_entries"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="#0b41af"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="8.3sp"
+                            android:text="Income Considered"
+                            android:id="@+id/noOfLoanAsGarunter"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:fontFamily="@font/lato_black"
+                            android:background="@drawable/bg_white_rectangle"
+                            android:backgroundTint="#eef8fa"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/txt_no_of_credit_entries"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="#0b41af"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="8.3sp"
+                            android:text="Risk/Concern of Proposal"
+                            android:id="@+id/last6MonthsHist"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:fontFamily="@font/lato_black"
+                            android:background="@drawable/bg_white_rectangle"
+                            android:backgroundTint="#eef8fa"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/txt_no_of_credit_entries"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="#0b41af"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="8.3sp"
+                            android:text="Strengths/Mitigates of proposal"
+                            android:id="@+id/lastLoanTaken"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:fontFamily="@font/lato_black"
+                            android:background="@drawable/bg_white_rectangle"
+                            android:backgroundTint="#eef8fa"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/txt_no_of_credit_entries"/>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </LinearLayout>
 </LinearLayout>

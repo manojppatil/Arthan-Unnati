@@ -229,7 +229,7 @@ interface ApiService {
     suspend fun getScreenDetails(@Body body: Map<String,String>):Response<ScreenDetailsToNavigateData>
 
     @POST("submitPresanctionDocs")
-    suspend fun submitPresanctionDocs(@Body body: Map<String, String>):Response<BaseResponseData>
+    suspend fun submitPresanctionDocs(@Body body: PresanctionDocsRequestData):Response<BaseResponseData>
 
     @POST("docScreeningStatus")
     suspend fun docScreeningStatus(@Body body: DocScreeningStatusPost):Response<BaseResponseData>

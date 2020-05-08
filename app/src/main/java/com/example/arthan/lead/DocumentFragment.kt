@@ -5,19 +5,19 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.*
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
+import com.example.arthan.model.Docs
+import com.example.arthan.model.PresanctionDocsRequestData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.ocr.CardResponse
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.RequestCode
 import com.example.arthan.views.fragments.BaseFragment
-import kotlinx.android.synthetic.main.collateral_section.*
 import kotlinx.android.synthetic.main.fragment_documents.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +36,15 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
     private var incomeProof:String=""
     private var propertyDoc:String=""
 
+    private var doc1:Docs?=null
+    private var doc2:Docs?=null
+    private var doc3:Docs?=null
+    private var doc4:Docs?=null
+    private var doc5:Docs?=null
+    private var doc6:Docs?=null
+    private var doc7:Docs?=null
+    private var list:ArrayList<Docs?>?= ArrayList()
+
     override fun init() {
         progressLoader = ProgrssLoader(context!!)
         progressLoader!!.showLoading()
@@ -46,6 +55,14 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
         loadData("INCPROOF")
         loadData("PROPDOC")
 
+        /*list?.add(doc1!!)
+        list?.add(doc2!!)
+        list?.add(doc3!!)
+        list?.add(doc4!!)
+        list?.add(doc5!!)
+        list?.add(doc6!!)
+        list?.add(doc7!!)
+        */
         btn_submit.setOnClickListener(this)
 
         spinner_idProof.onItemSelectedListener = this
@@ -140,13 +157,26 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                 if (arguments != null) {
                     val progressBar = ProgrssLoader(context!!)
                     progressBar.showLoading()
-                    var map = HashMap<String, String>()
-                    map["loanId"] = arguments?.getString("loanId")!!
-                    map["custId"] = arguments?.getString("custId")!!
-                    map["userId"] = "RM1"
+                    doc1?.docUrl=idProofUrl
+                    doc2?.docUrl=addrProofUrl
+                    doc3?.docUrl=businessCont
+                    doc4?.docUrl=offcAddrProof
+                    doc5?.docUrl=incomeProof
+                    doc6?.docUrl=propertyDoc
+                    list?.add(doc1)
+                    list?.add(doc2)
+                    list?.add(doc3)
+                    list?.add(doc4)
+                    list?.add(doc5)
+                    list?.add(doc6)
+                    var presanctionDocsRequestData=PresanctionDocsRequestData(arguments?.getString("loanId")!!,
+                        arguments?.getString("custId")!!,
+                        "RM1",list
+
+                    )
                     CoroutineScope(Dispatchers.IO).launch {
                         val respo = RetrofitFactory.getApiService().submitPresanctionDocs(
-                            map
+                            presanctionDocsRequestData
                         )
 
                         val result = respo.body()
@@ -182,7 +212,6 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                     val VoterCard: CardResponse? =
                         it.extras?.getParcelable<CardResponse>(ArgumentKey.VoterDetails)
                     idProofUrl= VoterCard?.cardFrontUrl.toString()
-
                 }
             }
 
@@ -468,52 +497,63 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
             when (parent.id) {
                 spinner_idProof.id -> {
 
-
+                    doc1= Docs(list?.get(position)?.id,list?.get(position)?.value,"","")
                     when (list?.get(position)?.value) {
                         "Passport" -> {
 
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.Passport )
+                                  putExtra("skip","true")
                             },  RequestCode.Passport )
                         }
                         "Voters ID card" -> {
 
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.VoterCard )
-                            },  RequestCode.VoterCard )
+                                  putExtra("skip","true")
+
+                              },  RequestCode.VoterCard )
                         }
                         "Driving License" -> {
 
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.DrivingLicense)
-                            },  RequestCode.DrivingLicense )
+                                  putExtra("skip","true")
+
+                              },  RequestCode.DrivingLicense )
                         }
                         "Pan Card" -> {
 
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.PanCard )
+                                  putExtra("skip","true")
                             },  RequestCode.PanCard )
                         }
                         "Aadhaar Card" -> {
 
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.AadharCard )
+                                  putExtra("skip","true")
                             },  RequestCode.AadharCard )
                         }
                     }
                 }
                 spinner_AddProof.id -> {
 
+                    doc2= Docs(list?.get(position)?.id,list?.get(position)?.value,"","")
+
                     when (list?.get(position)?.value) {
                         "Electricity bills " -> {
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.electricityBill )
-                            },  RequestCode.electricityBill )
+
+                              },  RequestCode.electricityBill )
                         }
                         "water bills" -> {
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.waterBill )
-                            },  RequestCode.waterBill )
+
+                              },  RequestCode.waterBill )
                         }
                         "telephone bills" -> {
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
@@ -523,12 +563,14 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                         "Aadhaar Card" -> {
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.AadharCard )
-                            },  RequestCode.AadharCard )
+                                  putExtra("skip","true")
+                              },  RequestCode.AadharCard )
                         }
 
                     }
                 }
                 spinner_PFP.id -> {
+                    doc3= Docs(list?.get(position)?.id,list?.get(position)?.value,"","")
 
                     when (list?.get(position)?.value) {
                         "VAT assessment order" -> {
@@ -581,6 +623,8 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                 }
                 spinner_idPBS.id -> {
 
+                    doc4= Docs(list?.get(position)?.id,list?.get(position)?.value,"","")
+
                     when (list?.get(position)?.value) {
                         "Latest Telephone Bill" -> {
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
@@ -606,6 +650,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                 }
                 spinner_AFS.id -> {
 
+                    doc5= Docs(list?.get(position)?.id,list?.get(position)?.value,"","")
 
                     when (list?.get(position)?.value) {
                         "Last 2 years ITR" -> {
@@ -622,6 +667,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                     }
                 }
                 spinner_propertyDocument.id -> {
+                    doc6= Docs(list?.get(position)?.id,list?.get(position)?.value,"","")
 
                     when (list?.get(position)?.value) {
                         "Sale Deed"

@@ -88,29 +88,86 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             progressLoader.showLoading()
             CoroutineScope(ioContext).launch {
                 try {
-                    val uploadFront: Deferred<Unit>? = mFrontImagePath?.let {
+                    var uploadFront: Deferred<Unit>? = null
+                    if (intent?.getStringExtra("skip") != null) {
                         when (intent?.getIntExtra(DOC_TYPE, 0)) {
+
                             RequestCode.PanCard -> {
-                                captureCardInfoAsync(it, CardType.PANCard)
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.PanCard == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.PANCard)
+
                             }
                             RequestCode.VoterCard -> {
-                                captureCardInfoAsync(it, CardType.VoterIdCard)
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.VoterCard == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.VoterIdCard)
                             }
                             RequestCode.AadharCard -> {
-                                captureCardInfoAsync(it, CardType.AadharCardFront)
-                            } RequestCode.PFP -> {
-                                captureCardInfoAsync(it, CardType.PFP)
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.AadharCard == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.AadharCardFront)
+                            }
+                            RequestCode.PFP -> {
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.PFP == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.PFP)
                             }
                             else -> {
                                 null
                             }
                         }
+                    } else {
+                        uploadFront = mFrontImagePath?.let {
+                            when (intent?.getIntExtra(DOC_TYPE, 0)) {
+                                RequestCode.PanCard -> {
+
+                                    captureCardInfoAsync(it, CardType.PANCard)
+
+
+                                }
+                                RequestCode.VoterCard -> {
+                                    captureCardInfoAsync(it, CardType.VoterIdCard)
+                                }
+                                RequestCode.AadharCard -> {
+                                    captureCardInfoAsync(it, CardType.AadharCardFront)
+                                }
+                                RequestCode.PFP -> {
+                                    captureCardInfoAsync(it, CardType.PFP)
+                                }
+                                else -> {
+                                    null
+                                }
+                            }
+                        }
                     }
+                    if (intent.getStringExtra("skip") != null) {
+                            if (uploadFront == null && mBackImagePath != null && RequestCode.AadharBackCard == intent?.getIntExtra(
+                                    DOC_TYPE,
+                                    0
+                                )
+                            )
+                                uploadToS3(mBackImagePath!!, CardType.AadharCardFront)
+
+                    } else{
                     val uploadBack: Deferred<Unit>? = mBackImagePath?.let {
                         captureCardInfoAsync(it, CardType.AadharCardBack)
                     }
                     uploadFront?.await()
                     uploadBack?.await()
+                }
 
                     try {
                         if (uploadFront == null && mFrontImagePath != null && RequestCode.ApplicantPhoto == intent?.getIntExtra(
@@ -928,6 +985,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             )
                                 btn_next.visibility = View.VISIBLE
                             else
+                                if(intent.getStringExtra("skip")==null)
                                 Toast.makeText(
                                     this@UploadDocumentActivity,
                                     "Please capture valid PAN Card",

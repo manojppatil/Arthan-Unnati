@@ -6,6 +6,7 @@ data class Customer360ResponseData(
     val assets: String?,
     val banking: Banking?,
     val bureau: BureauDetails?,
+    val bureauData: BureauDetails?,
     val collateral: Collateral?,
     val finances: Finances?,
     val idAddress: IdAddress?,

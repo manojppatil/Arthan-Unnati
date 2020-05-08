@@ -117,7 +117,11 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                 putExtra("cname",intent.getStringExtra("cname"))
                 putExtra("idData",mCustomer360Data?.ipAddressVO)
             })
-            R.id.cl_bureau -> startActivity(Intent(this, BureauActivity::class.java))
+            R.id.cl_bureau -> startActivity(Intent(this, BureauActivity::class.java).apply {
+                putExtra("data",mCustomer360Data?.bureauData)
+                putExtra("cname",intent.getStringExtra("cname"))
+
+            })
             R.id.cl_banking -> startActivity(Intent(this, BankingActivity::class.java).apply {
                 putExtra("loanId",loanId)
                 putExtra("custId",customerId)

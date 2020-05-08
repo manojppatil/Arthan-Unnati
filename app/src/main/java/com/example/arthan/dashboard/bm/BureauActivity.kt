@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.model.BureauDetails
+import com.example.arthan.lead.model.responsedata.ipAddressVO
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
@@ -30,7 +31,7 @@ class BureauActivity : BaseActivity() {
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
         customer_detail?.visibility = View.GONE
-        txt_customer_name?.text = "Rabiya P"
+      /*  txt_customer_name?.text = "Rabiya P"
         btn_view_report?.setOnClickListener {
             val loader = ProgrssLoader(this)
             loader.showLoading()
@@ -66,9 +67,32 @@ class BureauActivity : BaseActivity() {
                     }
                 }
             }
-        }
+        }*/
+
+        setData()
 
     }
+
+    private fun setData() {
+
+        val bureau: BureauDetails?= intent?.extras?.getParcelable<BureauDetails>("data")
+
+        txt_appName.text="Name of the applicant:${bureau?.applicantName}"
+        txt_scoreValue.text="Score:${bureau?.score}"
+        noOfLoans.text="No Of Loans:${bureau?.noOfLoans}"
+        noOfActiveLoans.text="No of active loans:${bureau?.noOfActiveLoans}"
+        moOfUnsecuredLoans.text="No of Unsecured loans:${bureau?.noOfUnsecuredLoans}"
+        moOfsecuredLoans.text="No of secured loans:${bureau?.noOfSecuredLoans}"
+        noOfDpdAccounts.text="No of Dpd account:${bureau?.noOfDpdAccounts}"
+        defaultCreditLoan.text="Default in credit card/Gold loan/Agri loan:${bureau?.defaultCGA}"
+        defaultInAutoLoans.text="Default in Auto loan/other loans:${bureau?.defaultAO}"
+        NoOfSuitFiled.text="No of suit filed,written:${bureau?.noOfSuitfiledWritten}"
+        noOfLoanAsGarunter.text="No of loans as guarantor:${bureau?.noOfLoanAsGuarantor}"
+        last6MonthsHist.text="Last 6 months history:${bureau?.sixMonthsHistory}"
+        lastLoanTaken.text="Last loan taken:${bureau?.lastLoanTaken}"
+
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
 
