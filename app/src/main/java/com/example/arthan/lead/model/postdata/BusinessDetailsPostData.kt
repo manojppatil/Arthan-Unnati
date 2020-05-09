@@ -15,17 +15,17 @@ data class BusinessDetailsPostData(
     var noofemployees: String? = "",
     var ssiregistrationno: String? = "",
     var emailid: String? = "",
-    var landline_mobile: String? = "",
+    var landlineMobile: String? = "",
     var partners: List<Partner> = mutableListOf(Partner()),
     var whatsappno: String? = "",
     var contactpersonname: String? = "",
     var annualturnover: String? = "",
-    @SerializedName("annualturnoverofcurrentfinancialyear(lastfinancialyear)")
-    var annualturnoverofcurrentfinancialyear_lastfinancialyear: String? = "",
+    @SerializedName("annualturnoverofcurrentfinancialyearLastfinancialyear")
+    var annualturnoverofcurrentfinancialyearLastfinancialyear: String? = "",
     var annualturnoverofpreviousfinancialyear: String? = "",
     var natureofassociation: String? = "",
     @SerializedName("no.ofyearsincurrentoffice")
-    var no_ofyearsincurrentoffice: String? = "",
+    var noOfyearsincurrentoffice: String? = "",
     var operatingbusinessaddress: String? = "",
     var projectedturnover: String? = "",
     var registeredbusinessaddress: String? = "",

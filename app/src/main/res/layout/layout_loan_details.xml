@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="16dp"
@@ -36,10 +40,64 @@
         android:singleLine="true"
         android:textColor="#000000"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tl_ownerName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:hintEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spnr_loan_type"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_ownerNameLoan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:hint="Owner name"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tl_Address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:hintEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tl_ownerName"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:hint="Address"
+            android:inputType="text"
+            android:minLines="3"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spnr_loan_sanctioned_by"
@@ -54,9 +112,9 @@
         android:singleLine="true"
         android:textColor="#000000"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnr_loan_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tl_Address"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -67,8 +125,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:hintEnabled="true"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spnr_loan_sanctioned_by"
         app:layout_constraintVertical_chainStyle="packed">
 
@@ -93,8 +151,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:hintEnabled="true"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tl_loan_amount"
         app:layout_constraintVertical_chainStyle="packed">
 
@@ -123,8 +181,8 @@
         android:text="@string/frequency_of_installment"
         android:textColor="#404040"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tl_emi" />
 
     <RadioGroup
@@ -135,31 +193,31 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_frequency">
 
         <RadioButton
+            android:id="@+id/weekly_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:button="@null"
             android:checked="true"
-            android:layout_marginTop="8dp"
             android:drawableStart="@drawable/radio_selector"
             android:drawablePadding="8dp"
             android:text="@string/weekly"
-            android:id="@+id/weekly_radio_button"
             android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <RadioButton
+            android:id="@+id/monthly_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:id="@+id/monthly_radio_button"
+            android:layout_marginEnd="8dp"
             android:button="@null"
             android:drawableStart="@drawable/radio_selector"
             android:drawablePadding="8dp"
@@ -169,12 +227,12 @@
             android:textStyle="bold" />
 
         <RadioButton
+            android:id="@+id/qtrly_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
 
-            android:id="@+id/qtrly_radio_button"
+            android:layout_marginEnd="8dp"
             android:button="@null"
             android:drawableStart="@drawable/radio_selector"
             android:drawablePadding="8dp"
@@ -182,13 +240,14 @@
             android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold" />
+
         <RadioButton
+            android:id="@+id/halfyearly_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:layout_marginTop="8dp"
-            android:id="@+id/halfyearly_radio_button"
             android:button="@null"
             android:drawableStart="@drawable/radio_selector"
             android:drawablePadding="8dp"
@@ -199,13 +258,13 @@
 
 
         <RadioButton
+            android:id="@+id/yearly_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:id="@+id/yearly_radio_button"
             android:button="@null"
-            android:layout_marginTop="8dp"
 
             android:drawableStart="@drawable/radio_selector"
             android:drawablePadding="8dp"
@@ -228,8 +287,8 @@
         android:text="@string/loan_tenure"
         android:textColor="#404040"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rgrp_frequecy" />
 
     <EditText
@@ -247,8 +306,8 @@
         android:singleLine="true"
         android:textColor="#000000"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/et_to"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_loan_tenure" />
 
     <EditText
@@ -266,8 +325,8 @@
         android:singleLine="true"
         android:textColor="#000000"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@id/et_from"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/et_from"
         app:layout_constraintTop_toBottomOf="@id/txt_loan_tenure" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -278,8 +337,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:hintEnabled="true"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_from"
         app:layout_constraintVertical_chainStyle="packed">
 
@@ -295,8 +354,18 @@
             android:textSize="14sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Consider in CFA"
+        android:id="@+id/cfa_cb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tl_outstanding_amount"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginTop="8dp"/>
 
     <Button
+        android:id="@+id/uploadLoanDoc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -309,15 +378,15 @@
         android:minWidth="0dp"
         android:minHeight="0dp"
         android:paddingStart="32dp"
-        android:id="@+id/uploadLoanDoc"
         android:paddingTop="12dp"
         android:paddingEnd="32dp"
         android:paddingBottom="12dp"
         android:text="@string/upload_loan_document"
         android:textAllCaps="false"
         android:textColor="#f75002"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tl_outstanding_amount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cfa_cb"
         app:layout_constraintVertical_chainStyle="packed" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

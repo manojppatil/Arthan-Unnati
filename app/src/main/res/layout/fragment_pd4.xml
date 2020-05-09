@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.fragments.PD4Fragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dynamicAssets"
+        android:orientation="vertical">
+        <include layout="@layout/assets_section"/>
+    </LinearLayout>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Add Asset"
+            android:id="@+id/addAsset"
+            android:layout_below="@+id/dynamicAssets"
+            android:textColor="#fff"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/ic_next_enabled"
+            android:layout_centerHorizontal="true"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/submitpd4"
+            android:layout_below="@+id/addAsset"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#fff"
+            android:layout_marginBottom="24dp"
+            android:paddingBottom="16dp"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

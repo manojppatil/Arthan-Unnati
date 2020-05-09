@@ -2,6 +2,7 @@ package com.example.arthan.lead
 
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -21,10 +22,17 @@ import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.PendingCustomersActivity
+import kotlinx.android.synthetic.main.activity_add_lead_step1.*
 import kotlinx.android.synthetic.main.collateral_section.*
 import kotlinx.android.synthetic.main.fragment_other_details.*
+import kotlinx.android.synthetic.main.liquid_type_layout.*
 import kotlinx.android.synthetic.main.movable_type_layout.*
+import kotlinx.android.synthetic.main.movable_type_layout.rb_individual
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -44,7 +52,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
     private var mLoanId: String? = null
     private var mCustomerId: String? = null
-
+    var collaterals: ArrayList<CollateralData> = ArrayList()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,15 +68,16 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         mCustomerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
 
         loadInitialData()
-        if(activity?.intent?.extras?.getString("FROM").equals("BCM")||activity?.intent?.extras?.getString("FROM").equals("BM"))
-        {
-            bcmCheckBoxes.visibility=View.VISIBLE
-        }else
-        {
-            bcmCheckBoxes.visibility=View.GONE
-            if(activity?.intent?.getStringExtra("loanType").equals("unsecure",ignoreCase = true))
-            {
-                    ll_collateral.visibility=View.GONE
+        if (activity?.intent?.extras?.getString("FROM")
+                .equals("BCM") || activity?.intent?.extras?.getString("FROM").equals("BM")
+        ) {
+            bcmCheckBoxes.visibility = View.VISIBLE
+        } else {
+            bcmCheckBoxes.visibility = View.GONE
+            if (activity?.intent?.getStringExtra("loanType")
+                    .equals("unsecure", ignoreCase = true)
+            ) {
+                ll_collateral.visibility = View.GONE
             }
 
         }
@@ -129,33 +138,27 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 ) {
                     parent?.getItemAtPosition(position)?.let {
 
-                            var list =
-                                (sp_security?.adapter as? DataSpinnerAdapter)?.list
-                          /*  if(list?.get(position)?.description=="Immovable")
-                            {*/
-                                fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
-                        if(list?.get(position)?.description.toLowerCase()=="movable")
-                        {
-                            movable_type.visibility=View.VISIBLE
-                        }else
-                        {
-                            movable_type.visibility=View.GONE
+                        var list =
+                            (sp_security?.adapter as? DataSpinnerAdapter)?.list
+                        /*  if(list?.get(position)?.description=="Immovable")
+                          {*/
+                        fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
+                        if (list?.get(position)?.description.toLowerCase() == "movable") {
+                            movable_type.visibility = View.VISIBLE
+                        } else {
+                            movable_type.visibility = View.GONE
 
                         }
-                        if(list?.get(position)?.description.toLowerCase()=="immovable")
-                        {
-                            immovableType.visibility=View.VISIBLE
-                        }else
-                        {
-                            immovableType.visibility=View.GONE
+                        if (list?.get(position)?.description.toLowerCase() == "immovable") {
+                            immovableType.visibility = View.VISIBLE
+                        } else {
+                            immovableType.visibility = View.GONE
 
                         }
-                        if(list?.get(position)?.description.toLowerCase()=="liquid")
-                        {
-                            liquid_type.visibility=View.VISIBLE
-                        }else
-                        {
-                            liquid_type.visibility=View.GONE
+                        if (list?.get(position)?.description.toLowerCase() == "liquid") {
+                            liquid_type.visibility = View.VISIBLE
+                        } else {
+                            liquid_type.visibility = View.GONE
 
                         }
 //                            }
@@ -174,16 +177,15 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     id: Long
                 ) {
                     parent?.getItemAtPosition(position)?.let {
-                            var list =
-                                (sp_security_subType?.adapter as? DataSpinnerAdapter)?.list
-                        immsubHead.visibility=View.GONE
-                        sp_immovable_security.visibility=View.GONE
-                            if(list?.get(position)?.description=="Imperfect/Quasi")
-                            {
-                                immsubHead.visibility=View.VISIBLE
-                                sp_immovable_security.visibility=View.VISIBLE
-                                fetchmstrIdImmovable(list?.get(position)?.description)
-                            }
+                        var list =
+                            (sp_security_subType?.adapter as? DataSpinnerAdapter)?.list
+                        immsubHead.visibility = View.GONE
+                        sp_immovable_security.visibility = View.GONE
+                        if (list?.get(position)?.description == "Imperfect/Quasi") {
+                            immsubHead.visibility = View.VISIBLE
+                            sp_immovable_security.visibility = View.VISIBLE
+                            fetchmstrIdImmovable(list?.get(position)?.description)
+                        }
                     }
                 }
             }
@@ -201,22 +203,20 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     parent?.getItemAtPosition(position)?.let {
                         var list =
                             (sp_immovable_security?.adapter as? DataSpinnerAdapter)?.list
-                        ll_plotType.visibility=View.GONE
-                        ll_namuna.visibility=View.GONE
-                        if(list?.get(position)?.description=="NA Plot(with boundary)")
-                        {
-                            ll_plotType.visibility=View.VISIBLE
-                        }else if(list?.get(position)?.description=="Namuna 8 A Property")
-                        {
-                            ll_namuna.visibility=View.VISIBLE
+                        ll_plotType.visibility = View.GONE
+                        ll_namuna.visibility = View.GONE
+                        if (list?.get(position)?.description == "NA Plot(with boundary)") {
+                            ll_plotType.visibility = View.VISIBLE
+                        } else if (list?.get(position)?.description == "Namuna 8 A Property") {
+                            ll_namuna.visibility = View.VISIBLE
 
                         }
                     }
                 }
             }
-        sp_security.onItemSelectedListener=securitySpinner
-        sp_security_subType.onItemSelectedListener=subSecuritySpinner
-        sp_immovable_security.onItemSelectedListener=immovableSecurity
+        sp_security.onItemSelectedListener = securitySpinner
+        sp_security_subType.onItemSelectedListener = subSecuritySpinner
+        sp_immovable_security.onItemSelectedListener = immovableSecurity
 
         val navController: NavController? =
             if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
@@ -228,13 +228,13 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         plusYears?.setOnClickListener {
             var years = yearsCount?.tag as? Int ?: 0
             years++
-         //   if(years<=7) {
-                yearsCount?.text = "$years yrs"
-                yearsCount?.tag = years
-           /* }else
-            {
-                Toast.makeText(this,"maximum tenure is 7 years",Toast.LENGTH_LONG).show()
-            }*/
+            //   if(years<=7) {
+            yearsCount?.text = "$years yrs"
+            yearsCount?.tag = years
+            /* }else
+             {
+                 Toast.makeText(this,"maximum tenure is 7 years",Toast.LENGTH_LONG).show()
+             }*/
         }
 
         minusYears?.setOnClickListener {
@@ -274,9 +274,53 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
             }*/
         }
+        issueDateLiq.setOnClickListener {
+            val c = Calendar.getInstance()
+            DatePickerDialog(
+                activity!!,
+                DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                    val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+
+
+                    var timenow= Calendar.getInstance().time
+                    var simpleDateFormat: SimpleDateFormat = SimpleDateFormat("")
+                    var formatDate:String=simpleDateFormat.format(timenow)
+                    issueDateLiq.setText(date)
+
+                },
+                c.get(Calendar.YEAR),
+                c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+        validityDateLiq.setOnClickListener {
+            val c = Calendar.getInstance()
+            DatePickerDialog(
+                activity!!,
+                DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                    val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+
+
+                    var timenow=Calendar.getInstance().time
+                    var simpleDateFormat:SimpleDateFormat= SimpleDateFormat("")
+                    var formatDate:String=simpleDateFormat.format(timenow)
+                    validityDateLiq.setText(date)
+/*
+                    if(SimpleDateFormat("dd-MM-yyyy").parse(date).after(Date())){
+
+                    }else
+                    {
+                        Toast.makeText(activity,"Later should be greater than current date",Toast.LENGTH_LONG).show()
+                    }*/
+                },
+                c.get(Calendar.YEAR),
+                c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
         btn_save_continue?.setOnClickListener {
 
-            if(activity?.intent?.getStringExtra("FROM")=="BM") {
+            if (activity?.intent?.getStringExtra("FROM") == "BM") {
                 var dialog = AlertDialog.Builder(activity)
                 var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
                 dialog.setView(view)
@@ -284,7 +328,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
                 var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
 
-                var alert= dialog.create() as AlertDialog
+                var alert = dialog.create() as AlertDialog
                 btn_cancel?.setOnClickListener {
                     alert.dismiss()
                 }
@@ -293,9 +337,9 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     map["loanId"] = mLoanId!!
                     map["custId"] = mCustomerId!!
                     map["remarks"] = et_remarks?.text.toString()
-                    map["rltWOValue"] = ""+rltWOCheckBox.isChecked
-                    map["rltWFeeValue"] = ""+rltWFeeCheckBox.isChecked
-                    map["userId"] = activity?.intent?.getStringExtra("FROM")+""
+                    map["rltWOValue"] = "" + rltWOCheckBox.isChecked
+                    map["rltWFeeValue"] = "" + rltWFeeCheckBox.isChecked
+                    map["userId"] = activity?.intent?.getStringExtra("FROM") + ""
 
                     CoroutineScope(Dispatchers.IO).launch {
                         val respo = RetrofitFactory.getApiService().updateOtherDetails(
@@ -327,8 +371,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 }
 
 
-               alert.show()
-            }else {
+                alert.show()
+            } else {
                 if (navController != null) {
                     val progressLoader: ProgrssLoader? =
                         if (context != null) ProgrssLoader(context!!) else null
@@ -353,13 +397,14 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             }
         }
     }
-    private fun fetchmstrIdImmovable(value:String) {
+
+    private fun fetchmstrIdImmovable(value: String) {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitFactory.getApiService().getCollateralMstr("immovable_sub_type")
-                if(response?.body()?.errorCode=="200")
-                {
+                val response =
+                    RetrofitFactory.getApiService().getCollateralMstr("immovable_sub_type")
+                if (response?.body()?.errorCode == "200") {
 
                     withContext(Dispatchers.Main) {
                         sp_immovable_security.adapter = getAdapter(response.body()?.data)
@@ -374,27 +419,25 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
     }
 
 
-    private fun fetchmstrIdsubSecurity(str:String) {
+    private fun fetchmstrIdsubSecurity(str: String) {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                var temp=str
-                if(temp=="immovable"){
-                    temp="immovable_type"
+                var temp = str
+                if (temp == "immovable") {
+                    temp = "immovable_type"
                 }
                 val response = RetrofitFactory.getApiService().getCollateralMstr(temp)
-                if(response?.body()?.errorCode=="200")
-                {
+                if (response?.body()?.errorCode == "200") {
 
                     withContext(Dispatchers.Main) {
-                        sp_security_subType.adapter=null
+                        sp_security_subType.adapter = null
                         sp_security_subType.adapter = getAdapter(response.body()?.data)
                     }
-                }else
-                {
+                } else {
                     withContext(Dispatchers.Main)
                     {
-                        sp_security_subType.adapter=null
+                        sp_security_subType.adapter = null
 
                     }
                 }
@@ -491,8 +534,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             if (natureOfProperty && propertyJurisdiction && propertyType && relationshipWitApplicant) {
                 withContext(uiContext) {
                     progressLoader?.dismmissLoading()
-                    if(arguments?.getString("task").equals("RM_AssignList"))
-                    {
+                    if (arguments?.getString("task").equals("RM_AssignList")) {
                         getOthersDataForRm()
                     }
                 }
@@ -503,12 +545,13 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
     private fun getOthersDataForRm() {
 
 
-        try{
+        try {
             val progressLoader: ProgrssLoader? =
                 if (context != null) ProgrssLoader(context!!) else null
             progressLoader?.showLoading()
             CoroutineScope(Dispatchers.IO).launch {
-                val res=RetrofitFactory.getApiService().getOtherData(arguments?.getString("loanId"))
+                val res =
+                    RetrofitFactory.getApiService().getOtherData(arguments?.getString("loanId"))
                 withContext(uiContext) {
                     if (res!!.isSuccessful) {
                         val responseBody = res.body()
@@ -523,8 +566,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 }
             }
 
-        }catch (e:java.lang.Exception)
-        {
+        } catch (e: java.lang.Exception) {
 
         }
 
@@ -586,20 +628,20 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         }
         return@async true
     }
+
     private fun fetchmstrId() {
-       CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = RetrofitFactory.getApiService().getCollateralMstr("security_type")
-                if(response?.body()?.errorCode=="200")
-                {
+                if (response?.body()?.errorCode == "200") {
 
                     withContext(Dispatchers.Main) {
                         sp_security.adapter = getAdapter(response.body()?.data)
-                        if(response.body()!=null&&(response.body()!!.data[0].description.toLowerCase()=="liquid")) {
+                        if (response.body() != null && (response.body()!!.data[0].description.toLowerCase() == "liquid")) {
                             liquid_type.visibility = View.VISIBLE
 
-                            immovableType.visibility=View.GONE
-                            movable_type.visibility=View.GONE
+                            immovableType.visibility = View.GONE
+                            movable_type.visibility = View.GONE
                         }
                     }
                 }
@@ -610,12 +652,12 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
         }
     }
+
     private fun fetchoccupiedBy() {
-       CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = RetrofitFactory.getApiService().getCollateralMstr("occupied_by")
-                if(response?.body()?.errorCode=="200")
-                {
+                if (response?.body()?.errorCode == "200") {
 
                     withContext(Dispatchers.Main) {
                         sp_occupiedBy.adapter = getAdapter(response.body()?.data)
@@ -628,12 +670,12 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
         }
     }
+
     private fun fetchDocNature() {
-       CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = RetrofitFactory.getApiService().getCollateralMstr("doc_nature")
-                if(response?.body()?.errorCode=="200")
-                {
+                if (response?.body()?.errorCode == "200") {
 
                     withContext(Dispatchers.Main) {
                         sp_NatureOfDo.adapter = getAdapter(response.body()?.data)
@@ -646,12 +688,12 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
         }
     }
+
     private fun fetchmDocType() {
-       CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = RetrofitFactory.getApiService().getCollateralMstr("doc_type")
-                if(response?.body()?.errorCode=="200")
-                {
+                if (response?.body()?.errorCode == "200") {
 
                     withContext(Dispatchers.Main) {
                         sp_typeOfDoc.adapter = getAdapter(response.body()?.data)
@@ -731,29 +773,77 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
     private fun saveCollateralDataAsync(): Deferred<Boolean> = async(ioContext) {
         try {
+            collaterals = ArrayList()
+            collaterals.add(
+                CollateralData(
+                    securityType = sp_security.selectedItem.toString(),
+                    liquidDetails = LiquidDetails(
+                        liqOwnership = when (rb_individual.isChecked) {
+                            true -> "Individual"
+                            false -> "Joint"
+                        },
+                        policyNo = policyNo.text.toString(),
+                        issueDate = issueDateLiq.text.toString(),
+                        validDate = validityDateLiq.text.toString(),
+                        currentValue = currentValueLiq.text.toString(),
+                        remarks = remarksLiq.text.toString()
+                    ),
+                    movableDetails = MovableDetails(
+                        movOwnership = when (rb_individual.isChecked) {
+                            true -> "Individual"
+                            false -> "Joint"
+                        },
+                        name = name.text.toString(),
+                        months = monthsCount.text.toString(),
+                        years = yearsCount.text.toString(),
+                        identification = identification.text.toString(),
+                        description = description.text.toString(),
+                        currentValue = currentValue.text.toString(),
+                        derivedValue = derivedValue.text.toString()
+                    ),
+                    immovableDetails = ImmovableDetails(
+                        ownerName = et_ownerNameLoan.text.toString(),
+                        address = et_address.text.toString(),
+                        securitySubType = sp_security_subType?.selectedItem?.toString(),
+                        immovableSubType = sp_immovable_security.selectedItem?.toString(),
+                        plotType = when (rb_boundary.isChecked) {
+                            true -> "Boundary"
+                            false -> "No Boundary"
+                        }, namunaType = when (rb_online.isChecked) {
+                            true -> "Online"
+                            false -> "Offline"
+                        },
+                        occupiedBy = sp_occupiedBy.selectedItem.toString()
+                    )
+
+                )
+            )
             val postBody = CollateralDetailsPostData(
                 loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
                 custId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
-                securityType = sp_security.selectedItem.toString(),
-                securitySubType = sp_security_subType?.selectedItem?.toString(),
-                immovableSubType = sp_immovable_security.selectedItem?.toString(),
-                plotType = when(rb_boundary.isChecked){
-                    true->"Boundary"
-                    false->"No Boundary"
-                },namunaType = when(rb_online.isChecked){
-                    true->"Online"
-                    false->"Offline"
-                },
-                occupiedBy = sp_occupiedBy.selectedItem.toString(),
-                natureOfDoc = sp_NatureOfDo.selectedItem.toString(),
-                typeOfDoc = sp_typeOfDoc.selectedItem?.toString(),
-                docDesc = et_docDesc.text.toString(),
-                docStatus = when(rb_received.isChecked)
-                {
-                    true->"Received"
-                    false->"Not Received"
-                }
-               )
+                collaterals = collaterals
+                )
+
+                /*  securityType = sp_security.selectedItem.toString(),
+                  securitySubType = sp_security_subType?.selectedItem?.toString(),
+                  immovableSubType = sp_immovable_security.selectedItem?.toString(),
+                  plotType = when(rb_boundary.isChecked){
+                      true->"Boundary"
+                      false->"No Boundary"
+                  },namunaType = when(rb_online.isChecked){
+                      true->"Online"
+                      false->"Offline"
+                  },
+                  occupiedBy = sp_occupiedBy.selectedItem.toString(),
+                  considerCFA =  cfa_cb.isChecked,
+                  natureOfDoc = sp_NatureOfDo.selectedItem.toString(),
+                  typeOfDoc = sp_typeOfDoc.selectedItem?.toString(),
+                  docDesc = et_docDesc.text.toString(),
+                  docStatus = when(rb_received.isChecked)
+                  {
+                      true->"Received"
+                      false->"Not Received"
+                  }*/
             val response = RetrofitFactory.getApiService().saveCollateralDetail(postBody)
             return@async if (response?.isSuccessful == true) {
                 val result = response?.body()
@@ -774,9 +864,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         collateralDetails: CollateralDetails?,
         loanId: String?
     ) {
-        if(collateralDetails?.loanType.equals("unsecure",ignoreCase = true))
-        {
-            ll_collateral.visibility=View.GONE
+        if (collateralDetails?.loanType.equals("unsecure", ignoreCase = true)) {
+            ll_collateral.visibility = View.GONE
         }
         mLoanId = loanId
         if ((neighborReference?.size ?: 0) > 0) {
@@ -808,7 +897,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 trade_reference_1_relationship_with_applicant_spinner?.setSelection(position)
             }
             trade_reference_1_contact_details_input?.setText(tradeRefDetails?.get(0)?.contactDetails)
-         //   trade_reference_1_product_purchase_sale_input?.setText(tradeRefDetails?.get(0)?.productPurchaseSale)
+            //   trade_reference_1_product_purchase_sale_input?.setText(tradeRefDetails?.get(0)?.productPurchaseSale)
             try {
                 trade_reference_1_years_working_with_count?.tag =
                     tradeRefDetails?.get(0)?.noOfYrsWorkingWith?.toInt()
@@ -860,26 +949,26 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        try{
+        try {
             property_location_address_input?.setText(collateralDetails?.addressline1)
             land_area_input?.setText(collateralDetails?.landArea)
             construction_area_input?.setText(collateralDetails?.constructionArea)
             market_value_input?.setText(collateralDetails?.marketValue)
             position = -1
-            if((property_type_spinner?.adapter as? DataSpinnerAdapter)!=null){
-            list = (property_type_spinner?.adapter as? DataSpinnerAdapter)?.list
-          if(list!=null) {
-              for (index in 0 until (list.size ?: 0)) {
-                  if (list[index].value == collateralDetails?.propertyType) {
-                      position = index
-                  }
-              }
-              if (position != -1) {
-                  property_type_spinner?.setSelection(position)
-              }
-          }
-          }
-        }catch (e:Exception){
+            if ((property_type_spinner?.adapter as? DataSpinnerAdapter) != null) {
+                list = (property_type_spinner?.adapter as? DataSpinnerAdapter)?.list
+                if (list != null) {
+                    for (index in 0 until (list.size ?: 0)) {
+                        if (list[index].value == collateralDetails?.propertyType) {
+                            position = index
+                        }
+                    }
+                    if (position != -1) {
+                        property_type_spinner?.setSelection(position)
+                    }
+                }
+            }
+        } catch (e: Exception) {
 
         }
 

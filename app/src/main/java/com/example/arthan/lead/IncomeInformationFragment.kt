@@ -44,8 +44,10 @@ import com.example.arthan.views.fragments.BaseFragment
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_add_lead_step1.*
+import kotlinx.android.synthetic.main.assets_section.*
 import kotlinx.android.synthetic.main.fragment_income_information.*
 import kotlinx.android.synthetic.main.fragment_income_information.btn_save_continue
 import kotlinx.android.synthetic.main.fragment_other_details.*
@@ -80,6 +82,19 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             ) {
                 parent?.getItemAtPosition(position)?.let {
                     if (it is String) {
+
+                        if(view?.id==R.id.spnr_loan_type)
+                        {
+                            if(it.equals("immovable",ignoreCase = true))
+                            {
+                                parent.findViewById<TextInputLayout>(R.id.tl_ownerName).visibility=View.GONE
+                                parent.findViewById<TextInputLayout>(R.id.tl_Address).visibility=View.GONE
+                            }else
+                            {
+                                parent.findViewById<TextInputLayout>(R.id.tl_ownerName).visibility=View.GONE
+                                parent.findViewById<TextInputLayout>(R.id.tl_Address).visibility=View.GONE
+                            }
+                        }
 //                        collateral_container?.visibility =
 //                            if ("Secure".equals(it, ignoreCase = true)) {
 //                                View.VISIBLE
@@ -697,7 +712,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     loanTenureFrom = et_from?.text?.toString(),
                     loanTenureTo = et_to?.text?.toString(),
                     outstandingAmount = outstanding_amount_input?.text?.toString(),
-                    loanDocumentUrl = loanDocUrl
+                    loanDocumentUrl = loanDocUrl,
+                    ownerName = et_OwnerName.text.toString(),
+                    address = et_address.text.toString(),
+                    considerCFA = cfa_cb.isChecked
                 )
             )
 
@@ -731,7 +749,11 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                             loanTenureFrom = loanDetails?.findViewById<TextInputEditText?>(R.id.et_from)?.text?.toString(),
                             loanTenureTo = loanDetails?.findViewById<TextInputEditText?>(R.id.et_to)?.text?.toString(),
                             outstandingAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.outstanding_amount_input)?.text?.toString(),
-                            loanDocumentUrl = loanDocUrl
+                            loanDocumentUrl = loanDocUrl,
+                            ownerName = loanDetails?.findViewById<TextInputEditText?>(R.id.et_OwnerName)?.text.toString(),
+                            address = loanDetails?.findViewById<TextInputEditText?>(R.id.et_address)?.text.toString(),
+                            considerCFA = loanDetails?.findViewById<CheckBox?>(R.id.cfa_cb)?.isChecked
+
                         )
                     )
                 }
@@ -1306,6 +1328,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
             loanView.findViewById<EditText>(R.id.loan_amount_input)?.setText(item.loanAmount)
             loanView.findViewById<EditText?>(R.id.emi_input)?.setText(item.emi)
+//            loanView.findViewById<EditText?>(R.id.et_ownerNameLoan)?.setText(item.ownerName)
+//            loanView.findViewById<EditText?>(R.id.et_address)?.setText(item.address)
             loanView.findViewById<EditText?>(R.id.outstanding_amount_input)
                 ?.setText(item.outstandingAmount)
             loanView?.findViewById<EditText?>(R.id.et_from)?.setText(item.loanTenureFrom)

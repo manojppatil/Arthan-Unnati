@@ -138,6 +138,9 @@ interface ApiService {
     @POST("pd1")
     suspend fun savePD1(@Body body: PD1PostData?): Response<ResponseBody>?
 
+    @POST("submitAssets")
+    suspend fun submitAssets(@Body body: PD4Data?): Response<BaseResponseData>?
+
     @POST("pd23")
     suspend fun savePD23(@Body body: PD23PostData?): Response<BaseResponseData>?
 
@@ -285,6 +288,9 @@ interface ApiService {
 
     @GET("getCollateralMstr")
     suspend fun getCollateralMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
+
+    @GET("getAssetType")
+    suspend fun getAssetType(): Response<CollateralResponseData>?
 
     @GET("getDocMstr")
     suspend fun getDocMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?

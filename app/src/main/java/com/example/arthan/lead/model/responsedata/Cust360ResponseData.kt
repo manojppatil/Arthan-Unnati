@@ -13,11 +13,12 @@ data class Cust360ResponseData(
     val pdVO: PdX?,
     val scVO: SCVO?,
     val pd1DetailsVO: Pd1?,
+    val asset: Asset?,
     val pd23DetailsVO: Pd23?,
     val pdCust: PdCust?,
     val bureauData: BureauDetails?
 
-    ) : Parcelable
+) : Parcelable
 
 @Parcelize
 data class PdCust(
@@ -36,4 +37,20 @@ data class PdCust(
     val strength: String?,
     val sanctionConditions: String?,
     val remarks: String?
-):Parcelable
+) : Parcelable
+
+@Parcelize
+data class Asset(
+    val loanId: String,
+    val assets: ArrayList<Assets?>
+) : Parcelable
+
+@Parcelize
+data class Assets(
+    val assetType: String?,
+    val ownerName: String?,
+    val purchaseYear: String?,
+    val purchaseValue: String?,
+    val currentValue: String?,
+    val assetAddress: String?
+) : Parcelable

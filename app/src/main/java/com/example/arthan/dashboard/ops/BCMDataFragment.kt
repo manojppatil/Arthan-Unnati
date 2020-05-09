@@ -19,6 +19,7 @@ import com.example.arthan.lead.model.postdata.PD23PostData
 import com.example.arthan.lead.model.responsedata.BaseResponseData
 import com.example.arthan.model.PD2Data
 import com.example.arthan.model.PD3Data
+import com.example.arthan.model.PD4Data
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
@@ -113,6 +114,48 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
         savePD23Data()
     }
 
+    override fun onPD4Fragment(pd4Data: PD4Data) {
+        val progressBar = ProgrssLoader(context ?: return)
+        progressBar.showLoading()
+        CoroutineScope(Dispatchers.IO).launch {
+            var result=RetrofitFactory.getApiService().submitAssets(pd4Data)
+            if(result?.body()!=null)
+            {
+                withContext(Dispatchers.Main) {
+                    if(result.body()?.eligibility.equals("y",ignoreCase = true))
+                    {
+                        context?.startActivity(Intent(context, Customer360Activity::class.java).apply {
+                            putExtra(ArgumentKey.LoanId, mLoanId)
+                        })
+                    }else
+                    {
+                        startActivity(Intent(
+                            activity,
+                            PendingCustomersActivity::class.java
+                        ).apply {
+                            putExtra("FROM", "BCM")
+                        })
+                    }
+                }
+            }else {
+                withContext(Dispatchers.Main) {
+
+                    try {
+                        stopLoading(
+                            progressBar,
+                            "Smething went wrong with api!!!"/*result?.message*/
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        stopLoading(progressBar, "Something went wrong. Please try later!")
+                    }
+                }
+
+
+            }
+        }
+    }
+
     fun updateLoanAndCustomerId(loanId: String?, customerId: String?) {
         mLoanId = loanId
         mCustomerId = customerId
@@ -137,24 +180,12 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
                 val response = RetrofitFactory.getApiService().savePD23(pd23Data)
                 if (response?.isSuccessful == true) {
                     val result = response.body()
+
                     withContext(Dispatchers.Main) {
-                        if(result?.eligibility.equals("y",ignoreCase = true))
-                        {
-                            context?.startActivity(Intent(context, Customer360Activity::class.java).apply {
-                                putExtra(ArgumentKey.LoanId, mLoanId)
-                            })
-                        }else
-                        {
-                            startActivity(Intent(
-                                activity,
-                                PendingCustomersActivity::class.java
-                            ).apply {
-                                putExtra("FROM", "BCM")
-                            })
-                        }
-                        }
-                        activity?.finish()
+//                        activity?.finish()
+                        vp_profile.currentItem = 3
                         progressBar.dismmissLoading()
+                    }
                     }
                  else {
                     try {

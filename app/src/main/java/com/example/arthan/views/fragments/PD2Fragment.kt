@@ -12,6 +12,7 @@ import com.example.arthan.R
 import com.example.arthan.lead.model.postdata.PD1PostData
 import com.example.arthan.model.PD2Data
 import com.example.arthan.model.PD3Data
+import com.example.arthan.model.PD4Data
 import kotlinx.android.synthetic.main.fragment_pd2.*
 
 /**
@@ -87,4 +88,5 @@ interface PDFragmentSaveClickListener {
     fun onPD1Fragment(pd1Data: PD1PostData)
     fun onPD2Fragment(pd2Data: PD2Data)
     fun onPD3Fragment(pd3Data: PD3Data)
+    fun onPD4Fragment(pd4Data: PD4Data)
 }

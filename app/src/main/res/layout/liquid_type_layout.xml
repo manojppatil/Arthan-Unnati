@@ -74,7 +74,8 @@
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/issueDate"
+                android:id="@+id/issueDateLiq"
+                android:editable="false"
                 android:layout_weight="0.7"/>
         </LinearLayout>
         <LinearLayout
@@ -91,7 +92,8 @@
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/validityDate"
+                android:id="@+id/validityDateLiq"
+                android:editable="false"
                 android:layout_weight="0.7"/>
         </LinearLayout>
         <LinearLayout
@@ -108,7 +110,7 @@
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/currentValue"
+                android:id="@+id/currentValueLiq"
                 android:inputType="number"
                 android:layout_weight="0.7"/>
         </LinearLayout>
@@ -127,7 +129,7 @@
                 android:layout_width="0dp"
                 android:inputType="text"
                 android:layout_height="wrap_content"
-                android:id="@+id/remarks"
+                android:id="@+id/remarksLiq"
                 android:layout_weight="0.7"/>
         </LinearLayout>
 
