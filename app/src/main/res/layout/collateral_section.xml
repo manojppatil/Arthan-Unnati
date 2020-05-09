@@ -175,11 +175,13 @@
             android:layout_height="wrap_content"
             android:text="Nature of Doc"
             android:textStyle="bold"
+            android:visibility="gone"
 
             android:layout_marginLeft="8dp"/>
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:visibility="gone"
             android:id="@+id/sp_NatureOfDo"
             android:layout_marginTop="16dp"/>
         <TextView
@@ -187,23 +189,30 @@
             android:layout_height="wrap_content"
             android:text="Type of Doc"
             android:textStyle="bold"
+            android:visibility="gone"
 
             android:layout_marginLeft="8dp"/>
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:id="@+id/sp_typeOfDoc"
+            android:visibility="gone"
+
             android:layout_marginTop="16dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/et_docDesc"
+            android:visibility="gone"
+
             android:hint="Doc Description"
             android:minLines="3"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ll_docStatus"
+            android:visibility="gone"
+
             android:layout_marginTop="8dp"
             android:orientation="vertical">
             <TextView

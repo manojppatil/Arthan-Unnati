@@ -10,7 +10,7 @@ data class LeadPostData(
     var lat: String? = "",
     var later: String? = "",
     var laterDate: String? = "",
-    var long: String? = "",
+    var lng: String? = "",
     var mobileNo: String? = "",
     var segment: String? = "",
     var shopPicUrl: String? = "",

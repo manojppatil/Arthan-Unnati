@@ -433,7 +433,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             later = if (chk_later?.isChecked == true) "Yes" else "No",
             laterDate = et_date?.text?.toString() ?: "",
             lat = lat.toString(),
-            long = lng.toString(),
+            lng = lng.toString(),
             shopPicUrl=shopUrl,
             createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
         )

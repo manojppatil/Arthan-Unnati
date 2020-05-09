@@ -308,10 +308,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 onAccepted {
                     val pdfPickerIntent = Intent(Intent.ACTION_GET_CONTENT)
                     pdfPickerIntent.type = "application/pdf"
-                    startActivityForResult(
+                   /* startActivityForResult(
                         Intent.createChooser(pdfPickerIntent, "Choose File"),
                         102
-                    )
+                    )*/
+                    uploadLoanDoc()
+
                 }
                 onDenied {
                 }
@@ -728,7 +730,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                             },
                             loanTenureFrom = loanDetails?.findViewById<TextInputEditText?>(R.id.et_from)?.text?.toString(),
                             loanTenureTo = loanDetails?.findViewById<TextInputEditText?>(R.id.et_to)?.text?.toString(),
-                            outstandingAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.outstanding_amount_input)?.text?.toString()
+                            outstandingAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.outstanding_amount_input)?.text?.toString(),
+                            loanDocumentUrl = loanDocUrl
                         )
                     )
                 }
@@ -1041,7 +1044,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                RequestCode.waterBill -> {
+                RequestCode.LoanDoc -> {
                     data?.let {
                         val loanDoc: CardResponse? =
                             it.extras?.getParcelable<CardResponse>(ArgumentKey.LoanDoc)
@@ -1066,7 +1069,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         if (this.data == null) return
                         val file = copyFile(context!!, this.data!!)
                         if (file != null && file?.absolutePath.isNotEmpty()) {
-                            uploadLoanDoc(file?.absolutePath)
+                            uploadLoanDoc()
                         }
                     }
                 }
@@ -1087,7 +1090,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         }
     }
 
-    private fun uploadLoanDoc(absolutePath: String) {
+    private fun uploadLoanDoc() {
         startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
             putExtra(DOC_TYPE,  RequestCode.LoanDoc )
         },  RequestCode.LoanDoc )

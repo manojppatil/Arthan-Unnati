@@ -437,7 +437,7 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
             later = if (chk_later?.isChecked == true) "Yes" else "No",
             laterDate = et_date?.text?.toString() ?: "",
             lat = "12.1",
-            long = "15.2",
+            lng = "15.2",
             createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
         )
         CoroutineScope(Dispatchers.IO).launch {
