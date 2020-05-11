@@ -391,6 +391,12 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
 
                             }
+
+                        }
+                        else
+                        {
+                            progressLoader?.dismmissLoading()
+
                         }
                     }
                 }
@@ -776,7 +782,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             collaterals = ArrayList()
             collaterals.add(
                 CollateralData(
-                    securityType = sp_security.selectedItem.toString(),
+                    securityType = (sp_security.selectedItem as Data).description.toString(),
                     liquidDetails = LiquidDetails(
                         liqOwnership = when (rb_individual.isChecked) {
                             true -> "Individual"
@@ -804,8 +810,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     immovableDetails = ImmovableDetails(
                         ownerName = et_ownerNameLoan.text.toString(),
                         address = et_address.text.toString(),
-                        securitySubType = sp_security_subType?.selectedItem?.toString(),
-                        immovableSubType = sp_immovable_security.selectedItem?.toString(),
+                        securitySubType = (sp_security_subType?.selectedItem as Data).description.toString(),
+                        immovableSubType = (sp_immovable_security.selectedItem as Data).description.toString(),
                         plotType = when (rb_boundary.isChecked) {
                             true -> "Boundary"
                             false -> "No Boundary"
@@ -813,7 +819,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             true -> "Online"
                             false -> "Offline"
                         },
-                        occupiedBy = sp_occupiedBy.selectedItem.toString()
+                        occupiedBy = (sp_occupiedBy.selectedItem as Data).description.toString()
                     )
 
                 )
