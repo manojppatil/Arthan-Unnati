@@ -7,8 +7,8 @@ data class BusinessDetails(
     val addressline2: String?,
     val addressofbusinesslocation: String?,
     val annualturnover: String?,
-    @SerializedName("annualturnoverofcurrentfinancialyear(lastfinancialyear)")
-    val annualturnoverofcurrentfinancialyear_lastfinancialyear: String?,
+    @SerializedName("annualturnoverofcurrentfinancialyearLastfinancialyear")
+    val annualturnoverofcurrentfinancialyearLastfinancialyear: String?,
     val annualturnoverofpreviousfinancialyear: String?,
     val areaname: String?,
     val associateFirms: List<AssociateFirmX>,
@@ -25,12 +25,12 @@ data class BusinessDetails(
     val form60_61: String?,
     val gstcode: String?,
     @SerializedName("landline/mobile")
-    val landline_mobile: String?,
+    val landlineMobile: String?,
     val landmark: String?,
     val bname: String?,
     val natureofassociation: String?,
     @SerializedName("no.ofyearsincurrentoffice")
-    val no_ofyearsincurrentoffice: String?,
+    val noOfyearsincurrentoffice: String?,
     val noofemployees: String?,
     val operatingbusinessaddress: String?,
     val partners: List<PartnerX>,

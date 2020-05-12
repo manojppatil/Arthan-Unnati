@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.adapter.AssetsAdapter
+import com.example.arthan.lead.model.responsedata.Asset
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_assets.*
@@ -21,8 +22,9 @@ class AssetsActivity : BaseActivity() {
 
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
+        val asset: Asset?= intent?.extras?.getParcelable<Asset>("data")
 
-        rv_assets.adapter = AssetsAdapter(this)
+        rv_assets.adapter = AssetsAdapter(this,asset?.assets)
     }
 
     override fun screenTitle() = "Assets"
