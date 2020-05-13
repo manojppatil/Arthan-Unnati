@@ -5,6 +5,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
@@ -48,6 +50,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         if (intent.hasExtra("PAN_DATA")) {
             mKYCPostData = intent.getParcelableExtra("PAN_DATA") as? KYCPostData
             et_name.setText(mKYCPostData?.panFirstname)
+            panNoEt.setText(mKYCPostData?.panId)
             et_father_name.setText(mKYCPostData?.panFathername)
             et_dob.setText(mKYCPostData?.panDob?.replace("/","-"))
             AppPreferences.getInstance()?.also {
@@ -79,6 +82,30 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         et_dob.setOnClickListener {
             dateSelection(this, et_dob)
         }
+
+        spnr_occupation_type?.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if(parent?.getItemAtPosition(position) == "Self Employed Professional")
+                    {
+                        spnr_occupation_name.visibility=View.VISIBLE
+
+                    }else
+                    {
+                        spnr_occupation_name.visibility=View.GONE
+
+                    }
+                }
+            }
 
 //        switch_partners.setOnCheckedChangeListener { buttonView, isChecked ->
 //            ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
@@ -139,7 +166,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             occupationType = (spnr_occupation_type?.selectedItem as? Data)?.value ?: "",
             occupation = (spnr_occupation_name?.selectedItem as? Data)?.value ?: "",
             sourceofIncome = (source_of_income_spinner?.selectedItem as? Data)?.value ?: "",
-            grossannualIncome = (gross_annual_income_spinner?.selectedItem as? Data)?.value ?: "",
+            grossannualIncome = gross_annual_income_spinner?.text.toString(),
             addressLine1 = address_line1_input?.text?.toString() ?: "",
             addressLine2 = address_line2_input?.text?.toString() ?: "",
             landmark = landmark_input?.text?.toString() ?: "",
@@ -422,7 +449,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 val response = RetrofitFactory.getMasterApiService().getGrossAnnualIncome()
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                     withContext(uiContext) {
-                        gross_annual_income_spinner?.adapter = getAdapter(response.body()?.data)
+                        //gross_annual_income_spinner?.adapter = getAdapter(response.body()?.data)
                     }
                 }
             } catch (e: Exception) {

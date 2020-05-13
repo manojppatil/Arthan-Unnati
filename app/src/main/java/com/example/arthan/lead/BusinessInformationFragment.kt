@@ -79,6 +79,9 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             ) else null
 
         loadInitialData()
+        annual_turnover_current_year_input.setText(activity?.intent?.getStringExtra("annualturnover"))
+        firm_name_input.setText(activity?.intent?.getStringExtra("businessName"))
+
 
         ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_save_continue.setOnClickListener {

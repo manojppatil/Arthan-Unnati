@@ -301,9 +301,9 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
 
 
-                    var timenow=Calendar.getInstance().time
-                    var simpleDateFormat:SimpleDateFormat= SimpleDateFormat("")
-                    var formatDate:String=simpleDateFormat.format(timenow)
+                    var timenow = Calendar.getInstance().time
+                    var simpleDateFormat: SimpleDateFormat = SimpleDateFormat("")
+                    var formatDate: String = simpleDateFormat.format(timenow)
                     validityDateLiq.setText(date)
 /*
                     if(SimpleDateFormat("dd-MM-yyyy").parse(date).after(Date())){
@@ -379,9 +379,9 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     progressLoader?.showLoading()
                     launch(ioContext) {
                         val isTradeReferenceSaved = saveTradeReferenceDataAsync().await()
-                        val isNeighbourReferenceSaved = saveNeighbourReferenceAsync().await()
+//                        val isNeighbourReferenceSaved = saveNeighbourReferenceAsync().await()
                         val isCollateralSaved = saveCollateralDataAsync().await()
-                        if (isCollateralSaved && isNeighbourReferenceSaved && isTradeReferenceSaved) {
+                        if (isCollateralSaved  && isTradeReferenceSaved) {
                             withContext(uiContext) {
                                 progressLoader?.dismmissLoading()
                                 val intent = Intent(activity, DocumentActivity::class.java)
@@ -392,378 +392,125 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                             }
 
+                            }
+                            else
+                            {
+                                progressLoader?.dismmissLoading()
+
+                            }
                         }
-                        else
-                        {
-                            progressLoader?.dismmissLoading()
-
-                        }
                     }
                 }
             }
         }
-    }
 
-    private fun fetchmstrIdImmovable(value: String) {
+        private fun fetchmstrIdImmovable(value: String) {
 
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response =
-                    RetrofitFactory.getApiService().getCollateralMstr("immovable_sub_type")
-                if (response?.body()?.errorCode == "200") {
-
-                    withContext(Dispatchers.Main) {
-                        sp_immovable_security.adapter = getAdapter(response.body()?.data)
-                    }
-                }
-
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
-
-        }
-    }
-
-
-    private fun fetchmstrIdsubSecurity(str: String) {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                var temp = str
-                if (temp == "immovable") {
-                    temp = "immovable_type"
-                }
-                val response = RetrofitFactory.getApiService().getCollateralMstr(temp)
-                if (response?.body()?.errorCode == "200") {
-
-                    withContext(Dispatchers.Main) {
-                        sp_security_subType.adapter = null
-                        sp_security_subType.adapter = getAdapter(response.body()?.data)
-                    }
-                } else {
-                    withContext(Dispatchers.Main)
-                    {
-                        sp_security_subType.adapter = null
-
-                    }
-                }
-
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
-
-        }
-    }
-
-    private fun updateCount(
-        updateType: IncomeInformationFragment.UpdateCountType,
-        countText: TextView?
-    ) = when (updateType) {
-        is IncomeInformationFragment.UpdateCountType.Increment -> performIncrement(
-            countText?.tag as? Int ?: 0
-        )
-        is IncomeInformationFragment.UpdateCountType.Decrement -> performDecrement(
-            countText?.tag as? Int ?: 0
-        )
-    }.also {
-        countText?.text = "$it"
-        countText?.tag = it
-    }
-
-    private fun performIncrement(initialCount: Int) = initialCount + 1
-    private fun performDecrement(initialCount: Int): Int =
-        if (initialCount - 1 < 0) 0 else initialCount - 1
-
-    private suspend fun stopLoading(progressBar: ProgrssLoader, message: String?) {
-        withContext(uiContext) {
-            progressBar.dismmissLoading()
-            message?.let {
-                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    private fun saveTradeReferenceDataAsync(): Deferred<Boolean> = async(ioContext) {
-        try {
-            //trade_reference_1_product_purchase_sale_input?.text?.toString(),
-            val postBody = TradeReferencePostData(
-                mutableListOf(
-                    TradeRefDetail(
-                        loanId = mLoanId,
-                        firmName = trade_reference_1_firm_name_input?.text?.toString(),
-                        nameofPersonDealingWith = trade_reference_1_person_name_dealing_with_input?.text?.toString(),
-                        rshipWithApplicant = (trade_reference_1_relationship_with_applicant_spinner?.selectedItem as? Data)?.value,
-                        contactDetails = trade_reference_1_contact_details_input?.text?.toString(),
-                        noOfYrsWorkingWith = (trade_reference_1_years_working_with_count?.tag as? Int)?.toString(),
-                        productPurchaseSale = "",
-                        customerId = mCustomerId
-                    ),
-                    TradeRefDetail(
-                        loanId = mLoanId,
-                        firmName = trade_reference_1_firm_name_input?.text?.toString(),
-                        nameofPersonDealingWith = trade_reference_2_person_name_dealing_with_input?.text?.toString(),
-                        rshipWithApplicant = (trade_reference_2_relationship_with_applicant_spinner?.selectedItem as? Data)?.value,
-                        contactDetails = trade_reference_2_contact_details_input?.text?.toString(),
-                        noOfYrsWorkingWith = (trade_reference_2_years_working_with_count?.tag as? Int)?.toString(),
-                        productPurchaseSale = trade_reference_2_product_purchase_sale_input?.text?.toString(),
-                        customerId = mCustomerId
-                    )
-                )
-            )
-            val response = RetrofitFactory.getApiService().saveTradeReference(postBody)
-            return@async if (response?.isSuccessful == true) {
-                val result = response?.body()
-                result?.apiCode == "200"
-            } else {
-                false
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return@async false
-        }
-        return@async true
-    }
-
-    private fun loadInitialData() {
-        val progressLoader: ProgrssLoader? = if (context != null) ProgrssLoader(context!!) else null
-        progressLoader?.showLoading()
-        launch(ioContext) {
-            val natureOfProperty = fetchAndUpdateNatureOfPropertyAsync().await()
-            val propertyJurisdiction = fetchAndUpdatePropertyJurisdictionAsync().await()
-            val propertyType = fetchAndUpdatePropertyTypeAsync().await()
-            val relationshipWitApplicant = fetchAndUpdateRelationshipWithApplicantAsync().await()
-
-            fetchmstrId()
-            fetchDocNature()
-            fetchmDocType()
-            fetchoccupiedBy()
-            if (natureOfProperty && propertyJurisdiction && propertyType && relationshipWitApplicant) {
-                withContext(uiContext) {
-                    progressLoader?.dismmissLoading()
-                    if (arguments?.getString("task").equals("RM_AssignList")) {
-                        getOthersDataForRm()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getOthersDataForRm() {
-
-
-        try {
-            val progressLoader: ProgrssLoader? =
-                if (context != null) ProgrssLoader(context!!) else null
-            progressLoader?.showLoading()
             CoroutineScope(Dispatchers.IO).launch {
-                val res =
-                    RetrofitFactory.getApiService().getOtherData(arguments?.getString("loanId"))
-                withContext(uiContext) {
-                    if (res!!.isSuccessful) {
-                        val responseBody = res.body()
-                        updateData(
-                            responseBody?.neighborRefDetails,
-                            responseBody?.tradeRefDetails,
-                            responseBody?.collateralDetails,
-                            arguments?.getString("loanId")
-                        )
-                        progressLoader?.dismmissLoading()
-                    }
-                }
-            }
-
-        } catch (e: java.lang.Exception) {
-
-        }
-
-    }
-
-    private fun fetchAndUpdateNatureOfPropertyAsync(): Deferred<Boolean> =
-        async(context = ioContext) {
-            try {
-                val response = RetrofitFactory.getMasterApiService().getNatureOfProperty()
-                if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
-                    try {
-                        withContext(uiContext) {
-                            nature_of_property_spinner?.adapter = getAdapter(response.body()?.data)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return@async true
-        }
-
-    private fun fetchAndUpdatePropertyJurisdictionAsync(): Deferred<Boolean> =
-        async(context = ioContext) {
-            try {
-                val response = RetrofitFactory.getMasterApiService().getPropertyJurisdiction()
-                if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
-                    try {
-                        withContext(uiContext) {
-                            property_jurisdiction_spinner?.adapter =
-                                getAdapter(response.body()?.data)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return@async true
-        }
-
-    private fun fetchAndUpdatePropertyTypeAsync(): Deferred<Boolean> = async(context = ioContext) {
-        try {
-            val response = RetrofitFactory.getMasterApiService().getPropertyType()
-            if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                 try {
-                    withContext(uiContext) {
-                        property_type_spinner?.adapter = getAdapter(response.body()?.data)
+                    val response =
+                        RetrofitFactory.getApiService().getCollateralMstr("immovable_sub_type")
+                    if (response?.body()?.errorCode == "200") {
+
+                        withContext(Dispatchers.Main) {
+                            sp_immovable_security.adapter = getAdapter(response.body()?.data)
+                        }
                     }
-                } catch (e: Exception) {
+
+                } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                 }
+
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
-        return@async true
-    }
 
-    private fun fetchmstrId() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = RetrofitFactory.getApiService().getCollateralMstr("security_type")
-                if (response?.body()?.errorCode == "200") {
 
-                    withContext(Dispatchers.Main) {
-                        sp_security.adapter = getAdapter(response.body()?.data)
-                        if (response.body() != null && (response.body()!!.data[0].description.toLowerCase() == "liquid")) {
-                            liquid_type.visibility = View.VISIBLE
+        private fun fetchmstrIdsubSecurity(str: String) {
 
-                            immovableType.visibility = View.GONE
-                            movable_type.visibility = View.GONE
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    var temp = str
+                    if (temp == "immovable") {
+                        temp = "immovable_type"
+                    }
+                    val response = RetrofitFactory.getApiService().getCollateralMstr(temp)
+                    if (response?.body()?.errorCode == "200") {
+
+                        withContext(Dispatchers.Main) {
+                            sp_security_subType.adapter = null
+                            sp_security_subType.adapter = getAdapter(response.body()?.data)
+                        }
+                    } else {
+                        withContext(Dispatchers.Main)
+                        {
+                            sp_security_subType.adapter = null
+
                         }
                     }
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
                 }
 
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
             }
-
         }
-    }
 
-    private fun fetchoccupiedBy() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = RetrofitFactory.getApiService().getCollateralMstr("occupied_by")
-                if (response?.body()?.errorCode == "200") {
+        private fun updateCount(
+            updateType: IncomeInformationFragment.UpdateCountType,
+            countText: TextView?
+        ) = when (updateType) {
+            is IncomeInformationFragment.UpdateCountType.Increment -> performIncrement(
+                countText?.tag as? Int ?: 0
+            )
+            is IncomeInformationFragment.UpdateCountType.Decrement -> performDecrement(
+                countText?.tag as? Int ?: 0
+            )
+        }.also {
+            countText?.text = "$it"
+            countText?.tag = it
+        }
 
-                    withContext(Dispatchers.Main) {
-                        sp_occupiedBy.adapter = getAdapter(response.body()?.data)
-                    }
+        private fun performIncrement(initialCount: Int) = initialCount + 1
+        private fun performDecrement(initialCount: Int): Int =
+            if (initialCount - 1 < 0) 0 else initialCount - 1
+
+        private suspend fun stopLoading(progressBar: ProgrssLoader, message: String?) {
+            withContext(uiContext) {
+                progressBar.dismmissLoading()
+                message?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                 }
-
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
             }
-
-        }
-    }
-
-    private fun fetchDocNature() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = RetrofitFactory.getApiService().getCollateralMstr("doc_nature")
-                if (response?.body()?.errorCode == "200") {
-
-                    withContext(Dispatchers.Main) {
-                        sp_NatureOfDo.adapter = getAdapter(response.body()?.data)
-                    }
-                }
-
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
-
-        }
-    }
-
-    private fun fetchmDocType() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = RetrofitFactory.getApiService().getCollateralMstr("doc_type")
-                if (response?.body()?.errorCode == "200") {
-
-                    withContext(Dispatchers.Main) {
-                        sp_typeOfDoc.adapter = getAdapter(response.body()?.data)
-                    }
-                }
-
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
-
-        }
-    }
-
-    private fun fetchAndUpdateRelationshipWithApplicantAsync(): Deferred<Boolean> =
-        async(context = ioContext) {
-            try {
-                val response = RetrofitFactory.getMasterApiService().getRelationshipWithApplicant()
-                if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
-                    withContext(uiContext) {
-                        trade_reference_1_relationship_with_applicant_spinner?.adapter =
-                            getAdapter(response.body()?.data)
-                        trade_reference_2_relationship_with_applicant_spinner?.adapter =
-                            getAdapter(response.body()?.data)
-                    }
-                }
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
-            return@async true
         }
 
-    private fun getAdapter(list: List<Data>?): DataSpinnerAdapter? =
-        if (context != null)
-            DataSpinnerAdapter(context!!, list?.toMutableList() ?: mutableListOf()).also {
-                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            } else null
-
-    private fun saveNeighbourReferenceAsync(): Deferred<Boolean> =
-        async(context = ioContext) {
+        private fun saveTradeReferenceDataAsync(): Deferred<Boolean> = async(ioContext) {
             try {
-                val list: MutableList<NeighborReference> = mutableListOf(
-                    NeighborReference(
-                        name = neighbour_reference_1_name_input?.text?.toString(),
-                        customerId = mCustomerId,
-                        loanId = mLoanId,
-                        knownSince = neighbour_reference_1_known_since_input?.text?.toString(),
-                        mobileNo = neighbour_reference_1_mobile_input?.text?.toString(),
-                        rshipWithApplicant = neighbour_reference_1_relationship_with_applicant_spinner?.selectedItem as? String
-                    ),
-                    NeighborReference(
-                        name = neighbour_reference_2_name_input?.text?.toString(),
-                        customerId = mCustomerId,
-                        loanId = mLoanId,
-                        knownSince = neighbour_reference_2_known_since_input?.text?.toString(),
-                        mobileNo = neighbour_reference_2_mobile_input?.text?.toString(),
-                        rshipWithApplicant = neighbour_reference_2_relationship_with_applicant_spinner?.selectedItem as? String
+                //trade_reference_1_product_purchase_sale_input?.text?.toString(),
+                val postBody = TradeReferencePostData(
+                    mutableListOf(
+                        TradeRefDetail(
+                            loanId = mLoanId,
+                            firmName = trade_reference_1_firm_name_input?.text?.toString(),
+                            nameofPersonDealingWith = trade_reference_1_person_name_dealing_with_input?.text?.toString(),
+                            rshipWithApplicant = (trade_reference_1_relationship_with_applicant_spinner?.selectedItem as? Data)?.value,
+                            contactDetails = trade_reference_1_contact_details_input?.text?.toString(),
+                            noOfYrsWorkingWith = (trade_reference_1_years_working_with_count?.tag as? Int)?.toString(),
+                            productPurchaseSale = "",
+                            customerId = mCustomerId
+                        ),
+                        TradeRefDetail(
+                            loanId = mLoanId,
+                            firmName = trade_reference_1_firm_name_input?.text?.toString(),
+                            nameofPersonDealingWith = trade_reference_2_person_name_dealing_with_input?.text?.toString(),
+                            rshipWithApplicant = (trade_reference_2_relationship_with_applicant_spinner?.selectedItem as? Data)?.value,
+                            contactDetails = trade_reference_2_contact_details_input?.text?.toString(),
+                            noOfYrsWorkingWith = (trade_reference_2_years_working_with_count?.tag as? Int)?.toString(),
+                            productPurchaseSale = trade_reference_2_product_purchase_sale_input?.text?.toString(),
+                            customerId = mCustomerId
+                        )
                     )
                 )
-                val postBody = NeighborReferencePostData(
-                    loanId = mLoanId,
-                    customerId = mCustomerId,
-                    neighborRef = list
-                )
-                val response = RetrofitFactory.getApiService().saveNeighborReference(postBody)
+                val response = RetrofitFactory.getApiService().saveTradeReference(postBody)
                 return@async if (response?.isSuccessful == true) {
                     val result = response?.body()
                     result?.apiCode == "200"
@@ -777,57 +524,316 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             return@async true
         }
 
-    private fun saveCollateralDataAsync(): Deferred<Boolean> = async(ioContext) {
-        try {
-            collaterals = ArrayList()
-            collaterals.add(
-                CollateralData(
-                    securityType = (sp_security.selectedItem as Data).description.toString(),
-                    liquidDetails = LiquidDetails(
-                        liqOwnership = when (rb_individual.isChecked) {
-                            true -> "Individual"
-                            false -> "Joint"
-                        },
-                        policyNo = policyNo.text.toString(),
-                        issueDate = issueDateLiq.text.toString(),
-                        validDate = validityDateLiq.text.toString(),
-                        currentValue = currentValueLiq.text.toString(),
-                        remarks = remarksLiq.text.toString()
-                    ),
-                    movableDetails = MovableDetails(
-                        movOwnership = when (rb_individual.isChecked) {
-                            true -> "Individual"
-                            false -> "Joint"
-                        },
-                        name = name.text.toString(),
-                        months = monthsCount.text.toString(),
-                        years = yearsCount.text.toString(),
-                        identification = identification.text.toString(),
-                        description = description.text.toString(),
-                        currentValue = currentValue.text.toString(),
-                        derivedValue = derivedValue.text.toString()
-                    ),
-                    immovableDetails = ImmovableDetails(
-                        ownerName = et_ownerNameLoan.text.toString(),
-                        address = et_address.text.toString(),
-                        securitySubType = (sp_security_subType?.selectedItem as Data).description.toString(),
-                        immovableSubType = (sp_immovable_security.selectedItem as Data).description.toString(),
-                        plotType = when (rb_boundary.isChecked) {
-                            true -> "Boundary"
-                            false -> "No Boundary"
-                        }, namunaType = when (rb_online.isChecked) {
-                            true -> "Online"
-                            false -> "Offline"
-                        },
-                        occupiedBy = (sp_occupiedBy.selectedItem as Data).description.toString()
-                    )
+        private fun loadInitialData() {
+            val progressLoader: ProgrssLoader? =
+                if (context != null) ProgrssLoader(context!!) else null
+            progressLoader?.showLoading()
+            launch(ioContext) {
+                val natureOfProperty = fetchAndUpdateNatureOfPropertyAsync().await()
+                val propertyJurisdiction = fetchAndUpdatePropertyJurisdictionAsync().await()
+                val propertyType = fetchAndUpdatePropertyTypeAsync().await()
+                val relationshipWitApplicant =
+                    fetchAndUpdateRelationshipWithApplicantAsync().await()
 
+                fetchmstrId()
+                fetchDocNature()
+                fetchmDocType()
+                fetchoccupiedBy()
+                if (natureOfProperty && propertyJurisdiction && propertyType && relationshipWitApplicant) {
+                    withContext(uiContext) {
+                        progressLoader?.dismmissLoading()
+                        if (arguments?.getString("task").equals("RM_AssignList")) {
+                            getOthersDataForRm()
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun getOthersDataForRm() {
+
+
+            try {
+                val progressLoader: ProgrssLoader? =
+                    if (context != null) ProgrssLoader(context!!) else null
+                progressLoader?.showLoading()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val res =
+                        RetrofitFactory.getApiService().getOtherData(arguments?.getString("loanId"))
+                    withContext(uiContext) {
+                        if (res!!.isSuccessful) {
+                            val responseBody = res.body()
+                            updateData(
+                                responseBody?.neighborRefDetails,
+                                responseBody?.tradeRefDetails,
+                                responseBody?.collateralDetails,
+                                arguments?.getString("loanId")
+                            )
+                            progressLoader?.dismmissLoading()
+                        }
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+
+            }
+
+        }
+
+        private fun fetchAndUpdateNatureOfPropertyAsync(): Deferred<Boolean> =
+            async(context = ioContext) {
+                try {
+                    val response = RetrofitFactory.getMasterApiService().getNatureOfProperty()
+                    if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
+                        try {
+                            withContext(uiContext) {
+                                nature_of_property_spinner?.adapter =
+                                    getAdapter(response.body()?.data)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                return@async true
+            }
+
+        private fun fetchAndUpdatePropertyJurisdictionAsync(): Deferred<Boolean> =
+            async(context = ioContext) {
+                try {
+                    val response = RetrofitFactory.getMasterApiService().getPropertyJurisdiction()
+                    if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
+                        try {
+                            withContext(uiContext) {
+                                property_jurisdiction_spinner?.adapter =
+                                    getAdapter(response.body()?.data)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                return@async true
+            }
+
+        private fun fetchAndUpdatePropertyTypeAsync(): Deferred<Boolean> =
+            async(context = ioContext) {
+                try {
+                    val response = RetrofitFactory.getMasterApiService().getPropertyType()
+                    if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
+                        try {
+                            withContext(uiContext) {
+                                property_type_spinner?.adapter = getAdapter(response.body()?.data)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                return@async true
+            }
+
+        private fun fetchmstrId() {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response =
+                        RetrofitFactory.getApiService().getCollateralMstr("security_type")
+                    if (response?.body()?.errorCode == "200") {
+
+                        withContext(Dispatchers.Main) {
+                            sp_security.adapter = getAdapter(response.body()?.data)
+                            if (response.body() != null && (response.body()!!.data[0].description.toLowerCase() == "liquid")) {
+                                liquid_type.visibility = View.VISIBLE
+
+                                immovableType.visibility = View.GONE
+                                movable_type.visibility = View.GONE
+                            }
+                        }
+                    }
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
+
+        private fun fetchoccupiedBy() {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response = RetrofitFactory.getApiService().getCollateralMstr("occupied_by")
+                    if (response?.body()?.errorCode == "200") {
+
+                        withContext(Dispatchers.Main) {
+                            sp_occupiedBy.adapter = getAdapter(response.body()?.data)
+                        }
+                    }
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
+
+        private fun fetchDocNature() {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response = RetrofitFactory.getApiService().getCollateralMstr("doc_nature")
+                    if (response?.body()?.errorCode == "200") {
+
+                        withContext(Dispatchers.Main) {
+                            sp_NatureOfDo.adapter = getAdapter(response.body()?.data)
+                        }
+                    }
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
+
+        private fun fetchmDocType() {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response = RetrofitFactory.getApiService().getCollateralMstr("doc_type")
+                    if (response?.body()?.errorCode == "200") {
+
+                        withContext(Dispatchers.Main) {
+                            sp_typeOfDoc.adapter = getAdapter(response.body()?.data)
+                        }
+                    }
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
+
+        private fun fetchAndUpdateRelationshipWithApplicantAsync(): Deferred<Boolean> =
+            async(context = ioContext) {
+                try {
+                    val response =
+                        RetrofitFactory.getMasterApiService().getRelationshipWithApplicant()
+                    if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
+                        withContext(uiContext) {
+                            trade_reference_1_relationship_with_applicant_spinner?.adapter =
+                                getAdapter(response.body()?.data)
+                            trade_reference_2_relationship_with_applicant_spinner?.adapter =
+                                getAdapter(response.body()?.data)
+                        }
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+                return@async true
+            }
+
+        private fun getAdapter(list: List<Data>?): DataSpinnerAdapter? =
+            if (context != null)
+                DataSpinnerAdapter(context!!, list?.toMutableList() ?: mutableListOf()).also {
+                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                } else null
+
+        private fun saveNeighbourReferenceAsync(): Deferred<Boolean> =
+            async(context = ioContext) {
+                try {
+                    val list: MutableList<NeighborReference> = mutableListOf(
+                        NeighborReference(
+                            name = neighbour_reference_1_name_input?.text?.toString(),
+                            customerId = mCustomerId,
+                            loanId = mLoanId,
+                            knownSince = neighbour_reference_1_known_since_input?.text?.toString(),
+                            mobileNo = neighbour_reference_1_mobile_input?.text?.toString(),
+                            rshipWithApplicant = neighbour_reference_1_relationship_with_applicant_spinner?.selectedItem as? String
+                        ),
+                        NeighborReference(
+                            name = neighbour_reference_2_name_input?.text?.toString(),
+                            customerId = mCustomerId,
+                            loanId = mLoanId,
+                            knownSince = neighbour_reference_2_known_since_input?.text?.toString(),
+                            mobileNo = neighbour_reference_2_mobile_input?.text?.toString(),
+                            rshipWithApplicant = neighbour_reference_2_relationship_with_applicant_spinner?.selectedItem as? String
+                        )
+                    )
+                    val postBody = NeighborReferencePostData(
+                        loanId = mLoanId,
+                        customerId = mCustomerId,
+                        neighborRef = list
+                    )
+                    val response = RetrofitFactory.getApiService().saveNeighborReference(postBody)
+                    return@async if (response?.isSuccessful == true) {
+                        val result = response?.body()
+                        result?.apiCode == "200"
+                    } else {
+                        false
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    return@async false
+                }
+                return@async true
+            }
+
+        private fun saveCollateralDataAsync(): Deferred<Boolean> = async(ioContext) {
+            try {
+                collaterals = ArrayList()
+                collaterals.add(
+                    CollateralData(
+                        securityType = (sp_security.selectedItem as Data).description.toString(),
+                        liquidDetails = LiquidDetails(
+                            liqOwnership = when (rb_individual.isChecked) {
+                                true -> "Individual"
+                                false -> "Joint"
+                            },
+                            policyNo = policyNo.text.toString(),
+                            issueDate = issueDateLiq.text.toString(),
+                            validDate = validityDateLiq.text.toString(),
+                            currentValue = currentValueLiq.text.toString(),
+                            remarks = remarksLiq.text.toString()
+                        ),
+                        movableDetails = MovableDetails(
+                            movOwnership = when (rb_individual.isChecked) {
+                                true -> "Individual"
+                                false -> "Joint"
+                            },
+                            name = name.text.toString(),
+                            months = monthsCount.text.toString(),
+                            years = yearsCount.text.toString(),
+                            identification = identification.text.toString(),
+                            description = description.text.toString(),
+                            currentValue = currentValue.text.toString(),
+                            derivedValue = derivedValue.text.toString()
+                        ),
+                        immovableDetails = ImmovableDetails(
+                            ownerName = et_ownerNameLoan.text.toString(),
+                            address = et_address.text.toString(),
+                            securitySubType = (sp_security_subType?.selectedItem as Data).description.toString(),
+                            immovableSubType = (sp_immovable_security.selectedItem as Data).description.toString(),
+                            plotType = when (rb_boundary.isChecked) {
+                                true -> "Boundary"
+                                false -> "No Boundary"
+                            }, namunaType = when (rb_online.isChecked) {
+                                true -> "Online"
+                                false -> "Offline"
+                            },
+                            occupiedBy = (sp_occupiedBy.selectedItem as Data).description.toString()
+                        )
+
+                    )
                 )
-            )
-            val postBody = CollateralDetailsPostData(
-                loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-                custId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
-                collaterals = collaterals
+                val postBody = CollateralDetailsPostData(
+                    loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
+                    custId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
+                    collaterals = collaterals
                 )
 
                 /*  securityType = sp_security.selectedItem.toString(),
@@ -850,134 +856,134 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                       true->"Received"
                       false->"Not Received"
                   }*/
-            val response = RetrofitFactory.getApiService().saveCollateralDetail(postBody)
-            return@async if (response?.isSuccessful == true) {
-                val result = response?.body()
-                result?.apiCode == "200"
-            } else {
-                false
+                val response = RetrofitFactory.getApiService().saveCollateralDetail(postBody)
+                return@async if (response?.isSuccessful == true) {
+                    val result = response?.body()
+                    result?.apiCode == "200"
+                } else {
+                    false
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return@async false
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return@async false
+            return@async true
         }
-        return@async true
-    }
 
-    fun updateData(
-        neighborReference: List<NeighborReference>?,
-        tradeRefDetails: List<TradeRefDetail>?,
-        collateralDetails: CollateralDetails?,
-        loanId: String?
-    ) {
-        if (collateralDetails?.loanType.equals("unsecure", ignoreCase = true)) {
-            ll_collateral.visibility = View.GONE
-        }
-        mLoanId = loanId
-        if ((neighborReference?.size ?: 0) > 0) {
-            mCustomerId = neighborReference?.get(0)?.customerId
-            neighbour_reference_1_name_input?.setText(neighborReference?.get(0)?.name)
-            neighbour_reference_1_mobile_input?.setText(neighborReference?.get(0)?.mobileNo)
-            neighbour_reference_1_known_since_input?.setText(neighborReference?.get(0)?.knownSince)
-        }
-        if ((neighborReference?.size ?: 0) > 1) {
-            neighbour_reference_2_name_input?.setText(neighborReference?.get(1)?.name)
-            neighbour_reference_2_mobile_input?.setText(neighborReference?.get(1)?.mobileNo)
-            neighbour_reference_2_known_since_input?.setText(neighborReference?.get(1)?.knownSince)
-        }
-        if ((tradeRefDetails?.size ?: 0) > 0) {
-            if (mCustomerId == null) {
+        fun updateData(
+            neighborReference: List<NeighborReference>?,
+            tradeRefDetails: List<TradeRefDetail>?,
+            collateralDetails: CollateralDetails?,
+            loanId: String?
+        ) {
+            if (collateralDetails?.loanType.equals("unsecure", ignoreCase = true)) {
+                ll_collateral.visibility = View.GONE
+            }
+            mLoanId = loanId
+            if ((neighborReference?.size ?: 0) > 0) {
                 mCustomerId = neighborReference?.get(0)?.customerId
+                neighbour_reference_1_name_input?.setText(neighborReference?.get(0)?.name)
+                neighbour_reference_1_mobile_input?.setText(neighborReference?.get(0)?.mobileNo)
+                neighbour_reference_1_known_since_input?.setText(neighborReference?.get(0)?.knownSince)
             }
-            trade_reference_1_firm_name_input?.setText(tradeRefDetails?.get(0)?.firmName)
-            trade_reference_1_person_name_dealing_with_input?.setText(tradeRefDetails?.get(0)?.nameofPersonDealingWith)
+            if ((neighborReference?.size ?: 0) > 1) {
+                neighbour_reference_2_name_input?.setText(neighborReference?.get(1)?.name)
+                neighbour_reference_2_mobile_input?.setText(neighborReference?.get(1)?.mobileNo)
+                neighbour_reference_2_known_since_input?.setText(neighborReference?.get(1)?.knownSince)
+            }
+            if ((tradeRefDetails?.size ?: 0) > 0) {
+                if (mCustomerId == null) {
+                    mCustomerId = neighborReference?.get(0)?.customerId
+                }
+                trade_reference_1_firm_name_input?.setText(tradeRefDetails?.get(0)?.firmName)
+                trade_reference_1_person_name_dealing_with_input?.setText(tradeRefDetails?.get(0)?.nameofPersonDealingWith)
+                var position = -1
+                val list =
+                    (trade_reference_1_relationship_with_applicant_spinner?.adapter as? DataSpinnerAdapter)?.list
+                for (index in 0 until (list?.size ?: 0)) {
+                    if (list?.get(index)?.value == tradeRefDetails?.get(0)?.rshipWithApplicant) {
+                        position = index
+                    }
+                }
+                if (position != -1) {
+                    trade_reference_1_relationship_with_applicant_spinner?.setSelection(position)
+                }
+                trade_reference_1_contact_details_input?.setText(tradeRefDetails?.get(0)?.contactDetails)
+                //   trade_reference_1_product_purchase_sale_input?.setText(tradeRefDetails?.get(0)?.productPurchaseSale)
+                try {
+                    trade_reference_1_years_working_with_count?.tag =
+                        tradeRefDetails?.get(0)?.noOfYrsWorkingWith?.toInt()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                trade_reference_1_years_working_with_count?.text =
+                    "${tradeRefDetails?.get(0)?.noOfYrsWorkingWith}"
+            }
+            if ((tradeRefDetails?.size ?: 0) > 1) {
+                trade_reference_2_firm_name_input?.setText(tradeRefDetails?.get(1)?.firmName)
+                trade_reference_2_person_name_dealing_with_input?.setText(tradeRefDetails?.get(1)?.nameofPersonDealingWith)
+                var position = -1
+                val list =
+                    (trade_reference_2_relationship_with_applicant_spinner?.adapter as? DataSpinnerAdapter)?.list
+                for (index in 0 until (list?.size ?: 0)) {
+                    if (list?.get(index)?.value == tradeRefDetails?.get(1)?.rshipWithApplicant) {
+                        position = index
+                    }
+                }
+                if (position != -1) {
+                    trade_reference_2_relationship_with_applicant_spinner?.setSelection(position)
+                }
+                trade_reference_2_contact_details_input?.setText(tradeRefDetails?.get(1)?.contactDetails)
+                trade_reference_2_product_purchase_sale_input?.setText(tradeRefDetails?.get(1)?.productPurchaseSale)
+                try {
+                    trade_reference_2_years_working_with_count?.tag =
+                        tradeRefDetails?.get(1)?.noOfYrsWorkingWith?.toInt()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                trade_reference_2_years_working_with_count?.text =
+                    "${tradeRefDetails?.get(1)?.noOfYrsWorkingWith}"
+            }
             var position = -1
-            val list =
-                (trade_reference_1_relationship_with_applicant_spinner?.adapter as? DataSpinnerAdapter)?.list
+            var list =
+                (nature_of_property_spinner?.adapter as? DataSpinnerAdapter)?.list
             for (index in 0 until (list?.size ?: 0)) {
-                if (list?.get(index)?.value == tradeRefDetails?.get(0)?.rshipWithApplicant) {
+                if (list?.get(index)?.value == collateralDetails?.natureofProperty) {
                     position = index
                 }
             }
             if (position != -1) {
-                trade_reference_1_relationship_with_applicant_spinner?.setSelection(position)
+                nature_of_property_spinner?.setSelection(position)
             }
-            trade_reference_1_contact_details_input?.setText(tradeRefDetails?.get(0)?.contactDetails)
-            //   trade_reference_1_product_purchase_sale_input?.setText(tradeRefDetails?.get(0)?.productPurchaseSale)
+            no_of_rented_tenants_count?.text = collateralDetails?.noOfTenants
             try {
-                trade_reference_1_years_working_with_count?.tag =
-                    tradeRefDetails?.get(0)?.noOfYrsWorkingWith?.toInt()
+                no_of_rented_tenants_count?.tag = collateralDetails?.noOfTenants?.toInt()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            trade_reference_1_years_working_with_count?.text =
-                "${tradeRefDetails?.get(0)?.noOfYrsWorkingWith}"
-        }
-        if ((tradeRefDetails?.size ?: 0) > 1) {
-            trade_reference_2_firm_name_input?.setText(tradeRefDetails?.get(1)?.firmName)
-            trade_reference_2_person_name_dealing_with_input?.setText(tradeRefDetails?.get(1)?.nameofPersonDealingWith)
-            var position = -1
-            val list =
-                (trade_reference_2_relationship_with_applicant_spinner?.adapter as? DataSpinnerAdapter)?.list
-            for (index in 0 until (list?.size ?: 0)) {
-                if (list?.get(index)?.value == tradeRefDetails?.get(1)?.rshipWithApplicant) {
-                    position = index
-                }
-            }
-            if (position != -1) {
-                trade_reference_2_relationship_with_applicant_spinner?.setSelection(position)
-            }
-            trade_reference_2_contact_details_input?.setText(tradeRefDetails?.get(1)?.contactDetails)
-            trade_reference_2_product_purchase_sale_input?.setText(tradeRefDetails?.get(1)?.productPurchaseSale)
             try {
-                trade_reference_2_years_working_with_count?.tag =
-                    tradeRefDetails?.get(1)?.noOfYrsWorkingWith?.toInt()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            trade_reference_2_years_working_with_count?.text =
-                "${tradeRefDetails?.get(1)?.noOfYrsWorkingWith}"
-        }
-        var position = -1
-        var list =
-            (nature_of_property_spinner?.adapter as? DataSpinnerAdapter)?.list
-        for (index in 0 until (list?.size ?: 0)) {
-            if (list?.get(index)?.value == collateralDetails?.natureofProperty) {
-                position = index
-            }
-        }
-        if (position != -1) {
-            nature_of_property_spinner?.setSelection(position)
-        }
-        no_of_rented_tenants_count?.text = collateralDetails?.noOfTenants
-        try {
-            no_of_rented_tenants_count?.tag = collateralDetails?.noOfTenants?.toInt()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        try {
-            property_location_address_input?.setText(collateralDetails?.addressline1)
-            land_area_input?.setText(collateralDetails?.landArea)
-            construction_area_input?.setText(collateralDetails?.constructionArea)
-            market_value_input?.setText(collateralDetails?.marketValue)
-            position = -1
-            if ((property_type_spinner?.adapter as? DataSpinnerAdapter) != null) {
-                list = (property_type_spinner?.adapter as? DataSpinnerAdapter)?.list
-                if (list != null) {
-                    for (index in 0 until (list.size ?: 0)) {
-                        if (list[index].value == collateralDetails?.propertyType) {
-                            position = index
+                property_location_address_input?.setText(collateralDetails?.addressline1)
+                land_area_input?.setText(collateralDetails?.landArea)
+                construction_area_input?.setText(collateralDetails?.constructionArea)
+                market_value_input?.setText(collateralDetails?.marketValue)
+                position = -1
+                if ((property_type_spinner?.adapter as? DataSpinnerAdapter) != null) {
+                    list = (property_type_spinner?.adapter as? DataSpinnerAdapter)?.list
+                    if (list != null) {
+                        for (index in 0 until (list.size ?: 0)) {
+                            if (list[index].value == collateralDetails?.propertyType) {
+                                position = index
+                            }
+                        }
+                        if (position != -1) {
+                            property_type_spinner?.setSelection(position)
                         }
                     }
-                    if (position != -1) {
-                        property_type_spinner?.setSelection(position)
-                    }
                 }
+            } catch (e: Exception) {
+
             }
-        } catch (e: Exception) {
 
         }
-
-    }
 
 }

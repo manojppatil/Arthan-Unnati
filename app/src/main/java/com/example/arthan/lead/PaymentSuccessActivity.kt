@@ -67,7 +67,10 @@ class PaymentSuccessActivity: BaseActivity() {
                                         Intent(
                                             this@PaymentSuccessActivity,
                                             LeadInfoCaptureActivity::class.java
-                                        )
+                                        ).apply {
+                                            putExtra("annualturnover",response.body()!!.annualTurnover)
+                                            putExtra("businessName",response.body()!!.businessName)
+                                        }
                                     )
                                 }
                             }

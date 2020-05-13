@@ -10,5 +10,8 @@ data class BaseResponseData(
     val error: String?,
     val message: String?,
     val path: String?,
-    val loanType:String?
+    val loanType:String?,
+    val businessName:String?,
+    val annualTurnover:String?
+
 )
