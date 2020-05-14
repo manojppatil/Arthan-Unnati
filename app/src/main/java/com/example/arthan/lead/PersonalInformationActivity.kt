@@ -62,7 +62,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 pincode_input?.setText(it.getString(AppPreferences.Key.Pincode))
             }
             cb_sameAddress.setOnCheckedChangeListener { buttonView, isChecked ->
-                if(isChecked)
+                if(!isChecked)
                 {
                     sameAsAddressLL.visibility=View.VISIBLE
                 }else
@@ -161,7 +161,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         progressBar.showLoading()
         val postBody = PersonalPostData(
             loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-            customeId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
+            customeId = intent.extras?.getString("custId"),
             title = (spnr_title?.selectedItem as? Data)?.value ?: "",
             fullName = et_name?.text?.toString() ?: "",
             fatherOrSpousename = et_father_name?.text?.toString() ?: "",

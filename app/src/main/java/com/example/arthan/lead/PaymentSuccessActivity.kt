@@ -69,6 +69,9 @@ class PaymentSuccessActivity: BaseActivity() {
                                             this@PaymentSuccessActivity,
                                             LeadInfoCaptureActivity::class.java
                                         ).apply {
+
+                                            putExtra("loanId",response.body()!!.loanId)
+                                            putExtra("customerId",response.body()!!.customerId)
                                             putExtra("annualturnover",response.body()!!.annualTurnover)
                                             putExtra("businessName",response.body()!!.businessName)
                                         }

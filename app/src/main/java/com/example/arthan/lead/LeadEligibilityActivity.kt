@@ -56,7 +56,7 @@ class LeadEligibilityActivity : BaseActivity() {
                 try {
 
                     val response =
-                        RetrofitFactory.getApiService().updateEligibilityAndPayment(
+                        RetrofitFactory.getApiService().updateEligibilityAndPaymentInitiate(
                             UpdateEligibilityAndPaymentReq(
                                 leadId,
                                 if (loanId.isNullOrBlank()) "C1234" else loanId, ELIGIBILITY_SCREEN

@@ -71,8 +71,8 @@ class AddKYCDetailsFragment : NavHostFragment(), CoroutineScope {
         }
 
         btn_next.setOnClickListener {
-            navController?.navigate(R.id.action_addKYCDetailsFragment_to_addPersonalDetailsFragment)
-//            saveKycDetail()
+//            navController?.navigate(R.id.action_addKYCDetailsFragment_to_addPersonalDetailsFragment)
+          //  saveKycDetail()
         }
     }
 
@@ -225,6 +225,7 @@ class AddKYCDetailsFragment : NavHostFragment(), CoroutineScope {
                             navController?.navigate(
                                 R.id.action_addKYCDetailsFragment_to_addPersonalDetailsFragment,
                                 Bundle().also {
+                                    it.putString("custId",result.customerId)
                                     it.putParcelable("PAN_DATA", mPanCardData)
                                 })
 //                            startActivity(

@@ -222,6 +222,9 @@ interface ApiService {
     suspend fun verifyOTP(@Body request: VerifyOTPRequest): Response<VerifyOTPResponse>
 
     @POST("updateScreen")
+    suspend fun updateEligibilityAndPaymentInitiate(@Body request: UpdateEligibilityAndPaymentReq) : Response<BaseResponseData>
+
+     @POST("paymentStatus")
     suspend fun updateEligibilityAndPayment(@Body request: UpdateEligibilityAndPaymentReq) : Response<BaseResponseData>
 
     @POST("consent")
