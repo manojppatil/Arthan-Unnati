@@ -95,7 +95,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     position: Int,
                     id: Long
                 ) {
-                    if(parent?.getItemAtPosition(position) == "Self Employed Professional")
+                    if((parent?.getItemAtPosition(position) as Data).description == "Self Employed Professional")
                     {
                         spnr_occupation_name.visibility=View.VISIBLE
 

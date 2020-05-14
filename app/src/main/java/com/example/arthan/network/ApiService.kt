@@ -96,6 +96,11 @@ interface ApiService {
     @GET("rest/GetMstr/rshipWithApplicant")
     suspend fun getRelationshipWithApplicant(): Response<DetailsResponseData>?
 
+  @GET("rest/GetMstr/relationship")
+    suspend fun getRelationship(): Response<DetailsResponseData>?
+@GET("getCollateralOwnership ")
+    suspend fun getCollateralOwnership (): Response<DetailsResponseData>?
+
     //Done
     @POST("saveLead")
     suspend fun saveLead(@Body body: LeadPostData?): Response<LeadResponseData>?

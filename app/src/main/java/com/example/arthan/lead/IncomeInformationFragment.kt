@@ -713,8 +713,6 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     loanTenureTo = et_to?.text?.toString(),
                     outstandingAmount = outstanding_amount_input?.text?.toString(),
                     loanDocumentUrl = loanDocUrl,
-                    ownerName = et_OwnerName.text.toString(),
-                    address = et_address.text.toString(),
                     considerCFA = cfa_cb.isChecked
                 )
             )
@@ -750,8 +748,6 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                             loanTenureTo = loanDetails?.findViewById<TextInputEditText?>(R.id.et_to)?.text?.toString(),
                             outstandingAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.outstanding_amount_input)?.text?.toString(),
                             loanDocumentUrl = loanDocUrl,
-                            ownerName = loanDetails?.findViewById<TextInputEditText?>(R.id.et_OwnerName)?.text.toString(),
-                            address = loanDetails?.findViewById<TextInputEditText?>(R.id.et_address)?.text.toString(),
                             considerCFA = loanDetails?.findViewById<CheckBox?>(R.id.cfa_cb)?.isChecked
 
                         )
@@ -1328,8 +1324,6 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
             loanView.findViewById<EditText>(R.id.loan_amount_input)?.setText(item.loanAmount)
             loanView.findViewById<EditText?>(R.id.emi_input)?.setText(item.emi)
-//            loanView.findViewById<EditText?>(R.id.et_ownerNameLoan)?.setText(item.ownerName)
-//            loanView.findViewById<EditText?>(R.id.et_address)?.setText(item.address)
             loanView.findViewById<EditText?>(R.id.outstanding_amount_input)
                 ?.setText(item.outstandingAmount)
             loanView?.findViewById<EditText?>(R.id.et_from)?.setText(item.loanTenureFrom)

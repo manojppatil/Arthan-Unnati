@@ -2,7 +2,6 @@ package com.example.arthan.lead
 
 
 import android.app.AlertDialog
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -22,15 +21,12 @@ import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.PendingCustomersActivity
-import kotlinx.android.synthetic.main.activity_add_lead_step1.*
 import kotlinx.android.synthetic.main.collateral_section.*
 import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.liquid_type_layout.*
 import kotlinx.android.synthetic.main.movable_type_layout.*
 import kotlinx.android.synthetic.main.movable_type_layout.rb_individual
 import kotlinx.coroutines.*
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
@@ -140,28 +136,29 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                         var list =
                             (sp_security?.adapter as? DataSpinnerAdapter)?.list
-                        /*  if(list?.get(position)?.description=="Immovable")
-                          {*/
-                        fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
-                        if (list?.get(position)?.description.toLowerCase() == "movable") {
-                            movable_type.visibility = View.VISIBLE
+
+                        //fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
+                        if (list?.get(position)?.description?.toLowerCase() == "movable") {
+                            security_section_movable.visibility = View.VISIBLE
                         } else {
-                            movable_type.visibility = View.GONE
+                            security_section_movable.visibility = View.GONE
 
                         }
-                        if (list?.get(position)?.description.toLowerCase() == "immovable") {
-                            immovableType.visibility = View.VISIBLE
+                        if (list?.get(position)?.description?.toLowerCase() == "immovable" || list?.get(
+                                position
+                            )?.description?.toLowerCase() == "Negative Lien".toLowerCase()
+                        ) {
+                            immovable_section.visibility = View.VISIBLE
+                            CoroutineScope(Dispatchers.IO).launch {
+                                fetchAndUpdateCollateralNatureAsync().await()
+                                fetchRelationshipAsync()
+                                fetchOwnerShip()
+                            }
+
                         } else {
-                            immovableType.visibility = View.GONE
+                            immovable_section.visibility = View.GONE
 
                         }
-                        if (list?.get(position)?.description.toLowerCase() == "liquid") {
-                            liquid_type.visibility = View.VISIBLE
-                        } else {
-                            liquid_type.visibility = View.GONE
-
-                        }
-//                            }
                     }
                 }
             }
@@ -179,17 +176,17 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     parent?.getItemAtPosition(position)?.let {
                         var list =
                             (sp_security_subType?.adapter as? DataSpinnerAdapter)?.list
-                        immsubHead.visibility = View.GONE
-                        sp_immovable_security.visibility = View.GONE
-                        if (list?.get(position)?.description == "Imperfect/Quasi") {
-                            immsubHead.visibility = View.VISIBLE
-                            sp_immovable_security.visibility = View.VISIBLE
-                            fetchmstrIdImmovable(list?.get(position)?.description)
+                        if (list?.get(position)?.description == "liquid") {
+                            liquid_section.visibility = View.VISIBLE
+                            others_section.visibility = View.GONE
+                        } else if (list?.get(position)?.description == "others") {
+                            liquid_section.visibility = View.GONE
+                            others_section.visibility = View.VISIBLE
                         }
                     }
                 }
             }
-        val immovableSecurity: AdapterView.OnItemSelectedListener =
+        /*  val immovableSecurity: AdapterView.OnItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
@@ -213,10 +210,10 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         }
                     }
                 }
-            }
+            }*/
         sp_security.onItemSelectedListener = securitySpinner
         sp_security_subType.onItemSelectedListener = subSecuritySpinner
-        sp_immovable_security.onItemSelectedListener = immovableSecurity
+        //    sp_immovable_security.onItemSelectedListener = immovableSecurity
 
         val navController: NavController? =
             if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
@@ -274,7 +271,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
             }*/
         }
-        issueDateLiq.setOnClickListener {
+        /* issueDateLiq.setOnClickListener {
             val c = Calendar.getInstance()
             DatePickerDialog(
                 activity!!,
@@ -305,19 +302,19 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     var simpleDateFormat: SimpleDateFormat = SimpleDateFormat("")
                     var formatDate: String = simpleDateFormat.format(timenow)
                     validityDateLiq.setText(date)
-/*
+*//*
                     if(SimpleDateFormat("dd-MM-yyyy").parse(date).after(Date())){
 
                     }else
                     {
                         Toast.makeText(activity,"Later should be greater than current date",Toast.LENGTH_LONG).show()
-                    }*/
+                    }*//*
                 },
                 c.get(Calendar.YEAR),
                 c.get(Calendar.MONTH),
                 c.get(Calendar.DAY_OF_MONTH)
             ).show()
-        }
+        }*/
         btn_save_continue?.setOnClickListener {
 
             if (activity?.intent?.getStringExtra("FROM") == "BM") {
@@ -381,7 +378,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         val isTradeReferenceSaved = saveTradeReferenceDataAsync().await()
 //                        val isNeighbourReferenceSaved = saveNeighbourReferenceAsync().await()
                         val isCollateralSaved = saveCollateralDataAsync().await()
-                        if (isCollateralSaved  && isTradeReferenceSaved) {
+                        if (isCollateralSaved && isTradeReferenceSaved) {
                             withContext(uiContext) {
                                 progressLoader?.dismmissLoading()
                                 val intent = Intent(activity, DocumentActivity::class.java)
@@ -389,19 +386,87 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                                 intent.putExtra("custId", mCustomerId)
                                 startActivity(intent)
 
-
                             }
 
-                            }
-                            else
-                            {
-                                progressLoader?.dismmissLoading()
+                        } else {
+                            progressLoader?.dismmissLoading()
 
-                            }
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun fetchRelationshipAsync() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getMasterApiService().getRelationship()
+                if (response?.isSuccessful == true) {
+                    withContext(Dispatchers.Main) {
+                        try {
+                            sp_relaionShipApplicant?.adapter = DataSpinnerAdapter(
+                                context!!,
+                                response.body()?.data?.toMutableList() ?: mutableListOf()
+                            ).also {
+                                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun fetchOwnerShip() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getApiService().getCollateralOwnership()
+                if (response?.isSuccessful == true) {
+                    withContext(Dispatchers.Main) {
+                        try {
+                            sp_ownerShip?.adapter = DataSpinnerAdapter(
+                                context!!,
+                                response.body()?.data?.toMutableList() ?: mutableListOf()
+                            ).also {
+                                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    private fun fetchAndUpdateCollateralNatureAsync(): Deferred<Boolean> =
+        async(context = ioContext) {
+            try {
+                val response = RetrofitFactory.getMasterApiService().getCollateralNature()
+                if (response?.isSuccessful == true) {
+                    withContext(Dispatchers.Main) {
+                        try {
+                            sp_collateral_type?.adapter = DataSpinnerAdapter(
+                                context!!,
+                                response.body()?.data?.toMutableList() ?: mutableListOf()
+                            ).also {
+                                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            return@async true
         }
 
         private fun fetchmstrIdImmovable(value: String) {
@@ -413,7 +478,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     if (response?.body()?.errorCode == "200") {
 
                         withContext(Dispatchers.Main) {
-                            sp_immovable_security.adapter = getAdapter(response.body()?.data)
+                            "sp_immovable_security.adapter = getAdapter(response.body()?.data)"
                         }
                     }
 
@@ -609,6 +674,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             withContext(uiContext) {
                                 property_jurisdiction_spinner?.adapter =
                                     getAdapter(response.body()?.data)
+                                sp_jurisdictionType?.adapter=getAdapter(response.body()?.data)
+
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -648,11 +715,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                         withContext(Dispatchers.Main) {
                             sp_security.adapter = getAdapter(response.body()?.data)
-                            if (response.body() != null && (response.body()!!.data[0].description.toLowerCase() == "liquid")) {
-                                liquid_type.visibility = View.VISIBLE
-
-                                immovableType.visibility = View.GONE
-                                movable_type.visibility = View.GONE
+                            if (response.body() != null && (response.body()!!.data[0].description.toLowerCase() == "Negative Lien")) {
+                                immovable_section.visibility = View.VISIBLE
                             }
                         }
                     }
@@ -671,7 +735,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     if (response?.body()?.errorCode == "200") {
 
                         withContext(Dispatchers.Main) {
-                            sp_occupiedBy.adapter = getAdapter(response.body()?.data)
+                            //sp_occupiedBy.adapter = getAdapter(response.body()?.data)
                         }
                     }
 
@@ -689,7 +753,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     if (response?.body()?.errorCode == "200") {
 
                         withContext(Dispatchers.Main) {
-                            sp_NatureOfDo.adapter = getAdapter(response.body()?.data)
+                         //   sp_NatureOfDo.adapter = getAdapter(response.body()?.data)
                         }
                     }
 
@@ -707,7 +771,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     if (response?.body()?.errorCode == "200") {
 
                         withContext(Dispatchers.Main) {
-                            sp_typeOfDoc.adapter = getAdapter(response.body()?.data)
+                            //sp_typeOfDoc.adapter = getAdapter(response.body()?.data)
                         }
                     }
 
@@ -786,46 +850,41 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         private fun saveCollateralDataAsync(): Deferred<Boolean> = async(ioContext) {
             try {
                 collaterals = ArrayList()
+
+                var addressType=""
+                if(rb_ResidentType.isChecked)
+                {
+                    addressType=rb_ResidentType.text.toString()
+                }else if(rb_Business.isChecked)
+                {
+                    addressType=rb_Business.text.toString()
+                }else
+                {
+                    addressType="Others"
+                }
                 collaterals.add(
                     CollateralData(
                         securityType = (sp_security.selectedItem as Data).description.toString(),
                         liquidDetails = LiquidDetails(
-                            liqOwnership = when (rb_individual.isChecked) {
-                                true -> "Individual"
-                                false -> "Joint"
-                            },
-                            policyNo = policyNo.text.toString(),
-                            issueDate = issueDateLiq.text.toString(),
-                            validDate = validityDateLiq.text.toString(),
-                            currentValue = currentValueLiq.text.toString(),
-                            remarks = remarksLiq.text.toString()
+                            ownerName  = et_coOwnerName.text.toString(),
+                            policyNo = et_COpolicyNo.text.toString(),
+                            surrenderValue = et_cosurrenderValue.text.toString()
                         ),
-                        movableDetails = MovableDetails(
-                            movOwnership = when (rb_individual.isChecked) {
-                                true -> "Individual"
-                                false -> "Joint"
-                            },
-                            name = name.text.toString(),
-                            months = monthsCount.text.toString(),
-                            years = yearsCount.text.toString(),
-                            identification = identification.text.toString(),
-                            description = description.text.toString(),
-                            currentValue = currentValue.text.toString(),
-                            derivedValue = derivedValue.text.toString()
+                        otherDetails = MovableDetails(
+                            ownerName  = et_coOthersOwnerName.text.toString(),
+                            policyNo = et_COOtherspolicyNo.text.toString(),
+                            marketValue = et_marketValueCo.text.toString(),
+                            derivedValue = et_derivedValueCO.text.toString()
                         ),
                         immovableDetails = ImmovableDetails(
-                            ownerName = et_ownerNameLoan.text.toString(),
+                            ownerName =et_COOwnerNameImm.text.toString() ,
                             address = et_address.text.toString(),
-                            securitySubType = (sp_security_subType?.selectedItem as Data).description.toString(),
-                            immovableSubType = (sp_immovable_security.selectedItem as Data).description.toString(),
-                            plotType = when (rb_boundary.isChecked) {
-                                true -> "Boundary"
-                                false -> "No Boundary"
-                            }, namunaType = when (rb_online.isChecked) {
-                                true -> "Online"
-                                false -> "Offline"
-                            },
-                            occupiedBy = (sp_occupiedBy.selectedItem as Data).description.toString()
+                            addressType = addressType,
+                            collateralType = (sp_collateral_type?.selectedItem as Data).value.toString(),
+                            jurisdiction = (sp_jurisdictionType.selectedItem as Data).value.toString(),
+                            marketValue = et_MarketValueImm.text.toString()
+                            , rshipWithApplicant = (sp_relaionShipApplicant.selectedItem as Data).description.toString(),
+                            ownership = (sp_ownerShip.selectedItem as Data).description.toString()
                         )
 
                     )
