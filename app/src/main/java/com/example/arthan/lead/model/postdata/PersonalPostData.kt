@@ -24,9 +24,16 @@ data class PersonalPostData(
     var city: String = "",
     var district: String = "",
     var state: String = "",
+    val isPeramentSameAdd:Boolean=true,
+    var addressLine1p: String = "",
+    var addressLine2p: String = "",
+    var landmarkp: String = "",
+    var pinCodep: String = "",
+    var areaNamep: String = "",
+    var cityp: String = "",
+    var districtp: String = "",
+    var statep: String = "",
     var loanId: String? = "",
-
-
 
     var ageofCustomer: String = "",
     var applicantType: String = "",

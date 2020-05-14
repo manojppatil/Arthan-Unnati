@@ -61,6 +61,16 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 state_input?.setText(it.getString(AppPreferences.Key.State))
                 pincode_input?.setText(it.getString(AppPreferences.Key.Pincode))
             }
+            cb_sameAddress.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked)
+                {
+                    sameAsAddressLL.visibility=View.VISIBLE
+                }else
+                {
+                    sameAsAddressLL.visibility=View.GONE
+
+                }
+            }
         }
 
         if(intent.hasExtra("APPLICANT_PHOTO")){
@@ -180,6 +190,15 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             city = city_input?.text?.toString() ?: "",
             district = district_input?.text?.toString() ?: "",
             state = state_input?.text?.toString() ?: "",
+            isPeramentSameAdd = cb_sameAddress.isChecked,
+            addressLine1p = address1_line1_input?.text?.toString() ?: "",
+            addressLine2p = address1_line2_input?.text?.toString() ?: "",
+            landmarkp = landmark1_input?.text?.toString() ?: "",
+            pinCodep = pincode1_input?.text?.toString() ?: "",
+            areaNamep = area_name1_input?.text?.toString() ?: "",
+            cityp = city1_input?.text?.toString() ?: "",
+            districtp = district_input1?.text?.toString() ?: "",
+            statep = state_input1?.text?.toString() ?: "",
             applicantType = applicantType
         )
 

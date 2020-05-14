@@ -25,7 +25,7 @@
     <string name="email_id">Email ID</string>
     <string name="enter_father_s_name">Enter Father\'s Name</string>
     <string name="enter_mother_s_name">Enter Mother\'s Name</string>
-    <string name="permanent_address">Permanent Address</string>
+    <string name="permanent_address">Current Address</string>
     <string name="address_line1">Address Line1</string>
     <string name="address_line2">Address Line2</string>
     <string name="landmark_optional">Landmark(Optional)</string>
