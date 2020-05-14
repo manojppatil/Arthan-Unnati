@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.lead.model.responsedata.BMQueueResponseData
 import com.example.arthan.network.RetrofitFactory
@@ -82,12 +83,16 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                             stopLoading(progressBar, result?.message)
                         } catch (e: Exception) {
                             e.printStackTrace()
-                        //    stopLoading(progressBar, "Something went wrong. Please try later!")
+                            Crashlytics.log(e.message)
+
+                            //    stopLoading(progressBar, "Something went wrong. Please try later!")
                         }
                     }
                 } catch (e: Exception) {
                    // stopLoading(progressBar, "Something went wrong. Please try later!")
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
             }
         }else if(intent.getStringExtra("FROM")=="BCM")
@@ -116,12 +121,16 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
-                       // stopLoading(progressBar, "Something went wrong. Please try later!")
+                        Crashlytics.log(e.message)
+
+                        // stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
                 //stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }

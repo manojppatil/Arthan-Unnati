@@ -22,6 +22,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
@@ -303,6 +304,8 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                     }
                 } catch (e: HttpException) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -377,6 +380,8 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -394,6 +399,8 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -409,6 +416,8 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async fetchAndUpdateBusinessActivityAsync("1").await()
         }
@@ -473,6 +482,10 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
+                        Crashlytics.log(e.message)
+
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }

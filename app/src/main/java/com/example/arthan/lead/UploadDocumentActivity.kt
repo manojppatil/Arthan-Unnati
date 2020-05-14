@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.*
@@ -374,10 +375,13 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         }
                     }catch (e:Exception)
                     {
+                        Crashlytics.log(e.message)
 
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                     withContext(uiContext) { progressLoader.dismmissLoading() }
                 }
             }
@@ -755,6 +759,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     ).show()
             } catch (e: HttpException) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         this@UploadDocumentActivity,
@@ -764,6 +770,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         this@UploadDocumentActivity,
@@ -841,10 +849,14 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             ).show()
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                     }
                 }
             } catch (e: HttpException) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         this@UploadDocumentActivity,
@@ -854,6 +866,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         this@UploadDocumentActivity,

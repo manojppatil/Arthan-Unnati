@@ -16,6 +16,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3Client
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.utils.Constant
 import kotlinx.coroutines.CoroutineScope
@@ -83,6 +84,8 @@ class S3Utility {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -121,6 +124,8 @@ class S3Utility {
                 })
         } catch (e: Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
     }
 

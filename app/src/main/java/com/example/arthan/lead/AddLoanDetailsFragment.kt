@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
+import com.crashlytics.android.Crashlytics
 
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
@@ -149,12 +150,16 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -173,11 +178,15 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
                             progressLoader?.dismmissLoading()
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -198,11 +207,15 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                     }
                 }
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -224,11 +237,15 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }

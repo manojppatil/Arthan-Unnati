@@ -27,6 +27,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.bumptech.glide.Glide
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.AppLocationProvider
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
@@ -274,6 +275,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                                     ThreadUtils.runOnUiThread { loader.dismmissLoading() }
                                 }
                         } catch (e: Exception) {
+                            Crashlytics.log(e.message)
                             ThreadUtils.runOnUiThread { loader.dismmissLoading() }
                             e.printStackTrace()
                         }

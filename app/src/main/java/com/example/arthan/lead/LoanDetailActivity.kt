@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.view.accessibility.AccessibilityViewCommand
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
@@ -445,11 +446,15 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                         )
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
+                        Crashlytics.log(e.message)
+
                         e.printStackTrace()
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
+                Crashlytics.log(e.message)
+
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
             }
@@ -470,11 +475,15 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                             progressLoader.dismmissLoading()
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -493,11 +502,15 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                     }
                 }
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -517,11 +530,15 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }

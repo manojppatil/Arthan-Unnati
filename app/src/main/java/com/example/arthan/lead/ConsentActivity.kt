@@ -8,6 +8,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.model.ELIGIBILITY_SCREEN
@@ -103,6 +104,8 @@ class ConsentActivity : BaseActivity() {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                     withContext(Dispatchers.Main) {
                         progressBar.dismmissLoading()
                         Toast.makeText(

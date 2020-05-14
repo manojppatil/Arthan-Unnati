@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
@@ -95,15 +96,19 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     position: Int,
                     id: Long
                 ) {
-                    if((parent?.getItemAtPosition(position) as Data).description == "Self Employed Professional")
-                    {
-                        spnr_occupation_name.visibility=View.VISIBLE
+                    var list =
+                        (spnr_occupation_type?.adapter as? DataSpinnerAdapter)?.list
+
+                    //fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
+                    if (list?.get(position)?.description?.toLowerCase() == "Self Employed Professional".toLowerCase()) {
+                        spnr_occupation_name.visibility = View.VISIBLE
 
                     }else
                     {
                         spnr_occupation_name.visibility=View.GONE
 
                     }
+
                 }
             }
 
@@ -295,6 +300,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                     )
                                 } catch (e: Exception) {
                                     e.printStackTrace()
+                                    Crashlytics.log(e.message)
+
                                     stopLoading(
                                         progressBar,
                                         "Something went wrong. Please try later!"
@@ -314,6 +321,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                         stopLoading(
                             progressBar,
                             "Something went wrong. Please try later!"
@@ -323,6 +332,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             } catch (e: Exception) {
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -362,10 +373,14 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -380,6 +395,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -394,6 +411,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -405,10 +424,23 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                     withContext(uiContext) {
                         spnr_occupation_type?.adapter = getAdapter(response.body()?.data)
+                        var list =
+                            (spnr_occupation_type?.adapter as? DataSpinnerAdapter)?.list
+
+                        if (list?.get(0)?.description?.toLowerCase() == "Self Employed Professional".toLowerCase()) {
+                            spnr_occupation_name.visibility = View.VISIBLE
+
+                        }else
+                        {
+                            spnr_occupation_name.visibility=View.GONE
+
+                        }
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -424,6 +456,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -439,6 +473,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -454,6 +490,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }

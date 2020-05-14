@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
@@ -356,10 +357,14 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
+                Crashlytics.log(e.message)
+
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
             }
@@ -421,6 +426,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             }
         } catch (e: java.lang.Exception){
            // response = null
+            Crashlytics.log(e.message)
+
         }
 
 
@@ -480,6 +487,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }

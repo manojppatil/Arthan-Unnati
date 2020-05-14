@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.crashlytics.android.Crashlytics
 
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
@@ -413,11 +414,15 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -437,11 +442,15 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -460,11 +469,15 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -484,6 +497,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
 
             }
@@ -515,6 +530,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
 
             }
@@ -584,6 +601,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
                 return@async false
             }
             return@async true
@@ -640,6 +659,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 }
 
             } catch (e: java.lang.Exception) {
+                Crashlytics.log(e.message)
 
             }
 
@@ -657,10 +677,14 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
                 return@async true
             }
@@ -679,10 +703,14 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
                 return@async true
             }
@@ -698,10 +726,14 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
                 return@async true
             }
@@ -723,6 +755,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
 
             }
@@ -741,6 +775,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
 
             }
@@ -759,6 +795,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
 
             }
@@ -777,6 +815,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
 
             }
@@ -797,6 +837,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     }
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
                 return@async true
             }
@@ -842,6 +884,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                     return@async false
                 }
                 return@async true
@@ -924,6 +968,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
                 return@async false
             }
             return@async true
@@ -974,6 +1020,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         tradeRefDetails?.get(0)?.noOfYrsWorkingWith?.toInt()
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
                 trade_reference_1_years_working_with_count?.text =
                     "${tradeRefDetails?.get(0)?.noOfYrsWorkingWith}"
@@ -999,6 +1047,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         tradeRefDetails?.get(1)?.noOfYrsWorkingWith?.toInt()
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
                 trade_reference_2_years_working_with_count?.text =
                     "${tradeRefDetails?.get(1)?.noOfYrsWorkingWith}"
@@ -1019,6 +1069,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 no_of_rented_tenants_count?.tag = collateralDetails?.noOfTenants?.toInt()
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             try {
                 property_location_address_input?.setText(collateralDetails?.addressline1)
@@ -1040,6 +1092,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     }
                 }
             } catch (e: Exception) {
+                Crashlytics.log(e.message)
 
             }
 

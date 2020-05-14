@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
+import com.crashlytics.android.Crashlytics
 
 import com.example.arthan.R
 import com.example.arthan.global.*
@@ -247,6 +248,8 @@ class AddKYCDetailsFragment : NavHostFragment(), CoroutineScope {
                         )
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
