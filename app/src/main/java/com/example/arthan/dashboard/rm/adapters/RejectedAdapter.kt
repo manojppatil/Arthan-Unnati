@@ -5,9 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.model.RejectedCaseResponse
@@ -18,7 +16,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RejectedAdapter(private val context: Context,private val from: String,
-private val data: List<RejectedCaseResponse>): RecyclerView.Adapter<RejectedAdapter.RejectedVH>() {
+private var data: List<RejectedCaseResponse>): RecyclerView.Adapter<RejectedAdapter.RejectedVH>(),Filterable {
+    private val listoriginal:List<RejectedCaseResponse>?=ArrayList(data)
 
 
     inner class RejectedVH(private val root: View) : RecyclerView.ViewHolder(root) {
@@ -69,5 +68,43 @@ private val data: List<RejectedCaseResponse>): RecyclerView.Adapter<RejectedAdap
 
     override fun onBindViewHolder(holder: RejectedVH, position: Int) {
         holder.bind(position)
+    }
+
+    override  fun getFilter(): Filter? {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val query = charSequence.toString()
+                //List<ScreeningData>
+                var filtered = ArrayList<RejectedCaseResponse>()
+                if (query.isEmpty()) {
+                    filtered.addAll(listoriginal!!.toList())
+                } else {
+                    for (name in data) {
+                        if ((name as RejectedCaseResponse).cname.toLowerCase().startsWith(query.toLowerCase())) {
+                            filtered.add(name)
+                        }else if((name as RejectedCaseResponse).caseId.startsWith(query)){
+                            filtered.add(name)
+
+                        }
+                    }
+
+                }
+
+                val results = FilterResults()
+                results.count = filtered.size
+                results.values = filtered
+                return results
+            }
+
+            override fun publishResults(
+                charSequence: CharSequence,
+                results: FilterResults
+            ) {
+                data= emptyList()
+                var itemsFiltered = results.values as List<RejectedCaseResponse>
+                data=itemsFiltered
+                notifyDataSetChanged()
+            }
+        }
     }
 }

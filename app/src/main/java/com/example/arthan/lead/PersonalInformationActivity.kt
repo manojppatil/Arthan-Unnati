@@ -161,7 +161,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         progressBar.showLoading()
         val postBody = PersonalPostData(
             loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-            customeId = intent.extras?.getString("custId"),
+            custId = intent.extras?.getString("custId"),
             title = (spnr_title?.selectedItem as? Data)?.value ?: "",
             fullName = et_name?.text?.toString() ?: "",
             fatherOrSpousename = et_father_name?.text?.toString() ?: "",
@@ -190,7 +190,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             city = city_input?.text?.toString() ?: "",
             district = district_input?.text?.toString() ?: "",
             state = state_input?.text?.toString() ?: "",
-            isPeramentSameAdd = cb_sameAddress.isChecked,
+            addrFlag = cb_sameAddress.isChecked,
             addressLine1p = address1_line1_input?.text?.toString() ?: "",
             addressLine2p = address1_line2_input?.text?.toString() ?: "",
             landmarkp = landmark1_input?.text?.toString() ?: "",

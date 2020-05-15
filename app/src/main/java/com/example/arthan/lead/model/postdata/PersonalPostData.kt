@@ -3,7 +3,7 @@ package com.example.arthan.lead.model.postdata
 data class PersonalPostData(
     var title: String? = "",
     var fullName: String = "",
-    var customeId : String? = "",
+    var custId : String? = "",
     var fatherOrSpousename: String = "",
     var motherName: String = "",
     var dob: String = "",
@@ -24,7 +24,7 @@ data class PersonalPostData(
     var city: String = "",
     var district: String = "",
     var state: String = "",
-    val isPeramentSameAdd:Boolean=true,
+    val addrFlag:Boolean=true,
     var addressLine1p: String = "",
     var addressLine2p: String = "",
     var landmarkp: String = "",

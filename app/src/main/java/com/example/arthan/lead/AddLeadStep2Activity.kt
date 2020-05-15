@@ -301,6 +301,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                             progressBar?.dismmissLoading()
                             startActivity(Intent(this@AddLeadStep2Activity, PersonalInformationActivity::class.java).also {
                                 it.putExtra("custId", result.customerId)
+                                it.putExtra("PAN_DATA", mKYCPostData)
                                 it.putExtra("type", intent.getStringExtra("type"))
                             })
 //                            startActivity(

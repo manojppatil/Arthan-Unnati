@@ -90,7 +90,7 @@ class AddPersonalDetailsFragment : NavHostFragment(), CoroutineScope {
         progressBar?.showLoading()
         val postBody = PersonalPostData(
             loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-            customeId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
+            custId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
             title = (spnr_title?.selectedItem as? Data)?.value ?: "",
             fullName = et_name?.text?.toString() ?: "",
             fatherOrSpousename = et_father_name?.text?.toString() ?: "",

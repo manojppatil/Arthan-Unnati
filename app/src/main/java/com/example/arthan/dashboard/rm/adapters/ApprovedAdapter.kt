@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.ApprovedCustomerLegalStatusActivity
+import com.example.arthan.dashboard.bm.model.RejectedCaseResponse
 import com.example.arthan.model.ApprovedCaseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
@@ -22,8 +23,9 @@ import java.io.Serializable
 
 class ApprovedAdapter(private val context: Context,
                       private val from: String,
-private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.ApprovedVH>() {
+private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.ApprovedVH>(),Filterable {
 
+    private val listoriginal:List<ApprovedCaseData>?=ArrayList(data)
     inner class ApprovedVH(private val root: View) : RecyclerView.ViewHolder(root) {
 
         fun bind(position: Int) {
@@ -203,6 +205,43 @@ private val data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
 
         }
 
+    }
+    override  fun getFilter(): Filter? {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val query = charSequence.toString()
+                //List<ScreeningData>
+                var filtered = ArrayList<ApprovedCaseData>()
+                if (query.isEmpty()) {
+                    filtered.addAll(listoriginal!!.toList())
+                } else {
+                    for (name in data) {
+                        if ((name as ApprovedCaseData).name.toLowerCase().startsWith(query.toLowerCase())) {
+                            filtered.add(name)
+                        }else if((name as ApprovedCaseData).customerId.startsWith(query)){
+                            filtered.add(name)
+
+                        }
+                    }
+
+                }
+
+                val results = FilterResults()
+                results.count = filtered.size
+                results.values = filtered
+                return results
+            }
+
+            override fun publishResults(
+                charSequence: CharSequence,
+                results: FilterResults
+            ) {
+                data= emptyList()
+                var itemsFiltered = results.values as List<ApprovedCaseData>
+                data=itemsFiltered
+                notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=

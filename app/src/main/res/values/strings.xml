@@ -131,7 +131,7 @@
         <item>--select Loan Type--</item>
         <item>Secure</item>
         <item>Unsecure</item>
-       <!-- <item>Quasi Secured</item>
+        <!-- <item>Quasi Secured</item>
         <item>Negative Lien</item>-->
     </string-array>
 
