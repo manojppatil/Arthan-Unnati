@@ -59,8 +59,8 @@ class ConsentActivity : BaseActivity() {
             progressBar.showLoading()
 
             val leadId = AppPreferences.getInstance().getString(ArgumentKey.LeadId)
-            val loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)
-            val customerID = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+            val loanId = intent.getStringExtra("loanId")
+            val customerID = intent.getStringExtra("custId")
 
             CoroutineScope(Dispatchers.IO).launch {
 
@@ -124,9 +124,11 @@ class ConsentActivity : BaseActivity() {
     }
 
     companion object {
-        fun startMe(context: Context?, principleAmount: String?) =
+        fun startMe(context: Context?, principleAmount: String?,custId:String?,loanId:String?) =
             context?.startActivity(Intent(context, ConsentActivity::class.java).apply {
                 putExtra(ArgumentKey.InPrincipleAmount, principleAmount)
+                putExtra("custId", custId)
+                putExtra("loanId", loanId)
             })
     }
 }

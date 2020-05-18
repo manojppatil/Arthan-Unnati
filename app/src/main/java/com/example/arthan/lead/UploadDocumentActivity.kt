@@ -371,10 +371,14 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             uploadToS3(mFrontImagePath!!, CardType.LoanDoc)
                         }
                         withContext(uiContext) {
-                            finishActivity(progressLoader)
+                            if(mCardData!=null&&mCardData!!.status=="OK")
+                            finishActivity(progressLoader)else
+                                progressLoader.dismmissLoading()
+
                         }
                     }catch (e:Exception)
                     {
+                        progressLoader.dismmissLoading()
                         Crashlytics.log(e.message)
 
                     }
@@ -738,7 +742,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 if (response != null && response.isSuccessful) {
                     mCardData = response.body()
                     withContext(Dispatchers.Main) {
-                        if (mCardData != null) {
+                        if (mCardData != null && mCardData!!.status=="OK") {
                             if (cardType == CardType.PANCard) {
                                 verifyCardDataAsync(filePath, cardType).await()
                             } else {
@@ -747,9 +751,10 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         } else
                             Toast.makeText(
                                 this@UploadDocumentActivity,
-                                "Please Try again...",
+                                "Please capture valid KYC",
                                 Toast.LENGTH_SHORT
                             ).show()
+
                     }
                 }else
                     Toast.makeText(
@@ -808,6 +813,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 withContext(Dispatchers.Main) {
                     try {
                         if (response != null && response.isSuccessful) {
+
                             val verifyResult = when (cardType) {
                                 CardType.VoterIdCard -> {
                                     response.body()
@@ -817,14 +823,20 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 }
                             }
                             val result = (verifyResult as? VerifyVoterCardResponse)?.result
-                            if ((verifyResult is VerifyVoterCardResponse && verifyResult.result != null) ||
-                                (verifyResult is VerifyCardResponse && verifyResult.result != null)
+                            if ((verifyResult is VerifyVoterCardResponse && verifyResult.result != null&& verifyResult.status=="OK") ||
+                                (verifyResult is VerifyCardResponse && verifyResult.result != null&&verifyResult.status=="OK")
                             ) {
 
                                 uploadToS3(filePath, cardType)
 
                             } else {
-                                if (cardType == CardType.PANCard) {
+                                Toast.makeText(
+                                    this@UploadDocumentActivity,
+                                    "Please capture valid KYC",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                /*if (cardType == CardType.PANCard) {
 
                                     Toast.makeText(
                                         this@UploadDocumentActivity,
@@ -839,7 +851,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                         "Please Try again...",
                                         Toast.LENGTH_SHORT
                                     ).show()
-
+*/
                             }
                         } else
                             Toast.makeText(
@@ -991,27 +1003,41 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     Log.e("URL", ":::: ${fileList[0].url}")
 
                     CoroutineScope(uiContext).launch {
-                        if (cardType == CardType.PANCard) {
-                            if (mCardData?.status?.equals(
-                                    ConstantValue.CardStatus.Ok,
-                                    true
-                                ) == true
-                            )
+
+                        if(mCardData?.status?.equals(
+                                ConstantValue.CardStatus.Ok,
+                                true
+                            ) == false
+                        ){
+                            Toast.makeText(
+                                this@UploadDocumentActivity,
+                                "Please capture valid KYC",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }else {
+                            if (cardType == CardType.PANCard) {
+                                if (mCardData?.status?.equals(
+                                        ConstantValue.CardStatus.Ok,
+                                        true
+                                    ) == true
+                                )
+                                    btn_next.visibility = View.VISIBLE
+                                else
+                                    if (intent.getStringExtra("skip") == null)
+                                        Toast.makeText(
+                                            this@UploadDocumentActivity,
+                                            "Please capture valid PAN Card",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                            } else if (cardType == CardType.ApplicantPhoto) {
                                 btn_next.visibility = View.VISIBLE
-                            else
-                                if(intent.getStringExtra("skip")==null)
-                                Toast.makeText(
-                                    this@UploadDocumentActivity,
-                                    "Please capture valid PAN Card",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                        } else if (cardType == CardType.ApplicantPhoto) {
-                            btn_next.visibility = View.VISIBLE
-                        } else {
-                            btn_next.visibility = View.VISIBLE
+                            } else {
+                                btn_next.visibility = View.VISIBLE
+                            }
                         }
+                        continuation.resume(Unit)
                     }
-                    continuation.resume(Unit)
+
                 }
             ) {
                 Toast.makeText(

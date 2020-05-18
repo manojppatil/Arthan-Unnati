@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -47,6 +48,23 @@ class CommonApprovedListingActivity : AppCompatActivity() {
 
 
         menuInflater.inflate(R.menu.more,menu)
+        val searchItem=menu?.findItem(R.id.searchMenu)
+        val searchView=searchItem?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                (rv_listing.adapter as ApprovedAdapter).filter?.filter(query)
+                //Toast.makeText(this,"searchItems",Toast.LENGTH_LONG).show();
+                return  true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val query = newText.toString()
+                var results=(rv_listing.adapter as ApprovedAdapter).filter?.filter(query)
+                rv_listing!!.adapter?.notifyDataSetChanged()
+                return false
+            }
+        }
+        )
         return super.onCreateOptionsMenu(menu)
     }
 

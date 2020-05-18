@@ -286,7 +286,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             constitution = (spnr_constitution?.selectedItem as? Data)?.value,
             udhyogaadhar = udhyog_aadhar_id_input?.text?.toString(),
             gstcode = gstin_number_input?.text?.toString(),
-            noofemployees = txt_no_of_employees?.text?.toString(),
+            noofemployees = no_of_employee_count?.tag as Int,
             ssiregistrationno = ssi_registration_input?.text?.toString(),
             partners = partners,
             noOfyearsincurrentoffice = no_of_year_in_office_input?.text?.toString(),

@@ -24,7 +24,7 @@ class OTPValidationActivity: BaseActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
 
-                val response = RetrofitFactory.getRMServiceService().verifyOTP(VerifyOTPRequest("R1234",
+                val response = RetrofitFactory.getApiService().verifyOTP(VerifyOTPRequest("R1234",
                 "C1234","123456"))
 
                 if(response.isSuccessful && response.body() != null){

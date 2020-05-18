@@ -260,7 +260,9 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                                 DialogInterface.OnClickListener { dialog, which ->
                                                     ConsentActivity.startMe(
                                                         this@PersonalInformationActivity,
-                                                        result.inPrincipleLnAmt
+                                                        result.inPrincipleLnAmt,
+                                                        kycResponse.body()!!.customerId,
+                                                        kycResponse.body()!!.loanId
                                                     )
                                                     dialog.dismiss()
                                                 })
@@ -291,7 +293,10 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                                 DialogInterface.OnClickListener { dialog, which ->
                                                     ConsentActivity.startMe(
                                                         this@PersonalInformationActivity,
-                                                        result.inPrincipleLnAmt
+                                                        result.inPrincipleLnAmt,
+                                                        kycResult.customerId,
+                                                        kycResult.loanId
+
                                                     )
                                                     dialog.dismiss()
                                                 })
@@ -303,7 +308,11 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
                                         ConsentActivity.startMe(
                                             this@PersonalInformationActivity,
-                                            result.inPrincipleLnAmt
+                                            result.inPrincipleLnAmt,
+                                            kycResult?.customerId,
+                                            kycResult?.loanId
+
+
                                         )
                                     }
                                 }

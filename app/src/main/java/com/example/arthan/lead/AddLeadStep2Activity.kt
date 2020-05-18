@@ -215,6 +215,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         it.getParcelableExtra(ArgumentKey.ApplicantPhoto) as? CardResponse
 
                     applicantPhoto = applicantData?.cardFrontUrl!!
+                    mKYCPostData?.paApplicantPhoto =applicantPhoto
                     txt_applicant_phot.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_document_attached,
                         0,
