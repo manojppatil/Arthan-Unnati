@@ -1,9 +1,13 @@
 package com.example.arthan.lead
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigator
 import com.example.arthan.R
 import com.example.arthan.global.BUSINESS
 import com.example.arthan.global.DOCUMENT
@@ -39,6 +43,57 @@ class LeadInfoCaptureActivity: BaseActivity() {
             INCOME -> {
                 txt_income.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_info_completed,0,0)
             }
+        }
+    }
+    fun infoInCompleteState(type: String){
+        when (type) {
+            DOCUMENT -> {
+                txt_doc.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_personal_info,0,0)
+            }
+            BUSINESS -> {
+                txt_Business.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_business_info,0,0)
+            }
+            INCOME -> {
+                txt_income.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_income_info,0,0)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        val navController: NavController? = Navigation.findNavController(
+            this,
+            R.id.frag_container
+        )
+        when((navController?.currentDestination as FragmentNavigator.Destination).className)
+        {
+          "com.example.arthan.lead.OtherDetailsFragment"->
+            {
+
+                var b= Bundle()
+                b.putString("from","rmIncome")
+                navController?.navigate(R.id.frag_income_info,b)
+                vw_dim_doc.visibility= View.VISIBLE
+                enableInCome()
+//                infoCompleteState(INCOME)
+                infoInCompleteState(INCOME)
+                //income
+               // finish()
+            }
+            "com.example.arthan.lead.IncomeInformationFragment"->{
+                enableBusiness()
+                infoCompleteState(BUSINESS)
+                vw_dim_income.visibility= View.VISIBLE
+                navController?.navigate(R.id.frag_business_info)
+                infoInCompleteState(BUSINESS)
+
+
+            }
+           else->
+        {
+
+            finish()
+
+        }
         }
     }
 

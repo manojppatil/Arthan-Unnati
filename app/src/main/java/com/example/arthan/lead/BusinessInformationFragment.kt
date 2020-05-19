@@ -2,7 +2,6 @@ package com.example.arthan.lead
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
-import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.BUSINESS
@@ -26,22 +24,17 @@ import com.example.arthan.lead.model.postdata.BusinessDetails
 import com.example.arthan.lead.model.postdata.BusinessDetailsPostData
 import com.example.arthan.lead.model.postdata.Partner
 import com.example.arthan.lead.model.responsedata.BusinessDetailsResponseData
-import com.example.arthan.model.RMDashboardData
-import com.example.arthan.model.RMDashboardRequest
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
-import com.example.arthan.views.activities.PendingCustomersActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_business_information.*
-import kotlinx.android.synthetic.main.fragment_business_information.btn_save_continue
-import kotlinx.android.synthetic.main.fragment_business_information.email_id_input
-import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.layout_partner_details.*
 import kotlinx.coroutines.*
 import retrofit2.Response
 import java.util.*
 import kotlin.coroutines.CoroutineContext
+
 
 /**
  * This is being used as a common fragment. if this is invoked from RMAssignList ,
@@ -73,12 +66,15 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navController: NavController? =
-            if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
-                activity!!,
-                R.id.frag_container
-            ) else null
 
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    // Handle the back button event
+                 activity?.finish()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
         loadInitialData()
         annual_turnover_current_year_input.setText(activity?.intent?.getStringExtra("annualturnover"))
         firm_name_input.setText(activity?.intent?.getStringExtra("businessName"))

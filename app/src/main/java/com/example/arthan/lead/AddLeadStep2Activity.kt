@@ -55,21 +55,29 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
             R.id.txt_pan_card -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.PanCard)
+                    putExtra("show",mKYCPostData?.panUrl)
                 }, RequestCode.PanCard)
             }
             R.id.txt_aadhar_card -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.AadharCard)
+                    putExtra("show",mKYCPostData?.aadharFrontUrl)
+                    putExtra("show2",mKYCPostData?.aadharBackUrl)
+
                 }, RequestCode.AadharCard)
             }
             R.id.txt_voter_id -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.VoterCard)
+                    putExtra("show",mKYCPostData?.voterUrl)
+
                 }, RequestCode.VoterCard)
             }
             R.id.txt_applicant_phot -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.ApplicantPhoto)
+                    putExtra("show",mKYCPostData?.paApplicantPhoto)
+
                 }, RequestCode.ApplicantPhoto)
             }
             R.id.btn_next -> {

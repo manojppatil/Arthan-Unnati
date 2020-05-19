@@ -35,7 +35,7 @@ class CompleteDetailsFragment : NavHostFragment() {
         if(arguments?.getString("screenTo")!=null)
         {
             if(arguments?.getString("screenTo").equals("business",ignoreCase = true)) {
-                enableInCome()
+                enableBusiness()
                 val navController: NavController? = if (activity is AddLeadActivity) Navigation.findNavController(
                     activity!!,
                     R.id.frag_container
@@ -58,8 +58,7 @@ class CompleteDetailsFragment : NavHostFragment() {
                     activity!!,
                     R.id.frag_container
                 ) else null
-                navController?.navigate(R.id.frag_document_info)
-            }
+             }
         }
 
     }
@@ -119,6 +118,7 @@ class CompleteDetailsFragment : NavHostFragment() {
         }
     }
 }
+
 
 interface EnableCompleteDetail {
     fun enableFragment1()

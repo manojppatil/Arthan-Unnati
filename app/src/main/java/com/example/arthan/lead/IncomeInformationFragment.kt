@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -138,6 +139,22 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         itr_container?.visibility = View.GONE
         bill_container?.visibility = View.GONE
 
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    // Handle the back button event
+                    if(navController!=null)
+                    {
+                      //  enableInCome()
+                        val navController: NavController? = if (activity is AddLeadActivity) Navigation.findNavController(
+                            activity!!,
+                            R.id.frag_container
+                        ) else null
+                        navController?.navigate(R.id.frag_business_info)
+                    }
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
         if (navController != null) {
             banking_text_view?.visibility = View.GONE
             gst_text_view_button?.visibility = View.GONE

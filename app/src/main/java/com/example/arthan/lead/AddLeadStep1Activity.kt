@@ -459,7 +459,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                                 AppPreferences.getInstance()
                                     .addString(AppPreferences.Key.LeadId, result.leadId)
                                 LoanDetailActivity.startMe(this@AddLeadStep1Activity, result.leadId)
-                                finish()
+                              //  finish()
                             }
                         }
                     } else {

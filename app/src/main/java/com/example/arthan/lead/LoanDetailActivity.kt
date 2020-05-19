@@ -414,7 +414,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                                         putExtra(ArgumentKey.LeadId, mLeadId)
                                         putExtra(ArgumentKey.Eligibility, result.eligibility)
                                     })
-                                finish()
+                              //  finish()
                             }else
                             {
                                 startActivity(Intent(this@LoanDetailActivity,RMDashboardActivity::class.java))

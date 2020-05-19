@@ -222,7 +222,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                 AppPreferences.Key.PrincipleLoanAmount,
                                 result.inPrincipleLnAmt
                             )
-                            val kycResponse =
+         /*                   val kycResponse =
                                 RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)
                             if (kycResponse?.isSuccessful == true) {
                                 val kycResult = kycResponse.body()
@@ -234,7 +234,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                             it.remove(AppPreferences.Key.City)
                                             it.remove(AppPreferences.Key.State)
                                             it.remove(AppPreferences.Key.Pincode)
-                                        }
+                                        }*/
                                         progressBar.dismmissLoading()
                                         if (applicantType == "PA") {
                                             var alert =
@@ -261,8 +261,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                                     ConsentActivity.startMe(
                                                         this@PersonalInformationActivity,
                                                         result.inPrincipleLnAmt,
-                                                        kycResponse.body()!!.customerId,
-                                                        kycResponse.body()!!.loanId
+                                                        response.body()!!.customerId,
+                                                        response.body()!!.loanId
                                                     )
                                                     dialog.dismiss()
                                                 })
@@ -294,8 +294,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                                     ConsentActivity.startMe(
                                                         this@PersonalInformationActivity,
                                                         result.inPrincipleLnAmt,
-                                                        kycResult.customerId,
-                                                        kycResult.loanId
+                                                        response.body()!!.customerId,
+                                                        response.body()!!.loanId
 
                                                     )
                                                     dialog.dismiss()
@@ -309,14 +309,13 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                         ConsentActivity.startMe(
                                             this@PersonalInformationActivity,
                                             result.inPrincipleLnAmt,
-                                            kycResult?.customerId,
-                                            kycResult?.loanId
+                                            response.body()!!.customerId,
+                                            response.body()!!.loanId
 
 
                                         )
                                     }
-                                }
-                            } else {
+                            /*} else {
                                 try {
                                     val result: BaseResponseData? = Gson().fromJson(
                                         kycResponse?.errorBody()?.string(),
@@ -324,7 +323,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                     )
                                     stopLoading(
                                         progressBar,
-                                        "Something went wrong with api!!!"/*result?.message*/
+                                        "Something went wrong with api!!!"*//*result?.message*//*
                                     )
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -336,7 +335,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                     )
                                 }
                             }
-                        }
+                        }*/
                     } else {
                         stopLoading(progressBar, result?.apiDesc)
                     }

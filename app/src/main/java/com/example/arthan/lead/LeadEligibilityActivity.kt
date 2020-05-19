@@ -146,4 +146,9 @@ class LeadEligibilityActivity : BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+    }
 }
