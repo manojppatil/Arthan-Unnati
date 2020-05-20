@@ -171,7 +171,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                     list?.add(doc6)
                     var presanctionDocsRequestData=PresanctionDocsRequestData(arguments?.getString("loanId")!!,
                         arguments?.getString("custId")!!,
-                        "RM1",list
+                        ArthanApp.getAppInstance().loginUser,list
 
                     )
                     CoroutineScope(Dispatchers.IO).launch {

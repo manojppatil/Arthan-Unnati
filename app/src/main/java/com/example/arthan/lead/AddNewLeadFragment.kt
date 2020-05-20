@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.LeadPostData
@@ -447,7 +448,7 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
             laterDate = et_date?.text?.toString() ?: "",
             lat = "12.1",
             lng = "15.2",
-            createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
+            createdBy = ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {

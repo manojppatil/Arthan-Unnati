@@ -5,6 +5,9 @@ import com.crashlytics.android.Crashlytics
 
 class ArthanApp : MultiDexApplication() {
 
+    var loginUser:String=""
+    var loginRole:String=""
+
     override fun onCreate() {
         super.onCreate()
         instance = this

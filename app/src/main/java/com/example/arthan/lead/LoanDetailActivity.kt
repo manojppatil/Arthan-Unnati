@@ -14,6 +14,7 @@ import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.LoanPostData
@@ -393,7 +394,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             additionalIncomePm = additional_income_input?.text?.toString() ?: "",
             householdExpensesPm = household_expenses_input?.text?.toString() ?: "",
             createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType),
-            userId="RM1"
+            userId=ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {

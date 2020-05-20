@@ -31,6 +31,7 @@ import com.crashlytics.android.Crashlytics
 import com.example.arthan.AppLocationProvider
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.LeadPostData
@@ -437,7 +438,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             lat = lat.toString(),
             lng = lng.toString(),
             shopPicUrl=shopUrl,
-            createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
+            createdBy = ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {

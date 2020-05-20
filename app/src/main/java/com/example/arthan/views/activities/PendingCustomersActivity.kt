@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.ScreeningAdapter
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.model.responsedata.BMQueueResponseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.views.adapters.PendingCustomerAdapter
@@ -64,7 +65,7 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
         if(intent.getStringExtra("FROM")=="BM") {
             CoroutineScope(ioContext).launch {
                 try {
-                    val response = RetrofitFactory.getMasterApiService().getBMQueue("2")
+                    val response = RetrofitFactory.getMasterApiService().getBMQueue(ArthanApp.getAppInstance().loginUser)
                     if (response?.isSuccessful == true) {
                         val result = response.body()
                         withContext(Dispatchers.Main) {
@@ -102,7 +103,7 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
         }else if(intent.getStringExtra("FROM")=="BCM")
         CoroutineScope(ioContext).launch {
             try {
-                val response = RetrofitFactory.getMasterApiService().getBCMQueue("2")
+                val response = RetrofitFactory.getMasterApiService().getBCMQueue(ArthanApp.getAppInstance().loginUser)
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {

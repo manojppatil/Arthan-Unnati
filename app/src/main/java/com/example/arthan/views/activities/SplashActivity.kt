@@ -14,6 +14,7 @@ import com.example.arthan.dashboard.legal.LegalDashboardActivity
 import com.example.arthan.dashboard.ops.OpsDashboardActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.OTPValidationActivity
 import com.example.arthan.network.RetrofitFactory
 import com.google.android.gms.tasks.OnCompleteListener
@@ -43,9 +44,23 @@ class SplashActivity : AppCompatActivity() {
 
         btn_submit.setOnClickListener {
 
+            var user:String=""
+            if(et_role.text.toString()=="1234")
+            {
+                user="RM1"
+                ArthanApp.getAppInstance().loginUser=et_role.text.toString()
+                ArthanApp.getAppInstance().loginRole=user
+            }else if(et_role.text.toString()=="3456")
+            {
+                user="BM"
+            }else if(et_role.text.toString()=="5678")
+            {
+                user="BCM"
+            }
             if (!et_role.text.isNullOrBlank()) {
                 when {
-                    et_role.text.toString().equals("BM", true) -> {
+
+                   user.equals("BM", true) -> {
                         AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
                         AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "BM")
                         startActivity(
@@ -56,7 +71,7 @@ class SplashActivity : AppCompatActivity() {
                         )
                         finish()
                     }
-                    et_role.text.toString().equals("RM1", true) -> {
+                    user.equals("RM1", true) -> {
                         AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
                         AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "RM1")
                         startActivity(
@@ -108,7 +123,7 @@ class SplashActivity : AppCompatActivity() {
                         AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "OPS")
                         OpsDashboardActivity.startMe(this)
                     }
-                    et_role?.text?.toString()?.equals("BCM", ignoreCase = true) == true -> {
+                    user.equals("BCM", ignoreCase = true) -> {
                         AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
                         AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "BCM")
                         startActivity(

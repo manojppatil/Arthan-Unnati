@@ -17,6 +17,7 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.bm.model.FinalReportPostData
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.STATUS
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.network.S3UploadFile
@@ -184,7 +185,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     decision,
                     et_reason.text.toString(),
                     docUrlList,
-                    sanctionList,intent.getStringExtra("FROM")
+                    sanctionList,ArthanApp.getAppInstance().loginUser
 
 
                 )
