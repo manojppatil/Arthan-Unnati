@@ -376,9 +376,13 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             if (mCardData != null) {
 
                                     when (intent?.getIntExtra(DOC_TYPE, 0)) {
-                                        RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharFrontCard, RequestCode.VoterCard -> {
+                                        RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharFrontCard,RequestCode.AadharCard, RequestCode.VoterCard -> {
                                             if (mCardData!!.status == "OK") {
 
+                                                continueResult = true
+                                            }
+                                            if(intent?.getStringExtra("skip") != null)
+                                            {
                                                 continueResult = true
                                             }
                                         }

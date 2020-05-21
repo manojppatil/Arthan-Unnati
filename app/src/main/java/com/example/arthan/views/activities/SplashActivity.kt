@@ -53,9 +53,13 @@ class SplashActivity : AppCompatActivity() {
             }else if(et_role.text.toString()=="3456")
             {
                 user="BM"
+                ArthanApp.getAppInstance().loginUser=et_role.text.toString()
+                ArthanApp.getAppInstance().loginRole=user
             }else if(et_role.text.toString()=="5678")
             {
                 user="BCM"
+                ArthanApp.getAppInstance().loginUser=et_role.text.toString()
+                ArthanApp.getAppInstance().loginRole=user
             }
             if (!et_role.text.isNullOrBlank()) {
                 when {

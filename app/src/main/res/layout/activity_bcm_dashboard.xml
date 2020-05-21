@@ -151,6 +151,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
                     android:textColor="#696969"
+                    android:id="@+id/txt_cv_my_queue_count_tot"
                     android:letterSpacing="0.05"
                     android:lineSpacingExtra="6sp"
                     android:text=" 10  Lakh"
@@ -234,6 +235,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/txt_approved_count_tot"
+
                     android:textSize="10sp"
                     android:textColor="#696969"
                     android:letterSpacing="0.05"
@@ -325,6 +328,8 @@
                     android:textColor="#696969"
                     android:letterSpacing="0.05"
                     android:lineSpacingExtra="6sp"
+                    android:id="@+id/txt_rejected_count_tot"
+
                     android:text="4.5 Lakh"
                     android:gravity="left"
                     android:paddingLeft="4dp"
@@ -415,6 +420,8 @@
                     android:letterSpacing="0.05"
                     android:lineSpacingExtra="6sp"
                     android:text="4.5 Lakh"
+                    android:id="@+id/txt_inprogress_count_tot"
+
                     android:gravity="left"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
@@ -504,6 +511,8 @@
                     android:textSize="10sp"
                     android:textColor="#696969"
                     android:letterSpacing="0.05"
+                    android:id="@+id/txt_reassigned_to_count_tot"
+
                     android:lineSpacingExtra="6sp"
                     android:text="4.5 Lakh"
                     android:gravity="left"
@@ -600,6 +609,8 @@
                     android:gravity="left"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
+                    android:id="@+id/txt_reassigned_by_count_tot"
+
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
                     android:fontFamily="@font/lato_regular"

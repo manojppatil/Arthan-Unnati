@@ -44,8 +44,8 @@ class ApplicationFeeActivity : BaseActivity() {
             progressBar.showLoading()
 
             val leadId= AppPreferences.getInstance().getString(ArgumentKey.LeadId)
-            val loanId= AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)
-            val customerID= AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+            val loanId= intent.getStringExtra("loanId")
+            val customerID= intent.getStringExtra("custId")
 
             CoroutineScope(Dispatchers.IO).launch {
 

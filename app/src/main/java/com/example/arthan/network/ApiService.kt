@@ -303,6 +303,12 @@ interface ApiService {
     @GET("getDocMstr")
     suspend fun getDocMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
 
+    @POST("getBMDashboard")
+    suspend fun getBMDashboard(@Body map: HashMap<String, String>): Response<BMDashboardResponseData>?
+
+    @POST("getBCMDashboard")
+    suspend fun getBCMDashboard(@Body map: HashMap<String, String>): Response<BMDashboardResponseData>?
+
     @GET("checkRLTStatus")
     suspend fun checkRLTStatus(@Query("loanId") loanId: String?): Response<CheckRLTStatusResponse>?
 

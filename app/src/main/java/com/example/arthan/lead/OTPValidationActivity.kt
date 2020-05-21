@@ -32,6 +32,8 @@ class OTPValidationActivity: BaseActivity() {
                     if(response.body()?.verifyStatus.equals("success",true)){
                         startActivity(Intent(this@OTPValidationActivity,ApplicationFeeActivity::class.java).apply {
                             putExtra("DATA",response.body())
+                            putExtra("loanId",response.body()!!.loanId)
+                            putExtra("custId",response.body()!!.customerId)
                         })
                     }
 
