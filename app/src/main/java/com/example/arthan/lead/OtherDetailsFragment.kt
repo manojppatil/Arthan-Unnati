@@ -56,21 +56,6 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true /* enabled by default */) {
-                override fun handleOnBackPressed() {
-                    // Handle the back button event
-                   // enableInCome()
-                    val navController: NavController? = if (activity is AddLeadActivity) Navigation.findNavController(
-                        activity!!,
-                        R.id.frag_container
-                    ) else null
-                    var b=Bundle()
-                    b.putString("from","rmIncome")
-                    navController?.navigate(R.id.frag_income_info,b)
-                }
-            }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
         return inflater.inflate(R.layout.fragment_other_details, container, false)
     }
 

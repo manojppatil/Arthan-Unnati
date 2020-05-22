@@ -29,7 +29,7 @@ class PD3Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(activity?.intent?.extras?.getString("FROM").equals("BCM"))
+        if(activity?.intent?.extras?.getString("FROM").equals("BCM")||activity?.intent?.extras?.getString("FROM").equals("BM"))
         {
             bcmPd3CheckBoxes.visibility=View.VISIBLE
         }else

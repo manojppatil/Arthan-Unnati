@@ -40,6 +40,9 @@ class DocumentVerificationFragment : BaseFragment() {
     private var isAdhaarBackApproved=false
     private var isVoterApproved=false
     private var isApplicantpproved=false
+    private var isBusinessProof=false
+    private var isOfficeAddressProof=false
+    private var isIncomeProof=false
     private var docDetails:DocDetails?=null
     private var mContext:Context?=null
     private var textColor:Int=Color.parseColor("#09327a")
@@ -114,6 +117,46 @@ class DocumentVerificationFragment : BaseFragment() {
             btn_applicant_disapprove.setTextColor(Color.WHITE)
             btn_applicant_approve.setTextColor(textColor)
         }
+        btn_BusinessProof_approve.setOnClickListener { isBusinessProof = true
+            btn_BusinessProof_approve.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_BusinessProof_disapprove.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_BusinessProof_approve.setTextColor(Color.WHITE)
+            btn_BusinessProof_disapprove.setTextColor(textColor)
+        }
+
+        btn_BusinessProof_disapprove.setOnClickListener { isBusinessProof = false
+            btn_BusinessProof_disapprove.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_BusinessProof_approve.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_BusinessProof_disapprove.setTextColor(Color.WHITE)
+            btn_BusinessProof_approve.setTextColor(textColor)
+        }
+
+
+        btn_IncomeProof_approve.setOnClickListener { isIncomeProof   = true
+            btn_IncomeProof_disapprove.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_IncomeProof_approve.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_IncomeProof_disapprove.setTextColor(Color.WHITE)
+            btn_IncomeProof_approve.setTextColor(textColor)
+        }
+        btn_IncomeProof_disapprove.setOnClickListener { isIncomeProof = false
+            btn_IncomeProof_approve.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_IncomeProof_disapprove.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_IncomeProof_approve.setTextColor(Color.WHITE)
+            btn_IncomeProof_disapprove.setTextColor(textColor)
+        }
+
+        btn_OfficeAddressProof_approve.setOnClickListener { isOfficeAddressProof = true
+            btn_OfficeAddressProof_approve.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_OfficeAddressProof_disapprove.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_OfficeAddressProof_approve.setTextColor(Color.WHITE)
+            btn_OfficeAddressProof_disapprove.setTextColor(textColor)
+        }
+        btn_OfficeAddressProof_disapprove.setOnClickListener { isOfficeAddressProof = false
+            btn_OfficeAddressProof_disapprove.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_OfficeAddressProof_approve.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_OfficeAddressProof_disapprove.setTextColor(Color.WHITE)
+            btn_OfficeAddressProof_approve.setTextColor(textColor)
+        }
         btn_next.setOnClickListener {
 
             val progressBar = ProgrssLoader(mContext!!)
@@ -123,11 +166,15 @@ class DocumentVerificationFragment : BaseFragment() {
             var mCustomerId=actvity.intent.getStringExtra(ArgumentKey.CustomerId)
             var list=ArrayList<DocumentsData>()
 
+            //businessProof/businessAddrProof/incomeProof)
             list.add(DocumentsData("","aadhar_front",docUrl = docDetails?.aadharFrontUrl,docStatus = isAdhaarFrontApproved.toString()))
             list.add(DocumentsData("","aadhar_back",docDetails?.aadharBackUrl,isAdhaarBackApproved.toString()))
             list.add(DocumentsData("","voter",docDetails?.voterUrl,isVoterApproved.toString()))
             list.add(DocumentsData("","pan",docDetails?.panUrl,isPanApproved.toString()))
             list.add(DocumentsData("","paApplicantPhoto",docDetails?.paApplicantPhoto,isApplicantpproved.toString()))
+            list.add(DocumentsData("","businessProof",docDetails?.businessProof,isBusinessProof.toString()))
+            list.add(DocumentsData("","businessAddrProof",docDetails?.businessAddrProof,isOfficeAddressProof.toString()))
+            list.add(DocumentsData("","incomeProof",docDetails?.incomeProof,isIncomeProof.toString()))
             val postBody = DocScreeningStatusPost(
                 loanId = mLoanId,
                 custId = mCustomerId,
@@ -298,6 +345,85 @@ class DocumentVerificationFragment : BaseFragment() {
                     }
                 })
                 .into(img_applicant)
+
+            Glide.with(it)
+                .load(docDetails?.incomeProof)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_IncomeProof)
+            Glide.with(it)
+                .load(docDetails?.businessAddrProof)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_BusinessProof)
+            Glide.with(it)
+                .load(docDetails?.businessProof)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_BusinessProof)
         }
     }
 

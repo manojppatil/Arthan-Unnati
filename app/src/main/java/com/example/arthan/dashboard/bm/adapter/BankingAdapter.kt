@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.ListingActivityBanking
+import com.example.arthan.dashboard.bm.ShowPDFActivity
 import com.example.arthan.dashboard.bm.model.Banking360DetailsResponseData
 
 class BankingAdapter(
@@ -36,6 +37,7 @@ class BankingAdapter(
             var emiView=itemView.findViewById<TextView?>(R.id.txt_no_of_credit_entries)
             var credits=itemView.findViewById<TextView?>(R.id.txt_credit_summation)
             var cash=itemView.findViewById<TextView?>(R.id.emiAmt)
+            var viewGraph=itemView.findViewById<TextView?>(R.id.showAcGraph)
             emiView!!.setOnClickListener {
 
                 context.startActivity(Intent(context,ListingActivityBanking::class.java).apply {
@@ -56,6 +58,13 @@ class BankingAdapter(
                     putExtra("typeList","cash")
                 })
             }
+            viewGraph!!.setOnClickListener {
+                context.startActivity(Intent(context,ShowPDFActivity::class.java).apply {
+                    putExtra("pdf_url",mList[position].acGraph)
+
+                })
+            }
+
 
         }
 

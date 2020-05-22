@@ -66,15 +66,6 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true /* enabled by default */) {
-                override fun handleOnBackPressed() {
-                    // Handle the back button event
-                 activity?.finish()
-                }
-            }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
         loadInitialData()
         annual_turnover_current_year_input.setText(activity?.intent?.getStringExtra("annualturnover"))
         firm_name_input.setText(activity?.intent?.getStringExtra("businessName"))

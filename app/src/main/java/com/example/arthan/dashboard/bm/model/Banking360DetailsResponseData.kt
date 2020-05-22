@@ -15,6 +15,7 @@ data class Banking360DetailsResponseData(
     var emiCount: String?="",
     var emiAmt: String,
     var avgBankBal: String,
+    var acGraph: String?,
     val emiEntries: ArrayList<EntriesType>?= ArrayList(),
     val cashEntries: ArrayList<EntriesType>?=ArrayList(),
     val creditEntries: ArrayList<EntriesType>?=ArrayList()

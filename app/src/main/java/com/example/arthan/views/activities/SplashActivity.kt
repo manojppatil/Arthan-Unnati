@@ -139,13 +139,14 @@ class SplashActivity : AppCompatActivity() {
                         finish()
                     }
                     else -> {
-                        startActivity(
+                        Toast.makeText(this,"Invalid login user",Toast.LENGTH_LONG).show()
+                      /*  startActivity(
                             Intent(
                                 this@SplashActivity,
                                 BCMDashboardActivity::class.java
                             )
                         )
-                        finish()
+                        finish()*/
                     }
                 }. let {
                     CoroutineScope(Dispatchers.IO).launch {
