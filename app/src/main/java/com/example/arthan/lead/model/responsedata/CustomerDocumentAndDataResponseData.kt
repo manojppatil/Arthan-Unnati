@@ -5,6 +5,9 @@ import com.example.arthan.lead.model.postdata.*
 data class CustomerDocumentAndDataResponseData(
     val businessDetails: BusinessDetails?,
     val inPrincipleAmt: String?,
+    val roi: String?,
+    val tenure: String?,
+    val loanAmt: String?,
     val collateralDetails: CollateralDetails?,
     val incomeDetails: IncomeDetails?,
     val personalDetails: List<PersonalDetails>?,

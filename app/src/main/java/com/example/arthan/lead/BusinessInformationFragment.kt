@@ -17,6 +17,7 @@ import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.BUSINESS
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
@@ -74,7 +75,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_save_continue.setOnClickListener {
 //            saveBusinessData() //comment temporarily
-            if(activity?.intent?.getStringExtra("FROM")=="BM") {
+            if(ArthanApp.getAppInstance().loginRole=="BM") {
 
                 updateBusinessDetails()
             }else{
@@ -165,7 +166,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
     private fun updateBusinessDetails() {
 
-        if(activity?.intent?.getStringExtra("FROM")=="BM") {
+        if(ArthanApp.getAppInstance().loginRole=="BM") {
             var dialog = AlertDialog.Builder(activity)
             var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
             dialog.setView(view)
@@ -183,7 +184,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 var map = HashMap<String, String>()
                 map["loanId"] = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)!!
                 map["remarks"] = et_remarks?.text.toString()
-                map["userId"] = activity?.intent?.getStringExtra("FROM")+""
+                map["userId"] = ArthanApp.getAppInstance().loginUser+""
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val respo = RetrofitFactory.getApiService().updateBusinessDetails(
@@ -527,6 +528,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         ssi_registration_input?.setText(businessDetails?.ssiregistrationno)
         contact_person_name_input?.setText(businessDetails?.contactpersonname)
         et_mobile_number?.setText(businessDetails?.landlineMobile)
+        no_of_year_in_office_input?.setText(businessDetails?.noOfyearsincurrentoffice)
         whats_app_number_input?.setText(businessDetails?.whatsappno)
         email_id_input?.setText(businessDetails?.emailid)
         annual_turnover_current_year_input?.setText(businessDetails?.annualturnoverofcurrentfinancialyearLastfinancialyear)

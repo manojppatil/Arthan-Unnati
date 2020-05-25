@@ -13,41 +13,47 @@ class PersonalDetailFragment : BaseFragment() {
 
         PAView.setOnClickListener {
 
-            if(PAInner.visibility==View.VISIBLE){
-                PAInner.visibility=View.GONE
-            }else {
+            if (PAInner.visibility == View.VISIBLE) {
+                PAInner.visibility = View.GONE
+            } else {
                 PAInner.visibility = View.VISIBLE
             }
-            GInnerView.visibility=View.GONE
-            CAInner.visibility=View.GONE
+            GInnerView.visibility = View.GONE
+            CAInner.visibility = View.GONE
         }
         CAView.setOnClickListener {
-            if(CAInner.visibility==View.VISIBLE){
-                CAInner.visibility=View.GONE
-            }else {
+            if (CAInner.visibility == View.VISIBLE) {
+                CAInner.visibility = View.GONE
+            } else {
                 CAInner.visibility = View.VISIBLE
             }
-            PAInner.visibility=View.GONE
-            GInnerView.visibility=View.GONE
+            PAInner.visibility = View.GONE
+            GInnerView.visibility = View.GONE
         }
         GView.setOnClickListener {
-            if(GInnerView.visibility==View.VISIBLE){
-                GInnerView.visibility=View.GONE
-            }else {
+            if (GInnerView.visibility == View.VISIBLE) {
+                GInnerView.visibility = View.GONE
+            } else {
                 GInnerView.visibility = View.VISIBLE
             }
-            PAInner.visibility=View.GONE
-            CAInner.visibility=View.GONE
+            PAInner.visibility = View.GONE
+            CAInner.visibility = View.GONE
         }
     }
 
     fun updateData(
         personalDetailsList: List<PersonalDetails>?,
-        inPrincipleAmtValue: String?
+        inPrincipleAmtValue: String?,
+        loanAmt: String?,
+        roi: String?,
+        tenure: String?
     ) {
         inPrincipleAmtTextView.text = "In-Principle Eligible Amount: $inPrincipleAmtValue"
+        LoanAmt.text = "Loan Amount: $loanAmt"
+        Tenure.text = "Tenure : $tenure"
+        ROI.text = "ROI : $roi"
 
-        if(personalDetailsList?.get(0)!=null) {
+        if (personalDetailsList?.get(0) != null) {
             var personalDetails = personalDetailsList?.get(0)
             txt_full_name?.text = personalDetails?.fullName
             txt_dob?.text = personalDetails?.dob
@@ -71,7 +77,7 @@ class PersonalDetailFragment : BaseFragment() {
             sourceIncome.text = personalDetails?.sourceofIncome
             grossAnulIncome.text = personalDetails?.grossannualIncome
         }
-        if(personalDetailsList?.get(1)!=null) {
+        if (personalDetailsList!!.size > 1 && personalDetailsList?.get(1) != null) {
             var personalDetails = personalDetailsList?.get(1)
             txt_full_nameCA?.text = personalDetails?.fullName
             txt_dobCA?.text = personalDetails?.dob
@@ -94,10 +100,10 @@ class PersonalDetailFragment : BaseFragment() {
             txt_occupationCA.text = personalDetails?.occupation
             sourceIncomeCA.text = personalDetails?.sourceofIncome
             grossAnulIncomeCA.text = personalDetails?.grossannualIncome
-        }else{
-            CAView.visibility=View.GONE
+        } else {
+            CAView.visibility = View.GONE
         }
-        if(personalDetailsList?.get(2)!=null) {
+        if (personalDetailsList!!.size > 2 && personalDetailsList?.get(2) != null) {
             var personalDetails = personalDetailsList?.get(2)
             txt_full_nameG?.text = personalDetails?.fullName
             txt_dobG?.text = personalDetails?.dob
@@ -121,9 +127,8 @@ class PersonalDetailFragment : BaseFragment() {
             sourceIncomeG.text = personalDetails?.sourceofIncome
             grossAnulIncomeG.text = personalDetails?.grossannualIncome
 
-        }
-        else{
-            GView.visibility=View.GONE
+        } else {
+            GView.visibility = View.GONE
         }
 
     }

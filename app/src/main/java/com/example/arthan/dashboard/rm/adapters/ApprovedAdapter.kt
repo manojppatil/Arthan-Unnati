@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.ApprovedCustomerLegalStatusActivity
 import com.example.arthan.dashboard.bm.model.RejectedCaseResponse
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.ApprovedCaseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
@@ -137,7 +138,7 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                             map["loanId"] = data[position].caseId
                             map["remarks"] = etRemark.text.toString()
                             map["eId"] = "RM1"
-                            map["userId"]=from
+                            map["userId"]=ArthanApp.getAppInstance().loginUser
                             var res = RetrofitFactory.getApiService().rmRequestWaiver(map)
                             if (res?.body() != null) {
                                 withContext(Dispatchers.Main) {
@@ -150,8 +151,8 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                             var map = HashMap<String, String>()
                             map["loanId"] = data[position].caseId
                             map["remarks"] = etRemark.text.toString()
-                            map["eId"] = "bm"
-                            map["userId"]=from
+                            map["eId"] = ArthanApp.getAppInstance().loginRole
+                            map["userId"]=ArthanApp.getAppInstance().loginUser
 
                             var res = RetrofitFactory.getApiService().bmRequestWaiver(map)
                             if (res?.body() != null) {

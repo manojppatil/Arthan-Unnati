@@ -80,6 +80,7 @@ class BMDashboardActivity : BaseActivity(), OnClickListener {
 
     private fun setDataToLabels(body: BMDashboardResponseData?) {
 
+        txt_bm_name.text="Hello "+body?.empName
         txt_rm_review_count.text=body?.rmReview?.count
         txt_lead_count.text=body?.leads?.count
         txt_cv_my_queue_count.text=body?.myQueue?.count

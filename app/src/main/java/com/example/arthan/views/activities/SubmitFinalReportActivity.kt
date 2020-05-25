@@ -63,7 +63,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         txt_status.text = "Status: ${intent.getStringExtra(STATUS)}"
         txt_reason_msg.text=(resources.getString(R.string.state_the_reasons_for_the_approval_of_this_application,intent.getStringExtra(STATUS)))
 
-        if(intent?.getStringExtra("FROM")=="BCM")
+        if(ArthanApp.getAppInstance().loginRole=="BCM")
         {
             sanctions.visibility=View.VISIBLE
         }
@@ -190,7 +190,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
                 )
 
-              if(intent.getStringExtra("FROM")=="BM") {
+              if(ArthanApp.getAppInstance().loginRole=="BM") {
 
                   CoroutineScope(Dispatchers.IO).launch {
                       val respo = RetrofitFactory.getApiService().bmSubmit(
@@ -235,7 +235,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                       }
                   }
 
-              }else if(intent.getStringExtra("FROM")=="BCM") {
+              }else if(ArthanApp.getAppInstance().loginRole=="BCM") {
                   CoroutineScope(Dispatchers.IO).launch {
                       val respo = RetrofitFactory.getApiService().bcmSubmit(
                           map

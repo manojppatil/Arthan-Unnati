@@ -62,7 +62,7 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
 
-        if(intent.getStringExtra("FROM")=="BM") {
+        if(ArthanApp.getAppInstance().loginRole=="BM") {
             CoroutineScope(ioContext).launch {
                 try {
                     val response = RetrofitFactory.getMasterApiService().getBMQueue(ArthanApp.getAppInstance().loginUser)
@@ -100,7 +100,7 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
 
                 }
             }
-        }else if(intent.getStringExtra("FROM")=="BCM")
+        }else if(ArthanApp.getAppInstance().loginRole=="BCM")
         CoroutineScope(ioContext).launch {
             try {
                 val response = RetrofitFactory.getMasterApiService().getBCMQueue(ArthanApp.getAppInstance().loginUser)

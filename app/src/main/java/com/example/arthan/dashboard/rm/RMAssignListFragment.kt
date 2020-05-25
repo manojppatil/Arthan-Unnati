@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.ReassignAdapter
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.assign_list_frag.*
@@ -28,7 +29,7 @@ class RMAssignListFragment : BaseFragment() {
             if(data.isNullOrEmpty()){
                 Toast.makeText(activity,"No Record Found", Toast.LENGTH_SHORT).show()
             } else {
-                rv_assign_listing.adapter = ReassignAdapter(context!!, activity?.intent?.getStringExtra("FROM")!!,data)
+                rv_assign_listing.adapter = ReassignAdapter(context!!, ArthanApp.getAppInstance().loginRole,data)
             }
 
         })

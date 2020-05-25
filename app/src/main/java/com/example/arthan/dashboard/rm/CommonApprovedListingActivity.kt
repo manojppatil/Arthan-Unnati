@@ -14,6 +14,7 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.ApprovedAdapter
 import com.example.arthan.dashboard.rm.adapters.LeadsAdapter
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
@@ -35,11 +36,11 @@ class CommonApprovedListingActivity : AppCompatActivity() {
     }
 
     private fun loadApprovedList(){
-        mViewModel.loadApprovedList(intent.getStringExtra("FROM")).observe(this, Observer { data->
+        mViewModel.loadApprovedList(ArthanApp.getAppInstance().loginRole).observe(this, Observer { data->
             if(data.isNullOrEmpty()){
                 Toast.makeText(this,"No Record Found", Toast.LENGTH_SHORT).show()
             } else {
-                rv_listing.adapter = ApprovedAdapter(this, intent.getStringExtra("FROM"),data)
+                rv_listing.adapter = ApprovedAdapter(this, ArthanApp.getAppInstance().loginRole,data)
             }
 
         })

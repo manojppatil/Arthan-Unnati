@@ -15,6 +15,7 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.ApprovedAdapter
 import com.example.arthan.dashboard.rm.adapters.RejectedAdapter
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
+import com.example.arthan.global.ArthanApp
 import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 import com.example.arthan.utils.ArgumentKey
@@ -39,9 +40,9 @@ class RMRejectedListingActivity : AppCompatActivity() {
 
     private fun loadRejectedList(){
 
-        if(intent.getStringExtra("FROM") == "BM")
+        if(ArthanApp.getAppInstance().loginRole == "BM")
         {
-            mViewModel.loadBMRejectedList(intent.getStringExtra("FROM")).observe(this, Observer { data->
+            mViewModel.loadBMRejectedList(ArthanApp.getAppInstance().loginRole).observe(this, Observer { data->
                 if(data.isNullOrEmpty()){
                     Toast.makeText(this,"No Record Found", Toast.LENGTH_SHORT).show()
                 } else {
@@ -51,7 +52,7 @@ class RMRejectedListingActivity : AppCompatActivity() {
             })
         }else
         {
-            mViewModel.loadRejectedList(intent.getStringExtra("FROM")).observe(this, Observer { data->
+            mViewModel.loadRejectedList(ArthanApp.getAppInstance().loginRole).observe(this, Observer { data->
                 if(data.isNullOrEmpty()){
                     Toast.makeText(this,"No Record Found", Toast.LENGTH_SHORT).show()
                 } else {

@@ -3,6 +3,7 @@ package com.example.arthan.views.activities
 import android.content.Intent
 import android.view.View
 import com.example.arthan.R
+import com.example.arthan.global.ArthanApp
 import kotlinx.android.synthetic.main.activity_customer_details.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 
@@ -27,7 +28,7 @@ class CustomerDetailActivity: BaseActivity(),View.OnClickListener {
         btn_filter.visibility= View.GONE
 
 
-        if(intent.getStringExtra("FROM").equals("OPS")){
+        if(ArthanApp.getAppInstance().loginRole.equals("OPS")){
             img_sanction_letter.visibility= View.VISIBLE
             txt_sanction_condition1.visibility= View.VISIBLE
             txt_sanction_condition2.visibility= View.VISIBLE

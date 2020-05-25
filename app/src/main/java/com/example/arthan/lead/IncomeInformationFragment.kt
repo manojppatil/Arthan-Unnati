@@ -26,10 +26,7 @@ import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
-import com.example.arthan.global.AppPreferences
-import com.example.arthan.global.BUSINESS
-import com.example.arthan.global.DOC_TYPE
-import com.example.arthan.global.INCOME
+import com.example.arthan.global.*
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.*
@@ -253,7 +250,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         spnr_loan_type?.onItemSelectedListener = mOnLoanTypeItemSelectedListener
         btn_save_continue?.setOnClickListener {
 //
-                   if(activity?.intent?.getStringExtra("FROM")=="BM") {
+                   if(ArthanApp.getAppInstance().loginRole=="BM") {
             updateIncomeDetails()
         }else
                    {
@@ -494,7 +491,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
     private fun updateIncomeDetails() {
 
-        if(activity?.intent?.getStringExtra("FROM")=="BM") {
+        if(ArthanApp.getAppInstance().loginRole=="BM") {
             var dialog = AlertDialog.Builder(activity)
             var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
             dialog.setView(view)
@@ -512,7 +509,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 var map = HashMap<String, String>()
                 map["loanId"] = mLoanId!!
                 map["remarks"] = et_remarks?.text.toString()
-                map["userId"] = activity?.intent?.getStringExtra("FROM")+""
+                map["userId"] =ArthanApp.getAppInstance().loginUser+""
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val respo = RetrofitFactory.getApiService().updateIncomeDetails(

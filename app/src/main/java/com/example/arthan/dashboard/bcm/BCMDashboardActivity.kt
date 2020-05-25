@@ -145,6 +145,7 @@ class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
 
     private fun setDataToLabels(body: BMDashboardResponseData?) {
 
+        txt_bm_name.text="Hello "+body?.empName
         txt_cv_my_queue_count.text=body?.myQueue?.count
         txt_approved_count.text=body?.approved?.count
         txt_rejected_count.text=body?.rejected?.count

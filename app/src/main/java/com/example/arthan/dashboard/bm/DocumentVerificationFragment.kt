@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.arthan.R
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.PaymentSuccessActivity
 import com.example.arthan.lead.model.postdata.DocScreeningStatusPost
 import com.example.arthan.lead.model.postdata.DocumentsData
@@ -177,6 +178,7 @@ class DocumentVerificationFragment : BaseFragment() {
             list.add(DocumentsData("","incomeProof",docDetails?.incomeProof,isIncomeProof.toString()))
             val postBody = DocScreeningStatusPost(
                 loanId = mLoanId,
+                userId=ArthanApp.getAppInstance().loginUser,
                 custId = mCustomerId,
                 documents = list
             )

@@ -338,6 +338,8 @@ interface ApiService {
 
     @POST("updateDeviations")
     suspend fun updateDeviations(@Body body: DeviationsResponseData):Response<BaseResponseData>
+@POST("getUserRole")
+    suspend fun getUserRole(@Body body: HashMap<String,String>):Response<RoleResponse>
 
  @GET("getIncSrcMstr")
  suspend fun getIncSrcMstr(): Response<CollateralResponseData>?

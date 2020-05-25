@@ -14,6 +14,7 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.LeadsAdapter
 import com.example.arthan.dashboard.rm.adapters.ScreeningAdapter
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
@@ -40,7 +41,7 @@ class RMLeadListingActivity : AppCompatActivity() {
             if(data.isNullOrEmpty()){
                 Toast.makeText(this,"No Record Found", Toast.LENGTH_SHORT).show()
             } else {
-                rv_listing.adapter = LeadsAdapter(this, intent.getStringExtra("FROM"),data)
+                rv_listing.adapter = LeadsAdapter(this, ArthanApp.getAppInstance().loginRole,data)
             }
 
         })

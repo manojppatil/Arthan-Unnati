@@ -18,7 +18,7 @@ class ShowPDFActivity : AppCompatActivity() {
         setContentView(R.layout.activity_show_p_d_f)
 //        webview.settings.javaScriptEnabled = true;
 //        webview.loadUrl("http://www.google.com");
-        var progressBar:ProgressDialog=ProgressDialog(this@ShowPDFActivity)
+        toolbar_title.text="Graph"
         var webSettings=webview.settings
         webSettings.javaScriptEnabled = true
         webSettings.setSupportMultipleWindows(true) // This forces ChromeClient enabled.

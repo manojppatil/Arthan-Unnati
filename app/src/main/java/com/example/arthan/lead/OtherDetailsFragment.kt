@@ -17,6 +17,7 @@ import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.*
@@ -66,8 +67,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         mCustomerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
 
         loadInitialData()
-        if (activity?.intent?.extras?.getString("FROM")
-                .equals("BCM") || activity?.intent?.extras?.getString("FROM").equals("BM")
+        if (ArthanApp.getAppInstance().loginRole == "BCM" || ArthanApp.getAppInstance().loginRole == "BM"
         ) {
             bcmCheckBoxes.visibility = View.VISIBLE
         } else {
@@ -319,7 +319,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         }*/
         btn_save_continue?.setOnClickListener {
 
-            if (activity?.intent?.getStringExtra("FROM") == "BM") {
+            if (ArthanApp.getAppInstance().loginRole == "BM") {
                 var dialog = AlertDialog.Builder(activity)
                 var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
                 dialog.setView(view)
@@ -338,7 +338,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     map["remarks"] = et_remarks?.text.toString()
                     map["rltWOValue"] = "" + rltWOCheckBox.isChecked
                     map["rltWFeeValue"] = "" + rltWFeeCheckBox.isChecked
-                    map["userId"] = activity?.intent?.getStringExtra("FROM") + ""
+                    map["userId"] = ArthanApp.getAppInstance().loginUser + ""
 
                     CoroutineScope(Dispatchers.IO).launch {
                         val respo = RetrofitFactory.getApiService().updateOtherDetails(
@@ -356,10 +356,13 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                                     ).apply {
                                         putExtra("FROM", "BM")
                                     })
+                                activity?.finish()
+
                             } else {
                                 val intent = Intent(activity, BMScreeningReportActivity::class.java)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                               // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                                 startActivity(intent)
+                                activity?.finish()
                             }
 
                         } else {
@@ -387,6 +390,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                                 intent.putExtra("loanId", mLoanId)
                                 intent.putExtra("custId", mCustomerId)
                                 startActivity(intent)
+                                activity?.finish()
 
                             }
 
