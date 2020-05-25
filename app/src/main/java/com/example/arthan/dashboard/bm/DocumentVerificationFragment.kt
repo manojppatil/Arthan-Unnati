@@ -24,6 +24,7 @@ import com.example.arthan.model.PaymentRequest
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.activity_application_fee.*
 import kotlinx.android.synthetic.main.fragment_document_verification.*
@@ -193,7 +194,18 @@ class DocumentVerificationFragment : BaseFragment() {
                 progressBar.dismmissLoading()
                 if (response.body()?.apiCode == "200") {
 
-                    actvity.moveToData()
+                    if(response.body()?.discrepancy!!.equals("y",ignoreCase = true))
+                        {
+                            if(ArthanApp.getAppInstance().loginRole=="BM"||ArthanApp.getAppInstance().loginRole=="BCM")
+                            {
+                             startActivity(Intent(actvity,PendingCustomersActivity::class.java))
+                            }else
+                            {
+
+                            }
+                        }else {
+                        actvity.moveToData()
+                    }
 
 
                 } else {

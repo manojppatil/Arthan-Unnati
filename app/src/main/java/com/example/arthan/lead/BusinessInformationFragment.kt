@@ -2,6 +2,7 @@ package com.example.arthan.lead
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
@@ -27,6 +29,7 @@ import com.example.arthan.lead.model.postdata.Partner
 import com.example.arthan.lead.model.responsedata.BusinessDetailsResponseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.views.activities.PendingCustomersActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_business_information.*
@@ -179,6 +182,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 alert.dismiss()
             }
             btn_submit_remark?.setOnClickListener {
+                alert.dismiss()
                 val progressBar = ProgrssLoader(this.context!!)
                 progressBar.showLoading()
                 var map = HashMap<String, String>()
@@ -195,23 +199,46 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                     if (respo?.body() != null && result?.apiCode == "200") {
 
                         withContext(Dispatchers.Main) {
-                          /*  AppPreferences.getInstance()
+                            /*  AppPreferences.getInstance()
                                 .addString(AppPreferences.Key.BusinessId, result.businessId)*/
                             progressBar.dismmissLoading()
-                            val navController: NavController? =
-                                if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
-                                    activity!!,
-                                    R.id.frag_container
-                                ) else null
-                            navController?.navigate(R.id.action_business_to_income)
 
-                            if (activity is LeadInfoCaptureActivity) {
-                                (activity as LeadInfoCaptureActivity).enableInCome()
-                                (activity as LeadInfoCaptureActivity).infoCompleteState(BUSINESS)
+                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
+
+                                if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
+                                    startActivity(
+                                        Intent(
+                                            activity,
+                                            PendingCustomersActivity::class.java
+                                        )
+                                    )
+                                    activity?.finish()
+
+                                } else {
+                                    startActivity(Intent(activity, RMDashboardActivity::class.java))
+                                    activity?.finish()
+                                }
+
+                            }
+                            else {
+                                progressBar.dismmissLoading()
+                                val navController: NavController? =
+                                    if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
+                                        activity!!,
+                                        R.id.frag_container
+                                    ) else null
+                                navController?.navigate(R.id.action_business_to_income)
+
+                                if (activity is LeadInfoCaptureActivity) {
+                                    (activity as LeadInfoCaptureActivity).enableInCome()
+                                    (activity as LeadInfoCaptureActivity).infoCompleteState(BUSINESS)
+                                } else{
+
+                                }
                             }
                         }
-                        }else
-                    {
+                    }
+                        else  {
                         withContext(Dispatchers.Main) {
 
                             progressBar.dismmissLoading()

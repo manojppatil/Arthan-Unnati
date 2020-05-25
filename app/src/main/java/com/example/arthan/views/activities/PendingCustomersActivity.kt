@@ -73,7 +73,7 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                             rv_pending_customer.adapter =
                                 PendingCustomerAdapter(
                                     this@PendingCustomersActivity,
-                                    intent.getStringExtra(ArgumentKey.FROM)
+                                    ArthanApp.getAppInstance().loginRole
                                 ).also {
                                     it.updateList(result?.myQueue)
                                 }
