@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.fondesa:kpermissions:2.0.2@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6042fe2f93e830ca7ef883c558c003e7/jetified-kpermissions-2.0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6042fe2f93e830ca7ef883c558c003e7/jetified-kpermissions-2.0.2/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.fondesa/kpermissions/2.0.2/f8b910b6f7570d8207a5ff128b4d16130f9bb3eb/kpermissions-2.0.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.fondesa/kpermissions/2.0.2/d28aa54bba7cd16d52e956e4bf1c63e13ee1ffdb/kpermissions-2.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
