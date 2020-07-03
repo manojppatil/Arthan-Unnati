@@ -35,12 +35,17 @@ class CompleteDetailsFragment : NavHostFragment() {
         if(arguments?.getString("screenTo")!=null)
         {
             if(arguments?.getString("screenTo").equals("business",ignoreCase = true)) {
-                enableInCome()
+                enableBusiness()
+                var b= Bundle()
+                        b.putString("from","rmbusiness")
+                b.putString("loanId",arguments?.getString("loanId"))
+                b.putString("custId",arguments?.getString("custId"))
+                b.putString("task",arguments?.getString("task"))
                 val navController: NavController? = if (activity is AddLeadActivity) Navigation.findNavController(
                     activity!!,
                     R.id.frag_container
                 ) else null
-                navController?.navigate(R.id.frag_business_info)
+                navController?.navigate(R.id.frag_business_info,b)
             }
             if(arguments?.getString("screenTo").equals("income",ignoreCase = true)) {
                 enableInCome()
@@ -50,16 +55,26 @@ class CompleteDetailsFragment : NavHostFragment() {
                 ) else null
                 var b=Bundle()
                 b.putString("from","rmIncome")
+                b.putString("loanId",activity?.intent?.getStringExtra("loanId"))
+                b.putString("custId",activity?.intent?.getStringExtra("custId"))
+                b.putString("task",arguments?.getString("task"))
                 navController?.navigate(R.id.frag_income_info,b)
             }
             if(arguments?.getString("screenTo").equals("others",ignoreCase = true)) {
-                enableBusiness()
+                enableDoc()
+                enableInCome()//already in last page and business is enabled in layout itslef
+                var b=Bundle()
+                b.putString("from","rmOthers")
+                b.putString("loanId",activity?.intent?.getStringExtra("loanId"))
+                b.putString("custId",activity?.intent?.getStringExtra("custId"))
+                b.putString("task",arguments?.getString("task"))
+
                 val navController: NavController? = if (activity is AddLeadActivity) Navigation.findNavController(
                     activity!!,
                     R.id.frag_container
                 ) else null
-                navController?.navigate(R.id.frag_document_info)
-            }
+                navController?.navigate(R.id.frag_document_info,b)
+             }
         }
 
     }
@@ -119,6 +134,7 @@ class CompleteDetailsFragment : NavHostFragment() {
         }
     }
 }
+
 
 interface EnableCompleteDetail {
     fun enableFragment1()

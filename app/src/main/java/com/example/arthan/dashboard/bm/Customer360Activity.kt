@@ -14,6 +14,7 @@ import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.FinanceFragmentCust360
+import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_customer360.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
@@ -64,6 +65,29 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
 
 
         loadInitialData()
+        submitStatus.setOnClickListener {
+            val progressLoader=ProgrssLoader(this)
+            progressLoader.showLoading()
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val res=RetrofitFactory.getApiService().getCust360Status(intent.getStringExtra("loanId"))
+                if(res?.body()!=null)
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        progressLoader.dismmissLoading()
+                        startActivity(Intent(this@Customer360Activity,PendingCustomersActivity::class.java).apply {
+                            putExtra("loanId",intent.getStringExtra("loanId"))
+                        })
+                        finish()
+                        /*if(res.body().canNavigate=="yes")
+                        {
+
+                        }*/
+                    }
+                }
+            }
+        }
 
     }
 
@@ -86,8 +110,19 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                     .getCustomer360Details(intent.getStringExtra("loanId"))
                 if (apiResponse?.isSuccessful == true) {
                     mCustomer360Data = apiResponse.body()
+                    if(mCustomer360Data?.canNavigate.equals("NO",ignoreCase = true)){ //TODO check mail 04-06-20
+                        withContext(Dispatchers.Main) {
+
+                            Toast.makeText(
+                                this@Customer360Activity,
+                                apiResponse.body()?.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }else{
                     withContext(Dispatchers.Main) {
-                    setDataToFields(mCustomer360Data)
+                        setDataToFields(mCustomer360Data)
+                    }
                     stopLoading(progressBar, null)
                 }
                 } else {
@@ -126,8 +161,13 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                 putExtra("loanId",loanId)
                 putExtra("custId",customerId)
                 putExtra("cname",intent.getStringExtra("cname"))
+                putExtra("data",mCustomer360Data?.bankData)
             })
-            R.id.cl_collateral -> startActivity(Intent(this, CollateralActivity::class.java))
+            R.id.cl_collateral -> startActivity(Intent(this, CollateralActivity::class.java)
+                .apply {
+                    putExtra("data",mCustomer360Data?.collateralVO)
+
+                })
             R.id.cl_finances ->  FinanceFragmentCust360.startMe(this, mCustomer360Data?.pdVO,intent.getStringExtra("cname"))
             R.id.cl_rcu_check -> ""
             R.id.cl_assets -> startActivity(Intent(this, AssetsActivity::class.java).apply {

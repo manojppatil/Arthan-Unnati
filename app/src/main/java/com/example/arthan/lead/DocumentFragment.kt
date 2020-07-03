@@ -7,6 +7,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.*
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
@@ -31,6 +32,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
     private var check:Int=0
     private var idProofUrl:String=""
     private var addrProofUrl:String=""
+    private var addrProofUrlBack:String=""
     private var businessCont:String=""
     private var offcAddrProof:String=""
     private var incomeProof:String=""
@@ -38,6 +40,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
 
     private var doc1:Docs?=null
     private var doc2:Docs?=null
+    private var doc2BCk:Docs?=null
     private var doc3:Docs?=null
     private var doc4:Docs?=null
     private var doc5:Docs?=null
@@ -154,6 +157,11 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                }*/
             R.id.btn_submit -> {
 
+                if(idProofUrl==""||addrProofUrl==""||businessCont==""||offcAddrProof==""||incomeProof==""||propertyDoc=="")
+                {
+                    Toast.makeText(activity,"Please upload all the required documents",Toast.LENGTH_LONG).show()
+                    return
+                }
                 if (arguments != null) {
                     val progressBar = ProgrssLoader(context!!)
                     progressBar.showLoading()
@@ -169,9 +177,15 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                     list?.add(doc4)
                     list?.add(doc5)
                     list?.add(doc6)
-                    var presanctionDocsRequestData=PresanctionDocsRequestData(arguments?.getString("loanId")!!,
-                        arguments?.getString("custId")!!,
-                        "RM1",list
+                    var loanId=arguments?.getString("loanId")
+                    var custId= arguments?.getString("custId")
+                    if(loanId== null)
+                    {
+                        loanId=activity?.intent?.getStringExtra("loanId")
+                        custId=activity?.intent?.getStringExtra("custId")
+                    }
+                    var presanctionDocsRequestData=PresanctionDocsRequestData(loanId,custId,
+                        ArthanApp.getAppInstance().loginUser,list
 
                     )
                     CoroutineScope(Dispatchers.IO).launch {
@@ -183,20 +197,48 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
 
                         if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
 
-                            withContext(Dispatchers.Main) {
-                                Toast.makeText(
-                                    activity,
-                                    "Case is Successfully submitted to BM",
-                                    Toast.LENGTH_LONG
-                                ).show()
 
-                                val intent = Intent(activity, RMDashboardActivity::class.java)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                                startActivity(intent)
+                            if (activity?.intent?.getStringExtra("task") == "RMreJourney") {
+                                withContext(Dispatchers.Main) {
+
+                                    progressBar.dismmissLoading()
+                                    startActivity(
+                                        Intent(
+                                            activity,
+                                            RMScreeningNavigationActivity::class.java
+                                        ).apply {
+                                            putExtra("loanId", loanId)
+                                        }
+                                    )
+                                    (context as DocumentActivity).finish()
+                                }
+                            }else{
+                                withContext(Dispatchers.Main) {
+                                    progressBar.dismmissLoading()
+
+                                    Toast.makeText(
+                                        activity,
+                                        "Case is Successfully submitted to BM",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+
+                                    val intent = Intent(activity, RMDashboardActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    startActivity(intent)
+                                }
                             }
                         } else {
-                            Toast.makeText(activity, "Please try again later", Toast.LENGTH_LONG)
-                                .show()
+                            withContext(Dispatchers.Main) {
+                                progressBar.dismmissLoading()
+
+
+                                Toast.makeText(
+                                    activity,
+                                    "Please try again later",
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+                            }
                         }
                     }
                 }
@@ -237,7 +279,9 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                 data?.let {
                     val passport: CardResponse? =
                         it.extras?.getParcelable<CardResponse>(ArgumentKey.AadharDetails)
-                    idProofUrl= passport?.cardFrontUrl.toString()
+//                    idProofUrl= passport?.cardFrontUrl.toString()
+                    idProofUrl= "https://test-doc-repo.s3.ap-south-1.amazonaws.com/RHLG-QA1M-BRZR_AADHAR_FRONT.jpeg"
+                    addrProofUrl="https://test-doc-repo.s3.ap-south-1.amazonaws.com/RHLG-QA1M-BRZR_AADHAR_FRONT.jpeg"
                 }
             }
 
@@ -286,13 +330,14 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
 
             }
         }
-            RequestCode.AadharCardAddrProof -> {
+           /*   RequestCode.AadharCardAddrProof -> {
                 data?.let {
                     val passport: CardResponse? =
                         it.extras?.getParcelable<CardResponse>(ArgumentKey.AadharCardAddrProof)
-                    idProofUrl= passport?.cardFrontUrl.toString()
+//                    addrProofUrl= passport?.cardFrontUrl.toString()
+                    addrProofUrl= "https://test-doc-repo.s3.ap-south-1.amazonaws.com/RHLG-QA1M-BRZR_AADHAR_FRONT.jpeg"
                 }
-            }
+            }*/
 
 
             RequestCode.SalesTaxRegistration -> {
@@ -503,7 +548,6 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
 
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.Passport )
-                                  putExtra("skip","true")
                             },  RequestCode.Passport )
                         }
                         "Voters ID card" -> {
@@ -518,8 +562,6 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
 
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.DrivingLicense)
-                                  putExtra("skip","true")
-
                               },  RequestCode.DrivingLicense )
                         }
                         "Pan Card" -> {
@@ -535,7 +577,10 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                                 putExtra(DOC_TYPE,  RequestCode.AadharCard )
                                   putExtra("skip","true")
                             },  RequestCode.AadharCard )
+                            idProofUrl= "https://test-doc-repo.s3.ap-south-1.amazonaws.com/RHLG-QA1M-BRZR_AADHAR_FRONT.jpeg"
+
                         }
+
                     }
                 }
                 spinner_AddProof.id -> {
@@ -565,6 +610,8 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                                 putExtra(DOC_TYPE,  RequestCode.AadharCard )
                                   putExtra("skip","true")
                               },  RequestCode.AadharCard )
+                            addrProofUrl= "https://test-doc-repo.s3.ap-south-1.amazonaws.com/RHLG-QA1M-BRZR_AADHAR_FRONT.jpeg"
+
                         }
 
                     }
@@ -572,13 +619,13 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                 spinner_PFP.id -> {
                     doc3= Docs(list?.get(position)?.id,list?.get(position)?.value,"","")
 
-                    when (list?.get(position)?.value) {
+                    when (list?.get(position)?.value?.trim()) {
                         "VAT assessment order" -> {
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.VatOrder )
                             },  RequestCode.VatOrder )
                         }
-                        "Sales Tax Registration " -> {
+                        "Sales Tax Registration" -> {
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.SalesTaxRegistration )
                             },  RequestCode.SalesTaxRegistration )

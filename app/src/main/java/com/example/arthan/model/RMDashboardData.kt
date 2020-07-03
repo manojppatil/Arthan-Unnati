@@ -13,7 +13,9 @@ val screening: Data,
 val approved: Data,
 val rejected: Data,
 val toDisburse: Data,
-val reassign: Data)
+val reassign: Data,
+val inProgress: Data
+)
 
 data class Data(val count: String,
 val total: String,

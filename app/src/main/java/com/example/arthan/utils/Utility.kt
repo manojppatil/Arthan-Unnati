@@ -9,16 +9,14 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.TypedValue
 import android.widget.EditText
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.example.arthan.lead.CardType
+import com.example.arthan.global.GlideApp
 import java.io.*
 import java.util.*
 
@@ -90,7 +88,7 @@ fun loadImage(
     if (file != null) {
         path = file.absolutePath
     }
-    Glide.with(context)
+    GlideApp.with(context)
         .load(path)
         .addListener(object : RequestListener<Drawable> {
             override fun onLoadFailed(
@@ -165,9 +163,9 @@ object ArgumentKey {
     const val FilePath="FilePath"
     const val FROM = "FROM"
     const val BranchLaunchType = "branch_launch_type"
-    const val LeadId = "lead_id"
+    const val LeadId = "leadId"
     const val LoanId = "loan_id"
-    const val CustomerId = "customer_id"
+    const val CustomerId = "custId"
     const val InPrincipleAmount = "in_principle_amount"
     const val PanDetails = "pan_details"
     const val AadharDetails = "aadhar_details"
@@ -229,6 +227,7 @@ object RequestCode {
     const val DrivingLicense=0x1000
     const val waterBill=0x1002
     const val telephonebill=0x1003
+    const val AadharCardId=0x1029
 
     const val SalesTaxRegistration=0x1004
     const val VatOrder=0x1005

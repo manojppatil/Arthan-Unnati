@@ -44,8 +44,8 @@ class ApplicationFeeActivity : BaseActivity() {
             progressBar.showLoading()
 
             val leadId= AppPreferences.getInstance().getString(ArgumentKey.LeadId)
-            val loanId= AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)
-            val customerID= AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+            val loanId= intent.getStringExtra("loanId")
+            val customerID= intent.getStringExtra("custId")
 
             CoroutineScope(Dispatchers.IO).launch {
 
@@ -67,7 +67,12 @@ class ApplicationFeeActivity : BaseActivity() {
 
                             withContext(Dispatchers.Main) {
                                 progressBar.dismmissLoading()
-                                startActivity(Intent(this@ApplicationFeeActivity, PaymentSuccessActivity::class.java))
+                                startActivity(Intent(this@ApplicationFeeActivity, PaymentSuccessActivity::class.java)
+                                    .apply {
+                                        putExtra("loanId",response.body()!!.loanId)
+                                        putExtra("custId",response.body()!!.customerId)
+                                        putExtra("leadId",response.body()!!.leadId)
+                                    })
                             }
                         } else {
                             withContext(Dispatchers.Main) {

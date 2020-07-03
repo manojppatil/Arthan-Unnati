@@ -49,7 +49,7 @@ class PDActivity : BaseActivity(), CoroutineScope {
         txt_risk.text="Risk/Concern of Proposal:${mPDData?.risk}"
         txt_strengths.text="Strengths/Mitigates of proposal:${mPDData?.strength}"
         txt_sanction_conditions.text="Sanction Conditions:${mPDData?.sanctionConditions}"
-        txt_overall_remarks.text="Overall Remarks:${mPDData?.remarks}"
+        txt_overall_remarks.text="Overall Remarks:${mPDData?.overallRemarks}"
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
     }

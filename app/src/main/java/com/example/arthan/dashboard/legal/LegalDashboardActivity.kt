@@ -3,6 +3,7 @@ package com.example.arthan.dashboard.legal
 import android.content.Intent
 import android.view.View
 import com.example.arthan.R
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.ScreeningActivity
 import kotlinx.android.synthetic.main.activity_legal_dashboard.*
@@ -20,7 +21,7 @@ class LegalDashboardActivity: BaseActivity() {
             startActivity(
                 Intent(this@LegalDashboardActivity,
                     ScreeningActivity::class.java).apply {
-                    putExtra("FROM",intent.getStringExtra("FROM"))
+                    putExtra("FROM", ArthanApp.getAppInstance().loginRole)
                 }
             )
         }

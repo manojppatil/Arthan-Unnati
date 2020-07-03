@@ -5,15 +5,21 @@ import android.R.attr.scaleWidth
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ScaleDrawable
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMDashboardActivity
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.lead.model.postdata.KYCPostData
+import com.example.arthan.lead.model.responsedata.BaseResponseData
+import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.ocr.CardInfo
 import com.example.arthan.ocr.CardResponse
 import com.example.arthan.utils.ArgumentKey
@@ -21,11 +27,9 @@ import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.RequestCode
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_add_lead_step2.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 
@@ -43,6 +47,9 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
 
     var mPanCardData: CardResponse? = null
     var mKYCPostData: KYCPostData? = null
+    var loanId: String? = ""
+    var custId: String? = ""
+
 
     override fun screenTitle() = "KYC Details"
 
@@ -53,29 +60,33 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
             R.id.txt_pan_card -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.PanCard)
+                    putExtra("show", mKYCPostData?.panUrl)
                 }, RequestCode.PanCard)
             }
             R.id.txt_aadhar_card -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.AadharCard)
+                    putExtra("show", mKYCPostData?.aadharFrontUrl)
+                    putExtra("show2", mKYCPostData?.aadharBackUrl)
+
                 }, RequestCode.AadharCard)
             }
             R.id.txt_voter_id -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.VoterCard)
+                    putExtra("show", mKYCPostData?.voterUrl)
+
                 }, RequestCode.VoterCard)
             }
             R.id.txt_applicant_phot -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.ApplicantPhoto)
+                    putExtra("show", mKYCPostData?.paApplicantPhoto)
+
                 }, RequestCode.ApplicantPhoto)
             }
             R.id.btn_next -> {
-                startActivity(Intent(this, PersonalInformationActivity::class.java).also {
-                    it.putExtra("PAN_DATA", mKYCPostData)
-                    it.putExtra("APPLICANT_PHOTO",applicantPhoto)
-                    it.putExtra("type",intent.getStringExtra("type"))
-                })
+                saveKycDetail()
             }
         }
     }
@@ -92,9 +103,13 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
         btn_next.setOnClickListener(this)
     }
 
-    var applicantPhoto: String= ""
+    var applicantPhoto: String = ""
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         checkForProceed()
+        loanId =intent.getStringExtra("loanId")
+        custId = intent.getStringExtra("custId")
+        mKYCPostData?.loanId=loanId
+
         when (requestCode) {
             RequestCode.PanCard -> {
                 data?.let {
@@ -102,8 +117,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         it.getParcelableExtra(ArgumentKey.PanDetails) as? CardResponse
                     if (mKYCPostData == null) {
                         mKYCPostData = KYCPostData(
-                            loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-                            customerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+                            loanId =loanId,
+                            customerId = custId
                         )
                     }
                     mKYCPostData?.panDob = panCardData?.results?.get(0)?.cardInfo?.dateInfo
@@ -121,7 +136,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     )
 
 
-                    pan_accepted.visibility=View.VISIBLE
+                    pan_accepted.visibility = View.VISIBLE
                     txt_pan_card.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
@@ -130,8 +145,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 data?.let {
                     if (mKYCPostData == null) {
                         mKYCPostData = KYCPostData(
-                            loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-                            customerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+                            loanId = intent.getStringExtra("loanId"),
+                            customerId = intent.getStringExtra("custId")
                         )
                     }
                     val aadharCardData =
@@ -144,14 +159,24 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     mKYCPostData?.aadharVerified = aadharCardData?.status
                     var aadharCardBack: CardInfo? = null
                     for (index in 0 until (aadharCardData?.results?.size ?: 0)) {
-                        if(aadharCardData?.results?.get(index)?.cardSide?.equals("back", ignoreCase = true) == true){
+                        if (aadharCardData?.results?.get(index)?.cardSide?.equals(
+                                "back",
+                                ignoreCase = true
+                            ) == true
+                        ) {
                             aadharCardBack = aadharCardData?.results?.get(index)?.cardInfo
                         }
                     }
-                    AppPreferences.getInstance().also {ap ->
+                    AppPreferences.getInstance().also { ap ->
                         ap.addString(AppPreferences.Key.Pincode, aadharCardBack?.pin)
-                        ap.addString(AppPreferences.Key.AddressLine1, aadharCardBack?.addressLineOne)
-                        ap.addString(AppPreferences.Key.AddressLine2, aadharCardBack?.addressLineTwo)
+                        ap.addString(
+                            AppPreferences.Key.AddressLine1,
+                            aadharCardBack?.addressLineOne
+                        )
+                        ap.addString(
+                            AppPreferences.Key.AddressLine2,
+                            aadharCardBack?.addressLineTwo
+                        )
                         ap.addString(AppPreferences.Key.City, aadharCardBack?.city)
                         ap.addString(AppPreferences.Key.State, aadharCardBack?.state)
                     }
@@ -161,7 +186,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         0,
                         0
                     )
-                 //   adhar_accepted.visibility=View.VISIBLE
+                    //   adhar_accepted.visibility=View.VISIBLE
 
                     txt_aadhar_card.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
@@ -171,8 +196,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 data?.let {
                     if (mKYCPostData == null) {
                         mKYCPostData = KYCPostData(
-                            loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-                            customerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+                            loanId = intent.getStringExtra("loanId"),
+                            customerId = intent.getStringExtra("custId")
                         )
                     }
 
@@ -187,27 +212,28 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         0,
                         0
                     )
-                   // voter_accepted.visibility=View.VISIBLE
+                    // voter_accepted.visibility=View.VISIBLE
 
                     txt_voter_id.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
             }
-            RequestCode.ApplicantPhoto ->  {
+            RequestCode.ApplicantPhoto -> {
 
                 data?.let {
 
                     val applicantData: CardResponse? =
                         it.getParcelableExtra(ArgumentKey.ApplicantPhoto) as? CardResponse
 
-                    applicantPhoto= applicantData?.cardFrontUrl!!
+                    applicantPhoto = applicantData?.cardFrontUrl!!
+                    mKYCPostData?.paApplicantPhoto = applicantPhoto
                     txt_applicant_phot.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_document_attached,
                         0,
                         0,
                         0
                     )
-                   // applicant_accepted.visibility=View.VISIBLE
+                    // applicant_accepted.visibility=View.VISIBLE
 
                     txt_applicant_phot.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
@@ -220,30 +246,30 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
     }
 
 
-    private suspend fun stopLoading(progressBar: ProgrssLoader, message: String?) {
+    private suspend fun stopLoading(progressBar: ProgrssLoader, message: String) {
         withContext(uiContext) {
             progressBar.dismmissLoading()
-            message?.let {
+            message.let {
                 Toast.makeText(this@AddLeadStep2Activity, it, Toast.LENGTH_LONG).show()
             }
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
 
-        menuInflater.inflate(R.menu.more,menu)
+        menuInflater.inflate(R.menu.more, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
-            R.id.homeMenu->{
+        when (item.itemId) {
+            R.id.homeMenu -> {
                 finish()
 
             }
-            R.id.logoutMenu->
-            {
+            R.id.logoutMenu -> {
                 finish()
                 startActivity(Intent(this, SplashActivity::class.java))
             }
@@ -267,5 +293,99 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
         btn_next.isEnabled = true
         btn_next.setBackgroundResource(R.drawable.ic_next_enabled)
         btn_next.setTextColor(ContextCompat.getColor(this, R.color.white))
+    }
+
+
+    private fun saveKycDetail() {
+        val progressBar: ProgrssLoader? = if (this != null) ProgrssLoader(this!!) else null
+        progressBar?.showLoading()
+        CoroutineScope(ioContext).launch {
+            try {
+                mKYCPostData?.customerId = custId
+                mKYCPostData?.loanId=loanId
+                mKYCPostData?.applicantType = intent.getStringExtra("type") ?: "pa"
+                val response = RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)
+                if (response?.isSuccessful == true) {
+                    val result = response.body()
+                    withContext(Dispatchers.Main) {
+                        if (result?.apiCode == "200") {
+
+                            if (intent.getStringExtra("task") == "RMreJourney") {
+                                withContext(Dispatchers.Main) {
+                                    progressBar?.dismmissLoading()
+
+                                    startActivity(
+                                        Intent(
+                                            this@AddLeadStep2Activity,
+                                            RMScreeningNavigationActivity::class.java
+                                        ).apply {
+                                            putExtra("loanId", loanId)
+                                        }
+                                    )
+                                    finish()
+                                }
+                            } else {
+                                progressBar?.dismmissLoading()
+
+                                if (result.canNavigate.equals("no")) {
+
+                                    Toast.makeText(
+                                        this@AddLeadStep2Activity,
+                                        result.message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    startActivity(
+                                        Intent(
+                                            this@AddLeadStep2Activity,
+                                            RMDashboardActivity::class.java
+                                        )
+                                    )
+                                    finish()
+                                } else {
+                                    startActivity(
+                                        Intent(
+                                            this@AddLeadStep2Activity,
+                                            PersonalInformationActivity::class.java
+                                        ).also {
+                                            custId = result.customerId
+                                            loanId = result.loanId
+                                            it.putExtra("custId", result.customerId)
+                                            it.putExtra("PAN_DATA", mKYCPostData)
+                                            it.putExtra("loanId", result.loanId)
+                                            it.putExtra("type", intent.getStringExtra("type"))
+                                        })
+//                            startActivity(
+//                                Intent(
+//                                    context,
+//                                    PersonalInformationActivity::class.java
+//                                ).apply {
+//                                    putExtra("PAN_DATA", mPanCardData)
+//                                })
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    try {
+                        val result: BaseResponseData? = Gson().fromJson(
+                            response?.errorBody()?.string(),
+                            BaseResponseData::class.java
+                        )
+                        stopLoading(
+                            progressBar!!,
+                            "Smething went wrong with api!!!"/*result?.message*/
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Crashlytics.log(e.message)
+
+                        stopLoading(progressBar!!, "Something went wrong. Please try later!")
+                    }
+                }
+            } catch (e: Exception) {
+                stopLoading(progressBar!!, "Something went wrong. Please try later!")
+                e.printStackTrace()
+            }
+        }
     }
 }

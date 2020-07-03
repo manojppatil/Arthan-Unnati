@@ -1,6 +1,7 @@
 package com.example.arthan.lead.model.postdata
 
 data class IncomeDetailsPostData(
+    var resubmit:String?,
     var loanId: String? = "",
     var customerId: String? = "",
     var anyOtherSourceofIncome: String? = "",

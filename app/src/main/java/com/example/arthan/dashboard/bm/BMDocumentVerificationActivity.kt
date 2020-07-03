@@ -11,6 +11,7 @@ import com.example.arthan.dashboard.bm.adapter.BMDocumentVerificationAdapter
 import com.example.arthan.dashboard.ops.BCMDataFragment
 import com.example.arthan.dashboard.ops.DataFragment
 import com.example.arthan.lead.model.responsedata.CustomerDocumentAndDataResponseData
+import com.example.arthan.model.Customer
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
@@ -121,6 +122,7 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
             context: Context?,
             loanId: String?,
             customerId: String?,
+            customer: Customer,
             from: String
         ) = context?.startActivity(
             Intent(
@@ -130,6 +132,14 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                 putExtra(ArgumentKey.LoanId, loanId)
                 putExtra(ArgumentKey.CustomerId, customerId)
                 putExtra("FROM",from)
+                putExtra("indSeg",customer.indSeg)
+                putExtra("loginDate",customer.loginDate)
+                putExtra("loanId",customer.loanId)
+                putExtra("loanAmt",customer.loanAmt)
+                putExtra("cname",customer.customerName)
+                putExtra("custId",customer.customerId)
+                putExtra("loanType",customer.loanType)
+
             })
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

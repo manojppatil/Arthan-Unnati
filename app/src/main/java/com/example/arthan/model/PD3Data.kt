@@ -9,5 +9,8 @@ data class PD3Data(
     val fourWheeler: String,
     val childrenMedium: String?,
     var  rltWOValue:String="",
-    var rltWFeeValue:String=""
+    var rltWFeeValue:String="",
+    var risk:String="",
+    var strength:String="",
+    var overallRemarks:String=""
 )

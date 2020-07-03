@@ -5,9 +5,79 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/transparent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:id="@+id/inPrincipleAmtTextView"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="In-Principle Eligible Amount:"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:id="@+id/LoanAmt"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text=" Loan Amt:"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:id="@+id/Tenure"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Tenure:"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:id="@+id/ROI"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="ROI :"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/PAView"
+            android:background="#09327a"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Primary Applicant"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:textColor="#fff"
+                android:textSize="18sp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_keyboard_arrow_down_white_24dp"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/PAInner"
+        android:visibility="gone"
         android:padding="32dp">
 
         <TextView
@@ -122,6 +192,7 @@
             android:lineSpacingExtra="8.3sp"
             android:text="80808088008"
             android:textStyle="bold"
+            android:maxLength="10"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -283,6 +354,7 @@
             android:lineSpacingExtra="8.3sp"
             android:text="@string/pin_code"
             android:textStyle="bold"
+            android:maxLength="6"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -582,6 +654,1220 @@
             app:layout_constraintTop_toBottomOf="@id/txt_grossAnnual_title"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/CAView"
+            android:layout_marginTop="8dp"
+            android:background="#09327a"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="Co-Applicant"
+                android:layout_centerVertical="true"
+
+                android:textColor="#fff"
+                android:textSize="18sp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_keyboard_arrow_down_white_24dp"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            android:id="@+id/CAInner"
+            android:visibility="gone"
+        android:padding="32dp">
+
+        <TextView
+            android:id="@+id/txt_full_name_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="Full Name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txt_full_nameCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Mr Sale Lead Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_full_name_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_dob_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="Date of Birth"
+            android:layout_marginTop="24dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/txt_gender_titleCA"
+            app:layout_constraintTop_toBottomOf="@id/txt_full_nameCA"/>
+
+        <TextView
+            android:id="@+id/txt_dobCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="12/09/1984"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/txt_genderCA"
+            app:layout_constraintTop_toBottomOf="@id/txt_dob_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_gender_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="Gender"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_dob_titleCA"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_full_nameCA"/>
+
+        <TextView
+            android:id="@+id/txt_genderCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Female"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_dobCA"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_dob_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_contact_number_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Contact Number"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_dobCA"/>
+
+        <TextView
+            android:id="@+id/txt_contact_numberCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:maxLength="10"
+
+            android:lineSpacingExtra="8.3sp"
+            android:text="80808088008"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_contact_number_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_email_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Email ID"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_contact_numberCA"/>
+
+        <TextView
+            android:id="@+id/txt_emailCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="user@gmail.com"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_email_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_father_name_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Father's Name"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_emailCA"/>
+
+        <TextView
+            android:id="@+id/txt_father_nameCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Father's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_father_name_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_mother_name_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Mother's Name"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_father_nameCA"/>
+
+        <TextView
+            android:id="@+id/txt_mother_nameCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_mother_name_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_permanent_address_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Permanent Address"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_mother_nameCA"/>
+
+        <TextView
+            android:id="@+id/txt_permanent_address1CA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Address Line1"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_permanent_address_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_permanent_address2CA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Address Line2"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_permanent_address1CA"/>
+
+        <TextView
+            android:id="@+id/txt_permanent_address_landmarkCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Landmark(Optional)"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_permanent_address2CA"/>
+
+        <TextView
+            android:id="@+id/txt_pincodeCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="@string/pin_code"
+            android:textStyle="bold"
+            android:maxLength="6"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_permanent_address_landmarkCA"/>
+
+        <TextView
+            android:id="@+id/txt_area_name_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:visibility="gone"
+            android:text="Area Name"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_pincodeCA"/>
+
+        <TextView
+            android:id="@+id/txt_area_nameCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:visibility="gone"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Vansathalipuram"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_area_name_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_city_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="City"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_area_nameCA"/>
+
+        <TextView
+            android:id="@+id/txt_cityCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Hydrabad"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_city_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_district_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="District"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_cityCA"/>
+
+        <TextView
+            android:id="@+id/txt_districtCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Rangareddy"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_district_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_state_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="State"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_districtCA"/>
+
+        <TextView
+            android:id="@+id/txt_stateCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Telangana"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_state_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_nationality_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Nationality"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_stateCA"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/nationalityCA"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_nationality_titleCA"/>
+
+
+
+        <TextView
+            android:id="@+id/txt_eduLevel_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Education Level"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nationalityCA"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/eduLevelCA"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_eduLevel_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_occType_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Occupation Type"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/eduLevelCA"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/OccupationTypeValueCA"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_occType_titleCA"/>
+
+        <TextView
+            android:id="@+id/txt_occupation_TitleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Occupation"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/OccupationTypeValueCA"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/txt_occupationCA"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_occupation_TitleCA"/>
+
+        <TextView
+            android:id="@+id/txt_sourceIncome_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Source of Income"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_occupationCA"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/sourceIncomeCA"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_sourceIncome_titleCA"/>
+        <TextView
+            android:id="@+id/txt_grossAnnual_titleCA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Gross Annual Income"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sourceIncomeCA"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/grossAnulIncomeCA"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_grossAnnual_titleCA"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/GView"
+            android:layout_marginTop="8dp"
+            android:background="#09327a"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guarantor"
+                android:layout_marginLeft="8dp"
+
+
+                android:layout_centerVertical="true"
+
+                android:textColor="#fff"
+                android:textSize="18sp"/>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_keyboard_arrow_down_white_24dp"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/GInnerView"
+        android:padding="32dp">
+
+        <TextView
+            android:id="@+id/txt_full_name_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="Full Name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txt_full_nameG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Mr Sale Lead Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_full_name_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_dob_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="Date of Birth"
+            android:layout_marginTop="24dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/txt_gender_titleG"
+            app:layout_constraintTop_toBottomOf="@id/txt_full_nameG"/>
+
+        <TextView
+            android:id="@+id/txt_dobG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="12/09/1984"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/txt_genderG"
+            app:layout_constraintTop_toBottomOf="@id/txt_dob_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_gender_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6sp"
+            android:text="Gender"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_dob_titleG"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_full_nameG"/>
+
+        <TextView
+            android:id="@+id/txt_genderG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Female"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_dobG"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_dob_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_contact_number_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Contact Number"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_dobG"/>
+
+        <TextView
+            android:id="@+id/txt_contact_numberG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:maxLength="10"
+            android:text="80808088008"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_contact_number_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_email_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Email ID"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_contact_numberG"/>
+
+        <TextView
+            android:id="@+id/txt_emailG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="user@gmail.com"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_email_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_father_name_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Father's Name"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_emailG"/>
+
+        <TextView
+            android:id="@+id/txt_father_nameG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Father's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_father_name_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_mother_name_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Mother's Name"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_father_nameG"/>
+
+        <TextView
+            android:id="@+id/txt_mother_nameG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_mother_name_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_permanent_address_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Permanent Address"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_mother_nameG"/>
+
+        <TextView
+            android:id="@+id/txt_permanent_address1G"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Address Line1"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_permanent_address_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_permanent_address2G"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Address Line2"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_permanent_address1G"/>
+
+        <TextView
+            android:id="@+id/txt_permanent_address_landmarkG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Landmark(Optional)"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_permanent_address2G"/>
+
+        <TextView
+            android:id="@+id/txt_pincodeG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="@string/pin_code"
+            android:textStyle="bold"
+            android:maxLength="6"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_permanent_address_landmarkG"/>
+
+        <TextView
+            android:id="@+id/txt_area_name_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:visibility="gone"
+            android:text="Area Name"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_pincodeG"/>
+
+        <TextView
+            android:id="@+id/txt_area_nameG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:visibility="gone"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Vansathalipuram"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_area_name_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_city_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="City"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_area_nameG"/>
+
+        <TextView
+            android:id="@+id/txt_cityG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Hydrabad"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_city_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_district_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="District"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_cityG"/>
+
+        <TextView
+            android:id="@+id/txt_districtG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Rangareddy"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_district_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_state_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="State"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_districtG"/>
+
+        <TextView
+            android:id="@+id/txt_stateG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:text="Telangana"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_state_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_nationality_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Nationality"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_stateG"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/nationalityG"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_nationality_titleG"/>
+
+
+
+        <TextView
+            android:id="@+id/txt_eduLevel_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Education Level"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nationalityG"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/eduLevelG"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_eduLevel_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_occType_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Occupation Type"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/eduLevelG"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/OccupationTypeValueG"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_occType_titleG"/>
+
+        <TextView
+            android:id="@+id/txt_occupation_TitleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Occupation"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/OccupationTypeValueG"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/txt_occupationG"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_occupation_TitleG"/>
+
+        <TextView
+            android:id="@+id/txt_sourceIncome_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Source of Income"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_occupationG"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/sourceIncomeG"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_sourceIncome_titleG"/>
+        <TextView
+            android:id="@+id/txt_grossAnnual_titleG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="16sp"
+            android:text="Gross Annual Income"
+            android:layout_marginTop="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sourceIncomeG"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#404040"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="8.3sp"
+            android:id="@+id/grossAnulIncomeG"
+            android:text="Mother's Full Name"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_grossAnnual_titleG"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </ScrollView>
 

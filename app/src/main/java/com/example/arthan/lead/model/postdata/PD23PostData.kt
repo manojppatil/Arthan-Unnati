@@ -40,7 +40,12 @@ data class PD23PostData(
     var impactofCompetition: String? = "",
     var referenceFromNeighboursAndAssociations: String? = "",
 
-    var demographic: String? = ""
+    var demographic: String? = "",
+    var  rltWOValue:String="",
+    var rltWFeeValue:String="",
+    var risk:String="",
+    var strength:String="",
+    var overallRemarks:String=""
 ) {
     fun add(pd2Data: PD2Data) {
         businessCashCredit = pd2Data.businessCashCredit
@@ -67,6 +72,7 @@ data class PD23PostData(
         adequateInventory = pd2Data.adequateInventory
         neighbourReferenceStability = pd2Data.neighbourReferenceStability
         homeLocation = pd2Data.homeLocation
+
     }
 
     fun add(pd3Data: PD3Data) {
@@ -77,5 +83,11 @@ data class PD23PostData(
         twoWheeler = pd3Data.twoWheeler
         fourWheeler = pd3Data.fourWheeler
         childrenMedium = pd3Data.childrenMedium
+        rltWOValue = pd3Data.rltWOValue
+        rltWFeeValue = pd3Data.rltWFeeValue
+        risk = pd3Data.risk
+        strength = pd3Data.strength
+        overallRemarks = pd3Data.overallRemarks
+
     }
 }

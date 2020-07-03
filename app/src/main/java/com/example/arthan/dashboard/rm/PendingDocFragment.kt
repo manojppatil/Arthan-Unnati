@@ -63,10 +63,14 @@ class PendingDocFragment : Fragment() {
     }
 
     private fun getOutputMediaFile(): File {
-        val dir = File(
+       /* val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "Arthan"
-        )
+        )*/
+         val dir = File(
+           activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+           "Arthan"
+       )
         if (!dir.exists())
             dir.mkdirs()
         return File(

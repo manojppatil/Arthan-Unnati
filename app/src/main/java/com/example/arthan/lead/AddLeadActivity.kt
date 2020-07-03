@@ -84,20 +84,30 @@ class AddLeadActivity : AppCompatActivity() {
         else if(screenId.equals("business",ignoreCase = true))
         {
             navController.popBackStack(R.id.completeDetailsFragment, true);
-
-            navController.navigate(R.id.completeDetailsFragment)
+            var b=Bundle()
+            b.putString("loanId",intent.getStringExtra("loanId"))
+            b.putString("custId",intent.getStringExtra("custId"))
+            b.putString("task",intent.getStringExtra("task"))
+            b.putString("screenTo",screenId)
+            navController.navigate(R.id.completeDetailsFragment,b)
         }
         else if(screenId.equals("income",ignoreCase = true))
         {
             navController.popBackStack(R.id.completeDetailsFragment, true);
 
             var b=Bundle()
+            b.putString("loanId",intent.getStringExtra("loanId"))
+            b.putString("custId",intent.getStringExtra("custId"))
+            b.putString("task",intent.getStringExtra("task"))
             b.putString("screenTo",screenId)
             navController.navigate(R.id.completeDetailsFragment,b)
         }
         else if(screenId.equals("others",ignoreCase = true))
         {
             var b=Bundle()
+            b.putString("loanId",intent.getStringExtra("loanId"))
+            b.putString("custId",intent.getStringExtra("custId"))
+            b.putString("task",intent.getStringExtra("task"))
             b.putString("screenTo",screenId)
             navController.popBackStack(R.id.completeDetailsFragment,true)
             navController.navigate(R.id.completeDetailsFragment,b)

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".dashboard.rm.ReUsableFragmentSpace">
+
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:minHeight="100dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comments:"
+                android:textSize="16sp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/commentsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="8dp"
+                android:text="comments value" />
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.1"
+        android:background="@color/black" />
+
+    <FrameLayout
+        android:id="@+id/frag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:visibility="visible" />
+
+</LinearLayout>

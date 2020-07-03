@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activtiy_approve.*
@@ -24,7 +25,7 @@ class PostSanctionDocActivity: BaseActivity() {
 
         btn_submit.setOnClickListener {
 
-            val from= intent.getStringExtra("FROM")
+            val from= ArthanApp.getAppInstance().loginRole
 
             if(from == "BM") {
                 val intent = Intent(this, BMDashboardActivity::class.java)

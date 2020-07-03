@@ -31,14 +31,31 @@
 
     <application
         android:name=".global.ArthanApp"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/circle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.bcm.PDActivity"></activity>
+        <activity android:name=".RmReassignNavActivity"></activity>
+        <activity android:name=".dashboard.rm.ReUsableFragmentSpace" />
+        <activity android:name=".CBO.CBODashboardActivity" />
+        <activity android:name=".login.LoginOTPActivity" />
+        <activity android:name=".login.LoginEmpIdActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".dashboard.rm.RMInProgressActivity" />
+        <activity android:name=".dashboard.rm.RMScreeningNavigationActivity" />
+        <activity android:name=".dashboard.bm.ShowPDFActivity" />
+        <activity android:name=".dashboard.bcm.BureauDetailsLevel2" />
+        <activity android:name=".dashboard.bm.ListingActivityBanking" />
+        <activity android:name=".dashboard.bcm.BureauViewAllDetailsActivity" />
+        <activity android:name=".dashboard.bcm.PDActivity" />
         <activity android:name=".dashboard.bm.ScoreCardActivity" />
         <activity android:name=".lead.DocumentActivity" />
         <activity android:name=".lead.BankingInputDetailsActivity" />
@@ -48,6 +65,7 @@
         <activity android:name=".lead.AddNewLeadActivity" />
         <activity android:name=".lead.AddLeadActivity" />
         <activity android:name=".profile.MyProfileActivity" />
+        <activity android:name=".dashboard.rm.RMReassignPendingScreenlist" />
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
@@ -62,14 +80,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".views.activities.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".views.activities.SplashActivity" />
         <activity android:name=".dashboard.rm.RMDashboardActivity">
 
             <!--

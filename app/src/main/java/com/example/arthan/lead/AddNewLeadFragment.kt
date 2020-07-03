@@ -22,8 +22,10 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.LeadPostData
@@ -71,6 +73,7 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
 
     private var mShopUri: Uri? = null
     private var shopUrl: String? = null
+    private var leadId: String = ""
     private val nTextChanged = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) = checkForProceed()
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -243,9 +246,12 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
 
     private fun getOutputMediaFile(): File {
         val dir = File(
+            activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            "Arthan"
+        )/*val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "Arthan"
-        )
+        )*/
         if (!dir.exists())
             dir.mkdirs()
         return File(
@@ -303,6 +309,8 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                     }
                 } catch (e: HttpException) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -377,6 +385,8 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -394,6 +404,8 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -409,6 +421,8 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async fetchAndUpdateBusinessActivityAsync("1").await()
         }
@@ -426,6 +440,7 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
         val progressBar: ProgrssLoader? = if (context != null) ProgrssLoader(context!!) else null
         progressBar?.showLoading()
         val postBody = LeadPostData(
+            leadId = leadId,
             customerName = et_customer_name?.text?.toString() ?: "",
             mobileNo = et_mobile_number?.text?.toString() ?: "",
             establishmentName = et_establishment_name?.text?.toString() ?: "",
@@ -438,7 +453,7 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
             laterDate = et_date?.text?.toString() ?: "",
             lat = "12.1",
             lng = "15.2",
-            createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
+            createdBy = ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -473,6 +488,10 @@ class AddNewLeadFragment : NavHostFragment(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
+                        Crashlytics.log(e.message)
+
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }

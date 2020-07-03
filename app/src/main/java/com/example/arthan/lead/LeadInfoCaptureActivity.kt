@@ -1,14 +1,19 @@
 package com.example.arthan.lead
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigator
 import com.example.arthan.R
 import com.example.arthan.global.BUSINESS
 import com.example.arthan.global.DOCUMENT
 import com.example.arthan.global.INCOME
 import com.example.arthan.global.PERSONAL
+import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_lead_info_capture.*
@@ -26,6 +31,134 @@ class LeadInfoCaptureActivity: BaseActivity() {
     override fun init() {
         if(intent.hasExtra("PAN_DATA"))
             panData= intent.getStringExtra("PAN_DATA")
+
+        if(intent.getStringExtra("screen")!=null)
+        {
+            moveToScreen(intent.getStringExtra("screen")!!)
+
+        }
+
+    }
+    private fun moveToScreen(screenId: String) {
+
+        // var screenId="others"
+        var navController= Navigation.findNavController(
+        this,
+        R.id.frag_container
+        )
+        if(screenId.equals("loan",ignoreCase = true))
+        {
+            navController.popBackStack(R.id.addLoanDetailsFragment, true);
+
+            navController.navigate(R.id.addLoanDetailsFragment)
+        }
+        else if(screenId.equals("eligibility",ignoreCase = true))
+        {
+            /* navController.popBackStack(R.id.loanEligibilityFragment, true);
+
+             navController.navigate(R.id.loanEligibilityFragment)*/
+            startActivity(Intent(this, LeadEligibilityActivity::class.java).apply {
+                putExtra("loanId",intent.getStringExtra("loanId"))
+                putExtra("custId",intent.getStringExtra("custId"))
+                putExtra(ArgumentKey.Eligibility,"y")//hard coded @@
+            })
+            finish()
+        }
+        else if(screenId.equals("kyc",ignoreCase = true))
+        {
+            navController.popBackStack(R.id.addKYCDetailsFragment, true);
+
+            navController.navigate(R.id.addKYCDetailsFragment)
+        }
+        else if(screenId.equals("consent",ignoreCase = true))
+        {
+            /*navController.popBackStack(R.id.approveConsentFragment, true);
+
+            navController.navigate(R.id.approveConsentFragment)*/
+            startActivity(Intent(this,ConsentActivity::class.java))
+        }
+        else if(screenId.equals("otp",ignoreCase = true))
+        {
+            navController.popBackStack(R.id.OTPValidationFragment, true);
+
+            navController.navigate(R.id.OTPValidationFragment)
+        }
+        else if(screenId.equals("AppFee",ignoreCase = true))
+        {
+            navController.popBackStack(R.id.applicationFeePaymentFragment, true);
+
+            navController.navigate(R.id.applicationFeePaymentFragment)
+        }
+        else if(screenId.equals("paymentFinal",ignoreCase = true))
+        {
+            navController.popBackStack(R.id.paymentStatusFragment, true);
+
+            navController.navigate(R.id.paymentStatusFragment)
+        }
+        else if(screenId.equals("business",ignoreCase = true))
+        {
+            navController.popBackStack(R.id.completeDetailsFragment, true);
+            var b=Bundle()
+            b.putString("loanId",intent.getStringExtra("loanId"))
+            b.putString("custId",intent.getStringExtra("custId"))
+//            b.putString("task",intent.getStringExtra("task"))
+            b.putString("screenTo",screenId)
+            navController.navigate(R.id.frag_business_info,b)
+            infoCompleteState(BUSINESS)
+            vw_dim_income.visibility= View.VISIBLE
+            navController?.navigate(R.id.frag_business_info,b)
+            infoInCompleteState(BUSINESS)
+
+        }
+        else if(screenId.equals("income",ignoreCase = true))
+        {
+            navController.popBackStack(R.id.completeDetailsFragment, true);
+
+            var b=Bundle()
+            b.putString("loanId",intent.getStringExtra("loanId"))
+            b.putString("custId",intent.getStringExtra("custId"))
+//            b.putString("task",intent.getStringExtra("task"))
+            b.putString("screenTo",screenId)
+            vw_dim_doc.visibility= View.VISIBLE
+            enableInCome()
+//                infoCompleteState(INCOME)
+            infoInCompleteState(INCOME)
+            navController?.navigate(R.id.frag_income_info,b)
+        }
+        else if(screenId.equals("others",ignoreCase = true))
+        {
+            var b=Bundle()
+            b.putString("loanId",intent.getStringExtra("loanId"))
+            b.putString("custId",intent.getStringExtra("custId"))
+//            b.putString("task",intent.getStringExtra("task"))
+            b.putString("screenTo",screenId)
+            navController?.navigate(R.id.frag_document_info,b)
+            enableDoc()
+            enableInCome()
+//                infoCompleteState(INCOME)
+            infoInCompleteState(DOCUMENT)
+        }
+
+        else if(screenId.equals("documents",ignoreCase = true))
+        {
+            startActivity(Intent(this,DocumentActivity::class.java).apply {
+                putExtra("loanId",intent.getStringExtra("loanId"))
+                putExtra("custId",intent.getStringExtra("custId"))
+            })
+            /* var b=Bundle()
+             b.putString("screenTo",screenId)
+             navController.popBackStack(R.id.completeDetailsFragment, true);
+
+             navController.navigate(R.id.completeDetailsFragment,b)*/
+        }
+
+        else if(screenId.equals("complete",ignoreCase = true))
+        {
+            navController.popBackStack(R.id.completeDetailsFragment, true);
+
+            navController.navigate(R.id.completeDetailsFragment)
+        }
+
     }
 
     fun infoCompleteState(type: String){
@@ -39,6 +172,72 @@ class LeadInfoCaptureActivity: BaseActivity() {
             INCOME -> {
                 txt_income.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_info_completed,0,0)
             }
+        }
+    }
+    fun infoInCompleteState(type: String){
+        when (type) {
+            DOCUMENT -> {
+                txt_doc.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_personal_info,0,0)
+            }
+            BUSINESS -> {
+                txt_Business.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_business_info,0,0)
+            }
+            INCOME -> {
+                txt_income.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_income_info,0,0)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        val navController: NavController? = Navigation.findNavController(
+            this,
+            R.id.frag_container
+        )
+        when((navController?.currentDestination as FragmentNavigator.Destination).className)
+        {
+          "com.example.arthan.lead.OtherDetailsFragment"->
+            {
+
+                var b= Bundle()
+                b.putString("from","rmIncome")
+                b.putString("loanId",intent.getStringExtra("loanId"))
+                b.putString("custId",intent.getStringExtra("custId"))
+                if(navController.popBackStack(R.id.frag_income_info, false)) {
+
+                    navController.popBackStack(R.id.frag_income_info,false)
+                }else {
+                    navController?.navigate(R.id.frag_income_info, b)
+                }
+                vw_dim_doc.visibility= View.VISIBLE
+                enableInCome()
+//                infoCompleteState(INCOME)
+                infoInCompleteState(INCOME)
+                //income
+               // finish()
+            }
+            "com.example.arthan.lead.IncomeInformationFragment"->{
+                enableBusiness()
+                var b= Bundle()
+                b.putString("loanId",intent.getStringExtra("loanId"))
+                b.putString("customerId",intent.getStringExtra("custId"))
+                infoCompleteState(BUSINESS)
+                vw_dim_income.visibility= View.VISIBLE
+                if(navController.popBackStack(R.id.frag_business_info, false)) {
+
+                    navController.popBackStack(R.id.frag_business_info,false)
+                }else {
+                    navController?.navigate(R.id.frag_business_info, b)
+                }
+                infoInCompleteState(BUSINESS)
+
+
+            }
+           else->
+        {
+
+            finish()
+
+        }
         }
     }
 

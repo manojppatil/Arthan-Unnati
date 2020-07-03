@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -21,36 +20,31 @@ import androidx.core.content.FileProvider
 import androidx.core.view.size
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
+import com.example.arthan.dashboard.rm.ReUsableFragmentSpace
 import com.example.arthan.global.AppPreferences
-import com.example.arthan.global.BUSINESS
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.global.INCOME
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.lead.model.responsedata.BaseResponseData
-import com.example.arthan.lead.model.responsedata.BusinessDetailsResponseData
 import com.example.arthan.model.BankindDocUploadRequest
 import com.example.arthan.network.RetrofitFactory
-import com.example.arthan.network.S3UploadFile
-import com.example.arthan.network.S3Utility
 import com.example.arthan.ocr.CardResponse
 import com.example.arthan.utils.*
+import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.fragments.BaseFragment
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_add_lead_step1.*
-import kotlinx.android.synthetic.main.assets_section.*
 import kotlinx.android.synthetic.main.fragment_income_information.*
-import kotlinx.android.synthetic.main.fragment_income_information.btn_save_continue
-import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.layout_income_source.*
 import kotlinx.android.synthetic.main.layout_loan_details.*
 import kotlinx.coroutines.*
@@ -60,15 +54,15 @@ import okhttp3.RequestBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.File
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 
 class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener,
     CoroutineScope {
 
-    private  var loanDocUrl: String=""
+    private var loanDocUrl: String = ""
     private val mOnLoanTypeItemSelectedListener: AdapterView.OnItemSelectedListener =
         object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -83,16 +77,17 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 parent?.getItemAtPosition(position)?.let {
                     if (it is String) {
 
-                        if(view?.id==R.id.spnr_loan_type)
-                        {
-                            if(it.equals("immovable",ignoreCase = true))
-                            {
-                                parent.findViewById<TextInputLayout>(R.id.tl_ownerName).visibility=View.GONE
-                                parent.findViewById<TextInputLayout>(R.id.tl_Address).visibility=View.GONE
-                            }else
-                            {
-                                parent.findViewById<TextInputLayout>(R.id.tl_ownerName).visibility=View.GONE
-                                parent.findViewById<TextInputLayout>(R.id.tl_Address).visibility=View.GONE
+                        if (view?.id == R.id.spnr_loan_type) {
+                            if (it.equals("immovable", ignoreCase = true)) {
+                                parent.findViewById<TextInputLayout>(R.id.tl_ownerName).visibility =
+                                    View.GONE
+                                parent.findViewById<TextInputLayout>(R.id.tl_Address).visibility =
+                                    View.GONE
+                            } else {
+                                parent.findViewById<TextInputLayout>(R.id.tl_ownerName).visibility =
+                                    View.GONE
+                                parent.findViewById<TextInputLayout>(R.id.tl_Address).visibility =
+                                    View.GONE
                             }
                         }
 //                        collateral_container?.visibility =
@@ -122,7 +117,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
     private var mLoanId: String? = null
     private var mCustomerId: String? = null
 
-    private var sourceInceomeAdapter:DataSpinnerAdapter?=null
+    private var sourceInceomeAdapter: DataSpinnerAdapter? = null
     override fun init() {
 
         navController =
@@ -131,8 +126,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 R.id.frag_container
             ) else null
         loadInitialData()
-        if(arguments?.getString("task").equals("RM_AssignList"))
-        {
+        if (arguments?.getString("task").equals("RM_AssignList")||arguments?.getString("task").equals("RMreJourney")) {
             getIncomeDetailsFromRm()
         }
         itr_container?.visibility = View.GONE
@@ -144,13 +138,13 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             bills_text_view_button?.visibility = View.GONE
             obligations_text_view?.visibility = View.GONE
         } else {
-            if(arguments?.getString("from").equals("rmIncome")){
+            if (arguments?.getString("from").equals("rmIncome")) {
                 banking_text_view?.visibility = View.GONE
                 gst_text_view_button?.visibility = View.GONE
                 bills_text_view_button?.visibility = View.GONE
                 obligations_text_view?.visibility = View.GONE
 
-            }else {
+            } else {
                 cl_banking?.visibility = View.GONE
                 itr_container?.visibility = View.GONE
                 gst_container?.visibility = View.GONE
@@ -165,11 +159,17 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             DatePickerDialog(
                 context!!,
                 DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                    val date= dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
-                    if( SimpleDateFormat("dd-MM-yyyy").parse(date).after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString())))
-                       et_to.setText(date)
+                    val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                    if (SimpleDateFormat("dd-MM-yyyy").parse(date)
+                            .after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString()))
+                    )
+                        et_to.setText(date)
                     else
-                        Toast.makeText(activity,"Please select date greater than from date",Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            activity,
+                            "Please select date greater than from date",
+                            Toast.LENGTH_LONG
+                        ).show()
                 },
                 c.get(Calendar.YEAR),
                 c.get(Calendar.MONTH),
@@ -252,12 +252,11 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         spnr_loan_type?.onItemSelectedListener = mOnLoanTypeItemSelectedListener
         btn_save_continue?.setOnClickListener {
 //
-                   if(activity?.intent?.getStringExtra("FROM")=="BM") {
-            updateIncomeDetails()
-        }else
-                   {
-                       saveBusinessData()
-                   }
+            if (ArthanApp.getAppInstance().loginRole == "BM") {
+                updateIncomeDetails()
+            } else {
+                saveBusinessData()
+            }
         }
 
         banking_text_view?.setOnClickListener {
@@ -323,10 +322,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 onAccepted {
                     val pdfPickerIntent = Intent(Intent.ACTION_GET_CONTENT)
                     pdfPickerIntent.type = "application/pdf"
-                   /* startActivityForResult(
-                        Intent.createChooser(pdfPickerIntent, "Choose File"),
-                        102
-                    )*/
+                    /* startActivityForResult(
+                         Intent.createChooser(pdfPickerIntent, "Choose File"),
+                         102
+                     )*/
                     uploadLoanDoc()
 
                 }
@@ -377,7 +376,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 ll_income_source?.removeView(partnerView)
 
             }
-            partnerView?.findViewById<Spinner>(R.id.source_of_income_input)?.adapter=sourceInceomeAdapter
+            partnerView?.findViewById<Spinner>(R.id.source_of_income_input)?.adapter =
+                sourceInceomeAdapter
 
             partnerView?.findViewById<TextView?>(R.id.income_per_month_input)?.let { tv ->
                 tv.setCompoundDrawablesWithIntrinsicBounds(
@@ -417,19 +417,25 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             loanView?.findViewById<View?>(R.id.et_to)?.setOnClickListener {
 
                 val c = Calendar.getInstance()
-                    DatePickerDialog(
-                        context!!,
-                        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                            val date= dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
-                            if( SimpleDateFormat("dd-MM-yyyy").parse(date).after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString())))
+                DatePickerDialog(
+                    context!!,
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                        val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                        if (SimpleDateFormat("dd-MM-yyyy").parse(date)
+                                .after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString()))
+                        )
                             loanView.findViewById<EditText>(R.id.et_to)?.setText(date)
-                            else
-                                Toast.makeText(activity,"Please select date greater than from date",Toast.LENGTH_LONG).show()
-                        },
-                        c.get(Calendar.YEAR),
-                        c.get(Calendar.MONTH),
-                        c.get(Calendar.DAY_OF_MONTH)
-                    ).show()
+                        else
+                            Toast.makeText(
+                                activity,
+                                "Please select date greater than from date",
+                                Toast.LENGTH_LONG
+                            ).show()
+                    },
+                    c.get(Calendar.YEAR),
+                    c.get(Calendar.MONTH),
+                    c.get(Calendar.DAY_OF_MONTH)
+                ).show()
 
             }
             ll_loan_details.addView(loanView)
@@ -445,21 +451,28 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
         }
         family_members_minus_button?.setOnClickListener {
-            if((no_of_earning_family_member_count.tag as Int) <= (family_members_count.tag as Int))
-            {
-                Toast.makeText(activity,"Earning count should be less than Family count",Toast.LENGTH_LONG).show()
+            if ((family_members_count.tag as Int) <= (no_of_earning_family_member_count.tag as Int)) {
+                Toast.makeText(
+                    activity,
+                    "Earning count should be less than Family count",
+                    Toast.LENGTH_LONG
+                ).show()
 
-            }else
-            updateCount(UpdateCountType.Decrement, family_members_count)
+            } else
+                updateCount(UpdateCountType.Decrement, family_members_count)
         }
 
         no_of_earning_family_member_count?.tag = 0
         no_of_earning_family_member_count.text = "0"
         no_of_earning_family_member_plus_button?.setOnClickListener {
-            if((family_members_count.tag as Int)>(no_of_earning_family_member_count.tag as Int))
-            updateCount(UpdateCountType.Increment, no_of_earning_family_member_count)
+            if ((family_members_count.tag as Int) > (no_of_earning_family_member_count.tag as Int))
+                updateCount(UpdateCountType.Increment, no_of_earning_family_member_count)
             else
-                Toast.makeText(activity,"Earning count should be less than Family count",Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    activity,
+                    "Earning count should be less than Family count",
+                    Toast.LENGTH_LONG
+                ).show()
         }
         no_of_earning_family_member_minus_button?.setOnClickListener {
             updateCount(UpdateCountType.Decrement, no_of_earning_family_member_count)
@@ -493,14 +506,14 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
     private fun updateIncomeDetails() {
 
-        if(activity?.intent?.getStringExtra("FROM")=="BM") {
+        if (ArthanApp.getAppInstance().loginRole == "BM") {
             var dialog = AlertDialog.Builder(activity)
             var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
             dialog.setView(view)
             var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
             var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
             var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
-            var alert= dialog.create() as AlertDialog
+            var alert = dialog.create() as AlertDialog
             btn_cancel?.setOnClickListener {
                 alert.dismiss()
             }
@@ -508,10 +521,11 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             btn_submit_remark?.setOnClickListener {
                 val progressBar = ProgrssLoader(this.context!!)
                 progressBar.showLoading()
+                alert.dismiss()
                 var map = HashMap<String, String>()
                 map["loanId"] = mLoanId!!
                 map["remarks"] = et_remarks?.text.toString()
-                map["userId"] = activity?.intent?.getStringExtra("FROM")+""
+                map["userId"] = ArthanApp.getAppInstance().loginUser + ""
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val respo = RetrofitFactory.getApiService().updateIncomeDetails(
@@ -522,20 +536,43 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     if (respo?.body() != null && result?.apiCode == "200") {
 
                         withContext(Dispatchers.Main) {
+                            if(ArthanApp.getAppInstance().loginRole == "BM" && et_remarks?.text.toString().isNotEmpty())
+                            {
+                                Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
+                            }
                             /*  AppPreferences.getInstance()
                                   .addString(AppPreferences.Key.BusinessId, result.businessId)*/
                             progressBar.dismmissLoading()
-                            if (activity is LeadInfoCaptureActivity) {
-                                (activity as LeadInfoCaptureActivity).enableDoc()
-                                (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
+                            if (respo.body()!!.discrepancy?.toLowerCase() == "no removing descripency as per the new requirement") {
+                                if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
+                                    startActivity(
+                                        Intent(
+                                            activity,
+                                            PendingCustomersActivity::class.java
+                                        )
+                                    )
+
+                                    activity?.finish()
+
+                                } else {
+                                    startActivity(Intent(activity, RMDashboardActivity::class.java))
+                                    activity?.finish()
+                                }
+                            } else {
+                                if (activity is LeadInfoCaptureActivity) {
+                                    (activity as LeadInfoCaptureActivity).enableDoc()
+                                    (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
+                                }
+                                var b = Bundle()
+                                b.putString("loanType", result.loanType)
+                                activity?.intent?.putExtra("loanType", result.loanType)
+                                navController?.navigate(R.id.action_income_to_doc, b)
+
+
                             }
-                            var b=Bundle()
-                            b.putString("loanType","unsecured")
-                            activity?.intent?.putExtra("loanType","unsecured")
-                            navController?.navigate(R.id.action_income_to_doc,b)
+
                         }
-                    }else
-                    {
+                    } else {
                         withContext(Dispatchers.Main) {
 
                             progressBar.dismmissLoading()
@@ -548,7 +585,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             }
 
 
-           alert.show()
+            alert.show()
         }
     }
 
@@ -626,11 +663,13 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         val progressBar = ProgrssLoader(context ?: return)
         progressBar.showLoading()
         val sourceOfIncomeList: MutableList<Income> = mutableListOf()
-        if (income_per_month_input?.text?.isNotEmpty() == true && source_of_income_input?.selectedItem.toString().isNotEmpty()) {
+        if (income_per_month_input?.text?.isNotEmpty() == true && source_of_income_input?.selectedItem.toString()
+                .isNotEmpty()
+        ) {
             sourceOfIncomeList.add(
                 Income(
                     incomePerMonth = income_per_month_input?.text?.toString(),
-                    incomeSource = source_of_income_input?.selectedItem.toString()
+                    incomeSource = (source_of_income_input?.selectedItem as Data).value.toString()
                 )
             )
 
@@ -640,7 +679,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     sourceOfIncomeList.add(
                         Income(
                             incomePerMonth = sourceOfIncome?.findViewById<TextInputEditText?>(R.id.income_per_month_input)?.text?.toString(),
-                            incomeSource = source_of_income_input?.selectedItem.toString()
+                            incomeSource = (source_of_income_input?.selectedItem as Data).value.toString()
                         )
                     )
                 }
@@ -651,7 +690,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             expenditureList.add(
                 Expenditure(
                     expenditureName = grocery_expenditure_label?.text?.toString(),
-                    amountPerMonth = grocery_expenditure_input?.text?.toString()
+                    amountPerMonth = grocery_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
                 )
             )
         }
@@ -659,7 +699,9 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             expenditureList.add(
                 Expenditure(
                     expenditureName = transport_expenditure_label?.text?.toString(),
-                    amountPerMonth = transport_expenditure_input?.text?.toString()
+                    amountPerMonth = transport_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
+
                 )
             )
         }
@@ -667,7 +709,9 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             expenditureList.add(
                 Expenditure(
                     expenditureName = education_expenditure_label?.text?.toString(),
-                    amountPerMonth = education_expenditure_input?.text?.toString()
+                    amountPerMonth = education_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
+
                 )
             )
         }
@@ -675,7 +719,9 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             expenditureList.add(
                 Expenditure(
                     expenditureName = medicine_expenditure_label?.text?.toString(),
-                    amountPerMonth = medicine_expenditure_input?.text?.toString()
+                    amountPerMonth = medicine_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
+
                 )
             )
         }
@@ -683,9 +729,84 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             expenditureList.add(
                 Expenditure(
                     expenditureName = other_expenditure_label?.text?.toString(),
-                    amountPerMonth = other_expenditure_input?.text?.toString()
+                    amountPerMonth = other_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
+
                 )
             )
+        }
+
+        if (chk_type1?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type1?.text?.toString(),
+                    amountPerMonth = type1_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type2?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type2?.text?.toString(),
+                    amountPerMonth = type2_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type3?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type3?.text?.toString(),
+                    amountPerMonth = type3_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type4?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type4?.text?.toString(),
+                    amountPerMonth = type4_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type5?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type5?.text?.toString(),
+                    amountPerMonth = type5_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type6?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type6?.text?.toString(),
+                    amountPerMonth = type6_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+
+        if(mLoanId==null||mLoanId=="")
+        {
+            mLoanId=activity?.intent?.getStringExtra("loanId")
+            mCustomerId=activity?.intent?.getStringExtra("custId")
+            if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)||
+                arguments?.getString("task").equals("RMreJourney",ignoreCase = true))
+            {
+                mLoanId= arguments?.getString("loanId")
+                mCustomerId= arguments?.getString("custId")
+            }
         }
 
         val liablitiesList: MutableList<Liability> = mutableListOf()
@@ -702,7 +823,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         monthly_radio_button?.text?.toString()
                     } else if (yearly_radio_button?.isChecked == true) {
                         yearly_radio_button?.text?.toString()
-                    }else if (qtrly_radio_button?.isChecked == true) {
+                    } else if (qtrly_radio_button?.isChecked == true) {
                         qtrly_radio_button?.text?.toString()
                     } else if (halfyearly_radio_button?.isChecked == true) {
                         halfyearly_radio_button?.text?.toString()
@@ -713,8 +834,6 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     loanTenureTo = et_to?.text?.toString(),
                     outstandingAmount = outstanding_amount_input?.text?.toString(),
                     loanDocumentUrl = loanDocUrl,
-                    ownerName = et_OwnerName.text.toString(),
-                    address = et_address.text.toString(),
                     considerCFA = cfa_cb.isChecked
                 )
             )
@@ -737,7 +856,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                             } else if (loanDetails?.findViewById<RadioButton?>(R.id.yearly_radio_button)?.isChecked == true) {
                                 loanDetails?.findViewById<RadioButton?>(R.id.yearly_radio_button)
                                     ?.text?.toString()
-                            }else if (loanDetails?.findViewById<RadioButton?>(R.id.qtrly_radio_button)?.isChecked == true) {
+                            } else if (loanDetails?.findViewById<RadioButton?>(R.id.qtrly_radio_button)?.isChecked == true) {
                                 loanDetails?.findViewById<RadioButton?>(R.id.qtrly_radio_button)
                                     ?.text?.toString()
                             } else if (loanDetails?.findViewById<RadioButton?>(R.id.halfyearly_radio_button)?.isChecked == true) {
@@ -750,8 +869,6 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                             loanTenureTo = loanDetails?.findViewById<TextInputEditText?>(R.id.et_to)?.text?.toString(),
                             outstandingAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.outstanding_amount_input)?.text?.toString(),
                             loanDocumentUrl = loanDocUrl,
-                            ownerName = loanDetails?.findViewById<TextInputEditText?>(R.id.et_OwnerName)?.text.toString(),
-                            address = loanDetails?.findViewById<TextInputEditText?>(R.id.et_address)?.text.toString(),
                             considerCFA = loanDetails?.findViewById<CheckBox?>(R.id.cfa_cb)?.isChecked
 
                         )
@@ -761,8 +878,9 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         }
 
         val postBody = IncomeDetailsPostData(
-            loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-            customerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
+            resubmit = "",
+            loanId = mLoanId,
+            customerId = mCustomerId,
             anyOtherSourceofIncome = if (switch_other_sources?.isChecked == true) "Yes" else "No",
             incomes = sourceOfIncomeList,
             numberofFamilyMembers = family_members_count?.text?.toString(),
@@ -776,22 +894,43 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                var response:  Response<BaseResponseData>?=null
-                response = if(arguments?.getString("from")=="rmIncome"&&arguments?.getString("task").equals("RM_AssignList",ignoreCase = true))
-                {
-                     RetrofitFactory.getApiService().rmResubmitIncome(postBody)
-                }else {
-                      RetrofitFactory.getApiService().saveIncomeDetail(postBody)
-                }
-                if(response?.isSuccessful==true&&arguments?.getString("from")=="rmIncome")
-                {
+                var response: Response<BaseResponseData>? = null
+                response =
+                    if (arguments?.getString("from") == "rmIncome" && (arguments?.getString("task")
+                            .equals("RM_AssignList", ignoreCase = true)||arguments?.getString("task")
+                            .equals("RMreJourney", ignoreCase = true))
+                    ) {
+                        postBody.resubmit="yes"
+//                        RetrofitFactory.getApiService().rmResubmitIncome(postBody)
+                        RetrofitFactory.getApiService().saveIncomeDetail(postBody)
+                    } else {
+                        RetrofitFactory.getApiService().saveIncomeDetail(postBody)
+                    }
+                if (response?.isSuccessful == true && arguments?.getString("from") == "rmIncome") {
                     withContext(Dispatchers.Main) {
-                       if(context is RMReAssignListingActivity)
-                       {
-                           var con=context as RMReAssignListingActivity
-                           con.showAssignListFragment()
-                       }
-                        progressBar.dismmissLoading()
+                        if(arguments?.getString("task").equals("RMreJourney",ignoreCase = true))
+                        {
+                            withContext(Dispatchers.IO)
+                            {
+                                progressBar.dismmissLoading()
+
+                                startActivity(Intent(activity, RMScreeningNavigationActivity::class.java).apply {
+                                    putExtra("loanId",mLoanId)
+                                })
+                                activity?.finish()
+                            }
+                        }else {
+                            withContext(Dispatchers.IO)
+                            {
+                                if (context is RMReAssignListingActivity) {
+                                    var con = context as RMReAssignListingActivity
+                                    con.showAssignListFragment()
+                                } else if (context is ReUsableFragmentSpace) {
+                                    activity?.finish()
+                                }
+                                progressBar.dismmissLoading()
+                            }
+                        }
                     }
 
 
@@ -807,14 +946,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                                     (activity as LeadInfoCaptureActivity).enableDoc()
                                     (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
                                 }
-                                var b=Bundle()
-                                b.putString("loanType",result.loanType)
-                                activity?.intent?.putExtra("loanType",result.loanType)
-                                navController?.navigate(R.id.action_income_to_doc,b)
-                            }
-                            else
-                            {
-                                startActivity(Intent(activity,RMDashboardActivity::class.java))
+                                var b = Bundle()
+                                b.putString("loanType", result.loanType)
+                                activity?.intent?.putExtra("loanType", result.loanType)
+                                navController?.navigate(R.id.action_income_to_doc, b)
+                            } else {
+                                startActivity(Intent(activity, RMDashboardActivity::class.java))
                                 activity?.finish()
 
                             }
@@ -882,18 +1019,22 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             val progressLoader = ProgrssLoader(context!!)
             progressLoader.showLoading()
             CoroutineScope(ioContext).launch {
-                val response=RetrofitFactory.getApiService().getIncomeData(arguments?.getString("loanId"))
-                withContext(uiContext){
-                    if(response!!.isSuccessful)
-                    {
-                        val res=response.body()
+               /* val response =
+                    RetrofitFactory.getApiService().getIncomeData(arguments?.getString("loanId"))*/
+                var map=HashMap<String,String>()
+                map["loanId"]=arguments?.getString("loanId")!!
+                map["screen"]="INCOME"
+                val response =
+                    RetrofitFactory.getApiService().getScreenData(map)
+                withContext(uiContext) {
+                    if (response!!.isSuccessful) {
+                        val res = response.body()
                         progressLoader.dismmissLoading()
-                        updateData(res,res?.customerId,res?.loanId)
+                        updateData(res?.incomeDetails, res?.incomeDetails?.customerId, res?.incomeDetails?.loanId)
                     }
                 }
             }
-        }catch (e:java.lang.Exception)
-        {
+        } catch (e: java.lang.Exception) {
 
         }
 
@@ -909,13 +1050,13 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             try {
                 val response = RetrofitFactory.getMasterApiService().getCollateral()
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
-                    val respone=RetrofitFactory.getApiService().getIncSrcMstr()
-                    if(respone!=null)
-                    {
+                    val respone = RetrofitFactory.getApiService().getIncSrcMstr()
+                    if (respone != null) {
                         withContext(uiContext) {
-                        sourceInceomeAdapter=getAdapter(respone.body()?.data)
-                        source_of_income_input.adapter=sourceInceomeAdapter
-                    }
+                            sourceInceomeAdapter = getAdapter(respone.body()?.data)
+                            if(source_of_income_input!=null)
+                            source_of_income_input.adapter = sourceInceomeAdapter
+                        }
                         //                        spnr_nature_of_collateral?.adapter = getAdapter(response.body()?.data)
                     }
                 }
@@ -1033,9 +1174,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
     private fun getOutputMediaFile(): File {
         val dir = File(
+            activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            "Arthan"
+        )/*  val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "Arthan"
-        )
+        )*/
         if (!dir.exists())
             dir.mkdirs()
         return File(
@@ -1070,7 +1214,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     data?.let {
                         val loanDoc: CardResponse? =
                             it.extras?.getParcelable<CardResponse>(ArgumentKey.LoanDoc)
-                        loanDocUrl= loanDoc?.cardFrontUrl.toString()
+                        loanDocUrl = loanDoc?.cardFrontUrl.toString()
 
                     }
                 }
@@ -1086,7 +1230,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         }
                     }
                 }
-                102->{
+                102 -> {
                     data?.apply {
                         if (this.data == null) return
                         val file = copyFile(context!!, this.data!!)
@@ -1114,8 +1258,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
     private fun uploadLoanDoc() {
         startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
-            putExtra(DOC_TYPE,  RequestCode.LoanDoc )
-        },  RequestCode.LoanDoc )
+            putExtra(DOC_TYPE, RequestCode.LoanDoc)
+        }, RequestCode.LoanDoc)
     }
 
     private fun uploadDocument() {
@@ -1220,7 +1364,17 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             }
         }
     }
+    fun retrieveAllLoanTypeItems(theSpinner: Spinner): ArrayList<String>? {
+        val adapter: Adapter = theSpinner.adapter
+        val n = adapter.count
+        val users: ArrayList<String>? = ArrayList<String>()
+        for (i in 0 until n) {
+            val user: String = adapter.getItem(i) as String
+            users?.add(user)
 
+        }
+        return users
+    }
     fun updateData(
         incomeDetails: IncomeDetails?,
         customerId: String?,
@@ -1238,6 +1392,9 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         txt_income_list_msg?.setText(activity?.resources?.getString(R.string.list_all_sources_of_income_1) + " (" + incomeDetails?.incomes?.size + ")")
         mLoanId = loanId
 //        mCustomerId = incomeDetails?.customerId
+        if (activity is ReUsableFragmentSpace) {
+            (activity as ReUsableFragmentSpace).setCommentsToField("Income comment here")
+        }
         mCustomerId = customerId
         for (item in incomeDetails?.expenditures ?: listOf()) {
             when {
@@ -1271,6 +1428,43 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 ) ?: false -> {
                     other_expenditure_input?.setText(item.amountPerMonth)
                 }
+
+                item.expenditureName?.equals(
+                    chk_type1?.text?.toString(),
+                    ignoreCase = true
+                ) ?: false -> {
+                    type1_expenditure_input?.setText(item.amountPerMonth)
+                }
+                item.expenditureName?.equals(
+                    chk_type4?.text?.toString(),
+                    ignoreCase = true
+                ) ?: false -> {
+                    type4_expenditure_input?.setText(item.amountPerMonth)
+                }
+                item.expenditureName?.equals(
+                    chk_type3?.text?.toString(),
+                    ignoreCase = true
+                ) ?: false -> {
+                    type3_expenditure_input?.setText(item.amountPerMonth)
+                }
+                item.expenditureName?.equals(
+                    chk_type2?.text?.toString(),
+                    ignoreCase = true
+                ) ?: false -> {
+                    type2_expenditure_input?.setText(item.amountPerMonth)
+                }
+                item.expenditureName?.equals(
+                    chk_type5?.text?.toString(),
+                    ignoreCase = true
+                ) ?: false -> {
+                    type5_expenditure_input?.setText(item.amountPerMonth)
+                }
+                item.expenditureName?.equals(
+                    chk_type6?.text?.toString(),
+                    ignoreCase = true
+                ) ?: false -> {
+                    type6_expenditure_input?.setText(item.amountPerMonth)
+                }
             }
         }
 
@@ -1285,21 +1479,21 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             } else {
                 partnerView?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
             }
-            var spinner=partnerView?.findViewById<Spinner?>(R.id.source_of_income_input)
+            var spinner = partnerView?.findViewById<Spinner?>(R.id.source_of_income_input)
 
-            spinner?.adapter=sourceInceomeAdapter
+            spinner?.adapter = sourceInceomeAdapter
 
             val listAdap =
                 (spinner?.adapter as? DataSpinnerAdapter)?.list
             if (listAdap != null) {
                 for (i in listAdap) {
 
-                    if(i.value==item.incomeSource)
-                    {
+                    if (i.value == item.incomeSource) {
                         spinner?.setSelection(listAdap.indexOf(i))
                     }
                 }
             }
+
 
             partnerView?.findViewById<TextView?>(R.id.income_per_month_input)?.let { tv ->
                 tv.setCompoundDrawablesWithIntrinsicBounds(
@@ -1326,10 +1520,29 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 loanView?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
             }
 
+
+            var list=retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_type))
+            var list2=retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by))
+            for(i in 0 until list!!.size)
+            {
+                if(item.loanType==list[i])
+                {
+                   var spnr_loan_type= loanView.findViewById<Spinner>(R.id.spnr_loan_type)
+                    spnr_loan_type.setSelection(i)
+                }
+
+            }
+            for(i in 0 until list2!!.size)
+            {
+                if(item.loanSanctionedBy==list2[i])
+                {
+                    var spnr_santioned_by=loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by)
+                    spnr_santioned_by.setSelection(i)
+                }
+
+            }
             loanView.findViewById<EditText>(R.id.loan_amount_input)?.setText(item.loanAmount)
             loanView.findViewById<EditText?>(R.id.emi_input)?.setText(item.emi)
-//            loanView.findViewById<EditText?>(R.id.et_ownerNameLoan)?.setText(item.ownerName)
-//            loanView.findViewById<EditText?>(R.id.et_address)?.setText(item.address)
             loanView.findViewById<EditText?>(R.id.outstanding_amount_input)
                 ?.setText(item.outstandingAmount)
             loanView?.findViewById<EditText?>(R.id.et_from)?.setText(item.loanTenureFrom)
@@ -1363,7 +1576,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     loanView?.findViewById<RadioButton>(R.id.qtrly_radio_button)?.isChecked = true
                 }
                 item.frequencyOfInstallment?.equals("Half yearly", ignoreCase = true) -> {
-                    loanView?.findViewById<RadioButton>(R.id.halfyearly_radio_button)?.isChecked = true
+                    loanView?.findViewById<RadioButton>(R.id.halfyearly_radio_button)?.isChecked =
+                        true
                 }
             }
 
@@ -1373,14 +1587,14 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     loanView.findViewById(R.id.et_from)
                 )
             }
-              /*loanView?.findViewById<EditText?>(R.id.et_from)?.let {
-                it.setText(item.loanTenureFrom)
-                it.setOnClickListener {
-                    dateSelection(
-                        context!!,
-                        loanView.findViewById(R.id.et_from)
-                    )
-                }*/
+            /*loanView?.findViewById<EditText?>(R.id.et_from)?.let {
+              it.setText(item.loanTenureFrom)
+              it.setOnClickListener {
+                  dateSelection(
+                      context!!,
+                      loanView.findViewById(R.id.et_from)
+                  )
+              }*/
             loanView?.findViewById<EditText?>(R.id.et_to)?.setOnClickListener {
 
 
@@ -1388,12 +1602,18 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 DatePickerDialog(
                     context!!,
                     DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                        val date= dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                        val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
 
-                        if( SimpleDateFormat("dd-MM-yyyy").parse(date).after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString())))
-                        loanView.findViewById<EditText>(R.id.et_to)?.setText(date)
+                        if (SimpleDateFormat("dd-MM-yyyy").parse(date)
+                                .after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString()))
+                        )
+                            loanView.findViewById<EditText>(R.id.et_to)?.setText(date)
                         else
-                            Toast.makeText(activity,"Please select date greater than from date",Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                activity,
+                                "Please select date greater than from date",
+                                Toast.LENGTH_LONG
+                            ).show()
                     },
                     c.get(Calendar.YEAR),
                     c.get(Calendar.MONTH),

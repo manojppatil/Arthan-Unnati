@@ -30,6 +30,7 @@
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/name"
                 android:singleLine="true"
+                android:inputType="textCapCharacters"
                 android:textColor="#000000"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -84,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/pan_card"
+                android:inputType="textCapCharacters"
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textSize="14sp" />
@@ -187,6 +189,7 @@
                 android:hint="@string/gst_registration_id"
                 android:singleLine="true"
                 android:textColor="#000000"
+                android:inputType="textCapCharacters"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -309,6 +312,7 @@
                 android:hint="@string/ssi_registration_id"
                 android:singleLine="true"
                 android:textColor="#000000"
+                android:inputType="textCapCharacters"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -402,6 +406,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/contact_person_name"
+                android:inputType="textCapCharacters"
+
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textSize="14sp" />
@@ -491,7 +497,7 @@
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/email_id"
                 android:singleLine="true"
-                android:inputType="textEmailAddress"
+                android:inputType="textEmailAddress|textCapCharacters"
                 android:textColor="#000000"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -531,6 +537,8 @@
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/registered_business_address"
                 android:singleLine="true"
+                android:inputType="textCapCharacters"
+
                 android:textColor="#000000"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -553,6 +561,8 @@
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/operating_business_address"
                 android:singleLine="true"
+                android:inputType="textCapCharacters"
+
                 android:textColor="#000000"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -709,6 +719,8 @@
             <EditText
                 android:id="@+id/name_of_associate_firm_input"
                 android:layout_width="match_parent"
+                android:inputType="textCapCharacters"
+
                 android:layout_height="wrap_content"
                 android:hint="@string/name_of_associate_firm" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -729,6 +741,7 @@
                 android:id="@+id/firm_address_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
                 android:hint="Address of Assoociate firm" />
         </com.google.android.material.textfield.TextInputLayout>
 

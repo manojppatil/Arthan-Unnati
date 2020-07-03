@@ -5,8 +5,10 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.model.ELIGIBILITY_SCREEN
 import com.example.arthan.model.UpdateEligibilityAndPaymentReq
@@ -46,16 +48,25 @@ class LeadEligibilityActivity : BaseActivity() {
 
             val progressBar = ProgrssLoader(this)
             progressBar.showLoading()
+            var leadId:String=""
+            var loanId:String?=""
+            if(intent.getStringExtra("task")=="RMContinue"||intent.getStringExtra("task")=="RMreJourney")
+            {
+                loanId=intent.getStringExtra("loanId")
+                leadId=intent.getStringExtra("leadId")
+                AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,loanId)
 
-            val leadId= intent.getStringExtra(ArgumentKey.LeadId)
-            val loanId= AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)
+            }else {
+                 leadId = intent.getStringExtra(ArgumentKey.LeadId)
+                 loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)
+            }
 
             CoroutineScope(Dispatchers.IO).launch {
 
                 try {
 
                     val response =
-                        RetrofitFactory.getApiService().updateEligibilityAndPayment(
+                        RetrofitFactory.getApiService().updateEligibilityAndPaymentInitiate(
                             UpdateEligibilityAndPaymentReq(
                                 leadId,
                                 if (loanId.isNullOrBlank()) "C1234" else loanId, ELIGIBILITY_SCREEN
@@ -69,11 +80,29 @@ class LeadEligibilityActivity : BaseActivity() {
                                 progressBar.dismmissLoading()
 //                                if(response.body()?.eligibility.equals("Y",ignoreCase = true)) {
                                 if(isEligible) {
+                                    if(intent.getStringExtra("task")=="RMreJourney")
+                                    {
+                                        startActivity(
+                                            Intent(
+                                                this@LeadEligibilityActivity,
+                                                RMScreeningNavigationActivity::class.java
+                                            ).apply {
+                                                putExtra("loanId",response.body()!!.loanId)
+                                                putExtra("custId",response.body()!!.customerId)
+                                            }
+                                        )
+                                        finish()
+                                    }
                                     startActivity(
                                         Intent(
                                             this@LeadEligibilityActivity,
                                             AddLeadStep2Activity::class.java
-                                        )
+                                        ).apply {
+                                            putExtra("loanId",response.body()!!.loanId)
+                                            putExtra("custId",response.body()!!.customerId)
+
+
+                                        }
                                     )
                                     finish()
                                 }else{
@@ -96,6 +125,8 @@ class LeadEligibilityActivity : BaseActivity() {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                     withContext(Dispatchers.Main) {
                         progressBar.dismmissLoading()
                         Toast.makeText(
@@ -142,5 +173,10 @@ class LeadEligibilityActivity : BaseActivity() {
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
     }
 }

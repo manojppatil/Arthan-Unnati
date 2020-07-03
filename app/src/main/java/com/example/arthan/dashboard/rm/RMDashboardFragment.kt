@@ -2,11 +2,13 @@ package com.example.arthan.dashboard.rm
 
 import android.content.Intent
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
+import com.example.arthan.model.RMDashboardData
 import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.fragment_rm_dashboard.*
@@ -18,6 +20,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
 
     override fun contentView() = R.layout.fragment_rm_dashboard
 
+    lateinit var response: RMDashboardData
     override fun init() {
 
         mViewModel= ViewModelProvider(this).get(RMDashboardViewModel::class.java)
@@ -28,6 +31,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
         cv_approved.setOnClickListener(this)
         cv_reassign.setOnClickListener(this)
         cv_to_be_disbursed.setOnClickListener(this)
+        cv_inprogress.setOnClickListener(this)
 
         loadRmData()
     }
@@ -35,6 +39,8 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
     private fun loadRmData(){
         mViewModel.loadRMDashboard().observe(this, Observer { data->
             if(data != null){
+                response=data
+                txt_bm_name.text="Hello ${data.rmName}"
                 txt_branch_rank_count.text= "${data.branchRank}"
                 txt_all_india_rank_count.text= "${data.airRank}"
                 txt_earnings_per.text= "${data.earning}"
@@ -64,6 +70,10 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 txt_reassign_count.text= "${data.reassign.count}"
                 //txt_reassign.text= "${data.reassign.label}"
                 txt_reassign_amt.text= "${data.reassign.total}"
+
+                txt_rmprogress_count.text= "${data.inProgress.count}"
+                //txt_reassign.text= "${data.reassign.label}"
+                txt_rmprogress_amt.text= "${data.inProgress.total}"
             }
         })
     }
@@ -88,7 +98,9 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 Intent(activity, RMLeadListingActivity::class.java).apply {
                     putExtra("FROM", "RM")
                 })
-            R.id.cv_screening -> startActivity(Intent(activity, RMScreeningListingActivity::class.java))
+            R.id.cv_screening -> startActivity(Intent(activity, RMScreeningListingActivity::class.java).apply {
+                putExtra("screeningCount",response.screening.count)
+            })
             R.id.cv_approved -> startActivity(
                 Intent(
                     activity,
@@ -114,6 +126,12 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 Intent(
                     activity,
                     RMTobeDisbursedListingActivity::class.java
+                )
+            )
+            R.id.cv_inprogress -> startActivity(
+                Intent(
+                    activity,
+                    RMInProgressActivity::class.java
                 )
             )
         }

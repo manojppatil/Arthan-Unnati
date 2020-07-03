@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.arthan.R
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.PD3Data
 import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.fragment_pd3.*
@@ -29,7 +30,7 @@ class PD3Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(activity?.intent?.extras?.getString("FROM").equals("BCM"))
+        if(ArthanApp.getAppInstance().loginRole == "BCM" || ArthanApp.getAppInstance().loginRole == "BM")
         {
             bcmPd3CheckBoxes.visibility=View.VISIBLE
         }else
@@ -48,7 +49,10 @@ class PD3Fragment : Fragment() {
                     fourWheeler = if (four_wheeler_checkbox?.isChecked == true) "Yes" else "No",
                     childrenMedium = children_education_medium_spinner?.selectedItem as? String,
                     rltWOValue = rltPD3WOCheckBox.isChecked.toString(),
-                    rltWFeeValue = rltWFeePD3CheckBox.isChecked.toString()
+                    rltWFeeValue = rltWFeePD3CheckBox.isChecked.toString(),
+                    risk = risk.text.toString(),
+                    strength = strength.text.toString(),
+                    overallRemarks = overallRemarks.text.toString()
                 )
             )
         }

@@ -5,12 +5,18 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.Toast
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.KYCPostData
+import com.example.arthan.lead.model.postdata.PersonalDetails
 import com.example.arthan.lead.model.postdata.PersonalPostData
 import com.example.arthan.lead.model.responsedata.BaseResponseData
 import com.example.arthan.lead.model.responsedata.PersonalResponseData
@@ -22,6 +28,7 @@ import com.example.arthan.views.activities.SplashActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_personal_information.*
 import kotlinx.coroutines.*
+import java.util.HashMap
 import kotlin.coroutines.CoroutineContext
 
 class PersonalInformationActivity : BaseActivity(), CoroutineScope {
@@ -42,12 +49,15 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
     var mKYCPostData: KYCPostData? = null
     var applicantPhoto: String?= ""
+    var loanId:String?=""
+    var custId:String?=""
 
     override fun init() {
 
         if (intent.hasExtra("PAN_DATA")) {
             mKYCPostData = intent.getParcelableExtra("PAN_DATA") as? KYCPostData
             et_name.setText(mKYCPostData?.panFirstname)
+            panNoEt.setText(mKYCPostData?.panId)
             et_father_name.setText(mKYCPostData?.panFathername)
             et_dob.setText(mKYCPostData?.panDob?.replace("/","-"))
             AppPreferences.getInstance()?.also {
@@ -56,6 +66,16 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 city_input?.setText(it.getString(AppPreferences.Key.City))
                 state_input?.setText(it.getString(AppPreferences.Key.State))
                 pincode_input?.setText(it.getString(AppPreferences.Key.Pincode))
+            }
+            cb_sameAddress.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(!isChecked)
+                {
+                    sameAsAddressLL.visibility=View.VISIBLE
+                }else
+                {
+                    sameAsAddressLL.visibility=View.GONE
+
+                }
             }
         }
 
@@ -79,6 +99,34 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         et_dob.setOnClickListener {
             dateSelection(this, et_dob)
         }
+
+        spnr_occupation_type?.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    var list =
+                        (spnr_occupation_type?.adapter as? DataSpinnerAdapter)?.list
+
+                    //fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
+                    if (list?.get(position)?.description?.toLowerCase() == "Self Employed Professional".toLowerCase()) {
+                        spnr_occupation_name.visibility = View.VISIBLE
+
+                    }else
+                    {
+                        spnr_occupation_name.visibility=View.GONE
+
+                    }
+
+                }
+            }
 
 //        switch_partners.setOnCheckedChangeListener { buttonView, isChecked ->
 //            ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
@@ -118,8 +166,9 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
         val postBody = PersonalPostData(
-            loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-            customeId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
+            loanId = loanId,
+            custId = custId,
+            applicantPanNo=mKYCPostData?.panId,
             title = (spnr_title?.selectedItem as? Data)?.value ?: "",
             fullName = et_name?.text?.toString() ?: "",
             fatherOrSpousename = et_father_name?.text?.toString() ?: "",
@@ -139,7 +188,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             occupationType = (spnr_occupation_type?.selectedItem as? Data)?.value ?: "",
             occupation = (spnr_occupation_name?.selectedItem as? Data)?.value ?: "",
             sourceofIncome = (source_of_income_spinner?.selectedItem as? Data)?.value ?: "",
-            grossannualIncome = (gross_annual_income_spinner?.selectedItem as? Data)?.value ?: "",
+            grossannualIncome = gross_annual_income_spinner?.text.toString(),
             addressLine1 = address_line1_input?.text?.toString() ?: "",
             addressLine2 = address_line2_input?.text?.toString() ?: "",
             landmark = landmark_input?.text?.toString() ?: "",
@@ -148,6 +197,15 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             city = city_input?.text?.toString() ?: "",
             district = district_input?.text?.toString() ?: "",
             state = state_input?.text?.toString() ?: "",
+            addrFlag = cb_sameAddress.isChecked,
+            addressLine1p = address1_line1_input?.text?.toString() ?: "",
+            addressLine2p = address1_line2_input?.text?.toString() ?: "",
+            landmarkp = landmark1_input?.text?.toString() ?: "",
+            pinCodep = pincode1_input?.text?.toString() ?: "",
+            areaNamep = area_name1_input?.text?.toString() ?: "",
+            cityp = city1_input?.text?.toString() ?: "",
+            districtp = district_input1?.text?.toString() ?: "",
+            statep = state_input1?.text?.toString() ?: "",
             applicantType = applicantType
         )
 
@@ -160,18 +218,33 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     if (result?.apiCode == "200") {
                         withContext(uiContext) {
                             progressBar.dismmissLoading()
-                            AppPreferences.getInstance()
-                                .addString(
-                                    AppPreferences.Key.CustomerId,
-                                    result.customerId
+
+                            if (intent.getStringExtra("task") == "RMreJourney") {
+                                startActivity(
+                                    Intent(
+                                        this@PersonalInformationActivity,
+                                        RMScreeningNavigationActivity::class.java
+                                    ).apply {
+                                        putExtra("loanId", loanId)
+                                    }
                                 )
-                            mKYCPostData?.customerId = result.customerId
-                            mKYCPostData?.paApplicantPhoto= applicantPhoto
-                            AppPreferences.getInstance().addString(
-                                AppPreferences.Key.PrincipleLoanAmount,
-                                result.inPrincipleLnAmt
-                            )
-                            val kycResponse =
+                                finish()
+                                return@withContext
+                            } else {
+                                AppPreferences.getInstance()
+                                    .addString(
+                                        AppPreferences.Key.CustomerId,
+                                        result.customerId
+                                    )
+                                mKYCPostData?.customerId = result.customerId
+                                custId = result.customerId
+                                loanId = result.loanId
+                                mKYCPostData?.paApplicantPhoto = applicantPhoto
+                                AppPreferences.getInstance().addString(
+                                    AppPreferences.Key.PrincipleLoanAmount,
+                                    result.inPrincipleLnAmt
+                                )
+                                /*                   val kycResponse =
                                 RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)
                             if (kycResponse?.isSuccessful == true) {
                                 val kycResult = kycResponse.body()
@@ -183,80 +256,89 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                             it.remove(AppPreferences.Key.City)
                                             it.remove(AppPreferences.Key.State)
                                             it.remove(AppPreferences.Key.Pincode)
-                                        }
-                                        progressBar.dismmissLoading()
-                                        if (applicantType == "PA") {
-                                            var alert =
-                                                AlertDialog.Builder(this@PersonalInformationActivity)
-                                            alert.setMessage("Do you want to add co-applicant ?")
-                                            alert.setPositiveButton(
-                                                "Yes",
-                                                DialogInterface.OnClickListener { dialog, which ->
-                                                    dialog.dismiss()
+                                        }*/
+                                progressBar.dismmissLoading()
+                                if (applicantType == "PA") {
+                                    var alert =
+                                        AlertDialog.Builder(this@PersonalInformationActivity)
+                                    alert.setMessage("Do you want to add co-applicant ?")
+                                    alert.setPositiveButton(
+                                        "Yes",
+                                        DialogInterface.OnClickListener { dialog, which ->
+                                            dialog.dismiss()
 
-                                                    startActivity(
-                                                        Intent(
-                                                            this@PersonalInformationActivity,
-                                                            AddLeadStep2Activity::class.java
-                                                        ).apply {
-                                                            putExtra("type", "CA")
-                                                        })
-                                                    finish()
-
+                                            startActivity(
+                                                Intent(
+                                                    this@PersonalInformationActivity,
+                                                    AddLeadStep2Activity::class.java
+                                                ).apply {
+                                                    putExtra("type", "CA")
+                                                    putExtra("loanId", loanId)
                                                 })
-                                            alert.setNegativeButton(
-                                                "No",
-                                                DialogInterface.OnClickListener { dialog, which ->
-                                                    ConsentActivity.startMe(
-                                                        this@PersonalInformationActivity,
-                                                        result.inPrincipleLnAmt
-                                                    )
-                                                    dialog.dismiss()
-                                                })
-                                            alert.show()
+                                            finish()
 
-                                        }
-                                        if (applicantType == "CA") {
-                                            var alert =
-                                                AlertDialog.Builder(this@PersonalInformationActivity)
-                                            alert.setMessage("Do you want to add Guarantor ?")
-                                            alert.setPositiveButton(
-                                                "Yes",
-                                                DialogInterface.OnClickListener { dialog, which ->
-                                                    dialog.dismiss()
+                                        })
+                                    alert.setNegativeButton(
+                                        "No",
+                                        DialogInterface.OnClickListener { dialog, which ->
+                                            ConsentActivity.startMe(
+                                                this@PersonalInformationActivity,
+                                                result.inPrincipleLnAmt,
+                                                response.body()!!.customerId,
+                                                response.body()!!.loanId
+                                            )
+                                            dialog.dismiss()
+                                        })
+                                    alert.show()
 
-                                                    startActivity(
-                                                        Intent(
-                                                            this@PersonalInformationActivity,
-                                                            AddLeadStep2Activity::class.java
-                                                        ).apply {
-                                                            putExtra("type", "G")
-                                                        })
-                                                    finish()
-
-                                                })
-                                            alert.setNegativeButton(
-                                                "No",
-                                                DialogInterface.OnClickListener { dialog, which ->
-                                                    ConsentActivity.startMe(
-                                                        this@PersonalInformationActivity,
-                                                        result.inPrincipleLnAmt
-                                                    )
-                                                    dialog.dismiss()
-                                                })
-
-                                            alert.show()
-                                        }
-                                    }
-                                    if (applicantType == "G") {
-
-                                        ConsentActivity.startMe(
-                                            this@PersonalInformationActivity,
-                                            result.inPrincipleLnAmt
-                                        )
-                                    }
                                 }
-                            } else {
+                                if (applicantType == "CA") {
+                                    var alert =
+                                        AlertDialog.Builder(this@PersonalInformationActivity)
+                                    alert.setMessage("Do you want to add Guarantor ?")
+                                    alert.setPositiveButton(
+                                        "Yes",
+                                        DialogInterface.OnClickListener { dialog, which ->
+                                            dialog.dismiss()
+
+                                            startActivity(
+                                                Intent(
+                                                    this@PersonalInformationActivity,
+                                                    AddLeadStep2Activity::class.java
+                                                ).apply {
+                                                    putExtra("type", "G")
+                                                    putExtra("loanId", loanId)
+                                                })
+                                            finish()
+
+                                        })
+                                    alert.setNegativeButton(
+                                        "No",
+                                        DialogInterface.OnClickListener { dialog, which ->
+                                            ConsentActivity.startMe(
+                                                this@PersonalInformationActivity,
+                                                result.inPrincipleLnAmt,
+                                                response.body()!!.customerId,
+                                                response.body()!!.loanId
+
+                                            )
+                                            dialog.dismiss()
+                                        })
+
+                                    alert.show()
+                                }
+                                if (applicantType == "G") {
+
+                                    ConsentActivity.startMe(
+                                        this@PersonalInformationActivity,
+                                        result.inPrincipleLnAmt,
+                                        response.body()!!.customerId,
+                                        response.body()!!.loanId
+
+
+                                    )
+                                }
+                                /*} else {
                                 try {
                                     val result: BaseResponseData? = Gson().fromJson(
                                         kycResponse?.errorBody()?.string(),
@@ -264,15 +346,19 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                     )
                                     stopLoading(
                                         progressBar,
-                                        "Something went wrong with api!!!"/*result?.message*/
+                                        "Something went wrong with api!!!"*//*result?.message*//*
                                     )
                                 } catch (e: Exception) {
                                     e.printStackTrace()
+                                    Crashlytics.log(e.message)
+
                                     stopLoading(
                                         progressBar,
                                         "Something went wrong. Please try later!"
                                     )
                                 }
+                            }
+                        }*/
                             }
                         }
                     } else {
@@ -287,6 +373,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                         stopLoading(
                             progressBar,
                             "Something went wrong. Please try later!"
@@ -296,6 +384,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             } catch (e: Exception) {
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -303,6 +393,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
     private fun loadInitialData() {
         val progressLoader = ProgrssLoader(this)
         progressLoader.showLoading()
+        loanId=intent.getStringExtra("loanId")
+        custId=intent.getStringExtra("custId")
         launch(ioContext) {
             val title = fetchAndUpdateServerTitleAsync().await()
             val nationality = fetchAndUpdateNationalityAsync().await()
@@ -312,14 +404,136 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             val sorceOfIncome = fetchAndUpdateSourceOfIncomeAsync().await()
             val anualIncom = fetchAndUpdateGrossAnnuanlIncomeAsync().await()
 
+
             if (title && nationality && education && occupationType && occupationName && sorceOfIncome && anualIncom) {
                 withContext(uiContext) {
                     progressLoader.dismmissLoading()
+
+                    if(intent.getStringExtra("task")=="RMreJourney")
+                    {
+                        var map= HashMap<String,String>()
+                        map["loanId"]=loanId!!
+                        map["screen"]=intent.getStringExtra("screen")
+
+                        val response =
+                            RetrofitFactory.getApiService().getScreenData(map)
+                        withContext(Dispatchers.Main) {
+                            setDataToFields(response.body()?.personalDetails)
+                        }
+                    }
                 }
             }
         }
     }
 
+    private fun setDataToFields(personalDetails: List<PersonalDetails>?) {
+
+            var index=-1;
+          for (i in 0 until personalDetails?.size!!){
+
+              if(personalDetails[i].applicantType=="PA"&&intent.getStringExtra("screen").endsWith("_PA"))
+              {
+                  setDataForPA(personalDetails[i])
+              }
+              if(personalDetails[i].applicantType=="CA"&&intent.getStringExtra("screen").endsWith("_CA"))
+              {
+                  setDataForPA(personalDetails[i])
+              }
+              if(personalDetails[i].applicantType=="G"&&intent.getStringExtra("screen").endsWith("_G"))
+              {
+                  setDataForPA(personalDetails[i])
+              }
+        }
+    }
+
+    private fun setDataForPA(personalDetails: PersonalDetails) {
+
+        et_name.setText(personalDetails.fullName)
+        et_father_name.setText(personalDetails.fatherOrSpousename)
+        et_mother_name.setText(personalDetails.motherName)
+        et_dob.setText(personalDetails.dob)
+        contact_number_input.setText(personalDetails.contactNo)
+        email_id_input.setText(personalDetails.email)
+        when(personalDetails.gender?.toLowerCase())
+        {
+            "male","m"->{
+                male_radio_button.isChecked=true
+            }
+            "female","f"->{
+                female_radio_button.isChecked=true
+            }
+            "transgender"->{
+                transgender_radio_button.isChecked=true
+            }
+        }
+
+        setDataToSpinner(spnr_nationality,personalDetails.nationality)
+        setDataToSpinner(spnr_eduction,personalDetails.educationlevel)
+        setDataToSpinner(spnr_occupation_name,personalDetails.occupation)
+        setDataToSpinner(spnr_occupation_type,personalDetails.occupationType)
+        setDataToSpinner(source_of_income_spinner,personalDetails.sourceofIncome)
+        gross_annual_income_spinner.setText(personalDetails.grossannualIncome)
+        address_line1_input.setText(personalDetails.addressLine1)
+        address_line2_input.setText(personalDetails.addressLine2)
+        landmark_input.setText(personalDetails.landmark)
+        pincode_input.setText(personalDetails.pinCode)
+        city_input.setText(personalDetails.city)
+        district_input.setText(personalDetails.district)
+        state_input.setText(personalDetails.state)
+        panNoEt.setText(personalDetails.applicantPanNo)
+
+        when(personalDetails.addrFlag)
+        {
+            true->{
+                sameAsAddressLL.visibility-View.VISIBLE
+                address1_line1_input.setText(personalDetails.addressLine1p)
+                address1_line2_input.setText(personalDetails.addressLine2p)
+                landmark1_input.setText(personalDetails.landmarkp)
+                pincode1_input.setText(personalDetails.pinCodep)
+                city1_input.setText(personalDetails.cityp)
+                district_input1.setText(personalDetails.districtp)
+                state_input1.setText(personalDetails.statep)
+
+            }
+
+        }
+        if(personalDetails.category!=null) {
+            when (personalDetails.category) {
+                "SC" -> cat_SC.isChecked = true
+                "OBC" -> cat_OBC.isChecked = true
+                "General" -> cat_General.isChecked = true
+            }
+        }
+        if(personalDetails.religion!=null) {
+            when (personalDetails.religion.toLowerCase()) {
+                "Hindu".toLowerCase() -> cat_SC.isChecked = true
+                "Muslim".toLowerCase() -> cat_OBC.isChecked = true
+            }
+        }
+        /*when(personalDetails.m)
+        {
+            "SC"->cat_SC.isChecked=true
+            "OBC"->cat_OBC.isChecked=true
+            "General"->cat_General.isChecked=true
+        }
+        */
+
+
+    }
+
+    private fun setDataToSpinner(spinner:Spinner,value:String?)
+    {
+        val list=  (spinner.adapter as? DataSpinnerAdapter)?.list
+        if(list!=null) {
+            for (i in 0 until list!!.size)
+            {
+                if(list[i].value==value)
+                {
+                    spinner.setSelection(i)
+                }
+            }
+        }
+    }
     private fun getAdapter(list: List<Data>?): DataSpinnerAdapter =
         DataSpinnerAdapter(this, list?.toMutableList() ?: mutableListOf()).also {
             it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -335,10 +549,14 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Crashlytics.log(e.message)
+
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -353,6 +571,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -367,6 +587,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -378,10 +600,23 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                     withContext(uiContext) {
                         spnr_occupation_type?.adapter = getAdapter(response.body()?.data)
+                        var list =
+                            (spnr_occupation_type?.adapter as? DataSpinnerAdapter)?.list
+
+                        if (list?.get(0)?.description?.toLowerCase() == "Self Employed Professional".toLowerCase()) {
+                            spnr_occupation_name.visibility = View.VISIBLE
+
+                        }else
+                        {
+                            spnr_occupation_name.visibility=View.GONE
+
+                        }
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -397,6 +632,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -412,6 +649,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -422,11 +661,13 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 val response = RetrofitFactory.getMasterApiService().getGrossAnnualIncome()
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                     withContext(uiContext) {
-                        gross_annual_income_spinner?.adapter = getAdapter(response.body()?.data)
+                        //gross_annual_income_spinner?.adapter = getAdapter(response.body()?.data)
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }

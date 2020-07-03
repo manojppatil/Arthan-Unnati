@@ -11,6 +11,7 @@ import com.example.arthan.lead.model.responsedata.SCVO
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_scorecard.*
+import kotlinx.android.synthetic.main.custom_toolbar.*
 
 class ScoreCardActivity : BaseActivity() {
     override fun contentView(): Int {
@@ -19,6 +20,7 @@ class ScoreCardActivity : BaseActivity() {
 
     override fun init() {
 
+        back_button.setOnClickListener { finish() }
         setDataTFields()
     }
 

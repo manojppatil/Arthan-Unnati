@@ -25,18 +25,18 @@
 
     <TextView
         android:id="@+id/txt_ownerNameValue"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="8.3sp"
-        android:text=""
+        android:text="rerde"
+        android:layout_marginStart="16dp"
+
         android:textColor="#000000"
         android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@+id/txt_ownerNameLabel"
-        app:layout_constraintStart_toEndOf="@+id/txt_market_value_msg"
-
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_ownerNameLabel"
+        />
 
     <ImageView
         android:id="@+id/remove_button"
@@ -63,7 +63,7 @@
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/img_profile"
-        app:layout_constraintTop_toBottomOf="@+id/txt_ownerNameLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_ownerNameValue" />
     <TextView
         android:id="@+id/txt_address_value"
         android:layout_width="0dp"
@@ -156,6 +156,7 @@
         android:letterSpacing="0.05"
         android:lineSpacingExtra="7.1sp"
         android:text="Area of Property"
+        android:visibility="gone"
         android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -168,6 +169,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:visibility="gone"
+
         android:fontFamily="@font/lato_bold"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="8.3sp"
@@ -249,6 +252,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:visibility="gone"
+
         android:layout_marginTop="24dp"
         android:fontFamily="@font/lato_regular"
         android:letterSpacing="0.05"
@@ -267,6 +272,8 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/lato_bold"
         android:letterSpacing="0.05"
+        android:visibility="gone"
+
         android:lineSpacingExtra="8.3sp"
         android:text="₹ 40,000"
         android:textColor="#000000"
@@ -301,6 +308,8 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/lato_regular"
         android:letterSpacing="0.05"
+        android:visibility="gone"
+
         android:lineSpacingExtra="8.3sp"
         android:textColor="#000000"
         android:textSize="14sp"
@@ -317,6 +326,8 @@
         android:fontFamily="@font/lato_bold"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="8.3sp"
+        android:visibility="gone"
+
         android:text="Yes"
         android:textColor="#000000"
         android:textSize="14sp"
@@ -333,6 +344,8 @@
         android:fontFamily="@font/lato_regular"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="8.3sp"
+        android:visibility="gone"
+
         android:textColor="#000000"
         android:textSize="14sp"
         android:text="LTV Considered"
@@ -347,6 +360,8 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/lato_bold"
         android:letterSpacing="0.05"
+        android:visibility="gone"
+
         android:lineSpacingExtra="8.3sp"
         android:text="Yes"
         android:textColor="#000000"
@@ -359,6 +374,8 @@
         android:id="@+id/txt_Remarks"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:visibility="gone"
+
         android:layout_marginTop="24dp"
         android:fontFamily="@font/lato_regular"
         android:letterSpacing="0.05"
@@ -376,6 +393,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
+        android:visibility="gone"
+
         android:fontFamily="@font/lato_bold"
         android:letterSpacing="0.05"
         android:lineSpacingExtra="8.3sp"

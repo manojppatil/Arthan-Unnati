@@ -5,19 +5,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.arthan.R
-import com.example.arthan.dashboard.rm.adapters.LeadsAdapter
-import com.example.arthan.dashboard.rm.adapters.ReassignAdapter
-import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
 import com.example.arthan.lead.BusinessInformationFragment
 import com.example.arthan.lead.DocumentFragment
 import com.example.arthan.lead.IncomeInformationFragment
 import com.example.arthan.lead.OtherDetailsFragment
+import com.example.arthan.model.ReassignLeadData
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
@@ -134,6 +129,41 @@ class RMReAssignListingActivity : AppCompatActivity() {
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun showPendingScreenList(data: ReassignLeadData) {
+
+        var businessFlag = false
+        var incomeFlag = false
+        var othersFlag = false
+        var documentsFlag = false
+        //startActivity(Intent(this,RMReassignPendingScreenlist::class.java).apply {
+        for (doc in data.pending) {
+            if (doc.equals("Documents", ignoreCase = true)) {
+                documentsFlag = true
+            }
+            if (doc.equals("Business", ignoreCase = true)) {
+                businessFlag = true
+
+            }
+            if (doc.equals("Income", ignoreCase = true)) {
+                incomeFlag = true
+            }
+            if (doc.equals("Others", ignoreCase = true)) {
+                othersFlag = true
+
+            }
+        }
+
+        startActivity(Intent(this, RMReassignPendingScreenlist::class.java).apply {
+            putExtra("task", "RM_AssignList")
+            putExtra("loanId", data.loanId)
+            putExtra("Documents", documentsFlag)
+            putExtra("Business", businessFlag)
+            putExtra("Income", incomeFlag)
+            putExtra("Others", businessFlag)
+        })
+
     }
 
 }

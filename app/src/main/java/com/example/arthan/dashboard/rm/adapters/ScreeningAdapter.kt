@@ -6,31 +6,29 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
-import com.example.arthan.dashboard.rm.RMScreeningListingActivity
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.lead.AddLeadActivity
-import com.example.arthan.lead.LeadInfoCaptureActivity
-import com.example.arthan.lead.LoanDetailActivity
-import com.example.arthan.model.*
+import com.example.arthan.model.ScreenDetailsToNavigateData
+import com.example.arthan.model.ScreeningData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.getPixelFromDP
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
-class ScreeningAdapter(private val context: Context,private val data: List<ScreeningData>) :
-    RecyclerView.Adapter<ScreeningAdapter.ScreeningVH>() {
+class ScreeningAdapter(private val context: Context,private var data: List<ScreeningData>) :
+    RecyclerView.Adapter<ScreeningAdapter.ScreeningVH>() , Filterable {
 
+    private val listoriginal:List<ScreeningData>?=ArrayList(data)
     inner class ScreeningVH(root: View) : RecyclerView.ViewHolder(root) {
 
         private val businessType: TextView = itemView.findViewById(R.id.txt_business)
@@ -75,12 +73,21 @@ class ScreeningAdapter(private val context: Context,private val data: List<Scree
             itemView.findViewById<TextView>(R.id.txt_branch).text= "Branch: ${data[position].branch}"
             itemView.setOnClickListener {
 
-                getScreenDetails(itemView.findViewById<TextView>(R.id.txt_loan_id).text.toString().replace("Loan ID: ",""))
+                completeScreeningList(itemView.findViewById<TextView>(R.id.txt_loan_id).text.toString().replace("Loan ID: ",""),data[position].id)
+//                getScreenDetails(itemView.findViewById<TextView>(R.id.txt_loan_id).text.toString().replace("Loan ID: ",""))
             }
         }
 
     }
 
+    private fun completeScreeningList(loanId:String,custId:String)
+    {
+
+        context.startActivity(Intent(context,RMScreeningNavigationActivity::class.java).apply {
+            putExtra("loanId",loanId)
+            putExtra("custId",custId)
+        })
+    }
     private fun getScreenDetails(loanId:String):MutableLiveData<ScreenDetailsToNavigateData?> {
 
             val response= MutableLiveData<ScreenDetailsToNavigateData?>()
@@ -129,4 +136,42 @@ class ScreeningAdapter(private val context: Context,private val data: List<Scree
     override fun onBindViewHolder(holder: ScreeningVH, position: Int) {
         holder.bind(position)
     }
+    override  fun getFilter(): Filter? {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val query = charSequence.toString()
+                //List<ScreeningData>
+                var filtered = ArrayList<ScreeningData>()
+                if (query.isEmpty()) {
+                    filtered.addAll(listoriginal!!.toList())
+                } else {
+                    for (name in data) {
+                        if ((name as ScreeningData).name.toLowerCase().startsWith(query.toLowerCase())) {
+                            filtered.add(name)
+                        }else if((name as ScreeningData).mobileNo.startsWith(query)){
+                            filtered.add(name)
+
+                        }
+                    }
+
+                }
+
+                val results = FilterResults()
+                results.count = filtered.size
+                results.values = filtered
+                return results
+            }
+
+            override fun publishResults(
+                charSequence: CharSequence,
+                results: FilterResults
+            ) {
+                data= emptyList()
+                var itemsFiltered = results.values as List<ScreeningData>
+                data=itemsFiltered
+                notifyDataSetChanged()
+            }
+        }
+    }
+
 }

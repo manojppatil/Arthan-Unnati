@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.adapter.BankingAdapter
 import com.example.arthan.dashboard.bm.model.Banking360DetailsResponseData
+import com.example.arthan.dashboard.bm.model.BureauDetails
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.SplashActivity
@@ -36,8 +37,21 @@ class BankingActivity : AppCompatActivity(),CoroutineScope {
         toolbar_title?.text = "Banking | "+intent.getStringExtra("cname")
         back_button?.setOnClickListener { onBackPressed() }
 //        rv_listing.adapter = BankingAdapter(this, detailsList)
-        loadInitialData()
+//        loadInitialData()
+        setDataToAdapter()
     }
+
+    private fun setDataToAdapter() {
+
+        val data: Banking360DetailsResponseData? = intent?.extras?.getParcelable<Banking360DetailsResponseData>("data")
+        if(data!= null) {
+            detailsList.add(data)
+            rv_listing.adapter = BankingAdapter(this@BankingActivity, detailsList)
+        }
+
+
+    }
+
     private fun loadInitialData() {
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()

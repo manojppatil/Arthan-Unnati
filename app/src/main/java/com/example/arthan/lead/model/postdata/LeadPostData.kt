@@ -1,6 +1,7 @@
 package com.example.arthan.lead.model.postdata
 
 data class LeadPostData(
+    var leadId:String="",
     var areaPincode: String? = "",
     var businessActivity: String? = "",
     var customerName: String? = "",

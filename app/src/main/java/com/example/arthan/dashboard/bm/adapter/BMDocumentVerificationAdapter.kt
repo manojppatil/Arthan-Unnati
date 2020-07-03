@@ -7,6 +7,7 @@ import com.example.arthan.dashboard.bm.DocumentVerificationFragment
 import com.example.arthan.dashboard.ops.BCMDataFragment
 import com.example.arthan.dashboard.ops.DataFragment
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.views.fragments.BankDetailsFragment
 import com.example.arthan.views.fragments.KYCDocumentFragment
 import com.example.arthan.views.fragments.PermanentAddressFragment
@@ -23,7 +24,7 @@ class BMDocumentVerificationAdapter(fm: FragmentManager, from: String) : Fragmen
 
         lstTitles.add("Data")
         frags.add(DataFragment())
-        if (AppPreferences.getInstance().getString(AppPreferences.Key.LoginType) == "BCM") {
+        if (ArthanApp.getAppInstance().loginRole == "BCM") {
             lstTitles.add("BCM Data")
             frags.add(BCMDataFragment())
         }

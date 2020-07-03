@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Arthan</string>
+    <string name="app_name">AI Square</string>
     <string name="smart_financial_services">Smart Financial Services</string>
     <string name="add_lead">Add New Lead</string>
     <string name="customer_name">Customer Name</string>
@@ -25,7 +25,7 @@
     <string name="email_id">Email ID</string>
     <string name="enter_father_s_name">Enter Father\'s Name</string>
     <string name="enter_mother_s_name">Enter Mother\'s Name</string>
-    <string name="permanent_address">Permanent Address</string>
+    <string name="permanent_address">Current Address</string>
     <string name="address_line1">Address Line1</string>
     <string name="address_line2">Address Line2</string>
     <string name="landmark_optional">Landmark(Optional)</string>
@@ -131,8 +131,8 @@
         <item>--select Loan Type--</item>
         <item>Secure</item>
         <item>Unsecure</item>
-        <item>Quasi Secured</item>
-        <item>Negative Lien</item>
+        <!-- <item>Quasi Secured</item>
+        <item>Negative Lien</item>-->
     </string-array>
 
     <string-array name="arr_loan_sanctioned_by">
@@ -143,7 +143,9 @@
     </string-array>
 
     <string-array name="arr_nature_of_collateral">
-        <item>Relationship with Applicant</item>
+        <item>--Relationship with Applicant--</item>
+        <item>Supplier</item>
+        <item>Customer</item>
     </string-array>
 
     <string-array name="arr_type_of_business">
@@ -365,5 +367,6 @@
     <string name="distance_of_collateral_property_from_branch">Distance of collateral property from Branch</string>
     <string name="others">Others</string>
     <string name="documents">Documents</string>
+    <string name="switchUSer"><u>Switch to different user</u></string>
 
 </resources>

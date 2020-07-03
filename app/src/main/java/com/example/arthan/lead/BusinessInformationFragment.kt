@@ -11,13 +11,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
-import com.example.arthan.dashboard.bm.BMScreeningReportActivity
+import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
+import com.example.arthan.dashboard.rm.ReUsableFragmentSpace
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.BUSINESS
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
@@ -25,22 +28,20 @@ import com.example.arthan.lead.model.postdata.BusinessDetails
 import com.example.arthan.lead.model.postdata.BusinessDetailsPostData
 import com.example.arthan.lead.model.postdata.Partner
 import com.example.arthan.lead.model.responsedata.BusinessDetailsResponseData
-import com.example.arthan.model.RMDashboardData
-import com.example.arthan.model.RMDashboardRequest
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.PendingCustomersActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_business_information.*
-import kotlinx.android.synthetic.main.fragment_business_information.btn_save_continue
-import kotlinx.android.synthetic.main.fragment_business_information.email_id_input
-import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.layout_partner_details.*
 import kotlinx.coroutines.*
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
+
 
 /**
  * This is being used as a common fragment. if this is invoked from RMAssignList ,
@@ -61,6 +62,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         get() = Dispatchers.Main
     private var spinnerData:List<Data>?=null
     private  var businessData:BusinessDetails?= null
+    private var loanId:String?=""
+    private var custId:String?=""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,18 +75,15 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navController: NavController? =
-            if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
-                activity!!,
-                R.id.frag_container
-            ) else null
-
         loadInitialData()
+        annual_turnover_current_year_input.setText(activity?.intent?.getStringExtra("annualturnover"))
+        firm_name_input.setText(activity?.intent?.getStringExtra("businessName"))
+
 
         ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_save_continue.setOnClickListener {
 //            saveBusinessData() //comment temporarily
-            if(activity?.intent?.getStringExtra("FROM")=="BM") {
+            if(ArthanApp.getAppInstance().loginRole=="BM") {
 
                 updateBusinessDetails()
             }else{
@@ -174,7 +174,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
     private fun updateBusinessDetails() {
 
-        if(activity?.intent?.getStringExtra("FROM")=="BM") {
+        if(ArthanApp.getAppInstance().loginRole=="BM"||ArthanApp.getAppInstance().loginRole=="BCM") {
             var dialog = AlertDialog.Builder(activity)
             var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
             dialog.setView(view)
@@ -187,12 +187,13 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 alert.dismiss()
             }
             btn_submit_remark?.setOnClickListener {
+                alert.dismiss()
                 val progressBar = ProgrssLoader(this.context!!)
                 progressBar.showLoading()
                 var map = HashMap<String, String>()
-                map["loanId"] = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)!!
+                map["loanId"] = activity?.intent?.getStringExtra(ArgumentKey.LoanId)!!
                 map["remarks"] = et_remarks?.text.toString()
-                map["userId"] = activity?.intent?.getStringExtra("FROM")+""
+                map["userId"] = ArthanApp.getAppInstance().loginUser+""
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val respo = RetrofitFactory.getApiService().updateBusinessDetails(
@@ -203,23 +204,53 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                     if (respo?.body() != null && result?.apiCode == "200") {
 
                         withContext(Dispatchers.Main) {
-                          /*  AppPreferences.getInstance()
+                            if(ArthanApp.getAppInstance().loginRole == "BM" && et_remarks?.text.toString().isNotEmpty())
+                            {
+                                Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
+                            }
+                            /*  AppPreferences.getInstance()
                                 .addString(AppPreferences.Key.BusinessId, result.businessId)*/
                             progressBar.dismmissLoading()
-                            val navController: NavController? =
-                                if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
-                                    activity!!,
-                                    R.id.frag_container
-                                ) else null
-                            navController?.navigate(R.id.action_business_to_income)
 
-                            if (activity is LeadInfoCaptureActivity) {
-                                (activity as LeadInfoCaptureActivity).enableInCome()
-                                (activity as LeadInfoCaptureActivity).infoCompleteState(BUSINESS)
+                            if (respo.body()!!.discrepancy?.toLowerCase() == "removed condition to bypass descripency") {
+
+                                if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
+                                    startActivity(
+                                        Intent(
+                                            activity,
+                                            PendingCustomersActivity::class.java
+                                        )
+                                    )
+                                    activity?.finish()
+
+                                } else {
+                                    startActivity(Intent(activity, RMDashboardActivity::class.java))
+                                    activity?.finish()
+                                }
+
                             }
+                            else {
+                                progressBar.dismmissLoading()
+
+                                val navController: NavController? =
+                                    if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
+                                        activity!!,
+                                        R.id.frag_container
+                                    ) else null
+                                navController?.navigate(R.id.action_business_to_income)
+
+                                if (activity is LeadInfoCaptureActivity) {
+                                    (activity as LeadInfoCaptureActivity).enableInCome()
+                                    (activity as LeadInfoCaptureActivity).infoCompleteState(
+                                        BUSINESS
+                                    )
+                                } else {
+
+                                }
+                                }
                         }
-                        }else
-                    {
+                    }
+                        else  {
                         withContext(Dispatchers.Main) {
 
                             progressBar.dismmissLoading()
@@ -246,8 +277,20 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
     }
 
     private fun saveBusinessData() {
+        if(loanId==null||loanId==""||custId==null||custId=="")
+        {
+            loanId=activity?.intent?.getStringExtra("loanId")
+            custId=activity?.intent?.getStringExtra("custId")
+            if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)||
+                arguments?.getString("task").equals("RMreJourney",ignoreCase = true))
+            {
+                loanId= arguments?.getString("loanId")
+                custId= arguments?.getString("custId")
+            }
+        }
         val progressBar = ProgrssLoader(context ?: return)
         progressBar.showLoading()
+
         val partners: MutableList<Partner> = mutableListOf()
         if (partners_name_input?.text?.isNotEmpty() == true &&
             partners_designation_input?.text?.isNotEmpty() == true &&
@@ -272,17 +315,18 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 }
             }
         }
-        val postBody = BusinessDetailsPostData(
+            val postBody = BusinessDetailsPostData(
+              resubmit = "",
             bname = firm_name_input?.text?.toString(),
-            loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-            customerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
+            loanId = loanId,
+            customerId =custId,
             dateofincorporation = et_date_of_incorporation?.text?.toString(),
             firmpan = firm_pan_input?.text?.toString(),
             form6061 = if (switch_form_61?.isChecked == true) "Yes" else "No",
             constitution = (spnr_constitution?.selectedItem as? Data)?.value,
             udhyogaadhar = udhyog_aadhar_id_input?.text?.toString(),
             gstcode = gstin_number_input?.text?.toString(),
-            noofemployees = txt_no_of_employees?.text?.toString(),
+            noofemployees = no_of_employee_count?.tag as Int,
             ssiregistrationno = ssi_registration_input?.text?.toString(),
             partners = partners,
             noOfyearsincurrentoffice = no_of_year_in_office_input?.text?.toString(),
@@ -301,9 +345,12 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 var response: Response<BusinessDetailsResponseData>?=null
-                response = if(arguments?.getString("from")=="rmbusiness"&&arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)){
+                response = if(arguments?.getString("from")=="rmbusiness"||arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)){
 
-                    RetrofitFactory.getApiService().rmResubmitBusiness(postBody)
+                    postBody.resubmit="yes"
+//                    RetrofitFactory.getApiService().rmResubmitBusiness(postBody)
+                    RetrofitFactory.getApiService().saveBusinessDetail(postBody)
+
 
                 }else{
                     RetrofitFactory.getApiService().saveBusinessDetail(postBody)
@@ -312,12 +359,32 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 if(response?.isSuccessful==true&&arguments?.getString("from")=="rmbusiness")
                 {
                     withContext(Dispatchers.Main) {
-                        if(context is RMReAssignListingActivity)
-                        {
-                            var con=context as RMReAssignListingActivity
-                            con.showAssignListFragment()
+                        if (arguments?.getString("task").equals("RMreJourney", ignoreCase = true)) {
+                            withContext(Dispatchers.IO)
+                            {
+                                progressBar.dismmissLoading()
+
+                                startActivity(Intent(
+                                    activity,
+                                    RMScreeningNavigationActivity::class.java
+                                )
+                                    .apply {
+                                        putExtra("loanId", loanId)
+                                    })
+                                activity?.finish()
+                            }
+                        } else {
+                            withContext(Dispatchers.IO)
+                            {
+                                if (context is RMReAssignListingActivity) {
+                                    var con = context as RMReAssignListingActivity
+                                    con.showAssignListFragment()
+                                } else if (context is ReUsableFragmentSpace) {
+                                    activity?.finish()
+                                }
+                                progressBar.dismmissLoading()
+                            }
                         }
-                        progressBar.dismmissLoading()
                     }
 
 
@@ -334,6 +401,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                                     activity!!,
                                     R.id.frag_container
                                 ) else null
+
                             navController?.navigate(R.id.action_business_to_income)
 
                             if (activity is LeadInfoCaptureActivity) {
@@ -353,10 +421,14 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
+                Crashlytics.log(e.message)
+
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
             }
@@ -386,10 +458,11 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             if (/*industry && */constitution) {
                 withContext(uiContext) {
                     progressLoader.dismmissLoading()
-                    if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true))
+                    if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)||arguments?.getString("task").equals("RMreJourney",ignoreCase = true))
                     {
                         loadDataFromRMAssignList()
                     }
+//                    else if(activity.intent.getStringExtra("RMreJourneyScreen"))
                 }
             }
         }
@@ -400,14 +473,19 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
         try {
 
+            var map=HashMap<String,String>()
+            map["loanId"]=arguments?.getString("loanId")!!
+            map["screen"]="BUSINESS"
             CoroutineScope(Dispatchers.IO).launch {
+                /*val respo = RetrofitFactory.getApiService()
+                    .getBusinessData(arguments?.getString("loanId"))*/
                 val respo = RetrofitFactory.getApiService()
-                    .getBusinessData(arguments?.getString("loanId"))
+                    .getScreenData(map)
                 if (respo != null) {
                     if (respo.isSuccessful && respo.body() != null) {
                         withContext(Dispatchers.Main) {
-                            updateData(respo.body())
-                            updateSpinnerData(respo.body())
+                            updateData(respo.body()!!.businessDetails)
+                            updateSpinnerData(respo.body()!!.businessDetails)
                         }
                     } else {
                         withContext(Dispatchers.Main) {
@@ -418,6 +496,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             }
         } catch (e: java.lang.Exception){
            // response = null
+            Crashlytics.log(e.message)
+
         }
 
 
@@ -477,6 +557,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }
@@ -522,12 +604,16 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 break
             }
         }
+        if (activity is ReUsableFragmentSpace) {
+            (activity as ReUsableFragmentSpace).setCommentsToField("Business comment here")
+        }
         udhyog_aadhar_id_input?.setText(businessDetails?.udhyogaadhar)
         gstin_number_input?.setText(businessDetails?.gstcode)
         no_of_employee_count?.setText(businessDetails?.noofemployees)
         ssi_registration_input?.setText(businessDetails?.ssiregistrationno)
         contact_person_name_input?.setText(businessDetails?.contactpersonname)
         et_mobile_number?.setText(businessDetails?.landlineMobile)
+        no_of_year_in_office_input?.setText(businessDetails?.noOfyearsincurrentoffice)
         whats_app_number_input?.setText(businessDetails?.whatsappno)
         email_id_input?.setText(businessDetails?.emailid)
         annual_turnover_current_year_input?.setText(businessDetails?.annualturnoverofcurrentfinancialyearLastfinancialyear)

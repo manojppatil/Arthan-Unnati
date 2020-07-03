@@ -13,7 +13,6 @@ import com.example.arthan.ocr.CardResponse
 import com.example.arthan.ocr.OcrRequest
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -96,6 +95,12 @@ interface ApiService {
     @GET("rest/GetMstr/rshipWithApplicant")
     suspend fun getRelationshipWithApplicant(): Response<DetailsResponseData>?
 
+    @GET("rest/GetMstr/relationship")
+    suspend fun getRelationship(): Response<DetailsResponseData>?
+
+    @GET("getCollateralOwnership ")
+    suspend fun getCollateralOwnership(): Response<DetailsResponseData>?
+
     //Done
     @POST("saveLead")
     suspend fun saveLead(@Body body: LeadPostData?): Response<LeadResponseData>?
@@ -132,7 +137,7 @@ interface ApiService {
     @GET("rest/GetMstr/getBMQueue/{bm_type}")
     suspend fun getBMQueue(@Path("bm_type") bmType: String?): Response<BMQueueResponseData>?
 
-     @GET("rest/GetMstr/getBCMQueue/{bm_type}")
+    @GET("rest/GetMstr/getBCMQueue/{bm_type}")
     suspend fun getBCMQueue(@Path("bm_type") bmType: String?): Response<BMQueueResponseData>?
 
     @POST("pd1")
@@ -178,7 +183,7 @@ interface ApiService {
     suspend fun getVoterCardInfo(@Body ocrRequest: OcrRequest): Response<CardResponse>
 
     @POST("rest/verifyACPan")
-    suspend fun verifyPANCardInfo(@Body body: Map<String,String?>): Response<VerifyCardResponse>
+    suspend fun verifyPANCardInfo(@Body body: Map<String, String?>): Response<VerifyCardResponse>
 
     @POST("rest/verifyACPan")
     suspend fun verifyAAdharCardInfo(@Body pan: String?): Response<VerifyCardResponse>
@@ -211,13 +216,16 @@ interface ApiService {
     suspend fun getToDisbursedCases(@Body request: RMDashboardRequest): Response<ToDisbursedCaseResponse>
 
     @POST("rmReview")
-    suspend fun getRMReviewList(@Body request: RMDashboardRequest):Response<RMReviewReponse>
+    suspend fun getRMReviewList(@Body request: RMDashboardRequest): Response<RMReviewReponse>
 
     @POST("verifyOTP")
     suspend fun verifyOTP(@Body request: VerifyOTPRequest): Response<VerifyOTPResponse>
 
     @POST("updateScreen")
-    suspend fun updateEligibilityAndPayment(@Body request: UpdateEligibilityAndPaymentReq) : Response<BaseResponseData>
+    suspend fun updateEligibilityAndPaymentInitiate(@Body request: UpdateEligibilityAndPaymentReq): Response<BaseResponseData>
+
+    @POST("paymentStatus")
+    suspend fun updateEligibilityAndPayment(@Body request: UpdateEligibilityAndPaymentReq): Response<BaseResponseData>
 
     @POST("consent")
     suspend fun markConsent(@Body request: MarkConsentRequest): Response<BaseResponseData>
@@ -229,22 +237,22 @@ interface ApiService {
     suspend fun saveNeighborReference(@Body postData: NeighborReferencePostData): Response<BaseResponseData>?
 
     @POST("getScreenDetails")
-    suspend fun getScreenDetails(@Body body: Map<String,String>):Response<ScreenDetailsToNavigateData>
+    suspend fun getScreenDetails(@Body body: Map<String, String>): Response<ScreenDetailsToNavigateData>
 
     @POST("submitPresanctionDocs")
-    suspend fun submitPresanctionDocs(@Body body: PresanctionDocsRequestData):Response<BaseResponseData>
+    suspend fun submitPresanctionDocs(@Body body: PresanctionDocsRequestData): Response<BaseResponseData>
 
     @POST("docScreeningStatus")
-    suspend fun docScreeningStatus(@Body body: DocScreeningStatusPost):Response<BaseResponseData>
+    suspend fun docScreeningStatus(@Body body: DocScreeningStatusPost): Response<BaseResponseData>
 
     @POST("updateOtherDetails")
-    suspend fun updateOtherDetails(@Body body: Map<String, String>):Response<BaseResponseData>
+    suspend fun updateOtherDetails(@Body body: Map<String, String>): Response<BaseResponseData>
 
     @POST("bmSubmit")
-    suspend fun bmSubmit(@Body body: FinalReportPostData):Response<BaseResponseData>
+    suspend fun bmSubmit(@Body body: FinalReportPostData): Response<BaseResponseData>
 
     @POST("bcmSubmit")
-    suspend fun bcmSubmit(@Body body: FinalReportPostData):Response<BaseResponseData>
+    suspend fun bcmSubmit(@Body body: FinalReportPostData): Response<BaseResponseData>
 
     @GET("getDeviations")
     suspend fun getDeviations(@Query("loanId") loanId: String?): Response<DeviationsResponseData>?
@@ -280,6 +288,9 @@ interface ApiService {
     @GET("bcmDecision")
     suspend fun bcmDecision(@Query("loanId") loanId: String?): Response<BMDecisionResponse>?
 
+    @GET("getCust360Status")
+    suspend fun getCust360Status(@Query("loanId") loanId: String?): Response<BMDecisionResponse>?
+
     @GET("getBMApproved")
     suspend fun getBMApproved(@Query("bmId") bmId: String?): Response<RMApprovedCaseResponse>?
 
@@ -295,6 +306,12 @@ interface ApiService {
     @GET("getDocMstr")
     suspend fun getDocMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
 
+    @POST("getBMDashboard")
+    suspend fun getBMDashboard(@Body map: HashMap<String, String>): Response<BMDashboardResponseData>?
+
+    @POST("getBCMDashboard")
+    suspend fun getBCMDashboard(@Body map: HashMap<String, String>): Response<BMDashboardResponseData>?
+
     @GET("checkRLTStatus")
     suspend fun checkRLTStatus(@Query("loanId") loanId: String?): Response<CheckRLTStatusResponse>?
 
@@ -302,31 +319,64 @@ interface ApiService {
     suspend fun sendPaymentLink(@Query("loanId") loanId: String?): Response<BaseResponseData>?
 
     @POST("rmRequestWaiver")
-    suspend fun rmRequestWaiver(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+    suspend fun rmRequestWaiver(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
     @POST("bmRequestWaiver")
-    suspend fun bmRequestWaiver(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+    suspend fun bmRequestWaiver(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
     @POST("sendToken")
-    suspend fun sendToken(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+    suspend fun sendToken(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
     @POST("updateBusinessDetails")
-    suspend fun updateBusinessDetails(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+    suspend fun updateBusinessDetails(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
     @POST("updateIncomeDetails")
-    suspend fun updateIncomeDetails(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+    suspend fun updateIncomeDetails(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
     @POST("bcmRLTSubmit")
-    suspend fun bcmRLTSubmit(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+    suspend fun bcmRLTSubmit(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
- @POST("submitLPC")
-    suspend fun submitLPC(@Body map: HashMap<String,String>): Response<BaseResponseData>?
+    @POST("submitLPC")
+    suspend fun submitLPC(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
     @POST("updateDeviations")
-    suspend fun updateDeviations(@Body body: DeviationsResponseData):Response<BaseResponseData>
+    suspend fun updateDeviations(@Body body: DeviationsResponseData): Response<BaseResponseData>
 
- @GET("getIncSrcMstr")
- suspend fun getIncSrcMstr(): Response<CollateralResponseData>?
+
+    @POST("getUserRole")
+    suspend fun getUserRole(@Body body: HashMap<String, String>): Response<RoleResponse>
+
+    @POST("getScreenData")
+    suspend fun getScreenData(@Body body: HashMap<String, String>): Response<CustomerDocumentAndDataResponseData>
+
+    @GET("getIncSrcMstr")
+    suspend fun getIncSrcMstr(): Response<CollateralResponseData>?
+
+
+    @GET("getLoanDataStatus")
+    suspend fun getLoanDataStatus(@Query("loanId") loanId: String?): Response<ScreeningNavDataResponse>?
+
+    @GET("getRMReAssignedStatus")
+    suspend fun getRMReAssignedStatus(@Query("loanId") loanId: String?): Response<RmReAssignNavResponse>?
+
+
+    @GET("getRMInprogress")
+    suspend fun getRMInprogress(@Query("rmId") rmId: String?): Response<RMInProgressResponse>?
+
+    @GET("getBMInprogress")
+    suspend fun getBMInprogress(@Query("bmId") bmId: String?): Response<RMInProgressResponse>?
+
+    @GET("getBCMInprogress")
+    suspend fun getBCMInprogress(@Query("bcmId") bcmId: String?): Response<RMInProgressResponse>?
+
+    @GET("getOTPforEmp")
+    suspend fun getOTPforEmp(@Query("empCode") empCode: String?): Response<BaseResponseData>
+
+    @POST("verifyOTPforEmp")
+    suspend fun verifyOTPforEmp(@Body body: Map<String, String>):Response<BaseResponseData>
+
+    @POST("storeMpin")
+    suspend fun storeMpin(@Body body: Map<String, String>):Response<BaseResponseData>
 
 
 

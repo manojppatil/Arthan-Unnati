@@ -91,6 +91,7 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
                             response?.errorBody()?.string(),
                             BaseResponseData::class.java
                         )
+                        mLoanId=result?.loanId
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -125,16 +126,26 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
                     if(result.body()?.eligibility.equals("y",ignoreCase = true))
                     {
                         context?.startActivity(Intent(context, Customer360Activity::class.java).apply {
-                            putExtra(ArgumentKey.LoanId, mLoanId)
+                            putExtra("loanId", mLoanId)
+                            putExtra("indSeg",activity?.intent?.getStringExtra("indSeg"))
+                            putExtra("loginDate",activity?.intent?.getStringExtra("loginDate"))
+                            putExtra("loanId",activity?.intent?.getStringExtra("loanId"))
+                            putExtra("loanAmt",activity?.intent?.getStringExtra("loanAmt"))
+                            putExtra("cname",activity?.intent?.getStringExtra("cname"))
+                            putExtra("custId",activity?.intent?.getStringExtra("custId"))
+                            putExtra("loanType",activity?.intent?.getStringExtra("loanType"))
+
                         })
-                    }else
-                    {
-                        startActivity(Intent(
-                            activity,
-                            PendingCustomersActivity::class.java
-                        ).apply {
-                            putExtra("FROM", "BCM")
-                        })
+                    }else {
+                        withContext(Dispatchers.Main) {
+                            startActivity(Intent(
+                                activity,
+                                PendingCustomersActivity::class.java
+                            ).apply {
+                                putExtra("FROM", "BCM")
+                            })
+                        }
+                        activity?.finish()
                     }
                 }
             }else {

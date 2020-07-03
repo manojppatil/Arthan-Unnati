@@ -48,8 +48,12 @@ class PDTDocUploadActivity : AppCompatActivity() {
     }
 
     private fun getOutputMediaFile(): File {
-        val dir = File(
+       /* val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+            "Arthan"
+        )  */
+        val dir = File(
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
             "Arthan"
         )
         if (!dir.exists())

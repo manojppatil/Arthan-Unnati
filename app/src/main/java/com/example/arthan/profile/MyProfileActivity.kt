@@ -7,6 +7,7 @@ import android.net.Uri
 import android.view.View
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils.runOnUiThread
 import com.bumptech.glide.Glide
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.network.S3UploadFile
 import com.example.arthan.network.S3Utility
@@ -90,6 +91,8 @@ class MyProfileActivity : BaseFragment(){ //: AppCompatActivity() {
                     } catch (e: Exception) {
                         runOnUiThread { loader.dismmissLoading() }
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                     }
                 })
             }
@@ -136,6 +139,8 @@ class MyProfileActivity : BaseFragment(){ //: AppCompatActivity() {
             return copiedFile
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return null
     }

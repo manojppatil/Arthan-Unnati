@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -27,10 +28,10 @@ class RMScreeningListingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lisiting)
 
         setSupportActionBar(toolbar as Toolbar?)
+        toolbar_title.text = "Screening(${intent.getStringExtra("screeningCount")})"
         mViewModel= ViewModelProvider(this).get(RMDashboardViewModel::class.java)
 
         back_button?.setOnClickListener { onBackPressed() }
-
         loadScreeningList()
     }
 
@@ -53,6 +54,23 @@ class RMScreeningListingActivity : AppCompatActivity() {
 
 
         menuInflater.inflate(R.menu.more,menu)
+        val searchItem=menu?.findItem(R.id.searchMenu)
+        val searchView=searchItem?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                (rv_listing.adapter as ScreeningAdapter).filter?.filter(query)
+                //Toast.makeText(this,"searchItems",Toast.LENGTH_LONG).show();
+                return  true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val query = newText.toString()
+                var results=(rv_listing.adapter as ScreeningAdapter).filter?.filter(query)
+                rv_listing!!.adapter?.notifyDataSetChanged()
+                return false
+            }
+        }
+        )
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -67,6 +85,10 @@ class RMScreeningListingActivity : AppCompatActivity() {
             {
                 finish()
                 startActivity(Intent(this, SplashActivity::class.java))
+            }
+            R.id.searchMenu->
+            {
+
             }
 
         }

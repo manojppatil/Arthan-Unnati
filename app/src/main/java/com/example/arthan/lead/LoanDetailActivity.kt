@@ -8,26 +8,31 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.Toast
-import androidx.core.view.accessibility.AccessibilityViewCommand
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.LoanPostData
 import com.example.arthan.lead.model.responsedata.LoanResponseData
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.utils.getRupeeSymbol
 import com.example.arthan.views.activities.BaseActivity
+import com.example.arthan.views.activities.SplashActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_loan_detail.*
 import kotlinx.coroutines.*
+import java.util.*
+import java.util.logging.Handler
 import kotlin.coroutines.CoroutineContext
-import com.example.arthan.utils.ArgumentKey
-import com.example.arthan.utils.getRupeeSymbol
-import com.example.arthan.views.activities.SplashActivity
-import kotlinx.android.synthetic.main.activity_add_lead_step1.*
+
 
 class LoanDetailActivity : BaseActivity(), CoroutineScope {
 
@@ -40,6 +45,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
 
     private var mProgressBar: ProgrssLoader? = null
     private var mLeadId: String = ""
+    private var loanId: String = ""
 
     override fun contentView() = R.layout.activity_loan_detail
 
@@ -58,7 +64,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                 if(property_value_input.hasFocus())
                 {
                     if(property_value_input?.text.toString().isNotEmpty() && loan_amount_input?.text.toString().isNotEmpty()&&
-                        loan_amount_input?.text.toString().toInt()>property_value_input?.text.toString().toInt())
+                        loan_amount_input?.text.toString().toLong()>property_value_input?.text.toString().toLong())
                     {
                         Toast.makeText(this@LoanDetailActivity,"Loan Amount cant be more than Property Value",Toast.LENGTH_LONG).show()
                     }
@@ -66,7 +72,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                 if(loan_amount_input.hasFocus())
                 {
                     if(property_value_input?.text.toString().isNotEmpty()  && loan_amount_input?.text.toString().isNotEmpty()&&
-                        loan_amount_input?.text.toString().toInt()>property_value_input?.text.toString().toInt())
+                        loan_amount_input?.text.toString().toLong()>property_value_input?.text.toString().toLong())
                     {
                         Toast.makeText(this@LoanDetailActivity,"Loan Amount cant be more than Property Value",Toast.LENGTH_LONG).show()
                     }
@@ -77,20 +83,43 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
     }
 
     private fun checkForProceed(): Boolean {
+        var proceed=false
+        if(loan_type_spinner.selectedItem.toString().equals("unsecure",ignoreCase = true))
+            {
 
-          return  loan_amount_input?.text?.isNotEmpty() == true && property_value_input?.text?.isNotEmpty() == true
-                    && (property_value_input?.text.toString().isNotEmpty() &&(property_value_input?.text.toString().toInt()>0))
-                    &&(business_turnover_input?.text.toString().isNotEmpty() &&(business_turnover_input?.text.toString().toInt()>0))
-                    &&(net_profit_margin_input?.text.toString().isNotEmpty() &&(net_profit_margin_input?.text.toString().toInt()>0))
-                    && business_turnover_input?.text?.isNotEmpty() == true && net_profit_margin_input?.text?.isNotEmpty() == true
-                    && existing_loan_input?.text?.isNotEmpty() == true && existing_loan_obligation_input?.text?.isNotEmpty() == true
-                    && additional_income_input?.text?.isNotEmpty() == true && household_expenses_input?.text?.isNotEmpty() == true
-                   && (property_value_input?.text.toString().isNotEmpty() &&(property_value_input?.text.toString().toInt()>0) &&
-                  loan_amount_input?.text.toString().isNotEmpty() &&(loan_amount_input?.text.toString().toInt()>0)&&
-                  loan_amount_input?.text.toString().toInt()<property_value_input?.text.toString().toInt())
-                  &&(netMonthlyIncomet?.text.toString().isNotEmpty() &&(netMonthlyIncomet?.text.toString().toInt()>0))
+                return loan_amount_input?.text?.isNotEmpty() == true
+                        && (business_turnover_input?.text.toString()
+                    .isNotEmpty() && (business_turnover_input?.text.toString().toLong() > 0))
+                        && (net_profit_margin_input?.text.toString()
+                    .isNotEmpty() && (net_profit_margin_input?.text.toString().toLong() > 0))
+                        && business_turnover_input?.text?.isNotEmpty() == true && net_profit_margin_input?.text?.isNotEmpty() == true
+                        && existing_loan_input?.text?.isNotEmpty() == true && existing_loan_obligation_input?.text?.isNotEmpty() == true
+                        && additional_income_input?.text?.isNotEmpty() == true && household_expenses_input?.text?.isNotEmpty() == true
+                        && (netMonthlyIncomet?.text.toString()
+                    .isNotEmpty() && (netMonthlyIncomet?.text.toString().toLong() > 0))
+            }else {
+            proceed =
+                loan_amount_input?.text?.isNotEmpty() == true && property_value_input?.text?.isNotEmpty() == true
+                        && (property_value_input?.text.toString()
+                    .isNotEmpty() && (property_value_input?.text.toString().toLong() > 0))
+                        && (business_turnover_input?.text.toString()
+                    .isNotEmpty() && (business_turnover_input?.text.toString().toLong() > 0))
+                        && (net_profit_margin_input?.text.toString()
+                    .isNotEmpty() && (net_profit_margin_input?.text.toString().toLong() > 0))
+                        && business_turnover_input?.text?.isNotEmpty() == true && net_profit_margin_input?.text?.isNotEmpty() == true
+                        && existing_loan_input?.text?.isNotEmpty() == true && existing_loan_obligation_input?.text?.isNotEmpty() == true
+                        && additional_income_input?.text?.isNotEmpty() == true && household_expenses_input?.text?.isNotEmpty() == true
+                        && (property_value_input?.text.toString()
+                    .isNotEmpty() && (property_value_input?.text.toString().toLong() > 0) &&
+                        loan_amount_input?.text.toString()
+                            .isNotEmpty() && (loan_amount_input?.text.toString().toLong() > 0) &&
+                        loan_amount_input?.text.toString()
+                            .toLong() < property_value_input?.text.toString().toLong())
+                        && (netMonthlyIncomet?.text.toString()
+                    .isNotEmpty() && (netMonthlyIncomet?.text.toString().toLong() > 0))
+        }
 
-
+        return proceed
     }
 
     override fun init() {
@@ -104,6 +133,13 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
 
         loadInitialData()
 
+
+        android.os.Handler().postDelayed( {
+            if(intent.getStringExtra("task")=="RMreJourney")
+            {
+                setLoanData()
+            }
+        },2000)
         loan_amount_input?.addTextChangedListener(nTextChangeListener)
         property_value_input?.addTextChangedListener(nTextChangeListener)
         business_turnover_input?.addTextChangedListener(nTextChangeListener)
@@ -367,12 +403,104 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
         }
     }
 
+    private fun setLoanData() {
+        var loanDetails: LoanPostData? = null
+        val progressLoader = ProgrssLoader(this)
+        progressLoader.showLoading()
+        CoroutineScope(Dispatchers.IO).launch {
+
+            loanId=intent.getStringExtra("loanId")
+            try {
+                var map = HashMap<String, String>()
+                map["loanId"] = intent.getStringExtra("loanId")
+                map["screen"] = intent.getStringExtra("screen")
+
+                val response =
+                    RetrofitFactory.getApiService().getScreenData(map)
+                withContext(Dispatchers.Main) {
+                    progressLoader.dismmissLoading()
+                    if (response.body() != null) {
+                        loanDetails = response.body()!!.loanDetails
+                        loan_amount_input.setText(loanDetails?.loanAmount)
+//        et_years.setText(loanDetails.yea)
+                        getStaticSpinnerData(loan_type_spinner, loanDetails?.loanType)
+                        setDataToSpinner(spnr_loan_purpose, loanDetails?.purposeofLoan)
+                        setDataToSpinner(security_offered_spinner, loanDetails?.collateralType)
+                        getStaticSpinnerData(security_jurisdiction_spinner, loanDetails?.securityJurisdiction)
+                        property_value_input.setText(loanDetails?.propertyValue)
+                        business_turnover_input.setText(loanDetails?.turnover)
+                        when (loanDetails?.turnoverFreq) {
+                            "Monthly" -> rb_monthly.isChecked = true
+                            "Yearly" -> rb_yearly.isChecked = true
+                        }
+                        net_profit_margin_input.setText(loanDetails?.netprofitMargin)
+                        existing_loan_input.setText(loanDetails?.existingLoan)
+                        existing_loan_obligation_input.setText(loanDetails?.existingLoanObligationPm)
+                        netMonthlyIncomet.setText(loanDetails?.netMonthlyIncome)
+                        additional_income_input.setText(loanDetails?.additionalIncomePm)
+                        household_expenses_input.setText(loanDetails?.householdExpensesPm)
+
+                    }
+
+                }
+            }catch (e:Exception)
+            {
+                Crashlytics.log(e.message)
+            }
+        }
+    }
+    private fun getStaticSpinnerData(spinner: Spinner, value:String?)
+    {
+        if(spinner.id==loan_type_spinner.id) {
+            val list =
+                resources.getStringArray(R.array.arr_loan_type)
+            if (list != null) {
+                for (i in list.indices) {
+                    if (list[i].toLowerCase() == value?.toLowerCase()) {
+                        spinner.setSelection(i)
+                    }
+                }
+
+            }
+        }
+        if(spinner.id==security_jurisdiction_spinner.id) {
+            val list =
+                resources.getStringArray(R.array.arr_security_jurisdiction)
+            if (list != null) {
+                for (i in list.indices) {
+                    if (list[i].toLowerCase() == value?.toLowerCase()) {
+                        spinner.setSelection(i)
+                    }
+                }
+
+            }
+        }
+
+    }
+    private fun setDataToSpinner(spinner: Spinner, value:String?)
+    {
+        val list=  (spinner.adapter as? DataSpinnerAdapter)?.list
+        if(list!=null) {
+            for (i in 0 until list!!.size)
+            {
+                if(list[i].value.toLowerCase()==value?.toLowerCase())
+                {
+                    spinner.setSelection(i)
+                }
+            }
+        }
+    }
     // TODO netMonthlyIncomet
     private fun saveLoanDetails() {
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
+        if (intent.getStringExtra("task") == "RMContinue")
+        {
+            loanId=intent.getStringExtra("loanId")
+        }
         val postBody = LoanPostData(
             leadId = mLeadId,
+            loanId = loanId,
             loanAmount = loan_amount_input?.text?.toString() ?: "",
             tenure = (et_years?.tag as? Int)?.toString() ?: "",
             tenorMonth = (et_months?.tag as? Int)?.toString() ?: "",
@@ -392,7 +520,8 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             additionalIncomePm = additional_income_input?.text?.toString() ?: "",
             householdExpensesPm = household_expenses_input?.text?.toString() ?: "",
             createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType),
-            userId="RM1"
+            netMonthlyIncome = netMonthlyIncomet.text.toString(),
+            userId=ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -402,7 +531,20 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                     if (result?.apiCode == "200") {
                         withContext(Dispatchers.Main) {
                             progressBar.dismmissLoading()
-                            if(result.eligibility?.toLowerCase()=="y") {
+                            if(intent.getStringExtra("task")=="RMreJourney")
+                                {
+                                    startActivity(
+                                        Intent(
+                                            this@LoanDetailActivity,
+                                            RMScreeningNavigationActivity::class.java
+                                        ).apply {
+                                            putExtra("loanId",loanId)
+                                        }
+                                    )
+                                    finish()
+                                }
+                           else if(result.eligibility?.toLowerCase()=="y") {
+                                loanId=result.loanId!!
                                 AppPreferences.getInstance()
                                     .addString(AppPreferences.Key.LoanId, result.loanId)
                                 startActivity(
@@ -413,7 +555,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                                         putExtra(ArgumentKey.LeadId, mLeadId)
                                         putExtra(ArgumentKey.Eligibility, result.eligibility)
                                     })
-                                finish()
+                              //  finish()
                             }else
                             {
                                 startActivity(Intent(this@LoanDetailActivity,RMDashboardActivity::class.java))
@@ -445,11 +587,15 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                         )
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
+                        Crashlytics.log(e.message)
+
                         e.printStackTrace()
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
+                Crashlytics.log(e.message)
+
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
             }
@@ -463,18 +609,22 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             try {
                 val purposeOfLoan = fetchAndUpdatePurposeOfLoanAsync().await()
                 val collateralNature = fetchAndUpdateCollateralNatureAsync().await()
-
                 if (purposeOfLoan && collateralNature) {
                     withContext(coroutineContext) {
                         try {
                             progressLoader.dismmissLoading()
+
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -493,11 +643,15 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                     }
                 }
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -517,11 +671,15 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }

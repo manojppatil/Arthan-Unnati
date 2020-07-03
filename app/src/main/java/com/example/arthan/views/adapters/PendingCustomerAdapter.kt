@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
@@ -24,12 +22,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 
 class PendingCustomerAdapter(private val mContext: Context, private val from: String) :
-    RecyclerView.Adapter<PendingCustomerAdapter.PendingCustomerVH>() {
+    RecyclerView.Adapter<PendingCustomerAdapter.PendingCustomerVH>(),Filterable {
 
-    private val list: MutableList<Customer> = mutableListOf()
+    private var list: MutableList<Customer> = mutableListOf()
+    private var listoriginal:MutableList<Customer> = ArrayList(list)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PendingCustomerVH {
         val view =
             LayoutInflater.from(mContext).inflate(R.layout.row_pending_customer, parent, false)
@@ -44,6 +42,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
 
     fun updateList(myQueue: List<Customer>?) {
         list.addAll(myQueue?.toMutableList() ?: return)
+        listoriginal=ArrayList(list)
     }
 
     inner class PendingCustomerVH(private val root: View) : RecyclerView.ViewHolder(root) {
@@ -159,6 +158,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                     itemView.context,
                     customer.loanId,
                     customer.customerId,
+                    customer,
                     from
                 )
             }
@@ -210,25 +210,36 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                             progressLoader.dismmissLoading()
 
                             val canDecide= res.body()!!.canDecide
+                            val canNavigate= res.body()!!.canNavigate
                             withContext(Dispatchers.Main) {
-                                if (canDecide == "N") {
 
-                                    Toast.makeText(mContext,"Please verify Documents & Data before taking a decision",Toast.LENGTH_LONG).show()
-                                } else {
-                                    mContext.startActivity(
-                                        Intent(
+                                if (canNavigate.equals("no",ignoreCase = true)) {
+
+                                    Toast.makeText(mContext,res.body()!!.message,Toast.LENGTH_LONG).show()
+                                }else {
+                                    if (canDecide == "N") {
+
+                                        Toast.makeText(
                                             mContext,
-                                            BMScreeningReportActivity::class.java
-                                        ).apply {
-                                            putExtra("indSeg", customer.indSeg)
-                                            putExtra("loginDate", customer.loginDate)
-                                            putExtra("loanId", customer.loanId)
-                                            putExtra("loanAmt", customer.loanAmt)
-                                            putExtra("cname", customer.customerName)
-                                            putExtra("custId", customer.customerId)
-                                            putExtra("FROM", "BCM")
+                                            "Please verify Documents & Data before taking a decision",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    } else {
+                                        mContext.startActivity(
+                                            Intent(
+                                                mContext,
+                                                BMScreeningReportActivity::class.java
+                                            ).apply {
+                                                putExtra("indSeg", customer.indSeg)
+                                                putExtra("loginDate", customer.loginDate)
+                                                putExtra("loanId", customer.loanId)
+                                                putExtra("loanAmt", customer.loanAmt)
+                                                putExtra("cname", customer.customerName)
+                                                putExtra("custId", customer.customerId)
+                                                putExtra("FROM", "BCM")
 
-                                        })
+                                            })
+                                    }
                                 }
                             }
                         }else
@@ -264,6 +275,43 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
             }*/
         }
 
+    }
+    override  fun getFilter(): Filter? {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val query = charSequence.toString()
+                //List<ScreeningData>
+                var filtered: MutableList<Customer> = mutableListOf()
+                if (query.isEmpty()) {
+                    filtered.addAll(listoriginal)
+                } else {
+                    for (name in list) {
+                        if ((name as Customer).customerName?.toLowerCase()!!.startsWith(query.toLowerCase())) {
+                            filtered.add(name)
+                        }
+                        else if ((name as Customer).customerId?.toLowerCase()!!.startsWith(query.toLowerCase())) {
+                            filtered.add(name)
+                        }
+                    }
+
+                }
+
+                val results = FilterResults()
+                results.count = filtered.size
+                results.values = filtered
+                return results
+            }
+
+            override fun publishResults(
+                charSequence: CharSequence,
+                results: FilterResults
+            ) {
+                list.clear()
+                var itemsFiltered = results.values as MutableList<Customer>
+                list=itemsFiltered
+                notifyDataSetChanged()
+            }
+        }
     }
 
 }

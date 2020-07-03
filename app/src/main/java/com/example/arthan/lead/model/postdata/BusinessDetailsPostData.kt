@@ -3,6 +3,7 @@ package com.example.arthan.lead.model.postdata
 import com.google.gson.annotations.SerializedName
 
 data class BusinessDetailsPostData(
+    var resubmit:String?,
     var bname: String? = "",
     var form6061: String? = "",
     var firmpan: String? = "",
@@ -12,7 +13,7 @@ data class BusinessDetailsPostData(
     var customerId : String? = "",
     var udhyogaadhar: String? = "",
     var gstcode: String? = "",
-    var noofemployees: String? = "",
+    var noofemployees: Int? = 0,
     var ssiregistrationno: String? = "",
     var emailid: String? = "",
     var landlineMobile: String? = "",
@@ -24,7 +25,7 @@ data class BusinessDetailsPostData(
     var annualturnoverofcurrentfinancialyearLastfinancialyear: String? = "",
     var annualturnoverofpreviousfinancialyear: String? = "",
     var natureofassociation: String? = "",
-    @SerializedName("no.ofyearsincurrentoffice")
+    @SerializedName("noOfyearsincurrentoffice")
     var noOfyearsincurrentoffice: String? = "",
     var operatingbusinessaddress: String? = "",
     var projectedturnover: String? = "",

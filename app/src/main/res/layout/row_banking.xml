@@ -183,5 +183,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_no_of_credit_entries"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#0b41af"
+        android:letterSpacing="0.05"
+        android:lineSpacingExtra="8.3sp"
+        android:text="View Graph"
+        android:id="@+id/showAcGraph"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:fontFamily="@font/lato_black"
+        android:background="@drawable/bg_white_rectangle"
+        android:backgroundTint="#eef8fa"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_no_of_credit_entries"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

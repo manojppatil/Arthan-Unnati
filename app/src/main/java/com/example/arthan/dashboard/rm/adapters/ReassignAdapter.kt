@@ -10,10 +10,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
+import com.example.arthan.RmReassignNavActivity
 import com.example.arthan.dashboard.rm.PendingInfoActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.model.ReassignLeadData
-import org.w3c.dom.Text
 
 class ReassignAdapter(private val context: Context,
                       private val from:String,
@@ -61,6 +61,18 @@ private val data: List<ReassignLeadData>): RecyclerView.Adapter<ReassignAdapter.
 
 
             var activity : RMReAssignListingActivity=context as RMReAssignListingActivity
+
+
+            root.setOnClickListener {
+
+                val loanId = data[position].loanId
+                activity.startActivity(Intent(activity, RmReassignNavActivity::class.java).apply {
+                    putExtra("task", "RM_AssignList")
+                    putExtra("loanId", loanId)
+                })
+                // activity.showPendingScreenList(data[position])
+
+            }
             btnBusinessRm.setOnClickListener { 
                 activity.showBusinessFragment(data[position].loanId)
             }

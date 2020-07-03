@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
+import com.crashlytics.android.Crashlytics
 
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.postdata.LoanPostData
 import com.example.arthan.lead.model.responsedata.LoanResponseData
@@ -115,7 +117,7 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
             existingLoanObligationPm = existing_loan_obligation_input?.text?.toString() ?: "",
             additionalIncomePm = additional_income_input?.text?.toString() ?: "",
             householdExpensesPm = household_expenses_input?.text?.toString() ?: "",
-            createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
+            createdBy = ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -149,12 +151,16 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -173,11 +179,15 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
                             progressLoader?.dismmissLoading()
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
         }
     }
@@ -198,11 +208,15 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        Crashlytics.log(e.message)
+
                     }
                 }
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         return@async true
     }
@@ -224,11 +238,15 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Crashlytics.log(e.message)
+
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                Crashlytics.log(e.message)
+
             }
             return@async true
         }

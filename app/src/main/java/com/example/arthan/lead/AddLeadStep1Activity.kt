@@ -27,9 +27,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.bumptech.glide.Glide
+import com.crashlytics.android.Crashlytics
 import com.example.arthan.AppLocationProvider
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.LeadPostData
@@ -107,6 +109,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
     override fun onToolbarBackPressed() = onBackPressed()
     private var lat:Long=0
     private var lng:Long=0
+    private var leadId:String=""
       var  locationListener:LocationListener=this
     var locationManager:LocationManager?=null
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -193,8 +196,12 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
     }
 
     private fun getOutputMediaFile(): File {
-        val dir = File(
+       /* val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+            "Arthan"
+        )*/
+        val dir = File(
+          getExternalFilesDir(Environment.DIRECTORY_PICTURES),
             "Arthan"
         )
         if (!dir.exists())
@@ -274,6 +281,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                                     ThreadUtils.runOnUiThread { loader.dismmissLoading() }
                                 }
                         } catch (e: Exception) {
+                            Crashlytics.log(e.message)
                             ThreadUtils.runOnUiThread { loader.dismmissLoading() }
                             e.printStackTrace()
                         }
@@ -422,6 +430,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
         val postBody = LeadPostData(
+            leadId= leadId,
             customerName = et_customer_name?.text?.toString() ?: "",
             mobileNo = et_mobile_number?.text?.toString() ?: "",
             establishmentName = et_establishment_name?.text?.toString() ?: "",
@@ -435,7 +444,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             lat = lat.toString(),
             lng = lng.toString(),
             shopPicUrl=shopUrl,
-            createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType)
+            createdBy = ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -456,8 +465,9 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                             }else {
                                 AppPreferences.getInstance()
                                     .addString(AppPreferences.Key.LeadId, result.leadId)
+                                leadId=result.leadId!!
                                 LoanDetailActivity.startMe(this@AddLeadStep1Activity, result.leadId)
-                                finish()
+                              //  finish()
                             }
                         }
                     } else {

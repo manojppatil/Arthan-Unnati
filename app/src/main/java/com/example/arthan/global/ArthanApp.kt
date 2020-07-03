@@ -1,8 +1,14 @@
 package com.example.arthan.global
 
 import androidx.multidex.MultiDexApplication
+import com.crashlytics.android.Crashlytics
 
 class ArthanApp : MultiDexApplication() {
+
+    var loginUser:String=""
+    var loginRole:String=""
+    var empId:String=""
+    var appVersion="Version:1.1"
 
     override fun onCreate() {
         super.onCreate()
@@ -11,6 +17,8 @@ class ArthanApp : MultiDexApplication() {
             AppPreferences.init(this)
         } catch (e: Exception) {
             e.printStackTrace()
+            Crashlytics.log(e.message)
+
         }
         //FinBox.initLibrary(this)
     }

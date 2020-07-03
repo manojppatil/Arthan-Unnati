@@ -27,5 +27,17 @@ data class PersonalDetails(
     val rshipWithApplicant: String?,
     val sourceofIncome: String?,
     val state: String?,
-    val title: String?
+    val title: String?,
+    val applicantPanNo: String?,
+    val addrFlag:Boolean=true,
+    var addressLine1p: String = "",
+    var addressLine2p: String = "",
+    var landmarkp: String = "",
+    var pinCodep: String = "",
+    var areaNamep: String = "",
+    var cityp: String = "",
+    var districtp: String = "",
+    var category: String = "",
+    var statep: String = "",
+    var religion: String = ""
 )

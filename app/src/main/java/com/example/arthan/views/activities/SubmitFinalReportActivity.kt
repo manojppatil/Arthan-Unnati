@@ -17,6 +17,7 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.bm.model.FinalReportPostData
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.STATUS
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.network.S3UploadFile
@@ -62,7 +63,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         txt_status.text = "Status: ${intent.getStringExtra(STATUS)}"
         txt_reason_msg.text=(resources.getString(R.string.state_the_reasons_for_the_approval_of_this_application,intent.getStringExtra(STATUS)))
 
-        if(intent?.getStringExtra("FROM")=="BCM")
+        if(ArthanApp.getAppInstance().loginRole=="BCM")
         {
             sanctions.visibility=View.VISIBLE
         }
@@ -184,12 +185,12 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     decision,
                     et_reason.text.toString(),
                     docUrlList,
-                    sanctionList,intent.getStringExtra("FROM")
+                    sanctionList,ArthanApp.getAppInstance().loginUser
 
 
                 )
 
-              if(intent.getStringExtra("FROM")=="BM") {
+              if(ArthanApp.getAppInstance().loginRole=="BM") {
 
                   CoroutineScope(Dispatchers.IO).launch {
                       val respo = RetrofitFactory.getApiService().bmSubmit(
@@ -234,7 +235,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                       }
                   }
 
-              }else if(intent.getStringExtra("FROM")=="BCM") {
+              }else if(ArthanApp.getAppInstance().loginRole=="BCM") {
                   CoroutineScope(Dispatchers.IO).launch {
                       val respo = RetrofitFactory.getApiService().bcmSubmit(
                           map
@@ -319,9 +320,12 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
     private fun getOutputMediaFile(): File {
         val dir = File(
+           getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            "Arthan"
+        )/* val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "Arthan"
-        )
+        )*/
         if (!dir.exists())
             dir.mkdirs()
         return File(
