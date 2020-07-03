@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.arthan.R
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.PD3Data
 import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.fragment_pd3.*
@@ -30,7 +29,7 @@ class PD3Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(ArthanApp.getAppInstance().loginRole == "BCM" || ArthanApp.getAppInstance().loginRole == "BM")
+        if(activity?.intent?.extras?.getString("FROM").equals("BCM"))
         {
             bcmPd3CheckBoxes.visibility=View.VISIBLE
         }else

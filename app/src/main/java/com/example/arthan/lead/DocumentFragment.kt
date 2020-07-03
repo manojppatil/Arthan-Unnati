@@ -171,7 +171,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                     list?.add(doc6)
                     var presanctionDocsRequestData=PresanctionDocsRequestData(arguments?.getString("loanId")!!,
                         arguments?.getString("custId")!!,
-                        ArthanApp.getAppInstance().loginUser,list
+                        "RM1",list
 
                     )
                     CoroutineScope(Dispatchers.IO).launch {
@@ -503,6 +503,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
 
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.Passport )
+                                  putExtra("skip","true")
                             },  RequestCode.Passport )
                         }
                         "Voters ID card" -> {
@@ -517,6 +518,8 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
 
                               startActivityForResult(Intent(activity, UploadDocumentActivity::class.java).apply {
                                 putExtra(DOC_TYPE,  RequestCode.DrivingLicense)
+                                  putExtra("skip","true")
+
                               },  RequestCode.DrivingLicense )
                         }
                         "Pan Card" -> {

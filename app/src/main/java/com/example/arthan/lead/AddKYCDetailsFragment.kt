@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
-import com.crashlytics.android.Crashlytics
 
 import com.example.arthan.R
 import com.example.arthan.global.*
@@ -71,8 +70,8 @@ class AddKYCDetailsFragment : NavHostFragment(), CoroutineScope {
         }
 
         btn_next.setOnClickListener {
-//            navController?.navigate(R.id.action_addKYCDetailsFragment_to_addPersonalDetailsFragment)
-          //  saveKycDetail()
+            navController?.navigate(R.id.action_addKYCDetailsFragment_to_addPersonalDetailsFragment)
+//            saveKycDetail()
         }
     }
 
@@ -225,7 +224,6 @@ class AddKYCDetailsFragment : NavHostFragment(), CoroutineScope {
                             navController?.navigate(
                                 R.id.action_addKYCDetailsFragment_to_addPersonalDetailsFragment,
                                 Bundle().also {
-                                    it.putString("custId",result.customerId)
                                     it.putParcelable("PAN_DATA", mPanCardData)
                                 })
 //                            startActivity(
@@ -249,8 +247,6 @@ class AddKYCDetailsFragment : NavHostFragment(), CoroutineScope {
                         )
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        Crashlytics.log(e.message)
-
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }

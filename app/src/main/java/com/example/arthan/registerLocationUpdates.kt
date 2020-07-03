@@ -6,7 +6,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import com.crashlytics.android.Crashlytics
 import java.util.*
 
 @SuppressLint("MissingPermission")
@@ -39,8 +38,6 @@ class AppLocationProvider {
         try {
             gpsEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
         } catch (ex: Exception) {
-            Crashlytics.log(ex.message)
-
             ex.printStackTrace()
         }
 
@@ -48,8 +45,6 @@ class AppLocationProvider {
             networkEnabled = locationManager!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            Crashlytics.log(ex.message)
-
         }
 
         //don't start listeners if no provider is enabled

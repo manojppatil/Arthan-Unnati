@@ -12,7 +12,7 @@ data class BusinessDetailsPostData(
     var customerId : String? = "",
     var udhyogaadhar: String? = "",
     var gstcode: String? = "",
-    var noofemployees: Int? = 0,
+    var noofemployees: String? = "",
     var ssiregistrationno: String? = "",
     var emailid: String? = "",
     var landlineMobile: String? = "",
@@ -24,7 +24,7 @@ data class BusinessDetailsPostData(
     var annualturnoverofcurrentfinancialyearLastfinancialyear: String? = "",
     var annualturnoverofpreviousfinancialyear: String? = "",
     var natureofassociation: String? = "",
-    @SerializedName("noOfyearsincurrentoffice")
+    @SerializedName("no.ofyearsincurrentoffice")
     var noOfyearsincurrentoffice: String? = "",
     var operatingbusinessaddress: String? = "",
     var projectedturnover: String? = "",

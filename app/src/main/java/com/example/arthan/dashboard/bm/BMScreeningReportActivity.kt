@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.example.arthan.R
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.STATUS
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
@@ -37,14 +36,14 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
         txt_customer_name.text=intent.getStringExtra("cname")
          custId=intent.getStringExtra("custId")
 
-        if(ArthanApp.getAppInstance().loginRole=="BM")
+        if(intent.getStringExtra("FROM")=="BM")
         {
 
             txt_recommend_bcm.text="Recommend to BCM"
             txt_approve.visibility=View.GONE
 
 
-        }else if(ArthanApp.getAppInstance().loginRole=="BCM")
+        }else if(intent.getStringExtra("FROM")=="BCM")
         {
             txt_recommend_bcm.text="Recommend to CC"
 
@@ -67,7 +66,7 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
-                    putExtra("FROM",ArthanApp.getAppInstance().loginRole)
+                    putExtra("FROM",intent.getStringExtra("FROM"))
 
                 })
                 finish()
@@ -80,7 +79,7 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
-                    putExtra("FROM",ArthanApp.getAppInstance().loginRole)
+                    putExtra("FROM",intent.getStringExtra("FROM"))
 
                 })
                 finish()
@@ -93,7 +92,7 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
-                    putExtra("FROM",ArthanApp.getAppInstance().loginRole)
+                    putExtra("FROM",intent.getStringExtra("FROM"))
 
                 })
                 finish()
@@ -107,7 +106,7 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
-                    putExtra("FROM",ArthanApp.getAppInstance().loginRole)
+                    putExtra("FROM",intent.getStringExtra("FROM"))
 
 
                 })

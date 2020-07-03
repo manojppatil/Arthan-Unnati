@@ -96,11 +96,6 @@ interface ApiService {
     @GET("rest/GetMstr/rshipWithApplicant")
     suspend fun getRelationshipWithApplicant(): Response<DetailsResponseData>?
 
-  @GET("rest/GetMstr/relationship")
-    suspend fun getRelationship(): Response<DetailsResponseData>?
-@GET("getCollateralOwnership ")
-    suspend fun getCollateralOwnership (): Response<DetailsResponseData>?
-
     //Done
     @POST("saveLead")
     suspend fun saveLead(@Body body: LeadPostData?): Response<LeadResponseData>?
@@ -222,9 +217,6 @@ interface ApiService {
     suspend fun verifyOTP(@Body request: VerifyOTPRequest): Response<VerifyOTPResponse>
 
     @POST("updateScreen")
-    suspend fun updateEligibilityAndPaymentInitiate(@Body request: UpdateEligibilityAndPaymentReq) : Response<BaseResponseData>
-
-     @POST("paymentStatus")
     suspend fun updateEligibilityAndPayment(@Body request: UpdateEligibilityAndPaymentReq) : Response<BaseResponseData>
 
     @POST("consent")
@@ -303,12 +295,6 @@ interface ApiService {
     @GET("getDocMstr")
     suspend fun getDocMstr(@Query("mstrId") mstrId: String?): Response<CollateralResponseData>?
 
-    @POST("getBMDashboard")
-    suspend fun getBMDashboard(@Body map: HashMap<String, String>): Response<BMDashboardResponseData>?
-
-    @POST("getBCMDashboard")
-    suspend fun getBCMDashboard(@Body map: HashMap<String, String>): Response<BMDashboardResponseData>?
-
     @GET("checkRLTStatus")
     suspend fun checkRLTStatus(@Query("loanId") loanId: String?): Response<CheckRLTStatusResponse>?
 
@@ -338,8 +324,6 @@ interface ApiService {
 
     @POST("updateDeviations")
     suspend fun updateDeviations(@Body body: DeviationsResponseData):Response<BaseResponseData>
-@POST("getUserRole")
-    suspend fun getUserRole(@Body body: HashMap<String,String>):Response<RoleResponse>
 
  @GET("getIncSrcMstr")
  suspend fun getIncSrcMstr(): Response<CollateralResponseData>?

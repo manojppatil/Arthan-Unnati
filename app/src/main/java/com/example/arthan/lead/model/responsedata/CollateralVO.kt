@@ -23,14 +23,5 @@ data class CollateralVO(
     val pincode: String? = "",
     val propertyJurisdiction: String? = "",
     val propertyType: String? = "",
-    val state: String? = "",
-    val ownerName: String? = "",
-    val address: String? = "",
-    val collateralType: String? = "",
-    val occupiedBy: String? = "",
-    val areaOfProperty: String? = "",
-    val distressValue: String? = "",
-    val boundaryMatch: String? = "",
-    val ltvConsidered: String? = "",
-    val remarks: String? = ""
+    val state: String? = ""
 ): Parcelable

@@ -6,7 +6,9 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
@@ -14,7 +16,6 @@ import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.bm.Customer360Activity
 import com.example.arthan.model.Customer
-import com.example.arthan.model.ScreeningData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.getPixelFromDP
@@ -26,10 +27,9 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 class PendingCustomerAdapter(private val mContext: Context, private val from: String) :
-    RecyclerView.Adapter<PendingCustomerAdapter.PendingCustomerVH>(),Filterable {
+    RecyclerView.Adapter<PendingCustomerAdapter.PendingCustomerVH>() {
 
-    private var list: MutableList<Customer> = mutableListOf()
-    private var listoriginal:MutableList<Customer> = ArrayList(list)
+    private val list: MutableList<Customer> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PendingCustomerVH {
         val view =
             LayoutInflater.from(mContext).inflate(R.layout.row_pending_customer, parent, false)
@@ -44,7 +44,6 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
 
     fun updateList(myQueue: List<Customer>?) {
         list.addAll(myQueue?.toMutableList() ?: return)
-        listoriginal=ArrayList(list)
     }
 
     inner class PendingCustomerVH(private val root: View) : RecyclerView.ViewHolder(root) {
@@ -265,43 +264,6 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
             }*/
         }
 
-    }
-    override  fun getFilter(): Filter? {
-        return object : Filter() {
-            override fun performFiltering(charSequence: CharSequence): FilterResults {
-                val query = charSequence.toString()
-                //List<ScreeningData>
-                var filtered: MutableList<Customer> = mutableListOf()
-                if (query.isEmpty()) {
-                    filtered.addAll(listoriginal)
-                } else {
-                    for (name in list) {
-                        if ((name as Customer).customerName?.toLowerCase()!!.startsWith(query.toLowerCase())) {
-                            filtered.add(name)
-                        }
-                        else if ((name as Customer).customerId?.toLowerCase()!!.startsWith(query.toLowerCase())) {
-                            filtered.add(name)
-                        }
-                    }
-
-                }
-
-                val results = FilterResults()
-                results.count = filtered.size
-                results.values = filtered
-                return results
-            }
-
-            override fun publishResults(
-                charSequence: CharSequence,
-                results: FilterResults
-            ) {
-                list.clear()
-                var itemsFiltered = results.values as MutableList<Customer>
-                list=itemsFiltered
-                notifyDataSetChanged()
-            }
-        }
     }
 
 }

@@ -66,7 +66,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txt_title_name" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/panNoEtTin"
+                android:id="@+id/tl_father_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -77,39 +77,14 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <EditText
-                    android:id="@+id/panNoEt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato_black"
-                    android:hint="PAN No."
-                    android:editable="false"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_father_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:hintEnabled="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/panNoEtTin"
-                app:layout_constraintVertical_chainStyle="packed">
-
-                <EditText
                     android:id="@+id/et_father_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
                     android:hint="@string/enter_father_s_name"
-                    android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textColor="#000000"
+                    android:inputType="textPersonName"
                     android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -126,14 +101,14 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_mother_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/et_mother_name"
                     android:fontFamily="@font/lato_black"
                     android:hint="@string/enter_mother_s_name"
-                    android:inputType="textPersonName"
-                    android:maxLines="1"
                     android:textColor="#000000"
+                    android:maxLines="1"
+                    android:inputType="textPersonName"
 
                     android:textSize="14sp" />
 
@@ -162,9 +137,9 @@
                 android:drawablePadding="4dp"
                 android:editable="false"
                 android:fontFamily="@font/lato_black"
-                android:maxLines="1"
                 android:textColor="#000000"
                 android:textSize="14sp"
+                android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_dob" />
@@ -181,10 +156,10 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/contact_number_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/contact_number_input"
                     android:hint="@string/contact_number"
                     android:inputType="number"
                     android:maxEms="10"
@@ -207,14 +182,14 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email_id_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/email_id_input"
                     android:hint="@string/email_id"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
                     android:textColor="#000000"
+                    android:maxLines="1"
+                    android:inputType="textEmailAddress"
                     android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -246,11 +221,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/txt_gender">
 
                 <RadioButton
-                    android:id="@+id/male_radio_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
+                    android:id="@+id/male_radio_button"
                     android:button="@null"
                     android:drawableStart="@drawable/radio_selector"
                     android:drawablePadding="8dp"
@@ -260,12 +235,12 @@
                     android:textSize="14sp" />
 
                 <RadioButton
-                    android:id="@+id/female_radio_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:button="@null"
+                    android:id="@+id/female_radio_button"
                     android:drawableStart="@drawable/radio_selector"
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/lato_black"
@@ -274,11 +249,11 @@
                     android:textSize="14sp" />
 
                 <RadioButton
-                    android:id="@+id/transgender_radio_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:button="@null"
+                    android:id="@+id/transgender_radio_button"
                     android:drawableStart="@drawable/radio_selector"
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/lato_black"
@@ -367,16 +342,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spnr_occupation_name" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/gross_annual_income_spinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="#000000"
+                android:entries="@array/arr_source_of_income"
                 android:fontFamily="@font/lato_black"
-                android:hint="Gross Annual Income"
                 android:textColor="#000000"
-                android:inputType="number"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -410,16 +385,16 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/address_line1_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/address_line1_input"
                     android:hint="@string/address_line1"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:nextFocusDown="@id/address_line2_input"
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/address_line2_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -435,17 +410,17 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/address_line2_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/address_line2_input"
                     android:hint="@string/address_line2"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:nextFocusDown="@id/landmark_input"
                     android:textColor="#000000"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:inputType="text"
 
-                    android:textSize="14sp" />
+                    android:nextFocusDown="@id/landmark_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -461,17 +436,17 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/landmark_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/landmark_input"
                     android:hint="@string/landmark_optional"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:nextFocusDown="@id/pincode_input"
-
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:maxLines="1"
+                    android:inputType="text"
+
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/pincode_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -487,16 +462,16 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pincode_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/pincode_input"
                     android:hint="@string/pin_code"
                     android:inputType="number"
-                    android:maxLines="1"
-                    android:nextFocusDown="@id/area_name_input"
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/area_name_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -505,25 +480,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:visibility="gone"
                 app:hintEnabled="true"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tl_pincode"
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/area_name_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/area_name_input"
                     android:hint="@string/area_name"
-                    android:inputType="text"
                     android:maxLines="1"
-                    android:nextFocusDown="@id/city_input"
-
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:inputType="text"
+
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/city_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -539,17 +514,17 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/city_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/city_input"
                     android:hint="@string/city"
-                    android:inputType="text"
                     android:maxLines="1"
-                    android:nextFocusDown="@id/district_input"
-
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:inputType="text"
+
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/district_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -565,17 +540,17 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/district_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/district_input"
                     android:hint="@string/district"
-                    android:inputType="text"
                     android:maxLines="1"
+                    android:inputType="text"
 
-                    android:nextFocusDown="@id/state_input"
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:nextFocusDown="@id/state_input"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -591,263 +566,18 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/state_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
+                    android:id="@+id/state_input"
                     android:hint="@string/state"
-                    android:inputType="text"
                     android:maxLines="1"
+                    android:inputType="text"
 
                     android:textColor="#000000"
                     android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/cb_sameAddress"
-                android:text="Permanent Address same as Current Address"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="8dp"
-                android:checked="true"
-                app:layout_constraintTop_toBottomOf="@+id/tl_state"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sameAsAddressLL"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cb_sameAddress"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed"
-                >
-                <TextView
-                    android:id="@+id/txt_permanent_address1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/lato_black"
-                    android:letterSpacing="0.05"
-                    android:lineSpacingExtra="8.3sp"
-                    android:text="Permanent Address"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                  />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_address1_line1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:hintEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_permanent_address"
-                    app:layout_constraintVertical_chainStyle="packed">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/address1_line1_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_black"
-                        android:hint="@string/address_line1"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:nextFocusDown="@id/address1_line2_input"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_address1_line2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:hintEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_address1_line1"
-                    app:layout_constraintVertical_chainStyle="packed">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/address1_line2_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_black"
-                        android:hint="@string/address_line2"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:nextFocusDown="@id/landmark_input"
-                        android:textColor="#000000"
-
-                        android:textSize="14sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_landmark1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:hintEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_address1_line2"
-                    app:layout_constraintVertical_chainStyle="packed">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/landmark1_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_black"
-                        android:hint="@string/landmark_optional"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:nextFocusDown="@id/pincode1_input"
-
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_pincode1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:hintEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_landmark1"
-                    app:layout_constraintVertical_chainStyle="packed">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/pincode1_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_black"
-                        android:hint="@string/pin_code"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:nextFocusDown="@id/area_name1_input"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_area_name1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:visibility="gone"
-                    app:hintEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_pincode1"
-                    app:layout_constraintVertical_chainStyle="packed">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/area_name1_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_black"
-                        android:hint="@string/area_name"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:nextFocusDown="@id/city1_input"
-
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_city1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:hintEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_area_name1"
-                    app:layout_constraintVertical_chainStyle="packed">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/city1_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_black"
-                        android:hint="@string/city"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:nextFocusDown="@id/district_input1"
-
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_district1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:hintEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_city"
-                    app:layout_constraintVertical_chainStyle="packed">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/district_input1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_black"
-                        android:hint="@string/district"
-                        android:inputType="text"
-                        android:maxLines="1"
-
-                        android:nextFocusDown="@id/state_input"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_state1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:hintEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_district1"
-                    app:layout_constraintVertical_chainStyle="packed">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/state_input1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_black"
-                        android:hint="@string/state"
-                        android:inputType="text"
-                        android:maxLines="1"
-
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
 
             <!--            <com.google.android.material.textfield.TextInputLayout-->
             <!--                android:id="@+id/tl_annual_income"-->
@@ -871,15 +601,15 @@
             <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <LinearLayout
-                android:id="@+id/ll_catogories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:id="@+id/ll_catogories"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sameAsAddressLL"
+                app:layout_constraintTop_toBottomOf="@+id/tl_state"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed">
+                app:layout_constraintVertical_chainStyle="packed" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -888,40 +618,33 @@
                     android:fontFamily="@font/lato_regular"
                     android:letterSpacing="0.05"
                     android:lineSpacingExtra="6sp"
-                    android:text="Category"
                     android:textColor="#404040"
-                    android:textSize="12sp" />
-
+                    android:textSize="12sp"
+                    android:text="Category"/>
                 <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <RadioButton
-                        android:id="@+id/cat_SC"
-                        android:layout_width="0dp"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+                    <RadioButton android:id="@+id/cat_SC"
                         android:layout_height="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
                         android:checked="true"
-                        android:text="SC" />
-
-                    <RadioButton
-                        android:id="@+id/cat_OBC"
-                        android:layout_width="0dp"
+                        android:text="SC"
+                        /> <RadioButton android:id="@+id/cat_OBC"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="OBC" />
-
-                    <RadioButton
-                        android:id="@+id/cat_General"
-                        android:layout_width="0dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                        android:text="OBC"
+                        /> <RadioButton android:id="@+id/cat_General"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="General" />
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                        android:text="General"
+                        />
                 </RadioGroup>
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -929,33 +652,28 @@
                     android:fontFamily="@font/lato_regular"
                     android:letterSpacing="0.05"
                     android:lineSpacingExtra="6sp"
-                    android:text="Religion"
                     android:textColor="#404040"
-                    android:textSize="12sp" />
-
+                    android:textSize="12sp"
+                    android:text="Religion"/>
                 <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <RadioButton
-                        android:id="@+id/Rel_hindu"
-                        android:layout_width="0dp"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+                    <RadioButton android:id="@+id/Rel_hindu"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:checked="true"
-                        android:text="Hindu" />
-
-                    <RadioButton
-                        android:id="@+id/Rel_Muslim"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Muslim" />
+                        android:text="Hindu"
+                        /> <RadioButton android:id="@+id/Rel_Muslim"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Muslim"
+                    />
                 </RadioGroup>
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -963,34 +681,29 @@
                     android:fontFamily="@font/lato_regular"
                     android:letterSpacing="0.05"
                     android:lineSpacingExtra="6sp"
-                    android:text="Marital status"
                     android:textColor="#404040"
-                    android:textSize="12sp" />
-
+                    android:textSize="12sp"
+                    android:text="Marital status"/>
                 <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <RadioButton
-                        android:id="@+id/rb_married"
-                        android:layout_width="0dp"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+                    <RadioButton android:id="@+id/rb_married"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:checked="true"
-                        android:text="Married" />
-
-                    <RadioButton
-                        android:id="@+id/rb_unmarried"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="UnMarried" />
+                        android:text="Married"
+                        /> <RadioButton android:id="@+id/rb_unmarried"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="UnMarried"
+                    />
                 </RadioGroup>
             </LinearLayout>
-
             <Button
                 android:id="@+id/btn_next"
                 android:layout_width="wrap_content"

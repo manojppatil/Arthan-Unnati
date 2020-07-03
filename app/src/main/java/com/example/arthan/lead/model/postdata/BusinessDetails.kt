@@ -24,12 +24,12 @@ data class BusinessDetails(
     @SerializedName("form60/61")
     val form60_61: String?,
     val gstcode: String?,
-    @SerializedName("landlineMobile")
+    @SerializedName("landline/mobile")
     val landlineMobile: String?,
     val landmark: String?,
     val bname: String?,
     val natureofassociation: String?,
-    @SerializedName("noOfyearsincurrentoffice")
+    @SerializedName("no.ofyearsincurrentoffice")
     val noOfyearsincurrentoffice: String?,
     val noofemployees: String?,
     val operatingbusinessaddress: String?,

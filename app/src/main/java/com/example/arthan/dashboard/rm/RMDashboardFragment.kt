@@ -35,7 +35,6 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
     private fun loadRmData(){
         mViewModel.loadRMDashboard().observe(this, Observer { data->
             if(data != null){
-                txt_bm_name.text="Hello ${data.rmName}"
                 txt_branch_rank_count.text= "${data.branchRank}"
                 txt_all_india_rank_count.text= "${data.airRank}"
                 txt_earnings_per.text= "${data.earning}"

@@ -9,7 +9,5 @@ data class PersonalResponseData(
     val status: Int?,
     val error: String?,
     val message: String?,
-    val path: String?,
-    val loanId:String?
-
+    val path: String?
 )

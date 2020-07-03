@@ -7,7 +7,6 @@ import android.view.View
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.rm.CommonApprovedListingActivity
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.ApprovedCaseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
@@ -92,7 +91,7 @@ class LPCActivity : BaseActivity() {
                                         this@LPCActivity,
                                         PostSanctionDocActivity::class.java
                                     ).apply {
-                                        putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+                                        putExtra("FROM", intent.getStringExtra("FROM"))
                                         putExtra("Name", intent.getStringExtra("Name"))
                                     })
                             }
@@ -102,7 +101,7 @@ class LPCActivity : BaseActivity() {
                                         this@LPCActivity,
                                         PendingCustomersActivity::class.java
                                     ).apply {
-                                        putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+                                        putExtra("FROM", intent.getStringExtra("FROM"))
                                         putExtra("Name", intent.getStringExtra("Name"))
                                     })
                             }
@@ -112,7 +111,7 @@ class LPCActivity : BaseActivity() {
                                         this@LPCActivity,
                                         BCMDashboardActivity::class.java
                                     ).apply {
-                                        putExtra("FROM",ArthanApp.getAppInstance().loginRole)
+                                        putExtra("FROM", intent.getStringExtra("FROM"))
                                         putExtra("Name", intent.getStringExtra("Name"))
                                     })
                             }
@@ -122,7 +121,7 @@ class LPCActivity : BaseActivity() {
                                         this@LPCActivity,
                                         CommonApprovedListingActivity::class.java
                                     ).apply {
-                                        putExtra("FROM",ArthanApp.getAppInstance().loginRole)
+                                        putExtra("FROM", intent.getStringExtra("FROM"))
                                         putExtra("Name", intent.getStringExtra("Name"))
                                     })
                             }
@@ -131,7 +130,7 @@ class LPCActivity : BaseActivity() {
                                 this@LPCActivity,
                                 CommonApprovedListingActivity::class.java
                             ).apply {
-                                putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+                                putExtra("FROM", intent.getStringExtra("FROM"))
                             })
                             finish()
 
@@ -158,7 +157,7 @@ class LPCActivity : BaseActivity() {
     private fun checkForScreenNavigations(): String {
 
         var data=intent.getSerializableExtra("object") as ApprovedCaseData
-        if(ArthanApp.getAppInstance().loginRole.contentEquals("BM"))
+        if(intent.getStringExtra("FROM").contentEquals("BM"))
         {
             var dataChanged="next"
             if(!et_loan_amt.text.toString().contentEquals(data.approvedAmt.replace("₹","")))
@@ -172,7 +171,7 @@ class LPCActivity : BaseActivity() {
             }
             return dataChanged
         }
-        if(ArthanApp.getAppInstance().loginRole.contentEquals("BCM"))
+        if(intent.getStringExtra("FROM").contentEquals("BCM"))
         {
 
             if(!et_loan_amt.text.toString().replace("₹","").contentEquals(data.approvedAmt)||!et_tenure.text.toString().contentEquals(data.tenure))
@@ -204,7 +203,7 @@ class LPCActivity : BaseActivity() {
 
 
 
-        if(ArthanApp.getAppInstance().loginRole.contentEquals("BM"))
+        if(intent.getStringExtra("FROM").contentEquals("BM"))
         {
             btn_edit.visibility=View.VISIBLE
             btn_tenure_edit.visibility=View.VISIBLE
@@ -218,7 +217,7 @@ class LPCActivity : BaseActivity() {
             et_insurance.isFocusableInTouchMode=false
 
         }
-        else if(ArthanApp.getAppInstance().loginRole.contentEquals("BCM"))
+        else if(intent.getStringExtra("FROM").contentEquals("BCM"))
         {
             btn_edit.visibility=View.VISIBLE
             btn_tenure_edit.visibility=View.VISIBLE

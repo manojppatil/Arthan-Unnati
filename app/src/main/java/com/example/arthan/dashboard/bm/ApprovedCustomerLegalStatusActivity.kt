@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.CommonApprovedListingActivity
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.ApprovedCaseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
@@ -35,7 +34,7 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
 
-        if(ArthanApp.getAppInstance().loginRole=="BCM"){
+        if(intent.getStringExtra("FROM")=="BCM"){
             btn_moveToBCMQueue.visibility=View.VISIBLE
         }
         screenTitle()
@@ -104,7 +103,7 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     var map = HashMap<String, String>()
                     map["loanId"] = data.caseId
-                    map["userId"] = ArthanApp.getAppInstance().loginUser
+                    map["userId"] = intent.getStringExtra("FROM")
                     map["decision"] = statusSelected
                     map["remarks"] = et_remarks?.text.toString()
                     var response = RetrofitFactory.getApiService().bcmRLTSubmit(map)
@@ -143,7 +142,7 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
                                                 this@ApprovedCustomerLegalStatusActivity,
                                                 LPCActivity::class.java
                                             ).apply {
-                                                putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+                                                putExtra("FROM", intent.getStringExtra("FROM"))
                                                 putExtra("Name", intent.getStringExtra("Name"))
                                                 putExtra(
                                                     "object",
@@ -157,7 +156,7 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
                                                 this@ApprovedCustomerLegalStatusActivity,
                                                 CommonApprovedListingActivity::class.java
                                             ).apply {
-                                                putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+                                                putExtra("FROM", intent.getStringExtra("FROM"))
                                                 putExtra("Name", intent.getStringExtra("Name"))
                                                 putExtra(
                                                     "object",
@@ -186,7 +185,7 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
                                                 this@ApprovedCustomerLegalStatusActivity,
                                                 LPCActivity::class.java
                                             ).apply {
-                                                putExtra("FROM",ArthanApp.getAppInstance().loginRole)
+                                                putExtra("FROM", intent.getStringExtra("FROM"))
                                                 putExtra("Name", intent.getStringExtra("Name"))
                                                 putExtra(
                                                     "object",
@@ -200,7 +199,7 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
                                                 this@ApprovedCustomerLegalStatusActivity,
                                                 CommonApprovedListingActivity::class.java
                                             ).apply {
-                                                putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+                                                putExtra("FROM", intent.getStringExtra("FROM"))
                                                 putExtra("Name", intent.getStringExtra("Name"))
                                                 putExtra(
                                                     "object",
@@ -216,7 +215,7 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
                                         this@ApprovedCustomerLegalStatusActivity,
                                         PendingCustomersActivity::class.java
                                     ).apply {
-                                        putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+                                        putExtra("FROM", intent.getStringExtra("FROM"))
 
                                     })
                             }

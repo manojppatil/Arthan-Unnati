@@ -13,7 +13,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.*
@@ -60,7 +59,6 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_document)
 
-        loadImageIfExists()
         btn_take_picture.setOnClickListener {
             val request = permissionsBuilder(
                 Manifest.permission.CAMERA,
@@ -156,20 +154,20 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         }
                     }
                     if (intent.getStringExtra("skip") != null) {
-                        if (uploadFront == null && mBackImagePath != null && RequestCode.AadharBackCard == intent?.getIntExtra(
-                                DOC_TYPE,
-                                0
+                            if (uploadFront == null && mBackImagePath != null && RequestCode.AadharBackCard == intent?.getIntExtra(
+                                    DOC_TYPE,
+                                    0
+                                )
                             )
-                        )
-                            uploadToS3(mBackImagePath!!, CardType.AadharCardFront)
+                                uploadToS3(mBackImagePath!!, CardType.AadharCardFront)
 
-                    } else {
-                        val uploadBack: Deferred<Unit>? = mBackImagePath?.let {
-                            captureCardInfoAsync(it, CardType.AadharCardBack)
-                        }
-                        uploadFront?.await()
-                        uploadBack?.await()
+                    } else{
+                    val uploadBack: Deferred<Unit>? = mBackImagePath?.let {
+                        captureCardInfoAsync(it, CardType.AadharCardBack)
                     }
+                    uploadFront?.await()
+                    uploadBack?.await()
+                }
 
                     try {
                         if (uploadFront == null && mFrontImagePath != null && RequestCode.ApplicantPhoto == intent?.getIntExtra(
@@ -372,46 +370,14 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             uploadToS3(mFrontImagePath!!, CardType.LoanDoc)
                         }
                         withContext(uiContext) {
-                            var continueResult = false
-                            if (mCardData != null) {
-
-                                    when (intent?.getIntExtra(DOC_TYPE, 0)) {
-                                        RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharFrontCard,RequestCode.AadharCard, RequestCode.VoterCard -> {
-                                            if (mCardData!!.status == "OK") {
-
-                                                continueResult = true
-                                            }
-                                            if(intent?.getStringExtra("skip") != null)
-                                            {
-                                                continueResult = true
-                                            }
-                                        }
-                                        else -> {
-                                            continueResult = intent?.getStringExtra("skip") == null
-                                        }
-                                    }
-                            }
-
-                            if(continueResult)
-                            {
-                                finishActivity(progressLoader)
-                                progressLoader.dismmissLoading()
-                            }else
-                            {
-                                progressLoader.dismmissLoading()
-
-                            }
-
+                            finishActivity(progressLoader)
                         }
-                    } catch (e: Exception) {
-                        progressLoader.dismmissLoading()
-                        Crashlytics.log(e.message)
+                    }catch (e:Exception)
+                    {
 
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Crashlytics.log(e.message)
-
                     withContext(uiContext) { progressLoader.dismmissLoading() }
                 }
             }
@@ -487,17 +453,6 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             getString(R.string.capture_the_original_pan_card_within_the_provided_box, docName)
     }
 
-    private fun loadImageIfExists() {
-
-
-        Glide.with(this).load(intent?.getStringExtra("show")).into(img_document_front)
-        if (intent?.getStringExtra("show2") != null) {
-            fl_document_back.visibility = View.VISIBLE
-            Glide.with(this).load(intent?.getStringExtra("show2")).into(img_document_back)
-
-        }
-    }
-
     private fun finishActivity(progressLoader: ProgrssLoader?) {
         progressLoader?.dismmissLoading()
         val resultIntent = Intent()
@@ -511,107 +466,79 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             }
             RequestCode.VoterCard -> {
                 resultIntent.putExtra(ArgumentKey.VoterDetails, mCardData)
-            }
-            RequestCode.Passport -> {
+            } RequestCode.Passport -> {
                 resultIntent.putExtra(ArgumentKey.Passport, mCardData)
-            }
-            RequestCode.DrivingLicense -> {
+            }RequestCode.DrivingLicense -> {
                 resultIntent.putExtra(ArgumentKey.DrivingLicense, mCardData)
             }
             RequestCode.ApplicantPhoto -> {
                 resultIntent.putExtra(ArgumentKey.ApplicantPhoto, mCardData)
-            }
-            RequestCode.PFP -> {
+            } RequestCode.PFP -> {
                 resultIntent.putExtra(ArgumentKey.PFP, mCardData)
             }
             RequestCode.waterBill -> {
                 resultIntent.putExtra(ArgumentKey.waterBill, mCardData)
-            }
-            RequestCode.electricityBill -> {
+            } RequestCode.electricityBill -> {
                 resultIntent.putExtra(ArgumentKey.electricityBill, mCardData)
-            }
-            RequestCode.telephonebill -> {
+            }RequestCode.telephonebill -> {
                 resultIntent.putExtra(ArgumentKey.telephoneBill, mCardData)
-            }
-            RequestCode.AadharCardAddrProof -> {
+            }RequestCode.AadharCardAddrProof -> {
                 resultIntent.putExtra(ArgumentKey.AadharCardAddrProof, mCardData)
             }
 
             RequestCode.SalesTaxRegistration -> {
                 resultIntent.putExtra(ArgumentKey.SalesTaxRegistration, mCardData)
-            }
-            RequestCode.VatOrder -> {
+            } RequestCode.VatOrder -> {
                 resultIntent.putExtra(ArgumentKey.VatOrder, mCardData)
-            }
-            RequestCode.LicenseissuedunderShop -> {
+            }RequestCode.LicenseissuedunderShop -> {
                 resultIntent.putExtra(ArgumentKey.LicenseissuedunderShop, mCardData)
-            }
-            RequestCode.EstablishmentAct -> {
+            }RequestCode.EstablishmentAct -> {
                 resultIntent.putExtra(ArgumentKey.EstablishmentAct, mCardData)
-            }
-            RequestCode.CST -> {
+            } RequestCode.CST -> {
                 resultIntent.putExtra(ArgumentKey.CST, mCardData)
-            }
-            RequestCode.VAT -> {
+            }RequestCode.VAT -> {
                 resultIntent.putExtra(ArgumentKey.VAT, mCardData)
-            }
-            RequestCode.GSTCert -> {
+            }RequestCode.GSTCert -> {
                 resultIntent.putExtra(ArgumentKey.GSTCert, mCardData)
-            }
-            RequestCode.CurrentACofbankStmt -> {
+            } RequestCode.CurrentACofbankStmt -> {
                 resultIntent.putExtra(ArgumentKey.CurrentACofbankStmt, mCardData)
-            }
-            RequestCode.SSIcertificate -> {
+            }RequestCode.SSIcertificate -> {
                 resultIntent.putExtra(ArgumentKey.SSIcertificate, mCardData)
             }
 
             RequestCode.LatestTelephoneBill -> {
                 resultIntent.putExtra(ArgumentKey.LatestTelephoneBill, mCardData)
-            }
-            RequestCode.ElectricityBillOfcAdd -> {
-                resultIntent.putExtra(ArgumentKey.ElectricityBillOfcAdd, mCardData)
-            }
-            RequestCode.BankStatement -> {
-                resultIntent.putExtra(ArgumentKey.BankStatement, mCardData)
-            }
-            RequestCode.LeaveandLicenceagreement -> {
-                resultIntent.putExtra(ArgumentKey.LeaveandLicenceagreement, mCardData)
+            } RequestCode.ElectricityBillOfcAdd -> {
+            resultIntent.putExtra(ArgumentKey.ElectricityBillOfcAdd, mCardData)
+            }RequestCode.BankStatement -> {
+            resultIntent.putExtra(ArgumentKey.BankStatement, mCardData)
+            }RequestCode.LeaveandLicenceagreement -> {
+            resultIntent.putExtra(ArgumentKey.LeaveandLicenceagreement, mCardData)
             }
             RequestCode.Last2yearsITR -> {
                 resultIntent.putExtra(ArgumentKey.Last2yearsITR, mCardData)
-            }
-            RequestCode.Auditedbalancesheet -> {
-                resultIntent.putExtra(ArgumentKey.Auditedbalancesheet, mCardData)
-            }
-            RequestCode.SaleDeed -> {
-                resultIntent.putExtra(ArgumentKey.SaleDeed, mCardData)
-            }
-            RequestCode.ChainDocument -> {
-                resultIntent.putExtra(ArgumentKey.ChainDocument, mCardData)
-            }
-            RequestCode.PropertyTaxReceipt -> {
+            } RequestCode.Auditedbalancesheet -> {
+            resultIntent.putExtra(ArgumentKey.Auditedbalancesheet, mCardData)
+            }RequestCode.SaleDeed -> {
+            resultIntent.putExtra(ArgumentKey.SaleDeed, mCardData)
+            }RequestCode.ChainDocument -> {
+            resultIntent.putExtra(ArgumentKey.ChainDocument, mCardData)
+            } RequestCode.PropertyTaxReceipt -> {
                 resultIntent.putExtra(ArgumentKey.PropertyTaxReceipt, mCardData)
-            }
-            RequestCode.ROR -> {
-                resultIntent.putExtra(ArgumentKey.ROR, mCardData)
-            }
-            RequestCode.NOC -> {
-                resultIntent.putExtra(ArgumentKey.NOC, mCardData)
-            }
-            RequestCode._7by12 -> {
-                resultIntent.putExtra(ArgumentKey._7by12, mCardData)
-            }
-            RequestCode.Mutation -> {
-                resultIntent.putExtra(ArgumentKey.Mutation, mCardData)
-            }
-            RequestCode.FerfarCertificate -> {
-                resultIntent.putExtra(ArgumentKey.FerfarCertificate, mCardData)
-            }
-            RequestCode.Others -> {
-                resultIntent.putExtra(ArgumentKey.Others, mCardData)
-            }
-            RequestCode.LoanDoc -> {
-                resultIntent.putExtra(ArgumentKey.LoanDoc, mCardData)
+            } RequestCode.ROR -> {
+            resultIntent.putExtra(ArgumentKey.ROR, mCardData)
+            }RequestCode.NOC -> {
+            resultIntent.putExtra(ArgumentKey.NOC, mCardData)
+            }RequestCode._7by12 -> {
+            resultIntent.putExtra(ArgumentKey._7by12, mCardData)
+            }RequestCode.Mutation -> {
+            resultIntent.putExtra(ArgumentKey.Mutation, mCardData)
+            }RequestCode.FerfarCertificate -> {
+            resultIntent.putExtra(ArgumentKey.FerfarCertificate, mCardData)
+            }RequestCode.Others -> {
+            resultIntent.putExtra(ArgumentKey.Others, mCardData)
+            }RequestCode.LoanDoc -> {
+            resultIntent.putExtra(ArgumentKey.LoanDoc, mCardData)
             }
 
         }
@@ -684,39 +611,39 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             when (requestCode) {
                 MyProfileActivity.PICK_IMAGE, RequestCode.PanCard, RequestCode.PFP, RequestCode.VoterCard,
                 RequestCode.ApplicantPhoto, RequestCode.DrivingLicense, RequestCode.Passport,
-                RequestCode.electricityBill,
-                RequestCode.waterBill,
-                RequestCode.telephonebill,
+               RequestCode. electricityBill,
+               RequestCode. waterBill,
+               RequestCode. telephonebill,
 
-                RequestCode.SalesTaxRegistration,
-                RequestCode.VatOrder,
-                RequestCode.LicenseissuedunderShop,
-                RequestCode.EstablishmentAct,
-                RequestCode.CST,
-                RequestCode.VAT,
-                RequestCode.GSTCert,
-                RequestCode.CurrentACofbankStmt,
-                RequestCode.SSIcertificate,
+               RequestCode. SalesTaxRegistration,
+               RequestCode. VatOrder,
+               RequestCode. LicenseissuedunderShop,
+               RequestCode. EstablishmentAct,
+               RequestCode. CST,
+               RequestCode. VAT,
+               RequestCode. GSTCert,
+               RequestCode. CurrentACofbankStmt,
+               RequestCode. SSIcertificate,
 
-                RequestCode.LatestTelephoneBill,
-                RequestCode.ElectricityBillOfcAdd,
-                RequestCode.BankStatement,
-                RequestCode.LeaveandLicenceagreement,
+               RequestCode.  LatestTelephoneBill,
+               RequestCode.  ElectricityBillOfcAdd,
+               RequestCode.  BankStatement,
+               RequestCode.  LeaveandLicenceagreement,
 
 
-                RequestCode.Last2yearsITR,
-                RequestCode.Auditedbalancesheet,
-                RequestCode.SaleDeed,
-                RequestCode.ChainDocument,
-                RequestCode.PropertyTaxReceipt,
-                RequestCode.ROR,
-                RequestCode.NOC,
-                RequestCode._7by12,
-                RequestCode.Mutation,
-                RequestCode.FerfarCertificate,
-                RequestCode.Others,
-                RequestCode.AadharCardAddrProof,
-                RequestCode.LoanDoc,
+               RequestCode. Last2yearsITR,
+               RequestCode. Auditedbalancesheet,
+               RequestCode. SaleDeed,
+               RequestCode. ChainDocument,
+               RequestCode. PropertyTaxReceipt,
+               RequestCode. ROR,
+               RequestCode. NOC,
+               RequestCode. _7by12,
+               RequestCode. Mutation,
+               RequestCode. FerfarCertificate,
+               RequestCode. Others,
+                RequestCode. AadharCardAddrProof ,
+                RequestCode. LoanDoc,
 
                 RequestCode.AadharFrontCard -> {
                     if (data?.hasExtra(ArgumentKey.FilePath) == true) {
@@ -816,11 +743,11 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         } else
                             Toast.makeText(
                                 this@UploadDocumentActivity,
-                                "Please capture valid KYC",
+                                "Please Try again...",
                                 Toast.LENGTH_SHORT
                             ).show()
                     }
-                } else
+                }else
                     Toast.makeText(
                         this@UploadDocumentActivity,
                         "Please Try again...",
@@ -828,8 +755,6 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     ).show()
             } catch (e: HttpException) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         this@UploadDocumentActivity,
@@ -839,8 +764,6 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         this@UploadDocumentActivity,
@@ -877,7 +800,6 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 withContext(Dispatchers.Main) {
                     try {
                         if (response != null && response.isSuccessful) {
-
                             val verifyResult = when (cardType) {
                                 CardType.VoterIdCard -> {
                                     response.body()
@@ -894,13 +816,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 uploadToS3(filePath, cardType)
 
                             } else {
-                                Toast.makeText(
-                                    this@UploadDocumentActivity,
-                                    "Please capture valid KYC",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                /*if (cardType == CardType.PANCard) {
+                                if (cardType == CardType.PANCard) {
 
                                     Toast.makeText(
                                         this@UploadDocumentActivity,
@@ -915,7 +831,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                         "Please Try again...",
                                         Toast.LENGTH_SHORT
                                     ).show()
-*/
+
                             }
                         } else
                             Toast.makeText(
@@ -925,14 +841,10 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             ).show()
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        Crashlytics.log(e.message)
-
                     }
                 }
             } catch (e: HttpException) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         this@UploadDocumentActivity,
@@ -942,8 +854,6 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         this@UploadDocumentActivity,
@@ -979,103 +889,73 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     }
                     CardType.ApplicantPhoto -> {
                         "_PHOTO"
-                    }
-                    CardType.PFP -> {
+                    }CardType.PFP -> {
                         "_PFP"
-                    }
-                    CardType.Passport -> {
+                    }CardType.Passport -> {
                         "_PASSPORT"
-                    }
-                    CardType.driverLicense -> {
+                    }CardType.driverLicense -> {
                         "_DrivingLicense"
-                    }
-                    CardType.telephoneBill -> {
+                    }CardType.telephoneBill -> {
                         "_Telephone_Bill"
-                    }
-                    CardType.AadharCardAddrProof -> {
+                    }CardType.AadharCardAddrProof -> {
                         "_AadharCardAddrProof"
-                    }
-                    CardType.waterBill -> {
+                    }CardType.waterBill -> {
                         "_Water_Bill"
-                    }
-                    CardType.ElectricityBillProof -> {
+                    }CardType.ElectricityBillProof -> {
                         "_Electricity_Bill"
-                    }
-                    CardType.SalesTaxRegistration -> {
+                    }CardType.SalesTaxRegistration -> {
                         "_SalesTaxRegistration"
-                    }
-                    CardType.VatOrder -> {
+                    }CardType.VatOrder -> {
                         "_VatOrder"
-                    }
-                    CardType.LicenseissuedunderShop -> {
+                    }CardType.LicenseissuedunderShop -> {
                         "_LicenseissuedunderShop"
-                    }
-                    CardType.EstablishmentAct -> {
+                    }CardType.EstablishmentAct -> {
                         "_EstablishmentAct"
-                    }
-                    CardType.CST -> {
+                    }CardType.CST -> {
                         "_CST"
-                    }
-                    CardType.VAT -> {
+                    }CardType.VAT -> {
                         "_VAT"
-                    }
-                    CardType.GSTCert -> {
+                    }CardType.GSTCert -> {
                         "_GSTCert"
-                    }
-                    CardType.CurrentACofbankStmt -> {
+                    }CardType.CurrentACofbankStmt -> {
                         "_CurrentACofbankStmt"
-                    }
-                    CardType.SSIcertificate -> {
+                    }CardType.SSIcertificate -> {
                         "_SSIcertificate"
                     }
 
                     CardType.LatestTelephoneBill -> {
                         "_LatestTelephoneBill"
-                    }
-                    CardType.ElectricityBillOfcAdd -> {
+                    }CardType.ElectricityBillOfcAdd -> {
                         "_ElectricityBillOfcAdd"
-                    }
-                    CardType.BankStatement -> {
+                    }CardType.BankStatement -> {
                         "_BankStatement"
-                    }
-                    CardType.LeaveandLicenceagreement -> {
+                    }CardType.LeaveandLicenceagreement -> {
                         "_LeaveandLicenceagreement"
                     }
 
                     CardType.Last2yearsITR -> {
                         "_Last2yearsITR"
-                    }
-                    CardType.Auditedbalancesheet -> {
+                    }CardType.Auditedbalancesheet -> {
                         "_Auditedbalancesheet"
-                    }
-                    CardType.SaleDeed -> {
+                    }CardType.SaleDeed -> {
                         "_SaleDeed"
-                    }
-                    CardType.ChainDocument -> {
+                    }CardType.ChainDocument -> {
                         "_ChainDocument"
-                    }
-                    CardType.PropertyTaxReceipt -> {
+                    }  CardType.PropertyTaxReceipt -> {
                         "_PropertyTaxReceipt"
-                    }
-                    CardType.ROR -> {
+                    }CardType.ROR -> {
                         "_ROR"
-                    }
-                    CardType.NOC -> {
+                    }CardType.NOC -> {
                         "_NOC"
-                    }
-                    CardType._7by12 -> {
+                    }CardType._7by12 -> {
                         "__7by12"
-                    }
-                    CardType.Mutation -> {
+                    } CardType.Mutation -> {
                         "_Mutation"
-                    }
-                    CardType.FerfarCertificate -> {
+                    }CardType.FerfarCertificate -> {
                         "_FerfarCertificate"
-                    }
-                    CardType.Others -> {
+                    }CardType.Others -> {
                         "_Others"
-                    }
-                    CardType.LoanDoc -> {
+                    }CardType.LoanDoc -> {
                         "_LoanDoc"
                     }
                 }
@@ -1097,28 +977,28 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     Log.e("URL", ":::: ${fileList[0].url}")
 
                     CoroutineScope(uiContext).launch {
-                            if (cardType == CardType.PANCard) {
-                                if (mCardData?.status?.equals(
-                                        ConstantValue.CardStatus.Ok,
-                                        true
-                                    ) == true
-                                )
-                                    btn_next.visibility = View.VISIBLE
-                                else
-                                    if (intent.getStringExtra("skip") == null)
-                                        Toast.makeText(
-                                            this@UploadDocumentActivity,
-                                            "Please capture valid PAN Card",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                            } else if (cardType == CardType.ApplicantPhoto) {
+                        if (cardType == CardType.PANCard) {
+                            if (mCardData?.status?.equals(
+                                    ConstantValue.CardStatus.Ok,
+                                    true
+                                ) == true
+                            )
                                 btn_next.visibility = View.VISIBLE
-                            } else {
-                                btn_next.visibility = View.VISIBLE
-                            }
+                            else
+                                if(intent.getStringExtra("skip")==null)
+                                Toast.makeText(
+                                    this@UploadDocumentActivity,
+                                    "Please capture valid PAN Card",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                        } else if (cardType == CardType.ApplicantPhoto) {
+                            btn_next.visibility = View.VISIBLE
+                        } else {
+                            btn_next.visibility = View.VISIBLE
                         }
-                        continuation.resume(Unit)
                     }
+                    continuation.resume(Unit)
+                }
             ) {
                 Toast.makeText(
                     this@UploadDocumentActivity,
@@ -1137,38 +1017,38 @@ sealed class CardType {
     object VoterIdCard : CardType()
     object ApplicantPhoto : CardType()
     object PFP : CardType()
-    object Passport : CardType()
-    object driverLicense : CardType()
-    object waterBill : CardType()
-    object ElectricityBillProof : CardType()
-    object telephoneBill : CardType()
-    object AadharCardAddrProof : CardType()
-    object SalesTaxRegistration : CardType()
-    object VatOrder : CardType()
-    object LicenseissuedunderShop : CardType()
-    object EstablishmentAct : CardType()
-    object CST : CardType()
-    object VAT : CardType()
-    object GSTCert : CardType()
-    object CurrentACofbankStmt : CardType()
-    object SSIcertificate : CardType()
+    object Passport:CardType()
+    object driverLicense:CardType()
+    object waterBill:CardType()
+    object ElectricityBillProof:CardType()
+    object telephoneBill:CardType()
+    object AadharCardAddrProof:CardType()
+    object SalesTaxRegistration:CardType()
+    object VatOrder:CardType()
+    object LicenseissuedunderShop:CardType()
+    object EstablishmentAct:CardType()
+    object CST:CardType()
+    object VAT:CardType()
+    object GSTCert:CardType()
+    object CurrentACofbankStmt:CardType()
+    object SSIcertificate:CardType()
 
-    object LatestTelephoneBill : CardType()
-    object ElectricityBillOfcAdd : CardType()
-    object BankStatement : CardType()
-    object LeaveandLicenceagreement : CardType()
+    object LatestTelephoneBill:CardType()
+    object ElectricityBillOfcAdd:CardType()
+    object BankStatement:CardType()
+    object LeaveandLicenceagreement:CardType()
 
-    object Last2yearsITR : CardType()
-    object Auditedbalancesheet : CardType()
-    object SaleDeed : CardType()
-    object ChainDocument : CardType()
-    object PropertyTaxReceipt : CardType()
-    object ROR : CardType()
-    object NOC : CardType()
-    object _7by12 : CardType()
-    object Mutation : CardType()
-    object FerfarCertificate : CardType()
-    object Others : CardType()
-    object LoanDoc : CardType()
+     object Last2yearsITR:CardType()
+     object Auditedbalancesheet:CardType()
+     object SaleDeed:CardType()
+     object ChainDocument:CardType()
+     object PropertyTaxReceipt:CardType()
+     object ROR:CardType()
+     object NOC:CardType()
+     object _7by12:CardType()
+     object Mutation:CardType()
+     object FerfarCertificate:CardType()
+     object Others:CardType()
+     object LoanDoc:CardType()
 
 }

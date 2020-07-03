@@ -17,7 +17,6 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.bm.model.FinalReportPostData
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.STATUS
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.network.S3UploadFile
@@ -63,7 +62,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         txt_status.text = "Status: ${intent.getStringExtra(STATUS)}"
         txt_reason_msg.text=(resources.getString(R.string.state_the_reasons_for_the_approval_of_this_application,intent.getStringExtra(STATUS)))
 
-        if(ArthanApp.getAppInstance().loginRole=="BCM")
+        if(intent?.getStringExtra("FROM")=="BCM")
         {
             sanctions.visibility=View.VISIBLE
         }
@@ -185,12 +184,12 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     decision,
                     et_reason.text.toString(),
                     docUrlList,
-                    sanctionList,ArthanApp.getAppInstance().loginUser
+                    sanctionList,intent.getStringExtra("FROM")
 
 
                 )
 
-              if(ArthanApp.getAppInstance().loginRole=="BM") {
+              if(intent.getStringExtra("FROM")=="BM") {
 
                   CoroutineScope(Dispatchers.IO).launch {
                       val respo = RetrofitFactory.getApiService().bmSubmit(
@@ -235,7 +234,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                       }
                   }
 
-              }else if(ArthanApp.getAppInstance().loginRole=="BCM") {
+              }else if(intent.getStringExtra("FROM")=="BCM") {
                   CoroutineScope(Dispatchers.IO).launch {
                       val respo = RetrofitFactory.getApiService().bcmSubmit(
                           map

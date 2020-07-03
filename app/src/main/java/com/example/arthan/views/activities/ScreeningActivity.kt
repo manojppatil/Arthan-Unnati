@@ -3,7 +3,6 @@ package com.example.arthan.views.activities
 import android.content.Context
 import android.content.Intent
 import com.example.arthan.R
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.views.adapters.ScreeningAdapter
 import kotlinx.android.synthetic.main.activity_screening.*
 import  com.example.arthan.utils.ArgumentKey
@@ -15,7 +14,7 @@ class ScreeningActivity : BaseActivity() {
     override fun onToolbarBackPressed() = onBackPressed()
 
     override fun init() {
-        rv_customer.adapter = ScreeningAdapter(this, ArthanApp.getAppInstance().loginRole)
+        rv_customer.adapter = ScreeningAdapter(this, intent.getStringExtra("FROM"))
     }
 
     override fun screenTitle() = "Screening"

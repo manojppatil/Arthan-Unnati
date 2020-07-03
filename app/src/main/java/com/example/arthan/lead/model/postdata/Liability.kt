@@ -10,5 +10,7 @@ data class Liability(
     val loanTenureTo: String? = "",
     val loanType: String? = "",
     val outstandingAmount: String? = "",
+    val ownerName:String?,
+    val address:String?,
     val considerCFA:Boolean?
 )

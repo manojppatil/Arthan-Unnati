@@ -4,13 +4,9 @@ import com.example.arthan.lead.model.postdata.*
 
 data class CustomerDocumentAndDataResponseData(
     val businessDetails: BusinessDetails?,
-    val inPrincipleAmt: String?,
-    val roi: String?,
-    val tenure: String?,
-    val loanAmt: String?,
     val collateralDetails: CollateralDetails?,
     val incomeDetails: IncomeDetails?,
-    val personalDetails: List<PersonalDetails>?,
+    val personalDetails: PersonalDetails?,
     val tradeRefDetails: List<TradeRefDetail>?,
     val neighborRefDetails: List<NeighborReference>?,
     val docDetails: DocDetails?,
@@ -26,8 +22,5 @@ data class DocDetails(
     val aadharFrontUrl: String?,
     val aadharBackUrl: String?,
     val voterUrl: String?,
-    val paApplicantPhoto: String?,
-    val businessProof: String?,
-    val businessAddrProof: String?,
-    val incomeProof: String?
+    val paApplicantPhoto: String?
 )

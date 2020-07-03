@@ -4,7 +4,6 @@ import `in`.finbox.mobileriskmanager.FinBox
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
@@ -15,10 +14,8 @@ import com.example.arthan.dashboard.legal.LegalDashboardActivity
 import com.example.arthan.dashboard.ops.OpsDashboardActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.OTPValidationActivity
 import com.example.arthan.network.RetrofitFactory
-import com.example.arthan.utils.ProgrssLoader
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -46,181 +43,122 @@ class SplashActivity : AppCompatActivity() {
 
         btn_submit.setOnClickListener {
 
-            val progressBar = ProgrssLoader(this)
-            progressBar.showLoading()
-            var map: HashMap<String, String> = HashMap()
-            map["userId"] = et_role.text.toString()
-            map["mPin"] = et_role.text.toString()
-            CoroutineScope(Dispatchers.IO).launch {
-
-                var response = RetrofitFactory.getApiService().getUserRole(map)
-                if (response.body() != null) {
-                    progressBar.dismmissLoading()
-                    ArthanApp.getAppInstance().loginUser = et_role.text.toString()
-                    ArthanApp.getAppInstance().loginRole = response.body()!!.role
-
-                    var user = response.body()!!.role
-                    withContext(Dispatchers.Main) {
-                        if (!et_role.text.isNullOrBlank()) {
-
-                            when (user) {
-                                "BM" -> {
-                                    AppPreferences.getInstance()
-                                        .remove(AppPreferences.Key.LoginType)
-                                    AppPreferences.getInstance()
-                                        .addString(AppPreferences.Key.LoginType, "BM")
-                                    startActivity(
-                                        Intent(
-                                            this@SplashActivity,
-                                            BMDashboardActivity::class.java
-                                        )
-                                    )
-                                    finish()
-                                }
-                                "RM" -> {
-                                    AppPreferences.getInstance()
-                                        .remove(AppPreferences.Key.LoginType)
-                                    AppPreferences.getInstance()
-                                        .addString(AppPreferences.Key.LoginType, "RM1")
-                                    startActivity(
-                                        Intent(
-                                            this@SplashActivity,
-                                            RMDashboardActivity::class.java
-                                        )
-                                    )
-                                    finish()
-                                }
-                                "legal" -> {
-                                    AppPreferences.getInstance()
-                                        .remove(AppPreferences.Key.LoginType)
-                                    AppPreferences.getInstance()
-                                        .addString(AppPreferences.Key.LoginType, "legal")
-                                    startActivity(
-                                        Intent(
-                                            this@SplashActivity,
-                                            LegalDashboardActivity::class.java
-                                        ).apply {
-                                            putExtra("FROM", "LEGAL")
-                                        })
-                                    finish()
-                                }
-                                "RCU" -> {
-                                    AppPreferences.getInstance()
-                                        .remove(AppPreferences.Key.LoginType)
-                                    AppPreferences.getInstance()
-                                        .addString(AppPreferences.Key.LoginType, "RCU")
-                                    startActivity(
-                                        Intent(
-                                            this@SplashActivity,
-                                            LegalDashboardActivity::class.java
-                                        ).apply {
-                                            putExtra("FROM", "RCU")
-                                        }
-                                    )
-                                    finish()
-                                }
-                                "OPS" -> {
-                                    AppPreferences.getInstance()
-                                        .remove(AppPreferences.Key.LoginType)
-                                    AppPreferences.getInstance()
-                                        .addString(AppPreferences.Key.LoginType, "OPS")
-                                    OpsDashboardActivity.startMe(this@SplashActivity)
-                                }
-                                "BCM" -> {
-                                    AppPreferences.getInstance()
-                                        .remove(AppPreferences.Key.LoginType)
-                                    AppPreferences.getInstance()
-                                        .addString(AppPreferences.Key.LoginType, "BCM")
-                                    startActivity(
-                                        Intent(
-                                            this@SplashActivity,
-                                            BCMDashboardActivity::class.java
-                                        )
-                                    )
-                                    finish()
-                                }
-                                else -> {
-                                    Toast.makeText(
-                                        this@SplashActivity,
-                                        "Invalid login user",
-                                        Toast.LENGTH_LONG
-                                    )
-                                        .show()
-                                    /*  startActivity(
-                                      Intent(
-                                          this@SplashActivity,
-                                          BCMDashboardActivity::class.java
-                                      )
-                                  )
-                                  finish()*/
-                                }
-
-                            }.let {
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    withContext(Dispatchers.Main) {
-
-                                        FirebaseInstanceId.getInstance().instanceId
-                                            .addOnCompleteListener(OnCompleteListener { task ->
-                                                if (!task.isSuccessful) {
-                                                    Log.w(
-                                                        "TAG",
-                                                        "getInstanceId failed",
-                                                        task.exception
-                                                    )
-                                                    return@OnCompleteListener
-                                                }
-
-                                                // Get new Instance ID token
-                                                val token = task.result?.token
-
-                                                CoroutineScope(Dispatchers.IO).launch {
-
-                                                    var map = HashMap<String, String>()
-                                                    map["userId"] = et_role?.text?.toString()!!
-                                                    map["token"] = token!!
-                                                    val res = RetrofitFactory.getApiService()
-                                                        .sendToken(map = map)
-                                                    Log.w("TAG", "getInstanceId :$token")
-
-
-                                                }
-
-                                            })
-                                    }
-                                }
+            if (!et_role.text.isNullOrBlank()) {
+                when {
+                    et_role.text.toString().equals("BM", true) -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "BM")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                BMDashboardActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
+                    et_role.text.toString().equals("RM1", true) -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "RM1")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                RMDashboardActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
+//                    et_role.text.toString().equals("OPS", true) -> {
+//                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "OPS")
+//                        startActivity(
+//                            Intent(
+//                                this@SplashActivity,
+//                                OpsDashboardActivity::class.java
+//                            )
+//                        )
+//                        finish()
+//                    }
+                    et_role.text.toString().equals("legal", true) -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance()
+                            .addString(AppPreferences.Key.LoginType, "legal")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                LegalDashboardActivity::class.java
+                            ).apply {
+                                putExtra("FROM", "LEGAL")
+                            })
+                        finish()
+                    }
+                    et_role.text.toString().equals("RCU", true) -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "RCU")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                LegalDashboardActivity::class.java
+                            ).apply {
+                                putExtra("FROM", "RCU")
                             }
+                        )
+                        finish()
+                    }
+                    et_role?.text?.toString()?.equals("OPS", ignoreCase = true) == true -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "OPS")
+                        OpsDashboardActivity.startMe(this)
+                    }
+                    et_role?.text?.toString()?.equals("BCM", ignoreCase = true) == true -> {
+                        AppPreferences.getInstance().remove(AppPreferences.Key.LoginType)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoginType, "BCM")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                BCMDashboardActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
+                    else -> {
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                BCMDashboardActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
+                }. let {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
+
+                            FirebaseInstanceId.getInstance().instanceId
+                                .addOnCompleteListener(OnCompleteListener { task ->
+                                    if (!task.isSuccessful) {
+                                        Log.w("TAG", "getInstanceId failed", task.exception)
+                                        return@OnCompleteListener
+                                    }
+
+                                    // Get new Instance ID token
+                                    val token = task.result?.token
+
+                                    CoroutineScope(Dispatchers.IO).launch {
+
+                                    var map=HashMap<String,String>()
+                                    map["userId"] = et_role?.text?.toString()!!
+                                    map["token"] = token!!
+                                    val res=RetrofitFactory.getApiService().sendToken(map = map)
+                                    Log.w("TAG", "getInstanceId :$token")
+
+
+                                }
+
+                                })
                         }
                     }
-
-                }else {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(
-                            this@SplashActivity,
-                            "Something went wrong",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
                 }
-
             }
 
-            /*var user:String=""
-            if(et_role.text.toString()=="1234")
-            {
-                user="RM1"
-                ArthanApp.getAppInstance().loginRole=user
-            }else if(et_role.text.toString()=="3456")
-            {
-                user="BM"
-                ArthanApp.getAppInstance().loginUser=et_role.text.toString()
-                ArthanApp.getAppInstance().loginRole=user
-            }else if(et_role.text.toString()=="5678")
-            {
-                user="BCM"
-                ArthanApp.getAppInstance().loginUser=et_role.text.toString()
-                ArthanApp.getAppInstance().loginRole=user
-            }
-*/
             /*startActivity(
                 Intent(
                     this@SplashActivity,

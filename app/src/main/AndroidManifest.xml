@@ -38,11 +38,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.bm.ShowPDFActivity"></activity>
-        <activity android:name=".dashboard.bcm.BureauDetailsLevel2" />
-        <activity android:name=".dashboard.bm.ListingActivityBanking" />
-        <activity android:name=".dashboard.bcm.BureauViewAllDetailsActivity" />
-        <activity android:name=".dashboard.bcm.PDActivity" />
+        <activity android:name=".dashboard.bcm.PDActivity"></activity>
         <activity android:name=".dashboard.bm.ScoreCardActivity" />
         <activity android:name=".lead.DocumentActivity" />
         <activity android:name=".lead.BankingInputDetailsActivity" />

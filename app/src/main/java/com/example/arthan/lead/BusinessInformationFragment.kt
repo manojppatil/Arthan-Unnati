@@ -10,16 +10,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
-import com.example.arthan.dashboard.rm.RMDashboardActivity
+import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.global.AppPreferences
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.BUSINESS
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
@@ -27,18 +25,22 @@ import com.example.arthan.lead.model.postdata.BusinessDetails
 import com.example.arthan.lead.model.postdata.BusinessDetailsPostData
 import com.example.arthan.lead.model.postdata.Partner
 import com.example.arthan.lead.model.responsedata.BusinessDetailsResponseData
+import com.example.arthan.model.RMDashboardData
+import com.example.arthan.model.RMDashboardRequest
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.PendingCustomersActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_business_information.*
+import kotlinx.android.synthetic.main.fragment_business_information.btn_save_continue
+import kotlinx.android.synthetic.main.fragment_business_information.email_id_input
+import kotlinx.android.synthetic.main.fragment_other_details.*
 import kotlinx.android.synthetic.main.layout_partner_details.*
 import kotlinx.coroutines.*
 import retrofit2.Response
 import java.util.*
 import kotlin.coroutines.CoroutineContext
-
 
 /**
  * This is being used as a common fragment. if this is invoked from RMAssignList ,
@@ -70,15 +72,18 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadInitialData()
-        annual_turnover_current_year_input.setText(activity?.intent?.getStringExtra("annualturnover"))
-        firm_name_input.setText(activity?.intent?.getStringExtra("businessName"))
+        val navController: NavController? =
+            if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
+                activity!!,
+                R.id.frag_container
+            ) else null
 
+        loadInitialData()
 
         ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_save_continue.setOnClickListener {
 //            saveBusinessData() //comment temporarily
-            if(ArthanApp.getAppInstance().loginRole=="BM") {
+            if(activity?.intent?.getStringExtra("FROM")=="BM") {
 
                 updateBusinessDetails()
             }else{
@@ -169,7 +174,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
     private fun updateBusinessDetails() {
 
-        if(ArthanApp.getAppInstance().loginRole=="BM") {
+        if(activity?.intent?.getStringExtra("FROM")=="BM") {
             var dialog = AlertDialog.Builder(activity)
             var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
             dialog.setView(view)
@@ -182,13 +187,12 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 alert.dismiss()
             }
             btn_submit_remark?.setOnClickListener {
-                alert.dismiss()
                 val progressBar = ProgrssLoader(this.context!!)
                 progressBar.showLoading()
                 var map = HashMap<String, String>()
                 map["loanId"] = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)!!
                 map["remarks"] = et_remarks?.text.toString()
-                map["userId"] = ArthanApp.getAppInstance().loginUser+""
+                map["userId"] = activity?.intent?.getStringExtra("FROM")+""
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val respo = RetrofitFactory.getApiService().updateBusinessDetails(
@@ -199,46 +203,23 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                     if (respo?.body() != null && result?.apiCode == "200") {
 
                         withContext(Dispatchers.Main) {
-                            /*  AppPreferences.getInstance()
+                          /*  AppPreferences.getInstance()
                                 .addString(AppPreferences.Key.BusinessId, result.businessId)*/
                             progressBar.dismmissLoading()
+                            val navController: NavController? =
+                                if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
+                                    activity!!,
+                                    R.id.frag_container
+                                ) else null
+                            navController?.navigate(R.id.action_business_to_income)
 
-                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
-
-                                if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
-                                    startActivity(
-                                        Intent(
-                                            activity,
-                                            PendingCustomersActivity::class.java
-                                        )
-                                    )
-                                    activity?.finish()
-
-                                } else {
-                                    startActivity(Intent(activity, RMDashboardActivity::class.java))
-                                    activity?.finish()
-                                }
-
-                            }
-                            else {
-                                progressBar.dismmissLoading()
-                                val navController: NavController? =
-                                    if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
-                                        activity!!,
-                                        R.id.frag_container
-                                    ) else null
-                                navController?.navigate(R.id.action_business_to_income)
-
-                                if (activity is LeadInfoCaptureActivity) {
-                                    (activity as LeadInfoCaptureActivity).enableInCome()
-                                    (activity as LeadInfoCaptureActivity).infoCompleteState(BUSINESS)
-                                } else{
-
-                                }
+                            if (activity is LeadInfoCaptureActivity) {
+                                (activity as LeadInfoCaptureActivity).enableInCome()
+                                (activity as LeadInfoCaptureActivity).infoCompleteState(BUSINESS)
                             }
                         }
-                    }
-                        else  {
+                        }else
+                    {
                         withContext(Dispatchers.Main) {
 
                             progressBar.dismmissLoading()
@@ -301,7 +282,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             constitution = (spnr_constitution?.selectedItem as? Data)?.value,
             udhyogaadhar = udhyog_aadhar_id_input?.text?.toString(),
             gstcode = gstin_number_input?.text?.toString(),
-            noofemployees = no_of_employee_count?.tag as Int,
+            noofemployees = txt_no_of_employees?.text?.toString(),
             ssiregistrationno = ssi_registration_input?.text?.toString(),
             partners = partners,
             noOfyearsincurrentoffice = no_of_year_in_office_input?.text?.toString(),
@@ -372,14 +353,10 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        Crashlytics.log(e.message)
-
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
-                Crashlytics.log(e.message)
-
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
             }
@@ -441,8 +418,6 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             }
         } catch (e: java.lang.Exception){
            // response = null
-            Crashlytics.log(e.message)
-
         }
 
 
@@ -502,8 +477,6 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
             }
             return@async true
         }
@@ -555,7 +528,6 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         ssi_registration_input?.setText(businessDetails?.ssiregistrationno)
         contact_person_name_input?.setText(businessDetails?.contactpersonname)
         et_mobile_number?.setText(businessDetails?.landlineMobile)
-        no_of_year_in_office_input?.setText(businessDetails?.noOfyearsincurrentoffice)
         whats_app_number_input?.setText(businessDetails?.whatsappno)
         email_id_input?.setText(businessDetails?.emailid)
         annual_turnover_current_year_input?.setText(businessDetails?.annualturnoverofcurrentfinancialyearLastfinancialyear)

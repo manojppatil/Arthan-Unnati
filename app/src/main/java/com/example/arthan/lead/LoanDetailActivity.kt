@@ -10,11 +10,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.view.accessibility.AccessibilityViewCommand
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.LoanPostData
@@ -394,7 +392,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
             additionalIncomePm = additional_income_input?.text?.toString() ?: "",
             householdExpensesPm = household_expenses_input?.text?.toString() ?: "",
             createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType),
-            userId=ArthanApp.getAppInstance().loginUser
+            userId="RM1"
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -415,7 +413,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                                         putExtra(ArgumentKey.LeadId, mLeadId)
                                         putExtra(ArgumentKey.Eligibility, result.eligibility)
                                     })
-                              //  finish()
+                                finish()
                             }else
                             {
                                 startActivity(Intent(this@LoanDetailActivity,RMDashboardActivity::class.java))
@@ -447,15 +445,11 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                         )
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
-                        Crashlytics.log(e.message)
-
                         e.printStackTrace()
                         stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
-                Crashlytics.log(e.message)
-
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
             }
@@ -476,15 +470,11 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                             progressLoader.dismmissLoading()
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
-                            Crashlytics.log(e.message)
-
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
             }
         }
     }
@@ -503,15 +493,11 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        Crashlytics.log(e.message)
-
                     }
                 }
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
-            Crashlytics.log(e.message)
-
         }
         return@async true
     }
@@ -531,15 +517,11 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            Crashlytics.log(e.message)
-
                         }
                     }
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
             }
             return@async true
         }

@@ -7,12 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
-import com.example.arthan.dashboard.rm.adapters.ScreeningAdapter
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.model.responsedata.BMQueueResponseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.views.adapters.PendingCustomerAdapter
@@ -20,8 +16,6 @@ import kotlinx.android.synthetic.main.activity_bcm_pending_customers.*
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_bcm_pending_customers.toolbar
-import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -62,10 +56,10 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
 
-        if(ArthanApp.getAppInstance().loginRole=="BM") {
+        if(intent.getStringExtra("FROM")=="BM") {
             CoroutineScope(ioContext).launch {
                 try {
-                    val response = RetrofitFactory.getMasterApiService().getBMQueue(ArthanApp.getAppInstance().loginUser)
+                    val response = RetrofitFactory.getMasterApiService().getBMQueue("2")
                     if (response?.isSuccessful == true) {
                         val result = response.body()
                         withContext(Dispatchers.Main) {
@@ -73,7 +67,7 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                             rv_pending_customer.adapter =
                                 PendingCustomerAdapter(
                                     this@PendingCustomersActivity,
-                                    ArthanApp.getAppInstance().loginRole
+                                    intent.getStringExtra(ArgumentKey.FROM)
                                 ).also {
                                     it.updateList(result?.myQueue)
                                 }
@@ -88,22 +82,18 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                             stopLoading(progressBar, result?.message)
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            Crashlytics.log(e.message)
-
-                            //    stopLoading(progressBar, "Something went wrong. Please try later!")
+                        //    stopLoading(progressBar, "Something went wrong. Please try later!")
                         }
                     }
                 } catch (e: Exception) {
                    // stopLoading(progressBar, "Something went wrong. Please try later!")
                     e.printStackTrace()
-                    Crashlytics.log(e.message)
-
                 }
             }
-        }else if(ArthanApp.getAppInstance().loginRole=="BCM")
+        }else if(intent.getStringExtra("FROM")=="BCM")
         CoroutineScope(ioContext).launch {
             try {
-                val response = RetrofitFactory.getMasterApiService().getBCMQueue(ArthanApp.getAppInstance().loginUser)
+                val response = RetrofitFactory.getMasterApiService().getBCMQueue("2")
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
@@ -126,16 +116,12 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        Crashlytics.log(e.message)
-
-                        // stopLoading(progressBar, "Something went wrong. Please try later!")
+                       // stopLoading(progressBar, "Something went wrong. Please try later!")
                     }
                 }
             } catch (e: Exception) {
                 //stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
             }
         }
     }
@@ -143,23 +129,6 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
 
 
         menuInflater.inflate(R.menu.more,menu)
-        val searchItem=menu?.findItem(R.id.searchMenu)
-        val searchView=searchItem?.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                (rv_pending_customer.adapter as PendingCustomerAdapter).filter?.filter(query)
-                //Toast.makeText(this,"searchItems",Toast.LENGTH_LONG).show();
-                return  true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                val query = newText.toString()
-                var results=(rv_pending_customer.adapter as PendingCustomerAdapter).filter?.filter(query)
-                rv_pending_customer!!.adapter?.notifyDataSetChanged()
-                return false
-            }
-        }
-        )
         return super.onCreateOptionsMenu(menu)
     }
 

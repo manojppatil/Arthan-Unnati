@@ -5,10 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
 import android.widget.Toast
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
@@ -51,7 +48,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         if (intent.hasExtra("PAN_DATA")) {
             mKYCPostData = intent.getParcelableExtra("PAN_DATA") as? KYCPostData
             et_name.setText(mKYCPostData?.panFirstname)
-            panNoEt.setText(mKYCPostData?.panId)
             et_father_name.setText(mKYCPostData?.panFathername)
             et_dob.setText(mKYCPostData?.panDob?.replace("/","-"))
             AppPreferences.getInstance()?.also {
@@ -60,16 +56,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 city_input?.setText(it.getString(AppPreferences.Key.City))
                 state_input?.setText(it.getString(AppPreferences.Key.State))
                 pincode_input?.setText(it.getString(AppPreferences.Key.Pincode))
-            }
-            cb_sameAddress.setOnCheckedChangeListener { buttonView, isChecked ->
-                if(!isChecked)
-                {
-                    sameAsAddressLL.visibility=View.VISIBLE
-                }else
-                {
-                    sameAsAddressLL.visibility=View.GONE
-
-                }
             }
         }
 
@@ -93,34 +79,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         et_dob.setOnClickListener {
             dateSelection(this, et_dob)
         }
-
-        spnr_occupation_type?.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    var list =
-                        (spnr_occupation_type?.adapter as? DataSpinnerAdapter)?.list
-
-                    //fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
-                    if (list?.get(position)?.description?.toLowerCase() == "Self Employed Professional".toLowerCase()) {
-                        spnr_occupation_name.visibility = View.VISIBLE
-
-                    }else
-                    {
-                        spnr_occupation_name.visibility=View.GONE
-
-                    }
-
-                }
-            }
 
 //        switch_partners.setOnCheckedChangeListener { buttonView, isChecked ->
 //            ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
@@ -161,7 +119,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         progressBar.showLoading()
         val postBody = PersonalPostData(
             loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-            custId = intent.extras?.getString("custId"),
+            customeId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId),
             title = (spnr_title?.selectedItem as? Data)?.value ?: "",
             fullName = et_name?.text?.toString() ?: "",
             fatherOrSpousename = et_father_name?.text?.toString() ?: "",
@@ -181,7 +139,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             occupationType = (spnr_occupation_type?.selectedItem as? Data)?.value ?: "",
             occupation = (spnr_occupation_name?.selectedItem as? Data)?.value ?: "",
             sourceofIncome = (source_of_income_spinner?.selectedItem as? Data)?.value ?: "",
-            grossannualIncome = gross_annual_income_spinner?.text.toString(),
+            grossannualIncome = (gross_annual_income_spinner?.selectedItem as? Data)?.value ?: "",
             addressLine1 = address_line1_input?.text?.toString() ?: "",
             addressLine2 = address_line2_input?.text?.toString() ?: "",
             landmark = landmark_input?.text?.toString() ?: "",
@@ -190,15 +148,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             city = city_input?.text?.toString() ?: "",
             district = district_input?.text?.toString() ?: "",
             state = state_input?.text?.toString() ?: "",
-            addrFlag = cb_sameAddress.isChecked,
-            addressLine1p = address1_line1_input?.text?.toString() ?: "",
-            addressLine2p = address1_line2_input?.text?.toString() ?: "",
-            landmarkp = landmark1_input?.text?.toString() ?: "",
-            pinCodep = pincode1_input?.text?.toString() ?: "",
-            areaNamep = area_name1_input?.text?.toString() ?: "",
-            cityp = city1_input?.text?.toString() ?: "",
-            districtp = district_input1?.text?.toString() ?: "",
-            statep = state_input1?.text?.toString() ?: "",
             applicantType = applicantType
         )
 
@@ -222,7 +171,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                 AppPreferences.Key.PrincipleLoanAmount,
                                 result.inPrincipleLnAmt
                             )
-         /*                   val kycResponse =
+                            val kycResponse =
                                 RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)
                             if (kycResponse?.isSuccessful == true) {
                                 val kycResult = kycResponse.body()
@@ -234,7 +183,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                             it.remove(AppPreferences.Key.City)
                                             it.remove(AppPreferences.Key.State)
                                             it.remove(AppPreferences.Key.Pincode)
-                                        }*/
+                                        }
                                         progressBar.dismmissLoading()
                                         if (applicantType == "PA") {
                                             var alert =
@@ -260,9 +209,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                                 DialogInterface.OnClickListener { dialog, which ->
                                                     ConsentActivity.startMe(
                                                         this@PersonalInformationActivity,
-                                                        result.inPrincipleLnAmt,
-                                                        response.body()!!.customerId,
-                                                        response.body()!!.loanId
+                                                        result.inPrincipleLnAmt
                                                     )
                                                     dialog.dismiss()
                                                 })
@@ -293,10 +240,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                                 DialogInterface.OnClickListener { dialog, which ->
                                                     ConsentActivity.startMe(
                                                         this@PersonalInformationActivity,
-                                                        result.inPrincipleLnAmt,
-                                                        response.body()!!.customerId,
-                                                        response.body()!!.loanId
-
+                                                        result.inPrincipleLnAmt
                                                     )
                                                     dialog.dismiss()
                                                 })
@@ -308,14 +252,11 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
                                         ConsentActivity.startMe(
                                             this@PersonalInformationActivity,
-                                            result.inPrincipleLnAmt,
-                                            response.body()!!.customerId,
-                                            response.body()!!.loanId
-
-
+                                            result.inPrincipleLnAmt
                                         )
                                     }
-                            /*} else {
+                                }
+                            } else {
                                 try {
                                     val result: BaseResponseData? = Gson().fromJson(
                                         kycResponse?.errorBody()?.string(),
@@ -323,19 +264,17 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                     )
                                     stopLoading(
                                         progressBar,
-                                        "Something went wrong with api!!!"*//*result?.message*//*
+                                        "Something went wrong with api!!!"/*result?.message*/
                                     )
                                 } catch (e: Exception) {
                                     e.printStackTrace()
-                                    Crashlytics.log(e.message)
-
                                     stopLoading(
                                         progressBar,
                                         "Something went wrong. Please try later!"
                                     )
                                 }
                             }
-                        }*/
+                        }
                     } else {
                         stopLoading(progressBar, result?.apiDesc)
                     }
@@ -348,8 +287,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                         stopLoading(progressBar, result?.message)
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        Crashlytics.log(e.message)
-
                         stopLoading(
                             progressBar,
                             "Something went wrong. Please try later!"
@@ -359,8 +296,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             } catch (e: Exception) {
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
             }
         }
     }
@@ -400,14 +335,10 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Crashlytics.log(e.message)
-
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Crashlytics.log(e.message)
-
         }
         return@async true
     }
@@ -422,8 +353,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Crashlytics.log(e.message)
-
         }
         return@async true
     }
@@ -438,8 +367,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Crashlytics.log(e.message)
-
         }
         return@async true
     }
@@ -451,23 +378,10 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                     withContext(uiContext) {
                         spnr_occupation_type?.adapter = getAdapter(response.body()?.data)
-                        var list =
-                            (spnr_occupation_type?.adapter as? DataSpinnerAdapter)?.list
-
-                        if (list?.get(0)?.description?.toLowerCase() == "Self Employed Professional".toLowerCase()) {
-                            spnr_occupation_name.visibility = View.VISIBLE
-
-                        }else
-                        {
-                            spnr_occupation_name.visibility=View.GONE
-
-                        }
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
             }
             return@async true
         }
@@ -483,8 +397,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
             }
             return@async true
         }
@@ -500,8 +412,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
             }
             return@async true
         }
@@ -512,13 +422,11 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 val response = RetrofitFactory.getMasterApiService().getGrossAnnualIncome()
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                     withContext(uiContext) {
-                        //gross_annual_income_spinner?.adapter = getAdapter(response.body()?.data)
+                        gross_annual_income_spinner?.adapter = getAdapter(response.body()?.data)
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Crashlytics.log(e.message)
-
             }
             return@async true
         }

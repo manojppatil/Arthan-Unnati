@@ -26,50 +26,5 @@ data class BureauDetails(
     val noOfSuitfiledWritten: String,
     val noOfLoanAsGuarantor: String,
     val sixMonthsHistory: String,
-    val lastLoanTaken: String,
-    val activeDetails: ArrayList<InnerDetailsBanking>?,
-    val secureDetails: ArrayList<InnerDetailsBanking>?,
-    val unsecureDetails: ArrayList<InnerDetailsBanking>?,
-    val ccGoldAgriDetails: ArrayList<InnerDetailsBanking>?,
-    val autoOtherDetails: ArrayList<InnerDetailsBanking>?,
-    val suitWrittenDetails: ArrayList<InnerDetailsBanking>?,
-    val guarantorDetails: ArrayList<InnerDetailsBanking>?,
-    val historyDetails: ArrayList<Last6MonthsHistory>?
-
-) : Parcelable
-
-@Parcelize
-data class Last6MonthsHistory (
-
-    val memberName:String?,
-    val inquiryDate:String?,
-    val purpose:String?,
-    val amount:String?,
-    val remark:String?
+    val lastLoanTaken: String
 ):Parcelable
-
-@Parcelize
-data class InnerDetailsBanking(
-
-    val accountType: String?,
-    val amount: String?,
-    val disbDate: String?,
-    val details: DetailsBanking3?
-):Parcelable
-@Parcelize
-
-data class DetailsBanking3(
-
-    val accountType: String?,
-    val ownership: String?,
-    val disbursedAmt: String?,
-    val disbursedDate: String?,
-    val lastPaymentDate: String?,
-    val overdueAmount: String?,
-    val writeOffAmount: String?,
-    val currentBalance: String?,
-    val securityStatus: String?,
-    val principalWriteOffAmount: String?,
-    val writeoffSettleStatus: String?
-
-    ):Parcelable

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
@@ -56,7 +55,7 @@ class LeadEligibilityActivity : BaseActivity() {
                 try {
 
                     val response =
-                        RetrofitFactory.getApiService().updateEligibilityAndPaymentInitiate(
+                        RetrofitFactory.getApiService().updateEligibilityAndPayment(
                             UpdateEligibilityAndPaymentReq(
                                 leadId,
                                 if (loanId.isNullOrBlank()) "C1234" else loanId, ELIGIBILITY_SCREEN
@@ -97,8 +96,6 @@ class LeadEligibilityActivity : BaseActivity() {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Crashlytics.log(e.message)
-
                     withContext(Dispatchers.Main) {
                         progressBar.dismmissLoading()
                         Toast.makeText(
@@ -145,10 +142,5 @@ class LeadEligibilityActivity : BaseActivity() {
 
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-
     }
 }

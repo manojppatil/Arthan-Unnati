@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.arthan.dashboard.bm.model.RejectedCaseResponse
-import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.*
 import com.example.arthan.network.RetrofitFactory
 import kotlinx.coroutines.CoroutineScope
@@ -49,7 +48,7 @@ class RMDashboardViewModel: ViewModel() {
             CoroutineScope(Dispatchers.IO).launch {
                 val respo = RetrofitFactory.getRMServiceService().getScreeningList(
                     RMDashboardRequest(
-                      ArthanApp.getAppInstance().loginUser!!,
+                        "RM1",
                         SCREENING_SECTION
                     )
                 )
@@ -77,7 +76,7 @@ class RMDashboardViewModel: ViewModel() {
         try{
 
         CoroutineScope(Dispatchers.IO).launch {
-            val respo= RetrofitFactory.getRMServiceService().getLeadList(RMDashboardRequest(ArthanApp.getAppInstance().loginUser,
+            val respo= RetrofitFactory.getRMServiceService().getLeadList(RMDashboardRequest("RM1",
                 LEAD_SECTION))
             if(respo.isSuccessful && respo.body() != null){
                 withContext(Dispatchers.Main){
@@ -129,7 +128,7 @@ class RMDashboardViewModel: ViewModel() {
 
             if(from=="RM") {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val respo = RetrofitFactory.getApiService().getRMApproved(ArthanApp.getAppInstance().loginUser)
+                    val respo = RetrofitFactory.getApiService().getRMApproved("RM1")
                     if (respo?.body() != null) {
                         withContext(Dispatchers.Main) {
                             response.value = respo.body()?.approvedCases
@@ -143,7 +142,7 @@ class RMDashboardViewModel: ViewModel() {
             }else if(from=="BM")
             {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val respo = RetrofitFactory.getApiService().getBMApproved(ArthanApp.getAppInstance().loginUser)
+                    val respo = RetrofitFactory.getApiService().getBMApproved("bm")
                     if (respo?.body() != null) {
                         withContext(Dispatchers.Main) {
                             response.value = respo.body()?.approvedCases
@@ -157,7 +156,7 @@ class RMDashboardViewModel: ViewModel() {
             }else if(from=="BCM")
             {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val respo = RetrofitFactory.getApiService().getBCMApproved(ArthanApp.getAppInstance().loginUser)
+                    val respo = RetrofitFactory.getApiService().getBCMApproved("bcm")
                     if (respo?.body() != null) {
                         withContext(Dispatchers.Main) {
                             response.value = respo.body()?.approvedCases
@@ -181,7 +180,7 @@ class RMDashboardViewModel: ViewModel() {
         val response = MutableLiveData<List<RejectedCaseResponse>>()
         if (from.equals("BM")) {
             CoroutineScope(Dispatchers.IO).launch {
-                val respo = RetrofitFactory.getApiService().getBMRejected(ArthanApp.getAppInstance().loginUser)
+                val respo = RetrofitFactory.getApiService().getBMRejected("BM")
                 if (respo?.body() != null) {
                     withContext(Dispatchers.Main) {
                         response.value = respo.body()?.cases
@@ -203,7 +202,7 @@ class RMDashboardViewModel: ViewModel() {
         try{
 
         CoroutineScope(Dispatchers.IO).launch {
-            val respo= RetrofitFactory.getApiService().getRMRejected(ArthanApp.getAppInstance().loginUser)
+            val respo= RetrofitFactory.getApiService().getRMRejected("RM1")
             if(respo?.body() != null){
                 withContext(Dispatchers.Main){
                     response.value= respo.body()?.cases

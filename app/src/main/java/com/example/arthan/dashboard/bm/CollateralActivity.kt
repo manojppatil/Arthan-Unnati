@@ -6,12 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.example.arthan.R
-import com.example.arthan.dashboard.bm.model.BureauDetails
-import com.example.arthan.lead.model.responsedata.CollateralVO
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_collateral.*
-import kotlinx.android.synthetic.main.collateral_layout.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 
 class CollateralActivity : BaseActivity() {
@@ -24,20 +21,6 @@ class CollateralActivity : BaseActivity() {
 
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
-
-        val collateral: CollateralVO? = intent?.extras?.getParcelable<CollateralVO>("data")
-
-        if(collateral!=null) {
-            txt_address_value.text = collateral?.address
-            txt_property_type_value.text = collateral?.collateralType
-            txt_occBy_value.text = collateral?.occupiedBy
-            txt_area_property_value.text = collateral?.areaOfProperty
-            txt_market_value.text = collateral?.marketValue
-            txt_tentative_value.text = collateral?.distressValue
-            txt_4bound_value.text = collateral?.boundaryMatch
-            txt_LTV_value.text = collateral?.ltvConsidered
-            txt_Remarks_Value.text = collateral?.remarks
-        }
 
         findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         add_collateral_button?.setOnClickListener {

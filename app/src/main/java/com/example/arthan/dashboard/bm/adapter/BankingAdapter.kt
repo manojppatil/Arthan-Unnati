@@ -1,15 +1,12 @@
 package com.example.arthan.dashboard.bm.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
-import com.example.arthan.dashboard.bm.ListingActivityBanking
-import com.example.arthan.dashboard.bm.ShowPDFActivity
 import com.example.arthan.dashboard.bm.model.Banking360DetailsResponseData
 
 class BankingAdapter(
@@ -33,38 +30,6 @@ class BankingAdapter(
                 itemView.findViewById<TextView?>(R.id.txt_abb)?.text = "Outward Bounce - "+ mList[position].outwardBounce
                 itemView.findViewById<TextView?>(R.id.txt_no_of_credit_entries)?.text = "EMI Count - " +mList[position].emiCount
                 itemView.findViewById<TextView?>(R.id.emiAmt)?.text = "EMI Amt - "+mList[position].emiAmt
-
-            var emiView=itemView.findViewById<TextView?>(R.id.txt_no_of_credit_entries)
-            var credits=itemView.findViewById<TextView?>(R.id.txt_credit_summation)
-            var cash=itemView.findViewById<TextView?>(R.id.emiAmt)
-            var viewGraph=itemView.findViewById<TextView?>(R.id.showAcGraph)
-            emiView!!.setOnClickListener {
-
-                context.startActivity(Intent(context,ListingActivityBanking::class.java).apply {
-                    putExtra("data",mList[position])
-                    putExtra("typeList","emi")
-                })
-            }
-            credits!!.setOnClickListener {
-                context.startActivity(Intent(context,ListingActivityBanking::class.java).apply {
-                    putExtra("data",mList[position])
-                    putExtra("typeList","credits")
-                })
-
-            }
-            cash!!.setOnClickListener {
-                context.startActivity(Intent(context,ListingActivityBanking::class.java).apply {
-                    putExtra("data",mList[position])
-                    putExtra("typeList","cash")
-                })
-            }
-            viewGraph!!.setOnClickListener {
-                context.startActivity(Intent(context,ShowPDFActivity::class.java).apply {
-                    putExtra("pdf_url",mList[position].acGraph)
-
-                })
-            }
-
 
         }
 

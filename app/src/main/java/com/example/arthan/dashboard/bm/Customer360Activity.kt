@@ -127,11 +127,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                 putExtra("custId",customerId)
                 putExtra("cname",intent.getStringExtra("cname"))
             })
-            R.id.cl_collateral -> startActivity(Intent(this, CollateralActivity::class.java)
-                .apply {
-                    putExtra("data",mCustomer360Data?.collateralVO)
-
-                })
+            R.id.cl_collateral -> startActivity(Intent(this, CollateralActivity::class.java))
             R.id.cl_finances ->  FinanceFragmentCust360.startMe(this, mCustomer360Data?.pdVO,intent.getStringExtra("cname"))
             R.id.cl_rcu_check -> ""
             R.id.cl_assets -> startActivity(Intent(this, AssetsActivity::class.java).apply {

@@ -171,8 +171,6 @@
                         android:lineSpacingExtra="6sp"
                         android:text="4.5 Lakh"
                         android:gravity="left"
-                        android:id="@+id/txt_rm_review_count_tot"
-
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
                         android:paddingTop="2dp"
@@ -260,8 +258,6 @@
                         android:letterSpacing="0.05"
                         android:lineSpacingExtra="6sp"
                         android:text="4.5 Lakh"
-                        android:id="@+id/txt_lead_count_tot"
-
                         android:gravity="left"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
@@ -345,8 +341,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
-                        android:id="@+id/txt_cv_my_queue_count_tot"
-
                         android:textColor="#696969"
                         android:letterSpacing="0.05"
                         android:lineSpacingExtra="6sp"
@@ -431,8 +425,6 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:id="@+id/txt_approved_count_tot"
-
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
                         android:textColor="#696969"
@@ -611,8 +603,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/txt_rejected_count_tot"
-
                         android:textSize="10sp"
                         android:textColor="#696969"
                         android:letterSpacing="0.05"
@@ -708,8 +698,6 @@
                         android:textColor="#696969"
                         android:letterSpacing="0.05"
                         android:lineSpacingExtra="6sp"
-                        android:id="@+id/txt_reassigned_to_count_tot"
-
                         android:text="4.5 Lakh"
                         android:gravity="left"
                         android:paddingLeft="4dp"
@@ -805,8 +793,6 @@
                         android:gravity="left"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
-                        android:id="@+id/txt_reassigned_by_count_tot"
-
                         android:paddingTop="2dp"
                         android:paddingBottom="2dp"
                         android:fontFamily="@font/lato_regular"
@@ -896,8 +882,6 @@
                         android:gravity="left"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
-                        android:id="@+id/txt_disbursed_count_tot"
-
                         android:paddingTop="2dp"
                         android:paddingBottom="2dp"
                         android:fontFamily="@font/lato_regular"

@@ -15,63 +15,44 @@ data class CollateralDetailsPostData(
     var typeOfDoc: String? =,
     var docDesc: String? =,
     var docStatus: String? =*/
-/*
-*  "collaterals": [
-    {
-      "securityType": "",
-      "liquidDetails": {
-        "ownerName": "",
-        "policyNo": "",
-        "surrenderValue": ""
-      },
-      "otherDetails": {
-        "ownerName": "",
-        "policyNo": "",
-        "marketValue": "",
-        "derivedValue": ""
-      },
-      "immovableDetails": {
-        "ownerName":"",
-        "address":"",
-        "collateralType": "",
-        "jurisdiction": "",
-        "marketValue": "",
-        "rshipWithApplicant": "",
-        "ownership": ""
-      }
-    }
-  ]*/
+
 
 )
 
 data class CollateralData(
     val securityType: String,
     val liquidDetails: LiquidDetails,
-    val otherDetails: MovableDetails,
+    val movableDetails: MovableDetails,
     val immovableDetails: ImmovableDetails
 
     )
 
 data class LiquidDetails(
-    val ownerName: String?,
+    val liqOwnership: String?,
     val policyNo: String?,
-    val surrenderValue: String?
+    val issueDate: String?,
+    val validDate: String?,
+    val currentValue: String?,
+    val remarks: String?
 )
 
 data class MovableDetails(
-    val ownerName: String?,
-    val policyNo: String?,
-    val marketValue: String?,
+    val movOwnership: String?,
+    val name: String?,
+    val months: String?,
+    val years: String?,
+    val identification: String?,
+    val description: String?,
+    val currentValue: String?,
     val derivedValue: String?
 )
 
 data class ImmovableDetails(
     val ownerName: String?,
     val address: String?,
-    val addressType: String?,
-    val collateralType: String?,
-    val jurisdiction: String?,
-    val marketValue: String?,
-    val rshipWithApplicant: String?,
-    val ownership: String?
+    val securitySubType: String?,
+    val immovableSubType: String?,
+    val plotType: String?,
+    val namunaType: String?,
+    val occupiedBy: String?
 )

@@ -8,7 +8,6 @@ import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.model.ELIGIBILITY_SCREEN
@@ -59,8 +58,8 @@ class ConsentActivity : BaseActivity() {
             progressBar.showLoading()
 
             val leadId = AppPreferences.getInstance().getString(ArgumentKey.LeadId)
-            val loanId = intent.getStringExtra("loanId")
-            val customerID = intent.getStringExtra("custId")
+            val loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)
+            val customerID = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
 
             CoroutineScope(Dispatchers.IO).launch {
 
@@ -104,8 +103,6 @@ class ConsentActivity : BaseActivity() {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Crashlytics.log(e.message)
-
                     withContext(Dispatchers.Main) {
                         progressBar.dismmissLoading()
                         Toast.makeText(
@@ -124,11 +121,9 @@ class ConsentActivity : BaseActivity() {
     }
 
     companion object {
-        fun startMe(context: Context?, principleAmount: String?,custId:String?,loanId:String?) =
+        fun startMe(context: Context?, principleAmount: String?) =
             context?.startActivity(Intent(context, ConsentActivity::class.java).apply {
                 putExtra(ArgumentKey.InPrincipleAmount, principleAmount)
-                putExtra("custId", custId)
-                putExtra("loanId", loanId)
             })
     }
 }
