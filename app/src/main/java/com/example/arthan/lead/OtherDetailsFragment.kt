@@ -791,7 +791,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             responseBody?.tradeRefDetails,
                             responseBody?.collateralDetails,
                             arguments?.getString("loanId"),
-                            responseBody?.collateralDetails?.custId
+                            responseBody?.collateralDetails?.custId,""
                         )
                         progressLoader?.dismmissLoading()
                     }
@@ -1158,11 +1158,12 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         tradeRefDetails: List<TradeRefDetail>?,
         collateralDetails: CollateralDetailsPostData?,
         loanId: String?,
-        loanType: String?
+        loanType: String?,
+        comment: String?
     ) {
 
         if (activity is ReUsableFragmentSpace) {
-            (activity as ReUsableFragmentSpace).setCommentsToField("Others comment here")
+            (activity as ReUsableFragmentSpace).setCommentsToField(comment.toString()+"")
         }
         mLoanId = loanId
         if ((neighborReference?.size ?: 0) > 0) {

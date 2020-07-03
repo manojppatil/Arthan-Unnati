@@ -44,14 +44,15 @@ class DataFragment : Fragment() {
         val adapter = vp_profile?.adapter as? DataPagerFragmentAdapter
         (adapter?.getItem(0) as? PersonalDetailFragment)?.updateData(data?.personalDetails,data?.inPrincipleAmt,
         data?.loanAmt,data?.roi,data?.tenure)
-        (adapter?.getItem(1) as? BusinessInformationFragment)?.updateData(data?.businessDetails)
-        (adapter?.getItem(2) as? IncomeInformationFragment)?.updateData(data?.incomeDetails,customerId,loanId)
+        (adapter?.getItem(1) as? BusinessInformationFragment)?.updateData(data?.businessDetails,data?.businessComments)
+        (adapter?.getItem(2) as? IncomeInformationFragment)?.updateData(data?.incomeDetails,customerId,loanId,data?.incomeComments)
         (adapter?.getItem(3) as? OtherDetailsFragment)?.updateData(
             data?.neighborRefDetails,
             data?.tradeRefDetails,
             data?.collateralDetails,
             loanId,
-            data?.loanType
+            data?.loanType,
+            data?.OtherComments
 
 
         )

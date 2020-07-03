@@ -20,6 +20,9 @@ data class CustomerDocumentAndDataResponseData(
     val message: String?,
     val path: String?,
     val loanType:String?,
+    val businessComments:String?,
+    val OtherComments:String?,
+    val incomeComments:String?,
     val loanDetails:LoanPostData?
 )
 

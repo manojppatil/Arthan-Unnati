@@ -484,7 +484,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 if (respo != null) {
                     if (respo.isSuccessful && respo.body() != null) {
                         withContext(Dispatchers.Main) {
-                            updateData(respo.body()!!.businessDetails)
+                            updateData(respo.body()!!.businessDetails,"")
                             updateSpinnerData(respo.body()!!.businessDetails)
                         }
                     } else {
@@ -590,7 +590,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         }
     }
 
-    fun updateData(businessDetails: BusinessDetails?) {
+    fun updateData(businessDetails: BusinessDetails?,comment:String?) {
         this@BusinessInformationFragment.businessData=businessDetails
         firm_name_input?.setText(businessDetails?.bname)
         et_date_of_incorporation?.setText(businessDetails?.dateofincorporation)
@@ -605,7 +605,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             }
         }
         if (activity is ReUsableFragmentSpace) {
-            (activity as ReUsableFragmentSpace).setCommentsToField("Business comment here")
+            (activity as ReUsableFragmentSpace).setCommentsToField(comment.toString()+"")
         }
         udhyog_aadhar_id_input?.setText(businessDetails?.udhyogaadhar)
         gstin_number_input?.setText(businessDetails?.gstcode)

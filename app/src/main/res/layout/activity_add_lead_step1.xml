@@ -263,12 +263,51 @@
                 tools:visibility="visible" />
 
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="8dp"
+                android:id="@+id/shopUpload"
+                app:layout_constraintTop_toBottomOf="@+id/et_date">
+
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/ic_add_photo"
+                    android:layout_toLeftOf="@+id/divider"
+
+                    android:id="@+id/shop1"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/divider"
+                    android:layout_marginLeft="16dp"
+
+                    android:layout_marginRight="16dp"
+                    android:background="#000"
+                    android:alpha="0.2"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_add_photo"
+                    android:layout_toRightOf="@+id/divider"
+                    android:layout_margin="8dp"
+                    android:id="@+id/shop2"/>
+
+            </RelativeLayout>
 
             <FrameLayout
                 android:id="@+id/ll_upload_photo"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_margin="16dp"
+                android:visibility="gone"
                 android:background="@drawable/bg_upload_photo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -327,7 +366,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_upload_photo"
+                app:layout_constraintTop_toBottomOf="@+id/shopUpload"
                 app:layout_constraintVertical_chainStyle="packed" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -22,7 +22,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
@@ -90,6 +92,8 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 
 
     private var shopUrl: String? = ""
+    private var shop1Url: String? = ""
+    private var shop2Url: String? = ""
     override fun afterTextChanged(p0: Editable?) {
         checkForProceed()
     }
@@ -103,6 +107,8 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
     override fun screenTitle() = "Add New Lead"
 
     private var shopUri: Uri? = null
+    private var shop1Uri: Uri? = null
+    private var shop2Uri: Uri? = null
 
     override fun contentView() = R.layout.activity_add_lead_step1
 
@@ -141,6 +147,8 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 
         btn_next.setOnClickListener(this)
         ll_upload_photo.setOnClickListener(this)
+        shop1.setOnClickListener(this)
+        shop2.setOnClickListener(this)
         et_date.setOnClickListener(this)
 
         chk_later.setOnCheckedChangeListener { _, isChecked ->
@@ -220,16 +228,40 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             dir.absolutePath +"/${(0..1000).random()}_IM_shop.jpg")
     }
 
-    private fun navigateToCamera() {
+    private fun navigateToCamera(from:Int) {
 
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        shopUri = FileProvider.getUriForFile(
-            this, applicationContext.packageName + ".provider",
-            getOutputMediaFile()
-        )
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, shopUri)
 
-        startActivityForResult(intent, 100)
+
+
+        var req=0
+        when(from){
+            0->{
+                req=100
+                shopUri = FileProvider.getUriForFile(
+                    this, applicationContext.packageName + ".provider",
+                    getOutputMediaFile()
+                )
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, shopUri)
+            }
+            1->{
+                req=1001
+                shop1Uri = FileProvider.getUriForFile(
+                    this, applicationContext.packageName + ".provider",
+                    getOutputMediaFile()
+                )
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, shop1Uri)
+            }
+            2->{
+                req=1002
+                shop2Uri = FileProvider.getUriForFile(
+                    this, applicationContext.packageName + ".provider",
+                    getOutputMediaFile()
+                )
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, shop2Uri)
+            }
+        }
+        startActivityForResult(intent, req)
 
     }
 
@@ -259,7 +291,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             100 -> {
 //                if(File(shopUri?.path).length()>0) {
                 ll_upload_photo.visibility = View.GONE
-                img_shop.visibility = View.VISIBLE
+//                img_shop.visibility = View.VISIBLE
                 Glide.with(this).load(shopUri).error(R.mipmap.ic_launcher).into(img_shop)
                 checkForProceed()
 
@@ -277,6 +309,82 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                                     {
                                         shopUrl = fileList[0].url ?: filePath
                                         ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                                    }) {
+                                    ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                                }
+                        } catch (e: Exception) {
+                            Crashlytics.log(e.message)
+                            ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                            e.printStackTrace()
+                        }
+                    })
+            //    }
+
+
+                // detectFace()
+            }
+            1001 -> {
+//                if(File(shopUri?.path).length()>0) {
+                ll_upload_photo.visibility = View.GONE
+                img_shop.visibility = View.VISIBLE
+                checkForProceed()
+
+
+                    val loader = ProgrssLoader(this)
+                    loader.showLoading()
+                    loadImage(this, shop1, shop1Uri!!, { filePath ->
+                        try {
+                            val file: File = File(filePath)
+                            val url = file.name
+                            val fileList: MutableList<S3UploadFile> = mutableListOf()
+                            fileList.add(S3UploadFile(file, url))
+                            S3Utility.getInstance(this)
+                                .uploadFile(fileList,
+                                    {
+                                        shop1Url = fileList[0].url ?: filePath
+                                        ThreadUtils.runOnUiThread {
+                                            Glide.with(this).load(shop1Uri).error(R.mipmap.ic_launcher).into(shop1)
+                                            loader.dismmissLoading() }
+                                    }) {
+                                    ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                                }
+                        } catch (e: Exception) {
+                            Crashlytics.log(e.message)
+                            ThreadUtils.runOnUiThread { loader.dismmissLoading() }
+                            e.printStackTrace()
+                        }
+                    })
+            //    }
+
+
+                // detectFace()
+            }
+            1002 -> {
+//                if(File(shopUri?.path).length()>0) {
+                ll_upload_photo.visibility = View.GONE
+//                img_shop.visibility = View.VISIBLE
+                checkForProceed()
+
+
+                    val loader = ProgrssLoader(this)
+                    loader.showLoading()
+                    loadImage(this, shop2, shop2Uri!!, { filePath ->
+                        try {
+                            val file: File = File(filePath)
+                            val url = file.name
+                            val fileList: MutableList<S3UploadFile> = mutableListOf()
+                            fileList.add(S3UploadFile(file, url))
+                            S3Utility.getInstance(this)
+                                .uploadFile(fileList,
+                                    {
+
+                                        shop2Url = fileList[0].url ?: filePath
+
+                                        ThreadUtils.runOnUiThread {
+                                            Glide.with(this).load(shop2Uri).error(R.mipmap.ic_launcher).into(shop2)
+
+                                            loader.dismmissLoading()
+                                        }
                                     }) {
                                     ThreadUtils.runOnUiThread { loader.dismmissLoading() }
                                 }
@@ -443,7 +551,8 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             laterDate = et_date?.text?.toString() ?: "",
             lat = lat.toString(),
             lng = lng.toString(),
-            shopPicUrl=shopUrl,
+            shopPicUrl=shop1Url,
+            shopPicUrl2=shop2Url,
             createdBy = ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(Dispatchers.IO).launch {
@@ -504,7 +613,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                 ).build()
                 request.listeners {
                     onAccepted {
-                        fetchLocation()
+                        fetchLocation(0)
 
                         /* val bundle = Bundle()
 
@@ -524,6 +633,79 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                     }
                 }
                 request.send()
+            }
+            R.id.shop1 -> {
+                if (shop1Url!!.isNotEmpty()) {
+
+
+                    showPreview(1)
+
+                } else {
+                    val request = permissionsBuilder(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ).build()
+                    request.listeners {
+                        onAccepted {
+                            fetchLocation(1)
+
+                            /* val bundle = Bundle()
+
+                         val intent = Intent().apply {
+                             setClass(this@AddLeadStep1Activity, DFSilentLivenessActivity::class.java)
+                             putExtras(bundle)
+                             putExtra(DFSilentLivenessActivity.KEY_DETECT_IMAGE_RESULT, true)
+                             putExtra(DFSilentLivenessActivity.KEY_HINT_MESSAGE_HAS_FACE, "Please hold still")
+                             putExtra(DFSilentLivenessActivity.KEY_HINT_MESSAGE_NO_FACE, "Please place your face inside the circle")
+                             putExtra(DFSilentLivenessActivity.KEY_HINT_MESSAGE_FACE_NOT_VALID, "Please move away from the screen")
+                         }
+                         startActivityForResult(intent, KEY_TO_DETECT_REQUEST_CODE)*/
+                        }
+                        onDenied {
+                        }
+                        onPermanentlyDenied {
+                        }
+                    }
+                    request.send()
+                }
+            }
+            R.id.shop2 -> {
+
+                if (shop2Url.toString().isNotEmpty()) {
+
+                    showPreview(2)
+                } else {
+                    val request = permissionsBuilder(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ).build()
+                    request.listeners {
+                        onAccepted {
+                            fetchLocation(2)
+
+                            /* val bundle = Bundle()
+
+                         val intent = Intent().apply {
+                             setClass(this@AddLeadStep1Activity, DFSilentLivenessActivity::class.java)
+                             putExtras(bundle)
+                             putExtra(DFSilentLivenessActivity.KEY_DETECT_IMAGE_RESULT, true)
+                             putExtra(DFSilentLivenessActivity.KEY_HINT_MESSAGE_HAS_FACE, "Please hold still")
+                             putExtra(DFSilentLivenessActivity.KEY_HINT_MESSAGE_NO_FACE, "Please place your face inside the circle")
+                             putExtra(DFSilentLivenessActivity.KEY_HINT_MESSAGE_FACE_NOT_VALID, "Please move away from the screen")
+                         }
+                         startActivityForResult(intent, KEY_TO_DETECT_REQUEST_CODE)*/
+                        }
+                        onDenied {
+                        }
+                        onPermanentlyDenied {
+                        }
+                    }
+                    request.send()
+                }
             }
             R.id.et_date -> {
                 val c = Calendar.getInstance()
@@ -552,14 +734,14 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
         }
     }
 
-    private fun fetchLocation() {
+    private fun fetchLocation(from:Int) {
         AppLocationProvider().getLocation(this, object : AppLocationProvider.LocationCallBack {
             override fun locationResult(location: Location?) {
 
                 lat= location?.latitude!!.toLong()
                 lng= location.longitude.toLong()
                 Log.d("latlng",lng.toString())
-                navigateToCamera()
+                navigateToCamera(from)
                 AppLocationProvider().stopLocation()
 
                 // use location, this might get called in a different thread if a location is a last known location. In that case, you can post location on main thread
@@ -590,6 +772,53 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             0f, this);
    */ }
 
+    fun showPreview(from: Int)
+    {
+        var dialog=AlertDialog.Builder(this)
+        var view=layoutInflater.inflate(R.layout.shop_img_preview_dialog,null)
+        var close=view.findViewById<ImageView>(R.id.closePreview)
+        var edit=view.findViewById<ImageView>(R.id.edit)
+        var preview=view.findViewById<ImageView>(R.id.preview)
+        when(from)
+        {
+            0->{
+//                Glide.with(this).load(shopurl).error(R.mipmap.ic_launcher).into(image)
+            }
+            1->{
+                Glide.with(this).load(shop1Url).error(R.mipmap.ic_launcher).into(preview)
+            }
+            2->{
+                Glide.with(this).load(shop2Url).error(R.mipmap.ic_launcher).into(preview)
+            }
+        }
+
+        dialog.setView(view)
+        var d=dialog.create()
+        d.show()
+        close.setOnClickListener { d.dismiss() }
+        edit.setOnClickListener {
+            when(from)
+            {
+                0->{
+//                Glide.with(this).load(shopurl).error(R.mipmap.ic_launcher).into(image)
+                }
+                1->{
+                  shop1Url=""
+                  shop1Uri=null
+                    shop1.performClick()
+                    d.dismiss()
+                }
+                2->{
+                  shop2Url=""
+                  shop2Uri=null
+                    shop2.performClick()
+                    d.dismiss()
+
+                }
+            }
+
+        }
+    }
     override fun onLocationChanged(location: Location?) {
 
 

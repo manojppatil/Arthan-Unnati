@@ -1030,7 +1030,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     if (response!!.isSuccessful) {
                         val res = response.body()
                         progressLoader.dismmissLoading()
-                        updateData(res?.incomeDetails, res?.incomeDetails?.customerId, res?.incomeDetails?.loanId)
+                        updateData(
+                            res?.incomeDetails,
+                            res?.incomeDetails?.customerId,
+                            res?.incomeDetails?.loanId,
+                            ""
+                        )
                     }
                 }
             }
@@ -1378,7 +1383,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
     fun updateData(
         incomeDetails: IncomeDetails?,
         customerId: String?,
-        loanId: String?
+        loanId: String?,
+        incomeComments: String?
     ) {
         switch_other_sources?.isChecked = false
         if (incomeDetails?.incomes?.size != 0) {
@@ -1393,7 +1399,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         mLoanId = loanId
 //        mCustomerId = incomeDetails?.customerId
         if (activity is ReUsableFragmentSpace) {
-            (activity as ReUsableFragmentSpace).setCommentsToField("Income comment here")
+            (activity as ReUsableFragmentSpace).setCommentsToField(incomeComments.toString()+"")
         }
         mCustomerId = customerId
         for (item in incomeDetails?.expenditures ?: listOf()) {
