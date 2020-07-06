@@ -1,9 +1,12 @@
 package com.example.arthan.dashboard.bm
 
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -40,6 +43,30 @@ class DocumentVerificationFragment : BaseFragment() {
     private var mContext:Context?=null
     private var textColor:Int=Color.parseColor("#09327a")
     override fun init() {
+        img_pan.setOnClickListener {
+            showPreview(docDetails?.panUrl)
+
+        }
+        img_aadhaar.setOnClickListener {  showPreview(docDetails?.aadharFrontUrl)}
+        img_aadhaar_back.setOnClickListener {
+            showPreview(docDetails?.aadharBackUrl)
+        }
+        img_voter.setOnClickListener {
+            showPreview(docDetails?.voterUrl)
+        }
+
+        img_applicant.setOnClickListener {
+            showPreview(docDetails?.paApplicantPhoto)
+        }
+        img_OfficeAddressProof.setOnClickListener {
+            showPreview(docDetails?.businessAddrProof)
+        }
+        img_BusinessProof.setOnClickListener {
+            showPreview(docDetails?.businessProof)
+        }
+        img_IncomeProof.setOnClickListener {
+            showPreview(docDetails?.incomeProof)
+        }
 
         btn_aadhar_approve.setOnClickListener {
             isAdhaarFrontApproved = true
@@ -435,6 +462,24 @@ class DocumentVerificationFragment : BaseFragment() {
         }
     }
 
+    fun showPreview(urlString:String?)
+    {
+        if(ArthanApp.getAppInstance().loginRole=="BM"&&(urlString!=null||urlString!="")) {
+            var alert = AlertDialog.Builder(activity)
+            val view = activity?.layoutInflater?.inflate(R.layout.shop_img_preview_dialog, null)
+            alert.setView(view)
+            val close = view?.findViewById<ImageView>(R.id.closePreview)
+            val edit = view?.findViewById<ImageView>(R.id.edit)
+            val preview = view?.findViewById<ImageView>(R.id.preview)
+            edit?.visibility = View.GONE
+            Glide.with(context!!).load(urlString).into(preview!!)
+            val dialog = alert.create()
+            dialog.show()
+            close?.setOnClickListener { dialog.dismiss() }
+
+
+        }
+    }
     companion object {
         const val TAG = "DocumentVerifFragment"
     }
