@@ -35,6 +35,9 @@ class RMDashboardActivity : BaseActivity() {
         btn_add_lead.setOnClickListener {
             startActivity(Intent(this@RMDashboardActivity, AddLeadStep1Activity::class.java))
         }
+        btn_add_am.setOnClickListener {
+            startActivity(Intent(this,AddNewAmActivity::class.java))
+        }
 
         navController = Navigation.findNavController(this, R.id.fl_container)
 

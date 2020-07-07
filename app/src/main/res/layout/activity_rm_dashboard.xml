@@ -56,6 +56,26 @@
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/btn_add_am"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            android:background="@drawable/bg_add_new_lead_reverse"
+            style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+            android:text="Add New AM"
+            android:fontFamily="@font/lato_black"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textAllCaps="false"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -378,6 +378,9 @@ interface ApiService {
     @POST("storeMpin")
     suspend fun storeMpin(@Body body: Map<String, String>):Response<BaseResponseData>
 
+    @POST("addAM")
+    suspend fun addAM(@Body body: Map<String, String>):Response<BaseResponseData>
+
 
 
     /* @POST("getScreenDetails")

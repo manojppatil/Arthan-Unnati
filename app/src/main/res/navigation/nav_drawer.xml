@@ -13,5 +13,9 @@
         android:id="@+id/item_profile"
         android:name="com.example.arthan.profile.MyProfileActivity"
         app:layout="@layout/activity_my_profile"/>
+    <fragment
+        android:id="@+id/item_MyAMs"
+        android:name="com.example.arthan.dashboard.rm.MyAmListFragment"
+        app:layout="@layout/am_list_fragment"/>
 
 </navigation>

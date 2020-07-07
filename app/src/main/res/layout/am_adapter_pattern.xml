@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="#fff"
+    android:elevation="8dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="0.9"
+            android:layout_gravity="center_horizontal"
+            android:text="Name"
+            />
+            <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+                android:layout_weight="0.2"
+                android:gravity="center_horizontal"
+
+                android:text=":"
+            />
+            <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+
+                android:id="@+id/nameValue"
+                android:layout_weight="0.9"
+            android:text="Name"
+            />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="0.9"
+            android:text="Submitted On"
+            />
+            <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+                android:layout_weight="0.2"
+                android:gravity="center_horizontal"
+
+                android:text=":"
+            />
+            <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+
+                android:id="@+id/dateValue"
+                android:layout_weight="0.9"
+            android:text="Name"
+            />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="0.9"
+            android:text="Status"
+            />
+            <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+                android:layout_weight="0.2"
+                android:gravity="center_horizontal"
+
+                android:text=":"
+            />
+            <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+
+                android:id="@+id/statusValue"
+                android:layout_weight="0.9"
+            android:text="Name"
+            />
+
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:id="@+id/resend"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_next_enabled"
+            android:text="Resend Link"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"
+            android:textColor="#fff"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

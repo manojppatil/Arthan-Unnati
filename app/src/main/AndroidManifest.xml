@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.arthan">
+    package="com.example.arthan" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -36,12 +36,15 @@
         android:roundIcon="@mipmap/circle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".RmReassignNavActivity"></activity>
+        android:usesCleartextTraffic="true" >
+        <activity android:name=".dashboard.rm.AMdashboardActivity" >
+        </activity>
+        <activity android:name=".dashboard.rm.AddNewAmActivity" />
+        <activity android:name=".RmReassignNavActivity" />
         <activity android:name=".dashboard.rm.ReUsableFragmentSpace" />
         <activity android:name=".CBO.CBODashboardActivity" />
         <activity android:name=".login.LoginOTPActivity" />
-        <activity android:name=".login.LoginEmpIdActivity">
+        <activity android:name=".login.LoginEmpIdActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -74,14 +77,14 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
 
         <activity android:name=".views.activities.SplashActivity" />
-        <activity android:name=".dashboard.rm.RMDashboardActivity">
+        <activity android:name=".dashboard.rm.RMDashboardActivity" >
 
             <!--
             <intent-filter>
@@ -92,7 +95,7 @@
             -->
         </activity>
         <activity android:name=".dashboard.bm.DeviationsActivity" />
-        <activity android:name=".lead.AddLeadStep2Activity">
+        <activity android:name=".lead.AddLeadStep2Activity" >
 
             <!--
             <intent-filter>
@@ -105,7 +108,7 @@
         <activity android:name=".lead.UploadDocumentActivity" />
         <activity android:name=".lead.ConsentActivity" />
         <activity android:name=".lead.OTPValidationActivity" />
-        <activity android:name=".lead.LeadInfoCaptureActivity">
+        <activity android:name=".lead.LeadInfoCaptureActivity" >
 
             <!--
             <intent-filter>
@@ -116,7 +119,7 @@
             -->
         </activity>
         <activity android:name=".lead.AddLeadStep1Activity" />
-        <activity android:name=".dashboard.bm.BMDashboardActivity">
+        <activity android:name=".dashboard.bm.BMDashboardActivity" >
 
             <!--
             <intent-filter>
@@ -131,7 +134,7 @@
         <activity android:name=".views.activities.CustomerDetailActivity" />
         <activity android:name=".views.activities.SubmitFinalReportActivity" />
         <activity android:name=".views.activities.ProfileActivity" />
-        <activity android:name=".dashboard.bcm.BCMDashboardActivity">
+        <activity android:name=".dashboard.bcm.BCMDashboardActivity" >
 
             <!--
              <intent-filter>
@@ -182,7 +185,7 @@
         <activity android:name=".views.activities.WebContentPreviewActivity" />
         <activity android:name=".views.activities.CustomerCameraActivity" />
 
-        <service android:name=".utils.MyFirebaseInstanceIdService">
+        <service android:name=".utils.MyFirebaseInstanceIdService" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
