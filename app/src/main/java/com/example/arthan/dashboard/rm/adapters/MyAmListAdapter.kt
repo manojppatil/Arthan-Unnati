@@ -21,14 +21,12 @@ class MyAmListAdapter (private val context: Context,
     inner class AmList(private val root: View) : RecyclerView.ViewHolder(root) {
 
         fun bind(position: Int) {
-            root.setOnClickListener {
-                root.findViewById<TextView>(R.id.nameValue).text=data[position].Name
-                root.findViewById<TextView>(R.id.dateValue).text=data[position].Submitted
-                root.findViewById<TextView>(R.id.statusValue).text=data[position].Status
+                root.findViewById<TextView>(R.id.nameValue).text=data[position].name
+                root.findViewById<TextView>(R.id.dateValue).text=data[position].submittedDate
+                root.findViewById<TextView>(R.id.statusValue).text=data[position].status
                 root.findViewById<Button>(R.id.resend).setOnClickListener {
                     Toast.makeText(context,"Link resent",Toast.LENGTH_LONG).show()
                 }
-            }
 
           }
 

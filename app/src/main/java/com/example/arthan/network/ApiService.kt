@@ -372,6 +372,9 @@ interface ApiService {
     @GET("getOTPforEmp")
     suspend fun getOTPforEmp(@Query("empCode") empCode: String?): Response<BaseResponseData>
 
+    @GET("getAMs")
+    suspend fun getAMs(@Query("rmId") rmId: String?): List<AmListModel>
+
     @POST("verifyOTPforEmp")
     suspend fun verifyOTPforEmp(@Body body: Map<String, String>):Response<BaseResponseData>
 
