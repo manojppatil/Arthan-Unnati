@@ -10,6 +10,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.arthan.R
+import com.example.arthan.dashboard.am.AddAMKYCDetailsActivity
 import com.example.arthan.lead.AddLeadStep1Activity
 import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.views.activities.BaseActivity
@@ -38,7 +39,10 @@ class RMDashboardActivity : BaseActivity() {
         btn_add_am.setOnClickListener {
             startActivity(Intent(this,AddNewAmActivity::class.java))
         }
-
+        //Harish start end
+//        btn_add_am.setOnClickListener {
+//            startActivity(Intent(this@RMDashboardActivity, AddAMKYCDetailsActivity::class.java))
+//        }
         navController = Navigation.findNavController(this, R.id.fl_container)
 
         if (navController != null) {

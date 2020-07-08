@@ -33,6 +33,8 @@ object RetrofitFactory {
 
     private const val RM_API= "$SERVER_URL/JerseyDemos/rest/GetData/"
 
+    private const val AM_API= "$SERVER_URL/JerseyDemos/rest/"
+
     fun getLoggingInterceptor(): OkHttpClient = OkHttpClient.Builder().also {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
@@ -137,6 +139,15 @@ object RetrofitFactory {
     }
     fun getRMServiceService():ApiService= Retrofit.Builder()
         .baseUrl(RM_API)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(getLoggingInterceptor())
+        .client(getSSLHttpClient())
+        .build().create(ApiService::class.java)
+
+
+    /*AM service*/
+    fun getAMService():ApiService= Retrofit.Builder()
+        .baseUrl(AM_API)
         .addConverterFactory(GsonConverterFactory.create())
         .client(getLoggingInterceptor())
         .client(getSSLHttpClient())

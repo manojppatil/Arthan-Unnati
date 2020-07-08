@@ -1,5 +1,8 @@
 package com.example.arthan.network
 
+import com.example.arthan.dashboard.am.model.AMOtherdetailsPostData
+import com.example.arthan.dashboard.am.model.AMPersonalDetailsData
+import com.example.arthan.dashboard.am.model.ProfessionPostData
 import com.example.arthan.dashboard.bm.model.*
 import com.example.arthan.dashboard.bm.model.RejectedCaseData
 import com.example.arthan.lead.model.CheckRLTStatusResponse
@@ -384,6 +387,24 @@ interface ApiService {
     @POST("addAM")
     suspend fun addAM(@Body body: Map<String, String>):Response<BaseResponseData>
 
+
+
+    /*AM APis start*/
+
+    @POST("sendOTP")
+    suspend fun sendOTP(@Body body: Map<String, String>): Response<BaseResponseData>
+
+    @POST("saveAMKycDetails")
+    suspend fun saveAMKycDetail(@Body body: KYCPostData?): Response<BaseResponseData>?
+
+    @POST("saveAMPersonalDetails")
+    suspend fun saveAMPersonalDetail(@Body body: AMPersonalDetailsData?): Response<PersonalResponseData>?
+
+    @POST("saveAMProfessionalDetails")
+    suspend fun saveAMProfessionalDetails(@Body body: ProfessionPostData?): Response<PersonalResponseData>?
+
+    @POST("saveAMOtherDetails")
+    suspend fun saveAMOtherDetails(@Body body: AMOtherdetailsPostData?): Response<PersonalResponseData>?
 
 
     /* @POST("getScreenDetails")

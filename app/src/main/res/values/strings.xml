@@ -369,4 +369,23 @@
     <string name="documents">Documents</string>
     <string name="switchUSer"><u>Switch to different user</u></string>
 
+
+    <!--AM related strings-->
+    <string name="add_am">onboarding</string>
+    <string name="personal">Personal</string>
+    <string name="professional">professional</string>
+    <string name="comments">Comments</string>
+    <string name="aadhar_number">Adadhar number</string>
+    <string name="bank_account_details">Bank Account Details </string>
+    <string name="upload_cheque">Upload Cross scanned cheque</string>
+    <string name="oriya">Oriya</string>
+    <string name="english">English</string>
+    <string name="marati">Marati</string>
+    <string name="read">Read</string>
+    <string name="write">Write</string>
+    <string name="speak">Speak</string>
+    <string name="own_smartphone">Own Smart Phone</string>
+    <string name="own_two_wheeler">Own Two Wheeler</string>
+    <string name="reference_check">Reference Check for Arthan Mitra</string>
+    <string name="address">address</string>
 </resources>

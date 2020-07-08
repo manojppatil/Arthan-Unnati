@@ -28,3 +28,7 @@ const val DOCUMENT= "document"
 const val PFP= 8
 const val BALSHEET= 9
 const val FINSTATEMENT= 10
+
+
+const val PROFESSIONAL= "professional"
+const val OTHERS= "others"
