@@ -85,6 +85,10 @@ class RMDashboardActivity : BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+    fun hideAddAM()
+    {
+        btn_add_am.visibility=View.GONE
+    }
 
     override fun onSupportNavigateUp() = findNavController(R.id.fl_container).navigateUp()
 

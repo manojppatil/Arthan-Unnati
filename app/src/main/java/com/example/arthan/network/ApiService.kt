@@ -392,7 +392,7 @@ interface ApiService {
     /*AM APis start*/
 
     @POST("sendOTP")
-    suspend fun sendOTP(@Body body: Map<String, String>): Response<BaseResponseData>
+    suspend fun sendOTP(@Body body: Map<String, String>): Response<AMSendOtpResponse>
 
     @POST("saveAMKycDetails")
     suspend fun saveAMKycDetail(@Body body: KYCPostData?): Response<BaseResponseData>?

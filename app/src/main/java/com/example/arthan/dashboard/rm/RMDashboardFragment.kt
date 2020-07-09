@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.RMDashboardData
 import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.views.fragments.BaseFragment
@@ -38,42 +39,58 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
 
     private fun loadRmData(){
         mViewModel.loadRMDashboard().observe(this, Observer { data->
-            if(data != null){
-                response=data
-                txt_bm_name.text="Hello ${data.rmName}"
-                txt_branch_rank_count.text= "${data.branchRank}"
-                txt_all_india_rank_count.text= "${data.airRank}"
-                txt_earnings_per.text= "${data.earning}"
+            if(data != null) {
+                response = data
+                txt_bm_name.text = "Hello ${data.rmName}"
+                txt_branch_rank_count.text = "${data.branchRank}"
+                txt_all_india_rank_count.text = "${data.airRank}"
+                txt_earnings_per.text = "${data.earning}"
 
-                txt_last_sync.text= "Since ${data.since}"
+                txt_last_sync.text = "Since ${data.since}"
 
-                txt_lead_count.text= "${data.leads.count}"
+                txt_lead_count.text = "${data.leads.count}"
                 //txt_lead.text= "${data.leads.label}"
-                txt_lead_amount.text= "${data.leads.total}"
+                txt_lead_amount.text = "${data.leads.total}"
 
-                txt_screening_count.text= "${data.screening.count}"
+                txt_screening_count.text = "${data.screening.count}"
                 //txt_screening.text= "${data.screening.label}"
-                txt_screening_amt.text= "${data.screening.total}"
+                txt_screening_amt.text = "${data.screening.total}"
 
-                txt_approved_count.text= "${data.approved.count}"
+                txt_approved_count.text = "${data.approved.count}"
                 //txt_approved.text= "${data.approved.label}"
-                txt_approved_amt.text= "${data.approved.total}"
+                txt_approved_amt.text = "${data.approved.total}"
 
-                txt_rejected_count.text= "${data.rejected.count}"
+                txt_rejected_count.text = "${data.rejected.count}"
                 //txt_rejected.text= "${data.rejected.label}"
-                txt_rejected_amt.text= "${data.rejected.total}"
+                txt_rejected_amt.text = "${data.rejected.total}"
 
-                txt_to_be_disbursed_count.text= "${data.toDisburse.count}"
+                txt_to_be_disbursed_count.text = "${data.toDisburse.count}"
                 //txt_to_be_disbursed.text= "${data.toDisburse.label}"
-                txt_to_disbursed_amt.text= "${data.toDisburse.total}"
+                txt_to_disbursed_amt.text = "${data.toDisburse.total}"
 
-                txt_reassign_count.text= "${data.reassign.count}"
+                txt_reassign_count.text = "${data.reassign.count}"
                 //txt_reassign.text= "${data.reassign.label}"
-                txt_reassign_amt.text= "${data.reassign.total}"
+                txt_reassign_amt.text = "${data.reassign.total}"
 
-                txt_rmprogress_count.text= "${data.inProgress.count}"
+                txt_rmprogress_count.text = "${data.inProgress.count}"
                 //txt_reassign.text= "${data.reassign.label}"
-                txt_rmprogress_amt.text= "${data.inProgress.total}"
+                txt_rmprogress_amt.text = "${data.inProgress.total}"
+
+                if (data.amApproved.toLowerCase() == "no"){
+                    (activity as RMDashboardActivity).hideAddAM()
+                }
+                if(ArthanApp.getAppInstance().loginRole=="AM")
+                {
+                    AMDetailsLL.visibility=View.VISIBLE
+
+                    txt_bm_name.text="Hello "+data.amName
+                    branchName.text="Branch Name: "+data.amBranch
+                    myRm.text="My RM: "+data.amRm
+                    contact.text="Contact:  "+data.amRmContact
+                }else
+                {
+                    AMDetailsLL.visibility=View.GONE
+                }
             }
         })
     }

@@ -110,6 +110,18 @@ class SplashActivity : AppCompatActivity() {
                                             )
                                         )
                                         finish()
+                                    } "AM" -> {
+                                        AppPreferences.getInstance()
+                                            .remove(AppPreferences.Key.LoginType)
+                                        AppPreferences.getInstance()
+                                            .addString(AppPreferences.Key.LoginType, "AM")
+                                        startActivity(
+                                            Intent(
+                                                this@SplashActivity,
+                                                RMDashboardActivity::class.java
+                                            )
+                                        )
+                                        finish()
                                     }
                                     "legal" -> {
                                         AppPreferences.getInstance()
