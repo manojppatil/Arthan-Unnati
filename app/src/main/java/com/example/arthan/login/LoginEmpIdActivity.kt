@@ -7,11 +7,17 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
+import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_login_emp_id.*
 import kotlinx.android.synthetic.main.activity_submit_final_report.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginEmpIdActivity : AppCompatActivity() {
 
@@ -27,12 +33,26 @@ class LoginEmpIdActivity : AppCompatActivity() {
             finish()
         }
         btn_Submit.setOnClickListener {
-            if (getSharedPreferences("user", Context.MODE_PRIVATE).getString("empId", "") == "") {
-                ArthanApp.getAppInstance().loginUser = et_role.text.toString()
-                startActivity(Intent(this, LoginOTPActivity::class.java).apply {
-                    putExtra("empId", et_role.text.toString())
-                })
-                finish()
+            if(rbEmployee.isChecked) {
+                if (getSharedPreferences("user", Context.MODE_PRIVATE).getString(
+                        "empId",
+                        ""
+                    ) == ""
+                ) {
+                    ArthanApp.getAppInstance().loginUser = et_role.text.toString()
+                    startActivity(Intent(this, LoginOTPActivity::class.java).apply {
+                        putExtra("empId", et_role.text.toString())
+                        putExtra("role","Emp")
+                    })
+                    finish()
+                }
+            }else
+            {
+               /* startActivity(Intent(this@LoginEmpIdActivity, LoginOTPActivity::class.java).apply {
+                    putExtra("mobNo",et_role.text.toString())
+                    putExtra("role","NonEmp")
+                })*/
+                getOtp()
             }
         }
         et_role.addTextChangedListener(object : TextWatcher {
@@ -59,5 +79,25 @@ class LoginEmpIdActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+    private fun getOtp() {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val map=HashMap<String,String>()
+            map["mobNo"]=et_role.text.toString()
+            map["role"]="NonEmp"
+            val response =
+                RetrofitFactory.getAMService().sendOTP(map)
+            if (response.body() != null) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@LoginEmpIdActivity,"OTP sent to registered mobile number",
+                        Toast.LENGTH_LONG).show()
+                    startActivity(Intent(this@LoginEmpIdActivity, LoginOTPActivity::class.java).apply {
+                        putExtra("role","NonEmp")
+                    })
+
+                }
+            }
+        }
     }
 }

@@ -10,9 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
-import com.example.arthan.dashboard.rm.PDTDocUploadActivity
 import com.example.arthan.model.AmListModel
-import com.example.arthan.model.ToDisbursedData
 
 class MyAmListAdapter (private val context: Context,
                        private val data: List<AmListModel>): RecyclerView.Adapter<MyAmListAdapter.AmList>() {

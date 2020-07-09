@@ -11,7 +11,9 @@ import com.example.arthan.R
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.SplashActivity
+import kotlinx.android.synthetic.main.activity_login_emp_id.*
 import kotlinx.android.synthetic.main.activity_login_o_t_p.*
+import kotlinx.android.synthetic.main.activity_login_o_t_p.btn_submit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +26,15 @@ class LoginOTPActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_o_t_p)
-        getOtp()
+
+        if(intent.getStringExtra("role")=="Emp")
+        {
+            getOtp()
+
+        }else {
+            getOtpForNonEmp()
+
+        }
 
         btn_submit.setOnClickListener {
             if (view_otp.otp.length == 6) {
@@ -35,6 +45,7 @@ class LoginOTPActivity : AppCompatActivity() {
                         val map=HashMap<String,String>()
                         map["userId"]=intent.getStringExtra("empId")!!
                         map["otp"]=view_otp.otp.toString()
+                        map["role"]=intent.getStringExtra("role")
                         val response=RetrofitFactory.getApiService().verifyOTPforEmp(map)
                         if(response.body()!=null)
                         {
@@ -101,7 +112,23 @@ class LoginOTPActivity : AppCompatActivity() {
         }.start()
 
     }
+    private fun getOtpForNonEmp() {
 
+        CoroutineScope(Dispatchers.IO).launch {
+            val map=HashMap<String,String>()
+            map["mobNo"]=intent.getStringExtra("mobNo")
+            map["role"]="NonEmp"
+            val response =
+                RetrofitFactory.getAMService().sendOTP(map)
+            if (response.body() != null) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@LoginOTPActivity,"OTP sent to registered mobile number",
+                        Toast.LENGTH_LONG).show()
+
+                }
+            }
+        }
+    }
     private fun getOtp() {
 
         CoroutineScope(Dispatchers.IO).launch {
