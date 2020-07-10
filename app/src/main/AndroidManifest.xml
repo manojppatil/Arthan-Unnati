@@ -44,12 +44,12 @@
         <activity android:name=".CBO.CBODashboardActivity" />
         <activity android:name=".login.LoginOTPActivity" />
         <activity android:name=".login.LoginEmpIdActivity">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity android:name=".dashboard.rm.RMInProgressActivity" />
         <activity android:name=".dashboard.rm.RMScreeningNavigationActivity" />
@@ -194,11 +194,6 @@
         <activity android:name=".dashboard.am.AddAMKYCDetailsActivity" />
         <activity android:name=".dashboard.am.AMPersonalDetailsActivity" />
         <activity android:name=".dashboard.am.AMOnboardingAtivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
