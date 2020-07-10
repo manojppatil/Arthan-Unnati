@@ -14,7 +14,12 @@ val approved: Data,
 val rejected: Data,
 val toDisburse: Data,
 val reassign: Data,
-val inProgress: Data
+val inProgress: Data,
+val amName: String,
+val amBranch: String,
+val amRm: String,
+val amRmContact: String,
+val amApproved: String
 )
 
 data class Data(val count: String,

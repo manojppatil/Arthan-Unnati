@@ -90,10 +90,13 @@ class LoginEmpIdActivity : AppCompatActivity() {
                 RetrofitFactory.getAMService().sendOTP(map)
             if (response.body() != null) {
                 withContext(Dispatchers.Main) {
+                    ArthanApp.getAppInstance().loginUser=response.body()!!.userId
                     Toast.makeText(this@LoginEmpIdActivity,"OTP sent to registered mobile number",
                         Toast.LENGTH_LONG).show()
                     startActivity(Intent(this@LoginEmpIdActivity, LoginOTPActivity::class.java).apply {
                         putExtra("role","NonEmp")
+                        putExtra("mobNo",et_role.text.toString())
+                        putExtra("empId",et_role.text.toString())
                     })
 
                 }

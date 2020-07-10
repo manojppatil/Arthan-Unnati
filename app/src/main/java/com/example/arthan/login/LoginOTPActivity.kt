@@ -32,7 +32,7 @@ class LoginOTPActivity : AppCompatActivity() {
             getOtp()
 
         }else {
-            getOtpForNonEmp()
+          //  getOtpForNonEmp()
 
         }
 

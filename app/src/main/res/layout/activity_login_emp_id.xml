@@ -56,6 +56,11 @@
         android:layout_marginTop="36dp"
         android:id="@+id/rg"
         app:layout_constraintTop_toBottomOf="@+id/txt_app_tagline">
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,6 +75,7 @@
             android:text="Non-Employee"
             android:id="@+id/rbNonEmployee"
             />
+        </RadioGroup>
 
     </LinearLayout>
 
