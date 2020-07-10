@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.CBO.CBODashboardActivity
 import com.example.arthan.R
+import com.example.arthan.dashboard.am.AMOnboardingAtivity
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.legal.LegalDashboardActivity
@@ -118,7 +119,7 @@ class SplashActivity : AppCompatActivity() {
                                         startActivity(
                                             Intent(
                                                 this@SplashActivity,
-                                                RMDashboardActivity::class.java
+                                                AMOnboardingAtivity::class.java
                                             )
                                         )
                                         finish()

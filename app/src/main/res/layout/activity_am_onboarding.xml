@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/ic_next_enabled"
-        android:text="@string/onboarding"
+        android:text="Am Onboard"
         android:padding="30dp"
         android:textColor="#fff"
         app:layout_constraintTop_toTopOf="parent"
