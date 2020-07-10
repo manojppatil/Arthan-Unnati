@@ -1,6 +1,7 @@
 package com.example.arthan.dashboard.rm
 
 import android.content.Intent
+import android.text.BoringLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -85,9 +86,12 @@ class RMDashboardActivity : BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-    fun hideAddAM()
+    fun hideAddAM(hide:Boolean)
     {
+        if(hide)
         btn_add_am.visibility=View.GONE
+        else btn_add_am.visibility=View.VISIBLE
+
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.fl_container).navigateUp()

@@ -76,13 +76,16 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 //txt_reassign.text= "${data.reassign.label}"
                 txt_rmprogress_amt.text = "${data.inProgress.total}"
 
-                if (data.amApproved.toLowerCase() == "no"){
-                    (activity as RMDashboardActivity).hideAddAM()
-                }
+
                 if(ArthanApp.getAppInstance().loginRole=="AM")
                 {
                     AMDetailsLL.visibility=View.VISIBLE
-
+                    if (data.amApproved!=null&&data.amApproved.toLowerCase() == "no"){
+                        (activity as RMDashboardActivity).hideAddAM(true)
+                    }else
+                    {
+                        (activity as RMDashboardActivity).hideAddAM(false)
+                    }
                     txt_bm_name.text="Hello "+data.amName
                     branchName.text="Branch Name: "+data.amBranch
                     myRm.text="My RM: "+data.amRm
