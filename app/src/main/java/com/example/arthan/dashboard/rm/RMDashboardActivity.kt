@@ -89,8 +89,8 @@ class RMDashboardActivity : BaseActivity() {
     fun hideAddAM(hide:Boolean)
     {
         if(hide)
-        btn_add_am.visibility=View.GONE
-        else btn_add_am.visibility=View.VISIBLE
+        btn_add_lead.visibility=View.GONE
+        else btn_add_lead.visibility=View.VISIBLE
 
     }
 
