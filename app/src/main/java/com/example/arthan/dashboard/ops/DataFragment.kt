@@ -8,7 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.arthan.R
+import com.example.arthan.dashboard.am.AMOtherDetailsFragment
+import com.example.arthan.dashboard.am.AMOthersDetailsDnD
+import com.example.arthan.dashboard.am.AMPersonaldetailsfragment
+import com.example.arthan.dashboard.am.AMProfessionalDetailsFragment
 import com.example.arthan.dashboard.ops.adapter.DataPagerFragmentAdapter
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.BusinessInformationFragment
 import com.example.arthan.lead.IncomeInformationFragment
 import com.example.arthan.lead.OtherDetailsFragment
@@ -31,7 +36,7 @@ class DataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vp_profile.adapter = DataPagerFragmentAdapter(childFragmentManager)
+        vp_profile.adapter = DataPagerFragmentAdapter(childFragmentManager,activity?.intent?.getStringExtra("recordType"))
         tb_profile.setupWithViewPager(vp_profile)
         vp_profile?.offscreenPageLimit = 4
     }
@@ -42,20 +47,53 @@ class DataFragment : Fragment() {
         customerId: String?
     ) {
         val adapter = vp_profile?.adapter as? DataPagerFragmentAdapter
-        (adapter?.getItem(0) as? PersonalDetailFragment)?.updateData(data?.personalDetails,data?.inPrincipleAmt,
-        data?.loanAmt,data?.roi,data?.tenure)
-        (adapter?.getItem(1) as? BusinessInformationFragment)?.updateData(data?.businessDetails,data?.businessComments)
-        (adapter?.getItem(2) as? IncomeInformationFragment)?.updateData(data?.incomeDetails,customerId,loanId,data?.incomeComments)
-        (adapter?.getItem(3) as? OtherDetailsFragment)?.updateData(
-            data?.neighborRefDetails,
-            data?.tradeRefDetails,
-            data?.collateralDetails,
-            loanId,
-            data?.loanType,
-            data?.OtherComments
+
+        if (ArthanApp.getAppInstance().loginRole == "BM"&& activity?.intent?.getStringExtra("recordType")=="AM") {
+            /*(adapter?.getItem(0) as? AMOthersDetailsDnD)?.updateData(
+                data?.personalDetails, data?.inPrincipleAmt,
+                data?.loanAmt, data?.roi, data?.tenure
+            )
+            (adapter?.getItem(1) as? AMProfessionalDetailsFragment)?.updateData(
+                data?.businessDetails,
+                data?.businessComments
+            )
+            (adapter?.getItem(3) as? AMOtherDetailsFragment)?.updateData(
+                data?.neighborRefDetails,
+                data?.tradeRefDetails,
+                data?.collateralDetails,
+                loanId,
+                data?.loanType,
+                data?.OtherComments
 
 
-        )
+            )
+*/
+        } else {
+            (adapter?.getItem(0) as? PersonalDetailFragment)?.updateData(
+                data?.personalDetails, data?.inPrincipleAmt,
+                data?.loanAmt, data?.roi, data?.tenure
+            )
+            (adapter?.getItem(1) as? BusinessInformationFragment)?.updateData(
+                data?.businessDetails,
+                data?.businessComments
+            )
+            (adapter?.getItem(2) as? IncomeInformationFragment)?.updateData(
+                data?.incomeDetails,
+                customerId,
+                loanId,
+                data?.incomeComments
+            )
+            (adapter?.getItem(3) as? OtherDetailsFragment)?.updateData(
+                data?.neighborRefDetails,
+                data?.tradeRefDetails,
+                data?.collateralDetails,
+                loanId,
+                data?.loanType,
+                data?.OtherComments
+
+
+            )
+        }
     }
 
 }

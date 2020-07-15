@@ -15,6 +15,7 @@ import com.example.arthan.dashboard.am.model.AMPersonalDetailsData
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.PERSONAL
 import com.example.arthan.lead.model.postdata.KYCPostData
+import com.example.arthan.lead.model.postdata.PersonalDetails
 import com.example.arthan.lead.model.postdata.PersonalPostData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
@@ -180,6 +181,18 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    fun updateData(
+        personalDetails: List<PersonalDetails>?,
+        inPrincipleAmt: String?,
+        loanAmt: String?,
+        roi: String?,
+        tenure: String?
+    ) {
+
+
+
     }
 
 }

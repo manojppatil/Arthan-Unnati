@@ -13,6 +13,7 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.bm.Customer360Activity
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.Customer
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
@@ -53,6 +54,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
         private val mTakeDecision: View = itemView.findViewById(R.id.cl_take_decision)
         fun bind(position: Int, customer: Customer) {
 
+
             if (position == 4) {
                 val lp = itemView.layoutParams as? ViewGroup.MarginLayoutParams
                     ?: ViewGroup.MarginLayoutParams(
@@ -69,6 +71,15 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                     )
                 lp?.topMargin = getPixelFromDP(40f, itemView.context)?.toInt() ?: 0
                 lp?.let { itemView.layoutParams = it }
+            }
+            if(ArthanApp.getAppInstance().loginRole=="BM")
+            {
+                if(customer.recordType==null) {
+//                if(customer.recordType=="AM") {
+                    itemView.findViewById<TextView?>(R.id.txt_AMApproved)?.visibility = View.VISIBLE
+                    itemView.findViewById<View?>(R.id.cl_customer360)?.visibility =
+                        View.GONE
+                }
             }
 
             when (position % 3) {
@@ -159,7 +170,8 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                     customer.loanId,
                     customer.customerId,
                     customer,
-                    from
+                    from,
+                    customer.recordType
                 )
             }
 

@@ -13,6 +13,7 @@ import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.PROFESSIONAL
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
+import com.example.arthan.lead.model.postdata.BusinessDetails
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.fragments.BaseFragment
@@ -156,4 +157,9 @@ class AMProfessionalDetailsFragment : BaseFragment(), CoroutineScope {
         DataSpinnerAdapter(requireActivity(), list?.toMutableList() ?: mutableListOf()).also {
             it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
+
+    fun updateData(businessDetails: BusinessDetails?, businessComments: String?) {
+
+
+    }
 }

@@ -123,7 +123,8 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
             loanId: String?,
             customerId: String?,
             customer: Customer,
-            from: String
+            from: String,
+            recordType: String?
         ) = context?.startActivity(
             Intent(
                 context,
@@ -139,6 +140,7 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                 putExtra("cname",customer.customerName)
                 putExtra("custId",customer.customerId)
                 putExtra("loanType",customer.loanType)
+                putExtra("recordType","AM")
 
             })
     }
