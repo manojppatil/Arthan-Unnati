@@ -194,7 +194,7 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                 putExtra("cname",customer.customerName)
                 putExtra("custId",customer.customerId)
                 putExtra("loanType",customer.loanType)
-                putExtra("recordType","AM")
+                putExtra("recordType",customer.recordType)
                 putExtra("amId","0017")
 
             })

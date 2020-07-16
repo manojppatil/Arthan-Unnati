@@ -179,7 +179,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
 
                 if(from=="BM") {
 
-                    if(customer.amId== "AM"){
+                    if(customer.recordType== "AM"){
 
                         mContext.startActivity(
                             Intent(
@@ -193,7 +193,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                                 putExtra("cname", customer.customerName)
                                 putExtra("custId", customer.customerId)
                                 putExtra("FROM", "BM")
-                                putExtra("recordType", "AM")//put customer.am
+                                putExtra("recordType", customer.recordType)//put customer.am
                                 putExtra("amId", customer.amId)
 
                             })
@@ -225,7 +225,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                                             putExtra("cname", customer.customerName)
                                             putExtra("custId", customer.customerId)
                                             putExtra("FROM", "BM")
-                                            putExtra("recordType", "AM")//put customer.am
+                                            putExtra("recordType", customer.recordType)//put customer.am
                                             putExtra("amId", customer.amId)
 
                                         })

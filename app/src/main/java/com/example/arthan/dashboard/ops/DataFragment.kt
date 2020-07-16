@@ -53,7 +53,7 @@ class DataFragment : Fragment() {
             (adapter?.getItem(1) as? AMProfessionalDetailsDnD)?.updateData(
                 data?.professionalDetails
             )
-            (adapter?.getItem(3) as? AMOthersDetailsDnD)?.updateData(
+            (adapter?.getItem(2) as? AMOthersDetailsDnD)?.updateData(
                 data?.otherDetails
 
 

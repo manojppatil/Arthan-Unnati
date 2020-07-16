@@ -112,7 +112,6 @@
                 android:fontFamily="@font/lato_black"
                 android:hint="Account Number"
                 android:textColor="#000000"
-                android:inputType="numberPassword"
                 android:textSize="14sp"
                 android:imeOptions="actionNext"
                 app:layout_constraintEnd_toEndOf="parent"

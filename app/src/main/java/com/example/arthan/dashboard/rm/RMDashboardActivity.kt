@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.arthan.R
 import com.example.arthan.dashboard.am.AddAMKYCDetailsActivity
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.AddLeadStep1Activity
 import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.views.activities.BaseActivity
@@ -37,7 +38,9 @@ class RMDashboardActivity : BaseActivity() {
         btn_add_lead.setOnClickListener {
             startActivity(Intent(this@RMDashboardActivity, AddLeadStep1Activity::class.java))
         }
+        if(ArthanApp.getAppInstance().loginRole=="RM"){
         btn_add_am.visibility=View.VISIBLE
+            }
         btn_add_am.setOnClickListener {
             startActivity(Intent(this,AddNewAmActivity::class.java))
         }
