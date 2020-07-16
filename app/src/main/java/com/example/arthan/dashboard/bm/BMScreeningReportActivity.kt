@@ -67,7 +67,10 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
+                    putExtra("recordType",intent.getStringExtra("recordType"))
+
                     putExtra("FROM",ArthanApp.getAppInstance().loginRole)
+                    putExtra("amId",intent.getStringExtra("amId"))
 
                 })
                 finish()
@@ -80,6 +83,9 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
+                    putExtra("recordType",intent.getStringExtra("recordType"))
+                    putExtra("amId",intent.getStringExtra("amId"))
+
                     putExtra("FROM",ArthanApp.getAppInstance().loginRole)
 
                 })
@@ -93,6 +99,9 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
+                    putExtra("recordType",intent.getStringExtra("recordType"))
+                    putExtra("amId",intent.getStringExtra("amId"))
+
                     putExtra("FROM",ArthanApp.getAppInstance().loginRole)
 
                 })
@@ -107,6 +116,9 @@ class BMScreeningReportActivity: BaseActivity(),View.OnClickListener {
                     putExtra("loginDate",intent.getStringExtra("loginDate"))
                     putExtra("loanId",loanId)
                     putExtra("custId",custId)
+                    putExtra("recordType",intent.getStringExtra("recordType"))
+                    putExtra("amId",intent.getStringExtra("amId"))
+
                     putExtra("FROM",ArthanApp.getAppInstance().loginRole)
 
 

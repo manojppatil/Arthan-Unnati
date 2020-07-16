@@ -8,6 +8,7 @@ data class Customer(
     val loanId: String?,
     val customerId: String?,
     val loanType: String?,
-    val recordType:String?="AM"
+    val recordType:String?="AM",
+    val amId: String?
 
 )

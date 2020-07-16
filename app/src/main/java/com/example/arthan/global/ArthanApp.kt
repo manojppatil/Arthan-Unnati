@@ -9,6 +9,7 @@ class ArthanApp : MultiDexApplication() {
     var loginRole:String=""
     var empId:String=""
     var appVersion="Version:1.1"
+    var onboarded=""
 
     override fun onCreate() {
         super.onCreate()

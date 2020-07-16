@@ -8,5 +8,6 @@ var reason:String? ,
 var remarks:String? ,
 var supportingDoc:String,
 var sanctionConditions:ArrayList<String>,
-    var userId:String?
+    var userId:String?,
+    var amId:String?
 )

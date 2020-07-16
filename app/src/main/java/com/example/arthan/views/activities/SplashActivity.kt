@@ -112,6 +112,22 @@ class SplashActivity : AppCompatActivity() {
                                         )
                                         finish()
                                     } "AM" -> {
+
+
+                                    if (ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
+
+                                        AppPreferences.getInstance()
+                                            .remove(AppPreferences.Key.LoginType)
+                                        AppPreferences.getInstance()
+                                            .addString(AppPreferences.Key.LoginType, "RM1")
+                                        startActivity(
+                                            Intent(
+                                                this@SplashActivity,
+                                                RMDashboardActivity::class.java
+                                            )
+                                        )
+                                        finish()
+                                    } else {
                                         AppPreferences.getInstance()
                                             .remove(AppPreferences.Key.LoginType)
                                         AppPreferences.getInstance()
@@ -124,6 +140,7 @@ class SplashActivity : AppCompatActivity() {
                                         )
                                         finish()
                                     }
+                                }
                                     "legal" -> {
                                         AppPreferences.getInstance()
                                             .remove(AppPreferences.Key.LoginType)

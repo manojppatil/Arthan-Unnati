@@ -161,6 +161,9 @@ interface ApiService {
     @GET("getBMDocnData")
     suspend fun getBMDocumentAndData(@Query("loanId") loanId: String?): Response<CustomerDocumentAndDataResponseData>?
 
+    @GET("getBMAmDocnData")
+    suspend fun getBMAmDocnData(@Query("amId") amId: String?): Response<BMAmDocnDataResponse>?
+
     @POST("saveGST")
     suspend fun saveGST(@Body body: GSTPostData?): Response<BaseResponseData>?
 
@@ -253,6 +256,9 @@ interface ApiService {
 
     @POST("bmSubmit")
     suspend fun bmSubmit(@Body body: FinalReportPostData): Response<BaseResponseData>
+
+    @POST("bmAmSubmit")
+    suspend fun bmAmSubmit(@Body body: FinalReportPostData): Response<BaseResponseData>
 
     @POST("bcmSubmit")
     suspend fun bcmSubmit(@Body body: FinalReportPostData): Response<BaseResponseData>

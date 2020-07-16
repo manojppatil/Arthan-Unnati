@@ -18,6 +18,7 @@ import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.model.postdata.DocScreeningStatusPost
 import com.example.arthan.lead.model.postdata.DocumentsData
 import com.example.arthan.lead.model.responsedata.DocDetails
+import com.example.arthan.lead.model.responsedata.DocDetailsAM
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
@@ -40,6 +41,7 @@ class DocumentVerificationFragment : BaseFragment() {
     private var isOfficeAddressProof=false
     private var isIncomeProof=false
     private var docDetails:DocDetails?=null
+    private var docDetailsam:DocDetailsAM?=null
     private var mContext:Context?=null
     private var textColor:Int=Color.parseColor("#09327a")
     override fun init() {
@@ -248,6 +250,226 @@ class DocumentVerificationFragment : BaseFragment() {
     ) {
 
         this.docDetails=docDetails
+        this.mContext=bmDocumentVerificationActivity
+        context?.let {
+            Glide.with(it)
+                .load(docDetails?.panUrl)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_pan)
+            Glide.with(it)
+                .load(docDetails?.aadharFrontUrl)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_aadhaar)
+            Glide.with(it)
+                .load(docDetails?.aadharBackUrl)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_aadhaar_back)
+            Glide.with(it)
+                .load(docDetails?.voterUrl)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_voter)
+            Glide.with(it)
+                .load(docDetails?.paApplicantPhoto)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_applicant)
+
+            Glide.with(it)
+                .load(docDetails?.incomeProof)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_IncomeProof)
+            Glide.with(it)
+                .load(docDetails?.businessAddrProof)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_OfficeAddressProof)
+            Glide.with(it)
+                .load(docDetails?.businessProof)
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                        return false
+                    }
+
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "Success in loading image ")
+                        return false
+                    }
+                })
+                .into(img_BusinessProof)
+        }
+    }
+
+    fun updateDataAM(
+        docDetails: DocDetailsAM?,
+        bmDocumentVerificationActivity: BMDocumentVerificationActivity
+    ) {
+
+        this.docDetailsam=docDetails
         this.mContext=bmDocumentVerificationActivity
         context?.let {
             Glide.with(it)

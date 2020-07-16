@@ -45,15 +45,25 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
         btn_filter.visibility = View.GONE
 
         vp_profile.adapter =
-            BMDocumentVerificationAdapter(supportFragmentManager,
-                intent?.getStringExtra("FROM")!!)
+            BMDocumentVerificationAdapter(
+                supportFragmentManager,
+                intent?.getStringExtra("FROM")!!
+            )
         tb_profile.setupWithViewPager(vp_profile)
         vp_profile?.offscreenPageLimit = 3
 
-        loadInitialData(
-            intent?.getStringExtra(ArgumentKey.LoanId),
-            intent?.getStringExtra(ArgumentKey.CustomerId)
-        )
+        if (intent.getStringExtra("recordType") == "AM") {
+
+            loadInitialDataForAM(
+                intent?.getStringExtra(ArgumentKey.LoanId),
+                intent?.getStringExtra(ArgumentKey.CustomerId)
+            )
+        } else {
+            loadInitialData(
+                intent?.getStringExtra(ArgumentKey.LoanId),
+                intent?.getStringExtra(ArgumentKey.CustomerId)
+            )
+        }
     }
 
 
@@ -80,6 +90,50 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                             result?.docDetails,this@BMDocumentVerificationActivity
                         )
                         ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateData(
+                            loanId,
+                            result,
+                            customerId
+                        )
+                        if(vp_profile.adapter?.count!!>2) {
+                            ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
+                                loanId,
+                                customerId
+                            )
+                        }
+                        progressBar.dismmissLoading()
+                    }
+                } else {
+                    try {
+                        val result: CustomerDocumentAndDataResponseData? = Gson().fromJson(
+                            response?.errorBody()?.string(),
+                            CustomerDocumentAndDataResponseData::class.java
+                        )
+                        stopLoading(progressBar, result?.message)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        stopLoading(progressBar, "Data missing. Something went wrong. Please try later!")
+                    }
+                }
+            } catch (e: Exception) {
+                stopLoading(progressBar, "Something went wrong. Please try later!")
+                e.printStackTrace()
+            }
+        }
+    }
+    private fun loadInitialDataForAM(loanId: String?, customerId: String?) {
+        val progressBar = ProgrssLoader(this)
+        progressBar.showLoading()
+
+        CoroutineScope(ioContext).launch {
+            try {
+                val response = RetrofitFactory.getApiService().getBMAmDocnData(intent.getStringExtra("amId"))
+                if (response?.isSuccessful == true) {
+                    val result = response.body()
+                    withContext(Dispatchers.Main) {
+                        ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateDataAM(
+                            result?.docDetails,this@BMDocumentVerificationActivity
+                        )
+                        ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateDataAM(
                             loanId,
                             result,
                             customerId
@@ -141,6 +195,7 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                 putExtra("custId",customer.customerId)
                 putExtra("loanType",customer.loanType)
                 putExtra("recordType","AM")
+                putExtra("amId","0017")
 
             })
     }

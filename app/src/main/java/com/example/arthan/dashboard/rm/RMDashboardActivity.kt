@@ -37,6 +37,7 @@ class RMDashboardActivity : BaseActivity() {
         btn_add_lead.setOnClickListener {
             startActivity(Intent(this@RMDashboardActivity, AddLeadStep1Activity::class.java))
         }
+        btn_add_am.visibility=View.VISIBLE
         btn_add_am.setOnClickListener {
             startActivity(Intent(this,AddNewAmActivity::class.java))
         }

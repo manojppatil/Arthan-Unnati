@@ -74,8 +74,8 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
             }
             if(ArthanApp.getAppInstance().loginRole=="BM")
             {
-                if(customer.recordType==null) {
-//                if(customer.recordType=="AM") {
+                if(customer.recordType=="AM") {
+                    mAmount?.visibility=View.GONE
                     itemView.findViewById<TextView?>(R.id.txt_AMApproved)?.visibility = View.VISIBLE
                     itemView.findViewById<View?>(R.id.cl_customer360)?.visibility =
                         View.GONE
@@ -178,6 +178,28 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
             root.findViewById<ConstraintLayout>(R.id.cl_take_decision).setOnClickListener {
 
                 if(from=="BM") {
+
+                    if(customer.amId== "AM"){
+
+                        mContext.startActivity(
+                            Intent(
+                                mContext,
+                                BMScreeningReportActivity::class.java
+                            ).apply {
+                                putExtra("indSeg", customer.indSeg)
+                                putExtra("loginDate", customer.loginDate)
+                                putExtra("loanId", customer.loanId)
+                                putExtra("loanAmt", customer.loanAmt)
+                                putExtra("cname", customer.customerName)
+                                putExtra("custId", customer.customerId)
+                                putExtra("FROM", "BM")
+                                putExtra("recordType", "AM")//put customer.am
+                                putExtra("amId", customer.amId)
+
+                            })
+                        return@setOnClickListener
+                    }
+
                     val progressLoader = ProgrssLoader(mContext)
                     progressLoader.showLoading()
                     CoroutineScope(Dispatchers.IO).launch {
@@ -203,6 +225,8 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                                             putExtra("cname", customer.customerName)
                                             putExtra("custId", customer.customerId)
                                             putExtra("FROM", "BM")
+                                            putExtra("recordType", "AM")//put customer.am
+                                            putExtra("amId", customer.amId)
 
                                         })
                                 }

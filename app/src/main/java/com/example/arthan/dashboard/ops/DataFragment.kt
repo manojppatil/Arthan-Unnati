@@ -8,15 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.arthan.R
-import com.example.arthan.dashboard.am.AMOtherDetailsFragment
-import com.example.arthan.dashboard.am.AMOthersDetailsDnD
-import com.example.arthan.dashboard.am.AMPersonaldetailsfragment
-import com.example.arthan.dashboard.am.AMProfessionalDetailsFragment
+import com.example.arthan.dashboard.am.*
 import com.example.arthan.dashboard.ops.adapter.DataPagerFragmentAdapter
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.BusinessInformationFragment
 import com.example.arthan.lead.IncomeInformationFragment
 import com.example.arthan.lead.OtherDetailsFragment
+import com.example.arthan.lead.model.responsedata.BMAmDocnDataResponse
 import com.example.arthan.lead.model.responsedata.CustomerDocumentAndDataResponseData
 import com.example.arthan.views.fragments.PersonalDetailFragment
 import kotlinx.android.synthetic.main.fragment_data.*
@@ -39,6 +37,28 @@ class DataFragment : Fragment() {
         vp_profile.adapter = DataPagerFragmentAdapter(childFragmentManager,activity?.intent?.getStringExtra("recordType"))
         tb_profile.setupWithViewPager(vp_profile)
         vp_profile?.offscreenPageLimit = 4
+    }
+
+    fun updateDataAM(
+        loanId: String?,
+        data: BMAmDocnDataResponse?,
+        customerId: String?
+    ) {
+        val adapter = vp_profile?.adapter as? DataPagerFragmentAdapter
+
+        if (ArthanApp.getAppInstance().loginRole == "BM"&& activity?.intent?.getStringExtra("recordType")=="AM") {
+            (adapter?.getItem(0) as? AMPersonalDetailsDnD)?.updateData(
+                data?.personalDetails
+            )
+            (adapter?.getItem(1) as? AMProfessionalDetailsDnD)?.updateData(
+                data?.professionalDetails
+            )
+            (adapter?.getItem(3) as? AMOthersDetailsDnD)?.updateData(
+                data?.otherDetails
+
+
+            )
+        }
     }
 
     fun updateData(

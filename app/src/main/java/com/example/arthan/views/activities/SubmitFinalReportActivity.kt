@@ -178,6 +178,12 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     decision="Approve"
 
                 }
+                var user=""
+                if(intent.getStringExtra("recordType")=="AM")
+                {
+                    user= intent.getStringExtra("amId")
+
+                }
                 var map=FinalReportPostData(
                     intent.getStringExtra("loanId"),
                     intent.getStringExtra("custId"),
@@ -185,7 +191,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     decision,
                     et_reason.text.toString(),
                     docUrlList,
-                    sanctionList,ArthanApp.getAppInstance().loginUser
+                    sanctionList,ArthanApp.getAppInstance().loginUser,user
 
 
                 )
@@ -193,9 +199,15 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
               if(ArthanApp.getAppInstance().loginRole=="BM") {
 
                   CoroutineScope(Dispatchers.IO).launch {
-                      val respo = RetrofitFactory.getApiService().bmSubmit(
-                          map
-                      )
+                      var respo = if(intent.getStringExtra("recordType")=="AM") {
+                          RetrofitFactory.getApiService().bmAmSubmit(
+                              map
+                          )
+                      }else{
+                          RetrofitFactory.getApiService().bmSubmit(
+                              map
+                          )
+                      }
 
                       val result = respo.body()
                       if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
