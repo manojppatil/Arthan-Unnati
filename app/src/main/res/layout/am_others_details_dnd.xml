@@ -60,11 +60,9 @@
                 <CheckBox
                     android:id="@+id/cb_lang1_read"
                     android:layout_width="0dp"
-                    android:clickable="false"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
-                    android:drawablePadding="8dp"
                     android:fontFamily="@font/lato_black"
                     android:text="@string/read" />
 
@@ -397,14 +395,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/et_am_ref1_mno"
                 app:layout_constraintVertical_chainStyle="packed" />
 
-            <Spinner
+            <EditText
                 android:id="@+id/spnr_am_profession"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="#000000"
-                android:entries="@array/arr_occupation_type"
                 android:fontFamily="@font/lato_regular"
                 android:textColor="#000000"
                 android:textSize="14sp"
@@ -496,14 +492,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/et_am_ref2_mno"
                 app:layout_constraintVertical_chainStyle="packed" />
 
-            <Spinner
+            <EditText
                 android:id="@+id/spnr_am_ref2_profession"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="#000000"
-                android:entries="@array/arr_occupation_type"
                 android:fontFamily="@font/lato_regular"
                 android:textColor="#000000"
                 android:textSize="14sp"
