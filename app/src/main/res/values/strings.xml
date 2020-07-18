@@ -388,4 +388,7 @@
     <string name="own_two_wheeler">Own Two Wheeler</string>
     <string name="reference_check">Reference Check for Arthan Mitra</string>
     <string name="address">address</string>
+    <string name="onboarding">OnBoarding</string>
+    <string name="agreement">Agreement</string>
+    <string name="coc">Coc</string>
 </resources>

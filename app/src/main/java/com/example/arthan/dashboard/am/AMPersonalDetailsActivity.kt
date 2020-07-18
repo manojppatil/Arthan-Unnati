@@ -6,7 +6,6 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.NavHostFragment
 import com.example.arthan.R
 import com.example.arthan.global.OTHERS
 import com.example.arthan.global.PERSONAL
@@ -18,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_am_personal_information.*
 class AMPersonalDetailsActivity : BaseActivity() {
     var mKYCPostData: KYCPostData? = null
     var navController: NavController? = null
-
+    var aadharNo: String = ""
     override fun contentView() = R.layout.activity_am_personal_information
 
     override fun init() {
@@ -27,8 +26,8 @@ class AMPersonalDetailsActivity : BaseActivity() {
 
         if (intent.hasExtra("PAN_DATA")) {
             mKYCPostData = intent.getParcelableExtra("PAN_DATA") as? KYCPostData
-
-            Log.i("KYC Data",mKYCPostData?.panFirstname)
+            aadharNo = intent.getStringExtra("AADHAR_NO")
+            Log.i("KYC Data", mKYCPostData?.panFirstname)
         }
 //        val bundle  = Bundle()
 //        bundle.putParcelable("PAN_DATA", mKYCPostData)

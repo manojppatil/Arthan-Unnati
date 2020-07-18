@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_app"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
@@ -62,6 +61,19 @@
             app:layout_constraintTop_toBottomOf="@id/txt_upload_doc_msg"
             app:layout_constraintVertical_chainStyle="packed" />
 
+        <ImageView
+            android:id="@+id/pan_am_accepted"
+            android:layout_width="25dp"
+            android:layout_height="44dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/green_tick"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/txt_am_aadhar_card"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_upload_doc_msg"
+            app:layout_constraintVertical_bias="0.742"
+            app:layout_constraintVertical_chainStyle="packed" />
+
         <TextView
             android:id="@+id/txt_am_aadhar_card"
             android:layout_width="0dp"
@@ -87,6 +99,19 @@
             app:layout_constraintTop_toBottomOf="@id/txt_am_pan_card"
             app:layout_constraintVertical_chainStyle="packed" />
 
+        <ImageView
+            android:id="@+id/aadhar_am_accepted"
+            android:layout_width="25dp"
+            android:layout_height="44dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/green_tick"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/txt_am_voter_id"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_am_pan_card"
+            app:layout_constraintVertical_bias="0.742"
+            app:layout_constraintVertical_chainStyle="packed" />
+
         <TextView
             android:id="@+id/txt_am_voter_id"
             android:layout_width="0dp"
@@ -106,12 +131,26 @@
             android:textColor="#696969"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/btn_am_next"
+            app:layout_constraintBottom_toTopOf="@id/txt_am_appl_photo"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_am_aadhar_card"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed" />
+
+        <ImageView
+            android:id="@+id/voter_am_accepted"
+            android:layout_width="25dp"
+            android:layout_height="44dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/green_tick"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/txt_am_appl_photo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_am_aadhar_card"
+            app:layout_constraintVertical_bias="0.552"
+            app:layout_constraintVertical_chainStyle="packed" />
+
 
         <TextView
             android:id="@+id/txt_am_appl_photo"
@@ -139,6 +178,18 @@
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed" />
 
+
+        <ImageView
+            android:id="@+id/aphoto_am_accepted"
+            android:layout_width="25dp"
+            android:layout_height="44dp"
+            android:src="@drawable/green_tick"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btn_am_next"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_am_voter_id"
+            app:layout_constraintVertical_bias="0.143"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <Button
             android:id="@+id/btn_am_next"

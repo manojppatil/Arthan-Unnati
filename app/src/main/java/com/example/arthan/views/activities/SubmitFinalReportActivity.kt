@@ -18,17 +18,19 @@ import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.bm.model.FinalReportPostData
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.global.STATUS
+import com.example.arthan.lead.UploadDocumentActivity
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.network.S3UploadFile
 import com.example.arthan.network.S3Utility
-import com.example.arthan.utils.DateFormatUtil
-import com.example.arthan.utils.ProgrssLoader
-import com.example.arthan.utils.loadImage
+import com.example.arthan.ocr.CardResponse
+import com.example.arthan.utils.*
 import com.example.arthan.views.adapters.DocumentAdapter
 import com.example.arthan.views.adapters.SanctionAdapter
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
+import kotlinx.android.synthetic.main.activity_am_kycdetails.*
 import kotlinx.android.synthetic.main.activity_submit_final_report.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 import kotlinx.coroutines.CoroutineScope
@@ -43,8 +45,10 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
     var currentCapture: Uri? = null
     var mDocAdapter: DocumentAdapter? = null
     val fileList: MutableList<S3UploadFile> = mutableListOf()
-    var sanctionList=ArrayList<String>()
-    var docUrlList:String=""
+    var sanctionList = ArrayList<String>()
+    var docUrlList: String = ""
+    var agreementUrl: String = ""
+    var cocUrl: String = ""
 
 
     override fun contentView() = R.layout.activity_submit_final_report
@@ -61,17 +65,19 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         ll_upload_document.setOnClickListener(this)
 
         txt_status.text = "Status: ${intent.getStringExtra(STATUS)}"
-        txt_reason_msg.text=(resources.getString(R.string.state_the_reasons_for_the_approval_of_this_application,intent.getStringExtra(STATUS)))
+        txt_reason_msg.text = (resources.getString(
+            R.string.state_the_reasons_for_the_approval_of_this_application,
+            intent.getStringExtra(STATUS)
+        ))
 
-        if(ArthanApp.getAppInstance().loginRole=="BCM")
-        {
-            sanctions.visibility=View.VISIBLE
+        if (ArthanApp.getAppInstance().loginRole == "BCM") {
+            sanctions.visibility = View.VISIBLE
         }
         addSanction.setOnClickListener {
-            if(addSanction.text.toString() == "Add new") {
+            if (addSanction.text.toString() == "Add new") {
                 addSanction.text = "Done"
                 addNewSanctionField()
-            }else {
+            } else {
                 saveSanction()
             }
         }
@@ -89,10 +95,10 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         })
 
         cb_sanction.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked){
+            if (isChecked) {
                 addSanction.visibility = View.VISIBLE
 
-            }else {
+            } else {
                 addSanction.visibility = View.GONE
                 sanctionList = ArrayList()
                 sanctionRv.removeAllViews()
@@ -100,15 +106,26 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         }
 
 
-       // mDocAdapter = DocumentAdapter(this, docList,docUrlList)
-     //   rv_docs.adapter=mDocAdapter
+        // mDocAdapter = DocumentAdapter(this, docList,docUrlList)
+        //   rv_docs.adapter=mDocAdapter
+
+        if (intent.getStringExtra("recordType") == "AM") {
+            tv_agreement.visibility = View.VISIBLE
+            tv_coc.visibility = View.VISIBLE
+
+            tv_agreement.setOnClickListener(this)
+            tv_coc.setOnClickListener(this)
+        } else {
+            tv_agreement.visibility = View.GONE
+            tv_coc.visibility = View.GONE
+        }
     }
 
     private fun saveSanction() {
 
-        var view=  sanctionRv.layoutManager?.findViewByPosition(sanctionList.size-1)
+        var view = sanctionRv.layoutManager?.findViewByPosition(sanctionList.size - 1)
 
-        if(view!=null) {
+        if (view != null) {
             var field = view?.findViewById<EditText>(R.id.field)
             if (field != null && field?.length()!! > 0) {
                 sanctionList.removeAt(sanctionList.size - 1)
@@ -119,26 +136,25 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-     fun removeSanctionField(position:Int) {
+    fun removeSanctionField(position: Int) {
 
         sanctionList
             .removeAt(position)
 
-         sanctionRv.adapter?.notifyDataSetChanged()
+        sanctionRv.adapter?.notifyDataSetChanged()
     }
 
     private fun addNewSanctionField() {
-        if(sanctionList.isEmpty()) {
+        if (sanctionList.isEmpty()) {
             sanctionList.add("")
             sanctionRv.adapter = SanctionAdapter(this, sanctionList)
-        }else
-        {
+        } else {
 
-                sanctionList.add("")
-                var adapter:SanctionAdapter=sanctionRv.adapter as SanctionAdapter
-                adapter.notifyDataSetChanged()
+            sanctionList.add("")
+            var adapter: SanctionAdapter = sanctionRv.adapter as SanctionAdapter
+            adapter.notifyDataSetChanged()
 
-            }
+        }
 
     }
 
@@ -166,147 +182,172 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                 val progressBar = ProgrssLoader(this)
                 progressBar.showLoading()
 
-                var decision=""
-                if(intent.getStringExtra(STATUS).contains("reject",ignoreCase = true))
-                {
-                    rejectReason.visibility=View.VISIBLE
-                    decision= rejectReason.selectedItem.toString()
-                }
-                else if(intent.getStringExtra(STATUS).contains("Approve",ignoreCase = true))
-                {
-                    rejectReason.visibility=View.GONE
-                    decision="Approve"
+                var decision = ""
+                if (intent.getStringExtra(STATUS).contains("reject", ignoreCase = true)) {
+                    rejectReason.visibility = View.VISIBLE
+                    decision = rejectReason.selectedItem.toString()
+                } else if (intent.getStringExtra(STATUS).contains("Approve", ignoreCase = true)) {
+                    rejectReason.visibility = View.GONE
+                    decision = "Approve"
 
                 }
-                var user=""
-                if(intent.getStringExtra("recordType")=="AM")
-                {
-                    user= intent.getStringExtra("amId")
+                var user = ""
+                if (intent.getStringExtra("recordType") == "AM") {
+                    user = intent.getStringExtra("amId")
 
                 }
-                var map=FinalReportPostData(
+                var map = FinalReportPostData(
                     intent.getStringExtra("loanId"),
                     intent.getStringExtra("custId"),
                     intent.getStringExtra(STATUS),
                     decision,
                     et_reason.text.toString(),
                     docUrlList,
-                    sanctionList,ArthanApp.getAppInstance().loginUser,user
-
-
+                    sanctionList, ArthanApp.getAppInstance().loginUser, user,
+                    agreementUrl,
+                    cocUrl
                 )
 
-              if(ArthanApp.getAppInstance().loginRole=="BM") {
+                if (ArthanApp.getAppInstance().loginRole == "BM") {
 
-                  CoroutineScope(Dispatchers.IO).launch {
-                      var respo = if(intent.getStringExtra("recordType")=="AM") {
-                          RetrofitFactory.getApiService().bmAmSubmit(
-                              map
-                          )
-                      }else{
-                          RetrofitFactory.getApiService().bmSubmit(
-                              map
-                          )
-                      }
+                    CoroutineScope(Dispatchers.IO).launch {
+                        var respo = if (intent.getStringExtra("recordType") == "AM") {
+                            RetrofitFactory.getApiService().bmAmSubmit(
+                                map
+                            )
+                        } else {
+                            RetrofitFactory.getApiService().bmSubmit(
+                                map
+                            )
+                        }
 
-                      val result = respo.body()
-                      if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+                        val result = respo.body()
+                        if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
 
-                          progressBar.dismmissLoading()
-                          startActivity(Intent(
-                              this@SubmitFinalReportActivity,
-                              BMDashboardActivity::class.java
-                          ).apply {
-                              putExtra("FROM", "BM")
-                          })
-                          withContext(Dispatchers.Main) {
-                            var  msg =
-                                  if(intent.getStringExtra(STATUS).contains("reject",ignoreCase = true)) {
-                                      "Case is Rejected Successfully"
-                                  }else{
-                                      "Case is Successfully submitted to BCM"
-                                  }
-                              Toast.makeText(
-                                  this@SubmitFinalReportActivity,
-                                  msg,
-                                  Toast.LENGTH_LONG
-                              ).show()
-                              finish()
-                          }
+                            progressBar.dismmissLoading()
+                            startActivity(Intent(
+                                this@SubmitFinalReportActivity,
+                                BMDashboardActivity::class.java
+                            ).apply {
+                                putExtra("FROM", "BM")
+                            })
+                            withContext(Dispatchers.Main) {
+                                var msg =
+                                    if (intent.getStringExtra(STATUS).contains(
+                                            "reject",
+                                            ignoreCase = true
+                                        )
+                                    ) {
+                                        "Case is Rejected Successfully"
+                                    } else {
+                                        "Case is Successfully submitted to BCM"
+                                    }
+                                Toast.makeText(
+                                    this@SubmitFinalReportActivity,
+                                    msg,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                finish()
+                            }
 
-                      } else {
-                          withContext(Dispatchers.Main) {
+                        } else {
+                            withContext(Dispatchers.Main) {
 
-                              progressBar.dismmissLoading()
-                              Toast.makeText(
-                                  this@SubmitFinalReportActivity,
-                                  "Please try again later",
-                                  Toast.LENGTH_LONG
-                              ).show()
-                          }
-                      }
-                  }
+                                progressBar.dismmissLoading()
+                                Toast.makeText(
+                                    this@SubmitFinalReportActivity,
+                                    "Please try again later",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    }
 
-              }else if(ArthanApp.getAppInstance().loginRole=="BCM") {
-                  CoroutineScope(Dispatchers.IO).launch {
-                      val respo = RetrofitFactory.getApiService().bcmSubmit(
-                          map
-                      )
+                } else if (ArthanApp.getAppInstance().loginRole == "BCM") {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val respo = RetrofitFactory.getApiService().bcmSubmit(
+                            map
+                        )
 
-                      val result = respo.body()
-                      withContext(Dispatchers.Main) {
-                          progressBar.dismmissLoading()
-                          if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+                        val result = respo.body()
+                        withContext(Dispatchers.Main) {
+                            progressBar.dismmissLoading()
+                            if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
 
-                              var  msg =
-                                  when {
-                                      intent.getStringExtra(STATUS).contains("Approve",ignoreCase = true) -> {
-                                          "Case is Approved Successfully"
-                                      }
-                                      intent.getStringExtra(STATUS).contains("reject",ignoreCase = true) -> {
-                                          "Case is Rejected Successfully"
-                                      }
-                                      else -> {
+                                var msg =
+                                    when {
+                                        intent.getStringExtra(STATUS).contains(
+                                            "Approve",
+                                            ignoreCase = true
+                                        ) -> {
+                                            "Case is Approved Successfully"
+                                        }
+                                        intent.getStringExtra(STATUS).contains(
+                                            "reject",
+                                            ignoreCase = true
+                                        ) -> {
+                                            "Case is Rejected Successfully"
+                                        }
+                                        else -> {
 
-                                          "Case is Successfully Submitted to AA"
-                                      }
-                                  }
-                              Toast.makeText(
-                                  this@SubmitFinalReportActivity,
-                                  msg,
-                                  Toast.LENGTH_LONG
-                              ).show()
+                                            "Case is Successfully Submitted to AA"
+                                        }
+                                    }
+                                Toast.makeText(
+                                    this@SubmitFinalReportActivity,
+                                    msg,
+                                    Toast.LENGTH_LONG
+                                ).show()
 
 
-                              startActivity(Intent(
-                                  this@SubmitFinalReportActivity,
-                                  BCMDashboardActivity::class.java
-                              ).apply {
-                                  putExtra("FROM", "BCM")
-                              })
-                              finish()
+                                startActivity(Intent(
+                                    this@SubmitFinalReportActivity,
+                                    BCMDashboardActivity::class.java
+                                ).apply {
+                                    putExtra("FROM", "BCM")
+                                })
+                                finish()
 
-                          } else {
-                              withContext(Dispatchers.Main) {
-                                  Toast.makeText(
-                                      this@SubmitFinalReportActivity,
-                                      "Please try again later",
-                                      Toast.LENGTH_LONG
-                                  ).show()
-                              }
-                          }
+                            } else {
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(
+                                        this@SubmitFinalReportActivity,
+                                        "Please try again later",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
 
-                      }
-                  }
+                        }
+                    }
 
-              }
+                }
 
-                  /*  val intent = Intent(this, BMDashboardActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)*/
+                /*  val intent = Intent(this, BMDashboardActivity::class.java)
+                  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                  startActivity(intent)*/
             }
 
             R.id.ll_upload_document -> capture()
+
+            R.id.tv_agreement ->
+                startActivityForResult(
+                    Intent(
+                        this@SubmitFinalReportActivity,
+                        UploadDocumentActivity::class.java
+                    ).apply {
+                        putExtra(DOC_TYPE, RequestCode.Agreement)
+                    }, RequestCode.Agreement
+                )
+            R.id.tv_coc ->
+                startActivityForResult(
+                    Intent(
+                        this@SubmitFinalReportActivity,
+                        UploadDocumentActivity::class.java
+                    ).apply {
+                        putExtra(DOC_TYPE, RequestCode.Coc)
+                    }, RequestCode.Coc
+                )
         }
     }
 
@@ -332,7 +373,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
     private fun getOutputMediaFile(): File {
         val dir = File(
-           getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
             "Arthan"
         )/* val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
@@ -362,8 +403,8 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
         when (requestCode) {
             100 -> {
-                     ll_upload_document.visibility= View.GONE
-                     rv_docs.visibility= View.VISIBLE
+                ll_upload_document.visibility = View.GONE
+                rv_docs.visibility = View.VISIBLE
 
 
                 val loader = ProgrssLoader(context = this)
@@ -378,7 +419,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                             .uploadFile(fileList,
                                 {
                                     docUrlList = fileList[0].url ?: filePath
-                                    println("docurlList-"+docUrlList)
+                                    println("docurlList-" + docUrlList)
                                     ThreadUtils.runOnUiThread { loader.dismmissLoading() }
                                 }) {
                                 ThreadUtils.runOnUiThread { loader.dismmissLoading() }
@@ -388,20 +429,18 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                         e.printStackTrace()
                     }
                 })
-              //  docList.add(currentCapture!!)//used
+                //  docList.add(currentCapture!!)//used
 
-                    //      loader.showLoading()
-                     /*docList.add(currentCapture!!)
-                if(mDocAdapter?.itemCount==0)
-                {
-                    rv_docs.adapter=mDocAdapter
-                }*/
+                //      loader.showLoading()
+                /*docList.add(currentCapture!!)
+           if(mDocAdapter?.itemCount==0)
+           {
+               rv_docs.adapter=mDocAdapter
+           }*/
 //                mDocAdapter?.notifyDataSetChanged()
-                   //  mDocAdapter?.addNewDoc(currentCapture!!)//used
+                //  mDocAdapter?.addNewDoc(currentCapture!!)//used
 //               mDocAdapter?.notifyDataSetChanged()
 //                capture.setImageURI(currentCapture)
-
-
 
 
 /*
@@ -422,6 +461,37 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 */
 
 
+            }
+            RequestCode.Agreement -> {
+                data?.let {
+                    tv_agreement.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_document_attached,
+                        0,
+                        0,
+                        0
+                    )
+
+                    val applicantData: CardResponse? =
+                        it.getParcelableExtra(ArgumentKey.Agreement) as? CardResponse
+
+                    agreementUrl =
+                        applicantData?.cardFrontUrl!!
+                }
+            }
+
+            RequestCode.Coc -> {
+                data?.let {
+                    tv_coc.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_document_attached,
+                        0,
+                        0,
+                        0
+                    )
+                    val applicantData: CardResponse? =
+                        it.getParcelableExtra(ArgumentKey.Coc) as? CardResponse
+
+                    cocUrl =  applicantData?.cardFrontUrl!!
+                }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }

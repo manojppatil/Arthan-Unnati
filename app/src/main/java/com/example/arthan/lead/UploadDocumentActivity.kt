@@ -4,19 +4,20 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
-import com.example.arthan.dashboard.rm.RMDashboardActivity
-import com.example.arthan.global.*
+import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.liveness.VerifyCardResponse
 import com.example.arthan.liveness.VerifyVoterCardResponse
 import com.example.arthan.network.RetrofitFactory
@@ -27,6 +28,7 @@ import com.example.arthan.ocr.OcrRequest
 import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.utils.*
 import com.example.arthan.views.activities.CustomerCameraActivity
+import com.example.arthan.views.activities.FrontCameraActivity
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import kotlinx.android.synthetic.main.activity_upload_document.*
@@ -135,10 +137,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         uploadFront = mFrontImagePath?.let {
                             when (intent?.getIntExtra(DOC_TYPE, 0)) {
                                 RequestCode.PanCard -> {
-
                                     captureCardInfoAsync(it, CardType.PANCard)
-
-
                                 }
                                 RequestCode.VoterCard -> {
                                     captureCardInfoAsync(it, CardType.VoterIdCard)
@@ -178,6 +177,12 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             )
                         ) {
                             uploadToS3(mFrontImagePath!!, CardType.ApplicantPhoto)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.CrossedCheque == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.CrossedCheque)
                         } else if (uploadFront == null && mFrontImagePath != null && RequestCode.Passport == intent?.getIntExtra(
                                 DOC_TYPE,
                                 0
@@ -202,6 +207,18 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             )
                         ) {
                             uploadToS3(mFrontImagePath!!, CardType.waterBill)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.Agreement == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.agreement)
+                        } else if (uploadFront == null && mFrontImagePath != null && RequestCode.Coc == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )
+                        ) {
+                            uploadToS3(mFrontImagePath!!, CardType.coc)
                         } else if (uploadFront == null && mFrontImagePath != null && RequestCode.telephonebill == intent?.getIntExtra(
                                 DOC_TYPE,
                                 0
@@ -375,29 +392,26 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             var continueResult = false
                             if (mCardData != null) {
 
-                                    when (intent?.getIntExtra(DOC_TYPE, 0)) {
-                                        RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharFrontCard,RequestCode.AadharCard, RequestCode.VoterCard -> {
-                                            if (mCardData!!.status == "OK") {
+                                when (intent?.getIntExtra(DOC_TYPE, 0)) {
+                                    RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharFrontCard, RequestCode.AadharCard, RequestCode.VoterCard -> {
+                                        if (mCardData!!.status == "OK") {
 
-                                                continueResult = true
-                                            }
-                                            if(intent?.getStringExtra("skip") != null)
-                                            {
-                                                continueResult = true
-                                            }
+                                            continueResult = true
                                         }
-                                        else -> {
-                                            continueResult = intent?.getStringExtra("skip") == null
+                                        if (intent?.getStringExtra("skip") != null) {
+                                            continueResult = true
                                         }
                                     }
+                                    else -> {
+                                        continueResult = intent?.getStringExtra("skip") == null
+                                    }
+                                }
                             }
 
-                            if(continueResult)
-                            {
+                            if (continueResult) {
                                 finishActivity(progressLoader)
                                 progressLoader.dismmissLoading()
-                            }else
-                            {
+                            } else {
                                 progressLoader.dismmissLoading()
 
                             }
@@ -480,6 +494,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             RequestCode.AadharCard -> "Aadhar Card"
             RequestCode.VoterCard -> "Voter ID"
             RequestCode.ApplicantPhoto -> "Applicant Photo"
+            RequestCode.CrossedCheque -> "Crossed Cheque"
             RequestCode.PFP -> "Profile firm and promoters"
             else -> ""
         }
@@ -521,11 +536,20 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             RequestCode.ApplicantPhoto -> {
                 resultIntent.putExtra(ArgumentKey.ApplicantPhoto, mCardData)
             }
+            RequestCode.CrossedCheque -> {
+                resultIntent.putExtra(ArgumentKey.CrossedCheque, mCardData)
+            }
             RequestCode.PFP -> {
                 resultIntent.putExtra(ArgumentKey.PFP, mCardData)
             }
             RequestCode.waterBill -> {
                 resultIntent.putExtra(ArgumentKey.waterBill, mCardData)
+            }
+            RequestCode.Agreement -> {
+                resultIntent.putExtra(ArgumentKey.Agreement, mCardData)
+            }
+            RequestCode.Coc -> {
+                resultIntent.putExtra(ArgumentKey.Coc, mCardData)
             }
             RequestCode.electricityBill -> {
                 resultIntent.putExtra(ArgumentKey.electricityBill, mCardData)
@@ -620,65 +644,133 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun navigateToCamera(reqCode: Int) {
-        startActivityForResult(Intent(this, CustomerCameraActivity::class.java).apply {
-            putExtra(DOC_TYPE, reqCode)
-            val dir = File(
-                getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                "Arthan"
-            )/* val dir = File(
+        if (reqCode.equals(RequestCode.ApplicantPhoto)) {
+            startActivityForResult(Intent(this, FrontCameraActivity::class.java).apply {
+                putExtra(DOC_TYPE, reqCode)
+                val dir = File(
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "Arthan"
+                )/* val dir = File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 "Arthan"
             )*/
-            if (!dir.exists())
-                dir.mkdirs()
-            putExtra(
-                ArgumentKey.FilePath, when (reqCode) {
-                    RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN.jpg"
-                    RequestCode.Passport -> "${dir.absolutePath}/passport.jpg"
-                    RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT.jpg"
-                    RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR.jpg"
-                    RequestCode.PFP -> "${dir.absolutePath}/PFP.jpg"
-                    RequestCode.DrivingLicense -> "${dir.absolutePath}/driving_license.jpg"
-                    RequestCode.VoterCard -> "${dir.absolutePath}/voterId.jpg"
+                if (!dir.exists())
+                    dir.mkdirs()
+                putExtra(
+                    ArgumentKey.FilePath, when (reqCode) {
+                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN.jpg"
+                        RequestCode.Passport -> "${dir.absolutePath}/passport.jpg"
+                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT.jpg"
+                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR.jpg"
+                        RequestCode.PFP -> "${dir.absolutePath}/PFP.jpg"
+                        RequestCode.DrivingLicense -> "${dir.absolutePath}/driving_license.jpg"
+                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId.jpg"
 
-                    RequestCode.electricityBill -> "${dir.absolutePath}/electricityBill.jpg"
-                    RequestCode.waterBill -> "${dir.absolutePath}/waterBill.jpg"
-                    RequestCode.telephonebill -> "${dir.absolutePath}/telephonebill.jpg"
-                    RequestCode.AadharCardAddrProof -> "${dir.absolutePath}/AadharCardAddrProof.jpg"
+                        RequestCode.electricityBill -> "${dir.absolutePath}/electricityBill.jpg"
+                        RequestCode.waterBill -> "${dir.absolutePath}/waterBill.jpg"
+                        RequestCode.Agreement -> "${dir.absolutePath}/agreement.jpg"
+                        RequestCode.Coc -> "${dir.absolutePath}/coc.jpg"
+                        RequestCode.telephonebill -> "${dir.absolutePath}/telephonebill.jpg"
+                        RequestCode.AadharCardAddrProof -> "${dir.absolutePath}/AadharCardAddrProof.jpg"
 
-                    RequestCode.SalesTaxRegistration -> "${dir.absolutePath}/SalesTaxRegistration.jpg"
-                    RequestCode.VatOrder -> "${dir.absolutePath}/VatOrder.jpg"
-                    RequestCode.LicenseissuedunderShop -> "${dir.absolutePath}/LicenseissuedunderShop.jpg"
-                    RequestCode.EstablishmentAct -> "${dir.absolutePath}/EstablishmentAct.jpg"
-                    RequestCode.CST -> "${dir.absolutePath}/CST.jpg"
-                    RequestCode.VAT -> "${dir.absolutePath}/VAT.jpg"
-                    RequestCode.GSTCert -> "${dir.absolutePath}/GSTCert.jpg"
-                    RequestCode.CurrentACofbankStmt -> "${dir.absolutePath}/CurrentACofbankStmt.jpg"
-                    RequestCode.SSIcertificate -> "${dir.absolutePath}/SSIcertificate.jpg"
+                        RequestCode.SalesTaxRegistration -> "${dir.absolutePath}/SalesTaxRegistration.jpg"
+                        RequestCode.VatOrder -> "${dir.absolutePath}/VatOrder.jpg"
+                        RequestCode.LicenseissuedunderShop -> "${dir.absolutePath}/LicenseissuedunderShop.jpg"
+                        RequestCode.EstablishmentAct -> "${dir.absolutePath}/EstablishmentAct.jpg"
+                        RequestCode.CST -> "${dir.absolutePath}/CST.jpg"
+                        RequestCode.VAT -> "${dir.absolutePath}/VAT.jpg"
+                        RequestCode.GSTCert -> "${dir.absolutePath}/GSTCert.jpg"
+                        RequestCode.CurrentACofbankStmt -> "${dir.absolutePath}/CurrentACofbankStmt.jpg"
+                        RequestCode.SSIcertificate -> "${dir.absolutePath}/SSIcertificate.jpg"
 
-                    RequestCode.LatestTelephoneBill -> "${dir.absolutePath}/LatestTelephoneBill.jpg"
-                    RequestCode.ElectricityBillOfcAdd -> "${dir.absolutePath}/ElectricityBillOfcAdd.jpg"
-                    RequestCode.BankStatement -> "${dir.absolutePath}/BankStatement.jpg"
-                    RequestCode.LeaveandLicenceagreement -> "${dir.absolutePath}/LeaveandLicenceagreement.jpg"
+                        RequestCode.LatestTelephoneBill -> "${dir.absolutePath}/LatestTelephoneBill.jpg"
+                        RequestCode.ElectricityBillOfcAdd -> "${dir.absolutePath}/ElectricityBillOfcAdd.jpg"
+                        RequestCode.BankStatement -> "${dir.absolutePath}/BankStatement.jpg"
+                        RequestCode.LeaveandLicenceagreement -> "${dir.absolutePath}/LeaveandLicenceagreement.jpg"
 
 
-                    RequestCode.Last2yearsITR -> "${dir.absolutePath}/Last2yearsITR.jpg"
-                    RequestCode.Auditedbalancesheet -> "${dir.absolutePath}/Auditedbalancesheet.jpg"
-                    RequestCode.SaleDeed -> "${dir.absolutePath}/SaleDeed.jpg"
-                    RequestCode.ChainDocument -> "${dir.absolutePath}/ChainDocument.jpg"
-                    RequestCode.PropertyTaxReceipt -> "${dir.absolutePath}/PropertyTaxReceipt.jpg"
-                    RequestCode.ROR -> "${dir.absolutePath}/ROR.jpg"
-                    RequestCode.NOC -> "${dir.absolutePath}/NOC.jpg"
-                    RequestCode._7by12 -> "${dir.absolutePath}/_7by12.jpg"
-                    RequestCode.Mutation -> "${dir.absolutePath}/Mutation.jpg"
-                    RequestCode.FerfarCertificate -> "${dir.absolutePath}/FerfarCertificate.jpg"
-                    RequestCode.Others -> "${dir.absolutePath}/Others.jpg"
-                    RequestCode.LoanDoc -> "${dir.absolutePath}/LoanDoc.jpg"
+                        RequestCode.Last2yearsITR -> "${dir.absolutePath}/Last2yearsITR.jpg"
+                        RequestCode.Auditedbalancesheet -> "${dir.absolutePath}/Auditedbalancesheet.jpg"
+                        RequestCode.SaleDeed -> "${dir.absolutePath}/SaleDeed.jpg"
+                        RequestCode.ChainDocument -> "${dir.absolutePath}/ChainDocument.jpg"
+                        RequestCode.PropertyTaxReceipt -> "${dir.absolutePath}/PropertyTaxReceipt.jpg"
+                        RequestCode.ROR -> "${dir.absolutePath}/ROR.jpg"
+                        RequestCode.NOC -> "${dir.absolutePath}/NOC.jpg"
+                        RequestCode._7by12 -> "${dir.absolutePath}/_7by12.jpg"
+                        RequestCode.Mutation -> "${dir.absolutePath}/Mutation.jpg"
+                        RequestCode.FerfarCertificate -> "${dir.absolutePath}/FerfarCertificate.jpg"
+                        RequestCode.Others -> "${dir.absolutePath}/Others.jpg"
+                        RequestCode.LoanDoc -> "${dir.absolutePath}/LoanDoc.jpg"
 
-                    else -> "${dir.absolutePath}/IMG_VOTER.jpg"
-                }
-            )
-        }, reqCode)
+                        else -> "${dir.absolutePath}/IMG_VOTER.jpg"
+                    }
+                )
+            }, reqCode)
+        } else {
+            startActivityForResult(Intent(this, CustomerCameraActivity::class.java).apply {
+                putExtra(DOC_TYPE, reqCode)
+                val dir = File(
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "Arthan"
+                )/* val dir = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                "Arthan"
+            )*/
+                if (!dir.exists())
+                    dir.mkdirs()
+                putExtra(
+                    ArgumentKey.FilePath, when (reqCode) {
+                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN.jpg"
+                        RequestCode.Passport -> "${dir.absolutePath}/passport.jpg"
+                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT.jpg"
+                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR.jpg"
+                        RequestCode.PFP -> "${dir.absolutePath}/PFP.jpg"
+                        RequestCode.DrivingLicense -> "${dir.absolutePath}/driving_license.jpg"
+                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId.jpg"
+
+                        RequestCode.electricityBill -> "${dir.absolutePath}/electricityBill.jpg"
+                        RequestCode.waterBill -> "${dir.absolutePath}/waterBill.jpg"
+                        RequestCode.Agreement -> "${dir.absolutePath}/agreement.jpg"
+                        RequestCode.Coc -> "${dir.absolutePath}/coc.jpg"
+                        RequestCode.telephonebill -> "${dir.absolutePath}/telephonebill.jpg"
+                        RequestCode.AadharCardAddrProof -> "${dir.absolutePath}/AadharCardAddrProof.jpg"
+
+                        RequestCode.SalesTaxRegistration -> "${dir.absolutePath}/SalesTaxRegistration.jpg"
+                        RequestCode.VatOrder -> "${dir.absolutePath}/VatOrder.jpg"
+                        RequestCode.LicenseissuedunderShop -> "${dir.absolutePath}/LicenseissuedunderShop.jpg"
+                        RequestCode.EstablishmentAct -> "${dir.absolutePath}/EstablishmentAct.jpg"
+                        RequestCode.CST -> "${dir.absolutePath}/CST.jpg"
+                        RequestCode.VAT -> "${dir.absolutePath}/VAT.jpg"
+                        RequestCode.GSTCert -> "${dir.absolutePath}/GSTCert.jpg"
+                        RequestCode.CurrentACofbankStmt -> "${dir.absolutePath}/CurrentACofbankStmt.jpg"
+                        RequestCode.SSIcertificate -> "${dir.absolutePath}/SSIcertificate.jpg"
+
+                        RequestCode.LatestTelephoneBill -> "${dir.absolutePath}/LatestTelephoneBill.jpg"
+                        RequestCode.ElectricityBillOfcAdd -> "${dir.absolutePath}/ElectricityBillOfcAdd.jpg"
+                        RequestCode.BankStatement -> "${dir.absolutePath}/BankStatement.jpg"
+                        RequestCode.LeaveandLicenceagreement -> "${dir.absolutePath}/LeaveandLicenceagreement.jpg"
+
+
+                        RequestCode.Last2yearsITR -> "${dir.absolutePath}/Last2yearsITR.jpg"
+                        RequestCode.Auditedbalancesheet -> "${dir.absolutePath}/Auditedbalancesheet.jpg"
+                        RequestCode.SaleDeed -> "${dir.absolutePath}/SaleDeed.jpg"
+                        RequestCode.ChainDocument -> "${dir.absolutePath}/ChainDocument.jpg"
+                        RequestCode.PropertyTaxReceipt -> "${dir.absolutePath}/PropertyTaxReceipt.jpg"
+                        RequestCode.ROR -> "${dir.absolutePath}/ROR.jpg"
+                        RequestCode.NOC -> "${dir.absolutePath}/NOC.jpg"
+                        RequestCode._7by12 -> "${dir.absolutePath}/_7by12.jpg"
+                        RequestCode.Mutation -> "${dir.absolutePath}/Mutation.jpg"
+                        RequestCode.FerfarCertificate -> "${dir.absolutePath}/FerfarCertificate.jpg"
+                        RequestCode.Others -> "${dir.absolutePath}/Others.jpg"
+                        RequestCode.LoanDoc -> "${dir.absolutePath}/LoanDoc.jpg"
+
+                        else -> "${dir.absolutePath}/IMG_VOTER.jpg"
+                    }
+                )
+            }, reqCode)
+        }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -686,9 +778,11 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 MyProfileActivity.PICK_IMAGE, RequestCode.PanCard, RequestCode.PFP, RequestCode.VoterCard,
-                RequestCode.ApplicantPhoto, RequestCode.DrivingLicense, RequestCode.Passport,
+                RequestCode.ApplicantPhoto, RequestCode.CrossedCheque, RequestCode.DrivingLicense, RequestCode.Passport,
                 RequestCode.electricityBill,
                 RequestCode.waterBill,
+                RequestCode.Agreement,
+                RequestCode.Coc,
                 RequestCode.telephonebill,
 
                 RequestCode.SalesTaxRegistration,
@@ -893,9 +987,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             if ((verifyResult is VerifyVoterCardResponse && verifyResult.result != null) ||
                                 (verifyResult is VerifyCardResponse && verifyResult.result != null)
                             ) {
-
                                 uploadToS3(filePath, cardType)
-
                             } else {
                                 Toast.makeText(
                                     this@UploadDocumentActivity,
@@ -961,14 +1053,16 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         filePath: String,
         cardType: CardType
     ) = suspendCoroutine<Unit> { continuation ->
-
         val fileList = mutableListOf(
             S3UploadFile(
                 File(filePath),
-                "${AppPreferences.getInstance()
-                    .getString(AppPreferences.Key.LoanId)}${when (cardType) {
+                "${
+                if (AppPreferences.getInstance()
+                        .getString(AppPreferences.Key.LoanId) != null
+                ) AppPreferences.getInstance()
+                    .getString(AppPreferences.Key.LoanId) else ArthanApp.getAppInstance().loginUser}${
+                when (cardType) {
                     CardType.PANCard -> {
-                        //  "_PA_PAN"
                         "_PAN"
                     }
                     CardType.AadharCardFront -> {
@@ -982,6 +1076,9 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     }
                     CardType.ApplicantPhoto -> {
                         "_PHOTO"
+                    }
+                    CardType.CrossedCheque -> {
+                        "_CrossedCheque"
                     }
                     CardType.PFP -> {
                         "_PFP"
@@ -1000,6 +1097,12 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     }
                     CardType.waterBill -> {
                         "_Water_Bill"
+                    }
+                    CardType.agreement -> {
+                        "_Agreement"
+                    }
+                    CardType.coc -> {
+                        "_Coc"
                     }
                     CardType.ElectricityBillProof -> {
                         "_Electricity_Bill"
@@ -1100,28 +1203,28 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     Log.e("URL", ":::: ${fileList[0].url}")
 
                     CoroutineScope(uiContext).launch {
-                            if (cardType == CardType.PANCard) {
-                                if (mCardData?.status?.equals(
-                                        ConstantValue.CardStatus.Ok,
-                                        true
-                                    ) == true
-                                )
-                                    btn_next.visibility = View.VISIBLE
-                                else
-                                    if (intent.getStringExtra("skip") == null)
-                                        Toast.makeText(
-                                            this@UploadDocumentActivity,
-                                            "Please capture valid PAN Card",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                            } else if (cardType == CardType.ApplicantPhoto) {
+                        if (cardType == CardType.PANCard) {
+                            if (mCardData?.status?.equals(
+                                    ConstantValue.CardStatus.Ok,
+                                    true
+                                ) == true
+                            )
                                 btn_next.visibility = View.VISIBLE
-                            } else {
-                                btn_next.visibility = View.VISIBLE
-                            }
+                            else
+                                if (intent.getStringExtra("skip") == null)
+                                    Toast.makeText(
+                                        this@UploadDocumentActivity,
+                                        "Please capture valid PAN Card",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                        } else if (cardType == CardType.ApplicantPhoto) {
+                            btn_next.visibility = View.VISIBLE
+                        } else {
+                            btn_next.visibility = View.VISIBLE
                         }
-                        continuation.resume(Unit)
                     }
+                    continuation.resume(Unit)
+                }
             ) {
                 Toast.makeText(
                     this@UploadDocumentActivity,
@@ -1139,10 +1242,13 @@ sealed class CardType {
     object AadharCardBack : CardType()
     object VoterIdCard : CardType()
     object ApplicantPhoto : CardType()
+    object CrossedCheque : CardType()
     object PFP : CardType()
     object Passport : CardType()
     object driverLicense : CardType()
     object waterBill : CardType()
+    object agreement : CardType()
+    object coc : CardType()
     object ElectricityBillProof : CardType()
     object telephoneBill : CardType()
     object AadharCardAddrProof : CardType()

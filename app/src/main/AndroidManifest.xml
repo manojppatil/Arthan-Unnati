@@ -193,8 +193,9 @@
         <!--AM module-->
         <activity android:name=".dashboard.am.AddAMKYCDetailsActivity" />
         <activity android:name=".dashboard.am.AMPersonalDetailsActivity" />
-        <activity android:name=".dashboard.am.AMOnboardingAtivity">
-        </activity>
+        <activity android:name=".dashboard.am.AMOnboardingAtivity"/>
+        <activity android:name=".views.activities.FrontCameraActivity" />
+
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.am.model.AMOtherdetailsPostData
@@ -118,7 +119,7 @@ class AMOtherDetailsFragment : BaseFragment(), CoroutineScope {
             },
             languages = am_otherlanguages,
             references = am_otherreferences,
-            amId = "0017"//ArthanApp.getAppInstance().loginUser
+            amId = ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(ioContext).launch {
             try {
@@ -129,7 +130,11 @@ class AMOtherDetailsFragment : BaseFragment(), CoroutineScope {
                     if (result?.apiCode == "200") {
                         withContext(uiContext) {
                             progressBar?.dismmissLoading()
-                            Toast.makeText(context,"Am Data Submitted successfully",Toast.LENGTH_LONG)
+                            Toast.makeText(
+                                activity as AMPersonalDetailsActivity,
+                                "enrolment is complete",
+                                Toast.LENGTH_LONG
+                            ).show()
                             startActivity(Intent(activity, RMDashboardActivity::class.java))
                         }
                     }
@@ -157,7 +162,7 @@ class AMOtherDetailsFragment : BaseFragment(), CoroutineScope {
     private fun fetchAndUpdateOccupationNameAsync(): Deferred<Boolean> =
         async(context = ioContext) {
             try {
-                val response = RetrofitFactory.getMasterApiService().getOccupationName()
+                val response = RetrofitFactory.getMasterApiService().getamOccupationName()
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                     withContext(uiContext) {
                         spnr_am_profession?.adapter = getAdapter(response.body()?.data)

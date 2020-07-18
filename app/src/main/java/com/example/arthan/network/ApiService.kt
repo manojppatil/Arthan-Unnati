@@ -412,6 +412,12 @@ interface ApiService {
     @POST("saveAMOtherDetails")
     suspend fun saveAMOtherDetails(@Body body: AMOtherdetailsPostData?): Response<PersonalResponseData>?
 
+    @GET("rest/GetMstr/amProfession")
+    suspend fun getamOccupationName(): Response<DetailsResponseData>?
+
+    @GET("rest/GetMstr/amStates")
+    suspend fun getamStates(): Response<DetailsResponseData>?
+
 
     /* @POST("getScreenDetails")
      Request:

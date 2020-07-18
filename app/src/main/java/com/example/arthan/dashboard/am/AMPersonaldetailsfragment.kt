@@ -1,7 +1,5 @@
 package com.example.arthan.dashboard.am
 
-import android.app.Application
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -12,11 +10,13 @@ import androidx.navigation.Navigation
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.am.model.AMPersonalDetailsData
+import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.PERSONAL
+import com.example.arthan.lead.adapter.DataSpinnerAdapter
+import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.KYCPostData
 import com.example.arthan.lead.model.postdata.PersonalDetails
-import com.example.arthan.lead.model.postdata.PersonalPostData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.dateSelection
@@ -43,8 +43,6 @@ import kotlinx.android.synthetic.main.fragment_am_personal_information.male_radi
 import kotlinx.android.synthetic.main.fragment_am_personal_information.pincode1_input
 import kotlinx.android.synthetic.main.fragment_am_personal_information.pincode_input
 import kotlinx.android.synthetic.main.fragment_am_personal_information.rgrp_gender
-import kotlinx.android.synthetic.main.fragment_am_personal_information.state_input
-import kotlinx.android.synthetic.main.fragment_am_personal_information.state_input1
 import kotlinx.android.synthetic.main.fragment_am_personal_information.transgender_radio_button
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -64,6 +62,11 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
     override fun contentView() = R.layout.fragment_am_personal_information
     var mKYCPostData: KYCPostData? = null
     override fun init() {
+
+        launch(ioContext) {
+            fetchAndUpdateStateNameAsync().await()
+        }
+
         cb_sameAddress.setOnCheckedChangeListener { buttonView, isChecked ->
             if (!isChecked) {
                 sameAsAddressLL.visibility = View.VISIBLE
@@ -83,11 +86,11 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         }
     }
 
-
+    private var navController: NavController? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navController: NavController? =
+        navController =
             if (activity is AMPersonalDetailsActivity) Navigation.findNavController(
                 activity!!,
                 R.id.frag_container
@@ -99,9 +102,16 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         et_am_pan.setText(mKYCPostData?.panId.toString())
         et_am_aadhar_number.setText(mKYCPostData?.aadharId.toString())
         et_am_dob.setText(mKYCPostData?.panDob.toString())
+        et_am_aadhar_number.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AadharId))
+        address_line1_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine1))
+        address1_line2_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine2))
+        pincode_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.Pincode))
+        city_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
+        district_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
+//        state_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.State))
 
         btn_am_next.setOnClickListener {
-            navController?.navigate(R.id.action_personal_to_professional)
+
             if (activity is AMPersonalDetailsActivity) {
                 (activity as AMPersonalDetailsActivity).enableProfessional()
                 (activity as AMPersonalDetailsActivity).infoCompleteState(PERSONAL)
@@ -115,7 +125,7 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         val progressBar: ProgrssLoader? = if (context != null) ProgrssLoader(context!!) else null
         progressBar?.showLoading()
         val postBody = AMPersonalDetailsData(
-        //    applicantPanNo = mKYCPostData?.panId,
+            //    applicantPanNo = mKYCPostData?.panId,
 //            title = (spnr_ti tle?.selectedItem as? Data)?.value ?: "",
             fullName = et_am_name?.text?.toString() ?: "",
 
@@ -138,7 +148,7 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
             areaName = area_name_input?.text?.toString() ?: "",
             city = city_input?.text?.toString() ?: "",
             district = district_input?.text?.toString() ?: "",
-            state = state_input?.text?.toString() ?: "",
+            state = (spnr_am_state?.selectedItem as? Data)?.value ?: "",
             addressLine1p = address1_line1_input?.text?.toString() ?: "",
             addressLine2p = address1_line2_input?.text?.toString() ?: "",
             landmarkp = landmark1_input?.text?.toString() ?: "",
@@ -146,9 +156,9 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
             areaNameP = area_name1_input?.text?.toString() ?: "",
             cityp = city1_input?.text?.toString() ?: "",
             districtp = district_input1?.text?.toString() ?: "",
-            statep = state_input1?.text?.toString() ?: "",
+            statep = (spnr_am_state1?.selectedItem as? Data)?.value ?: "",
             addressProofUrl = "addressproofUrl",
-            amId = "0017"//ArthanApp.getAppInstance().loginUser
+            amId = ArthanApp.getAppInstance().loginUser
         )
 
         CoroutineScope(ioContext).launch {
@@ -160,8 +170,16 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
                     if (result?.apiCode == "200") {
                         withContext(uiContext) {
                             progressBar?.dismmissLoading()
+                            navController?.navigate(R.id.action_personal_to_professional)
                         }
                     }
+                } else {
+                    progressBar?.dismmissLoading()
+                    Toast.makeText(
+                        context,
+                        response?.body()?.apiCode + "Something went wrong. Please try later!",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             } catch (e: Exception) {
                 if (progressBar != null) {
@@ -183,6 +201,30 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         }
     }
 
+
+    private fun fetchAndUpdateStateNameAsync(): Deferred<Boolean> =
+        async(context = ioContext) {
+            try {
+                val response = RetrofitFactory.getMasterApiService().getamStates()
+                if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
+                    withContext(uiContext) {
+                        spnr_am_state?.adapter = getAdapter(response.body()?.data)
+                        spnr_am_state1?.adapter = getAdapter(response.body()?.data)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Crashlytics.log(e.message)
+
+            }
+            return@async true
+        }
+
+    private fun getAdapter(list: List<Data>?): DataSpinnerAdapter =
+        DataSpinnerAdapter(requireActivity(), list?.toMutableList() ?: mutableListOf()).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
     fun updateData(
         personalDetails: List<PersonalDetails>?,
         inPrincipleAmt: String?,
@@ -190,7 +232,6 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         roi: String?,
         tenure: String?
     ) {
-
 
 
     }

@@ -26,6 +26,8 @@ data class KYCPostData(
     var voterUrl: String? = "",
     var voterVerified: String? = "",
 
-var paApplicantPhoto: String?= "",
-var applicantType: String?= ""
+    var paApplicantPhoto: String? = "",
+    var applicantType: String? = "",
+
+    var amId: String? = ""
 ) : Parcelable
