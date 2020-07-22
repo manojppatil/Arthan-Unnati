@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.BCMDashboardActivity
+import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.rm.adapters.LeadsAdapter
 import com.example.arthan.dashboard.rm.adapters.ScreeningAdapter
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
@@ -63,7 +65,18 @@ class RMLeadListingActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.homeMenu->{
                 finish()
+                if(ArthanApp.getAppInstance().loginRole=="RM")
+                {
+                    startActivity(Intent(this,RMDashboardActivity::class.java))
+                }else if(ArthanApp.getAppInstance().loginRole=="BCM")
+                {
+                    startActivity(Intent(this, BCMDashboardActivity::class.java))
 
+                }else if(ArthanApp.getAppInstance().loginRole=="BM")
+                {
+                    startActivity(Intent(this, BMDashboardActivity::class.java))
+
+                }
             }
             R.id.logoutMenu->
             {

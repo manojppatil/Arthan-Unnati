@@ -164,6 +164,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="12sp"
+            android:visibility="gone"
             android:textColor="#404040"
             android:letterSpacing="0.05"
             android:lineSpacingExtra="16sp"
@@ -180,6 +181,8 @@
             android:textSize="14sp"
             android:textColor="#404040"
             android:letterSpacing="0.05"
+            android:visibility="gone"
+
             android:lineSpacingExtra="8.3sp"
             android:text="Father's Full Name"
             android:textStyle="bold"
@@ -196,6 +199,8 @@
             android:textColor="#404040"
             android:letterSpacing="0.05"
             android:lineSpacingExtra="16sp"
+            android:visibility="gone"
+
             android:text="Mother's Name"
             android:layout_marginTop="24dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -211,6 +216,8 @@
             android:letterSpacing="0.05"
             android:lineSpacingExtra="8.3sp"
             android:text="Mother's Full Name"
+            android:visibility="gone"
+
             android:textStyle="bold"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -419,6 +426,8 @@
             android:letterSpacing="0.05"
             android:lineSpacingExtra="16sp"
             android:text="Nationality"
+            android:visibility="gone"
+
             android:layout_marginTop="24dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -433,6 +442,8 @@
             android:lineSpacingExtra="8.3sp"
             android:id="@+id/nationality"
             android:text="Mother's Full Name"
+            android:visibility="gone"
+
             android:textStyle="bold"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -450,6 +461,8 @@
             android:letterSpacing="0.05"
             android:lineSpacingExtra="16sp"
             android:text="Education Level"
+            android:visibility="gone"
+
             android:layout_marginTop="24dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -462,6 +475,8 @@
             android:textColor="#404040"
             android:letterSpacing="0.05"
             android:lineSpacingExtra="8.3sp"
+            android:visibility="gone"
+
             android:id="@+id/eduLevel"
             android:text="Mother's Full Name"
             android:textStyle="bold"
@@ -479,6 +494,8 @@
             android:letterSpacing="0.05"
             android:lineSpacingExtra="16sp"
             android:text="Occupation Type"
+            android:visibility="gone"
+
             android:layout_marginTop="24dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -492,6 +509,8 @@
             android:letterSpacing="0.05"
             android:lineSpacingExtra="8.3sp"
             android:id="@+id/OccupationTypeValue"
+            android:visibility="gone"
+
             android:text="Mother's Full Name"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
@@ -508,6 +527,8 @@
             android:letterSpacing="0.05"
             android:lineSpacingExtra="16sp"
             android:text="Occupation"
+            android:visibility="gone"
+
             android:layout_marginTop="24dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -522,6 +543,8 @@
             android:lineSpacingExtra="8.3sp"
             android:id="@+id/txt_occupation"
             android:text="Mother's Full Name"
+            android:visibility="gone"
+
             android:textStyle="bold"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -538,6 +561,8 @@
             android:lineSpacingExtra="16sp"
             android:text="Source of Income"
             android:layout_marginTop="24dp"
+            android:visibility="gone"
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_occupation"/>
@@ -553,6 +578,8 @@
             android:text="Mother's Full Name"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_sourceIncome_title"/>
@@ -565,6 +592,8 @@
             android:letterSpacing="0.05"
             android:lineSpacingExtra="16sp"
             android:text="Gross Annual Income"
+            android:visibility="gone"
+
             android:layout_marginTop="24dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -578,6 +607,8 @@
             android:letterSpacing="0.05"
             android:lineSpacingExtra="8.3sp"
             android:id="@+id/grossAnulIncome"
+            android:visibility="gone"
+
             android:text="Mother's Full Name"
             android:textStyle="bold"
             android:layout_marginTop="8dp"

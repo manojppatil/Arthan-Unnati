@@ -10,6 +10,7 @@ data class Customer(
     val loanType: String?,
     val recordType:String?="AM",
     val amId: String?,
-    val leadId: String?
+    val leadId: String?,
+    var showrecord: Boolean
 
 )

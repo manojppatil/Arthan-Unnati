@@ -34,27 +34,225 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
             LayoutInflater.from(mContext).inflate(R.layout.row_pending_customer, parent, false)
         return PendingCustomerVH(view)
     }
+    init {
+
+        for (data in 0 until listoriginal.size) {
+            if (ArthanApp.getAppInstance().loginRole == "BM") {
+                if (list[data].recordType == "AM") {
+                    list[data].showrecord = true
+                }
+            }
+        }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
 
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: PendingCustomerVH, position: Int) {
         holder.bind(position, list[position])
+
+        val customer=list[position]
+       holder. mViewCustomer360.setOnClickListener {
+            mContext.startActivity(Intent(mContext, Customer360Activity::class.java).apply {
+                putExtra("indSeg",customer.indSeg)
+                putExtra("loginDate",customer.loginDate)
+                putExtra("loanId",customer.loanId)
+                putExtra("loanAmt",customer.loanAmt)
+                putExtra("cname",customer.customerName)
+                putExtra("custId",customer.customerId)
+                putExtra("loanType",customer.loanType)
+
+            })
+        }
+
+        holder.mDocuments.setOnClickListener {
+            BMDocumentVerificationActivity.startMe(
+                mContext,
+                customer.loanId,
+                customer.customerId,
+                customer,
+                from,
+                customer.recordType
+            )
+        }
+
+        holder.mTakeDecision.setOnClickListener {
+
+            if(from=="BM") {
+
+                if(customer.recordType== "AM"){
+
+                    mContext.startActivity(
+                        Intent(
+                            mContext,
+                            BMScreeningReportActivity::class.java
+                        ).apply {
+                            putExtra("indSeg", customer.indSeg)
+                            putExtra("loginDate", customer.loginDate)
+                            putExtra("loanId", customer.loanId)
+                            putExtra("loanAmt", customer.loanAmt)
+                            putExtra("cname", customer.customerName)
+                            putExtra("custId", customer.customerId)
+                            putExtra("FROM", "BM")
+                            putExtra("recordType", customer.recordType)//put customer.am
+                            putExtra("amId", customer.leadId)
+
+                        })
+                    return@setOnClickListener
+                }
+
+                val progressLoader = ProgrssLoader(mContext)
+                progressLoader.showLoading()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val res = RetrofitFactory.getApiService().bmDecision(customer.loanId)
+                    if (res?.body() != null) {
+                        progressLoader.dismmissLoading()
+
+                        val canDecide= res.body()!!.canDecide
+                        withContext(Dispatchers.Main) {
+                            if (canDecide == "N") {
+
+                                Toast.makeText(mContext,"Please verify Documents & Data before taking a decision",Toast.LENGTH_LONG).show()
+                            } else {
+                                mContext.startActivity(
+                                    Intent(
+                                        mContext,
+                                        BMScreeningReportActivity::class.java
+                                    ).apply {
+                                        putExtra("indSeg", customer.indSeg)
+                                        putExtra("loginDate", customer.loginDate)
+                                        putExtra("loanId", customer.loanId)
+                                        putExtra("loanAmt", customer.loanAmt)
+                                        putExtra("cname", customer.customerName)
+                                        putExtra("custId", customer.customerId)
+                                        putExtra("FROM", "BM")
+                                        putExtra("recordType", customer.recordType)//put customer.am
+                                        putExtra("amId", customer.leadId)
+
+                                    })
+                            }
+                        }
+                    }else
+                    {
+                        progressLoader.dismmissLoading()
+                    }
+                }
+            }
+            else if(from=="BCM") {
+                val progressLoader = ProgrssLoader(mContext)
+                progressLoader.showLoading()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val res = RetrofitFactory.getApiService().bcmDecision(customer.loanId)
+                    if (res?.body() != null) {
+                        progressLoader.dismmissLoading()
+
+                        val canDecide= res.body()!!.canDecide
+                        val canNavigate= res.body()!!.canNavigate
+                        withContext(Dispatchers.Main) {
+
+                            if (canNavigate.equals("no",ignoreCase = true)) {
+
+                                Toast.makeText(mContext,res.body()!!.message,Toast.LENGTH_LONG).show()
+                            }else {
+                                if (canDecide == "N") {
+
+                                    Toast.makeText(
+                                        mContext,
+                                        "Please verify Documents & Data before taking a decision",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                } else {
+                                    mContext.startActivity(
+                                        Intent(
+                                            mContext,
+                                            BMScreeningReportActivity::class.java
+                                        ).apply {
+                                            putExtra("indSeg", customer.indSeg)
+                                            putExtra("loginDate", customer.loginDate)
+                                            putExtra("loanId", customer.loanId)
+                                            putExtra("loanAmt", customer.loanAmt)
+                                            putExtra("cname", customer.customerName)
+                                            putExtra("custId", customer.customerId)
+                                            putExtra("FROM", "BCM")
+
+                                        })
+                                }
+                            }
+                        }
+                    }else
+                    {
+                        progressLoader.dismmissLoading()
+                    }
+                }
+            }else
+            {
+                mContext.startActivity(
+                    Intent(
+                        mContext,
+                        BMScreeningReportActivity::class.java
+                    ).apply {
+                        putExtra("indSeg", customer.indSeg)
+                        putExtra("loginDate", customer.loginDate)
+                        putExtra("loanId", customer.loanId)
+                        putExtra("loanAmt", customer.loanAmt)
+                        putExtra("cname", customer.customerName)
+                        putExtra("custId", customer.customerId)
+                        putExtra("FROM", from)
+
+                    })
+            }
+
+
+        }
     }
 
     fun updateList(myQueue: List<Customer>?) {
         list.addAll(myQueue?.toMutableList() ?: return)
         listoriginal=ArrayList(list)
+        for (data in 0 until listoriginal.size) {
+            if (ArthanApp.getAppInstance().loginRole == "BM") {
+                if (list[data].recordType == "AM") {
+                    list[data].showrecord = true
+                }
+            }else
+            {
+                list[data].showrecord = false
+
+            }
+        }
     }
 
     inner class PendingCustomerVH(private val root: View) : RecyclerView.ViewHolder(root) {
 
         private val mAmount: TextView = itemView.findViewById(R.id.txt_amount)
-        private val mViewCustomer360: View = itemView.findViewById(R.id.cl_customer360)
-        private val mDocuments: View = itemView.findViewById(R.id.cl_view_document)
-        private val mTakeDecision: View = itemView.findViewById(R.id.cl_take_decision)
+        val mViewCustomer360: View = itemView.findViewById(R.id.cl_customer360)
+         val mDocuments: View = itemView.findViewById(R.id.cl_view_document)
+         val mTakeDecision: View = itemView.findViewById(R.id.cl_take_decision)
         fun bind(position: Int, customer: Customer) {
 
-
+           /* if(ArthanApp.getAppInstance().loginRole=="BM")
+            {
+               val datacustomer=list[position]
+                if(datacustomer.recordType=="AM") {*/
+            if(customer.showrecord){
+                    mAmount?.visibility=View.GONE
+                    itemView.findViewById<TextView?>(R.id.txt_AMApproved)?.visibility = View.VISIBLE
+                    itemView.findViewById<View?>(R.id.cl_customer360)?.visibility =
+                        View.GONE
+                }else
+            {
+                mAmount?.visibility=View.VISIBLE
+                itemView.findViewById<TextView?>(R.id.txt_AMApproved)?.visibility = View.GONE
+                itemView.findViewById<View?>(R.id.cl_customer360)?.visibility =
+                    View.VISIBLE
+            }
             if (position == 4) {
                 val lp = itemView.layoutParams as? ViewGroup.MarginLayoutParams
                     ?: ViewGroup.MarginLayoutParams(
@@ -72,15 +270,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                 lp?.topMargin = getPixelFromDP(40f, itemView.context)?.toInt() ?: 0
                 lp?.let { itemView.layoutParams = it }
             }
-            if(ArthanApp.getAppInstance().loginRole=="BM")
-            {
-                if(customer.recordType=="AM") {
-                    mAmount?.visibility=View.GONE
-                    itemView.findViewById<TextView?>(R.id.txt_AMApproved)?.visibility = View.VISIBLE
-                    itemView.findViewById<View?>(R.id.cl_customer360)?.visibility =
-                        View.GONE
-                }
-            }
+
 
             when (position % 3) {
                 0 -> {
@@ -151,158 +341,6 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                 ), null, null, null
             )
 
-            mViewCustomer360.setOnClickListener {
-                mContext.startActivity(Intent(mContext, Customer360Activity::class.java).apply {
-                putExtra("indSeg",customer.indSeg)
-                putExtra("loginDate",customer.loginDate)
-                putExtra("loanId",customer.loanId)
-                putExtra("loanAmt",customer.loanAmt)
-                putExtra("cname",customer.customerName)
-                putExtra("custId",customer.customerId)
-                putExtra("loanType",customer.loanType)
-
-            })
-            }
-
-            root.findViewById<ConstraintLayout>(R.id.cl_view_document).setOnClickListener {
-                BMDocumentVerificationActivity.startMe(
-                    itemView.context,
-                    customer.loanId,
-                    customer.customerId,
-                    customer,
-                    from,
-                    customer.recordType
-                )
-            }
-
-            root.findViewById<ConstraintLayout>(R.id.cl_take_decision).setOnClickListener {
-
-                if(from=="BM") {
-
-                    if(customer.recordType== "AM"){
-
-                        mContext.startActivity(
-                            Intent(
-                                mContext,
-                                BMScreeningReportActivity::class.java
-                            ).apply {
-                                putExtra("indSeg", customer.indSeg)
-                                putExtra("loginDate", customer.loginDate)
-                                putExtra("loanId", customer.loanId)
-                                putExtra("loanAmt", customer.loanAmt)
-                                putExtra("cname", customer.customerName)
-                                putExtra("custId", customer.customerId)
-                                putExtra("FROM", "BM")
-                                putExtra("recordType", customer.recordType)//put customer.am
-                                putExtra("amId", customer.leadId)
-
-                            })
-                        return@setOnClickListener
-                    }
-
-                    val progressLoader = ProgrssLoader(mContext)
-                    progressLoader.showLoading()
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val res = RetrofitFactory.getApiService().bmDecision(customer.loanId)
-                        if (res?.body() != null) {
-                            progressLoader.dismmissLoading()
-
-                            val canDecide= res.body()!!.canDecide
-                            withContext(Dispatchers.Main) {
-                                if (canDecide == "N") {
-
-                                    Toast.makeText(mContext,"Please verify Documents & Data before taking a decision",Toast.LENGTH_LONG).show()
-                                } else {
-                                    mContext.startActivity(
-                                        Intent(
-                                            mContext,
-                                            BMScreeningReportActivity::class.java
-                                        ).apply {
-                                            putExtra("indSeg", customer.indSeg)
-                                            putExtra("loginDate", customer.loginDate)
-                                            putExtra("loanId", customer.loanId)
-                                            putExtra("loanAmt", customer.loanAmt)
-                                            putExtra("cname", customer.customerName)
-                                            putExtra("custId", customer.customerId)
-                                            putExtra("FROM", "BM")
-                                            putExtra("recordType", customer.recordType)//put customer.am
-                                            putExtra("amId", customer.leadId)
-
-                                        })
-                                }
-                            }
-                        }else
-                        {
-                            progressLoader.dismmissLoading()
-                        }
-                    }
-                }
-                else if(from=="BCM") {
-                    val progressLoader = ProgrssLoader(mContext)
-                    progressLoader.showLoading()
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val res = RetrofitFactory.getApiService().bcmDecision(customer.loanId)
-                        if (res?.body() != null) {
-                            progressLoader.dismmissLoading()
-
-                            val canDecide= res.body()!!.canDecide
-                            val canNavigate= res.body()!!.canNavigate
-                            withContext(Dispatchers.Main) {
-
-                                if (canNavigate.equals("no",ignoreCase = true)) {
-
-                                    Toast.makeText(mContext,res.body()!!.message,Toast.LENGTH_LONG).show()
-                                }else {
-                                    if (canDecide == "N") {
-
-                                        Toast.makeText(
-                                            mContext,
-                                            "Please verify Documents & Data before taking a decision",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    } else {
-                                        mContext.startActivity(
-                                            Intent(
-                                                mContext,
-                                                BMScreeningReportActivity::class.java
-                                            ).apply {
-                                                putExtra("indSeg", customer.indSeg)
-                                                putExtra("loginDate", customer.loginDate)
-                                                putExtra("loanId", customer.loanId)
-                                                putExtra("loanAmt", customer.loanAmt)
-                                                putExtra("cname", customer.customerName)
-                                                putExtra("custId", customer.customerId)
-                                                putExtra("FROM", "BCM")
-
-                                            })
-                                    }
-                                }
-                            }
-                        }else
-                        {
-                            progressLoader.dismmissLoading()
-                        }
-                    }
-                }else
-                {
-                    mContext.startActivity(
-                        Intent(
-                            mContext,
-                            BMScreeningReportActivity::class.java
-                        ).apply {
-                            putExtra("indSeg", customer.indSeg)
-                            putExtra("loginDate", customer.loginDate)
-                            putExtra("loanId", customer.loanId)
-                            putExtra("loanAmt", customer.loanAmt)
-                            putExtra("cname", customer.customerName)
-                            putExtra("custId", customer.customerId)
-                            putExtra("FROM", from)
-
-                        })
-                }
-
-
-            }
 
            /* if (from == "BCM") {
 

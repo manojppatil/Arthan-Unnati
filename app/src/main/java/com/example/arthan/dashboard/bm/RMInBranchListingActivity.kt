@@ -9,7 +9,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.adapter.RmInBranchAdapter
+import com.example.arthan.dashboard.rm.RMDashboardActivity
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.views.adapters.BranchAdapter
 import kotlinx.android.parcel.Parcelize
 import com.example.arthan.utils.ArgumentKey
@@ -52,7 +55,18 @@ class RMInBranchListingActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.homeMenu->{
                 finish()
+                if(ArthanApp.getAppInstance().loginRole=="RM")
+                {
+                    startActivity(Intent(this, RMDashboardActivity::class.java))
+                }else if(ArthanApp.getAppInstance().loginRole=="BCM")
+                {
+                    startActivity(Intent(this, BCMDashboardActivity::class.java))
 
+                }else if(ArthanApp.getAppInstance().loginRole=="BM")
+                {
+                    startActivity(Intent(this,BMDashboardActivity::class.java))
+
+                }
             }
             R.id.logoutMenu->
             {

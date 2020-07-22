@@ -45,7 +45,12 @@ class DocumentVerificationFragment : BaseFragment() {
     private var mContext:Context?=null
     private var textColor:Int=Color.parseColor("#09327a")
     override fun init() {
-        img_pan.setOnClickListener {
+
+        if (activity?.intent?.getStringExtra("recordType") == "AM") {
+            otherproofs.visibility=View.GONE
+
+        }
+            img_pan.setOnClickListener {
             showPreview(docDetails?.panUrl)
 
         }
@@ -179,6 +184,10 @@ class DocumentVerificationFragment : BaseFragment() {
             btn_OfficeAddressProof_disapprove.setTextColor(Color.WHITE)
             btn_OfficeAddressProof_approve.setTextColor(textColor)
         }
+
+
+
+
         btn_next.setOnClickListener {
 
             val progressBar = ProgrssLoader(mContext!!)

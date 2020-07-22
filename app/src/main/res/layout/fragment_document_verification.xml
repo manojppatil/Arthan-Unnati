@@ -371,6 +371,14 @@
             android:paddingRight="32dp"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/otherproofs"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_applicant_disapprove">
+
 
         <TextView
             android:id="@+id/txt_BusinessProof"
@@ -385,7 +393,8 @@
             android:fontFamily="@font/lato_black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_applicant_disapprove"/>
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <ImageView
             android:id="@+id/img_BusinessProof"
@@ -591,6 +600,9 @@
             android:paddingTop="12dp"
             android:paddingBottom="12dp"/>
 
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
         <Button
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
@@ -599,7 +611,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_IncomeProof_disapprove"
+            app:layout_constraintTop_toBottomOf="@id/otherproofs"
             android:background="@drawable/ic_next_enabled"
             android:textColor="#ffffff"
             android:text="Next"
@@ -613,7 +625,6 @@
             android:paddingRight="32dp"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
