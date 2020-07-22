@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
-import com.example.arthan.dashboard.am.model.AMKYCDetailsData
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.DOC_TYPE
@@ -70,6 +69,9 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     putExtra("show2", mKYCPostData?.aadharBackUrl)
 
                 }, RequestCode.AadharCard)
+                /*startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
+                    putExtra(DOC_TYPE, RequestCode.AadharCard)
+                }, RequestCode.AadharCard)*/
             }
             R.id.txt_am_voter_id -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
@@ -112,9 +114,12 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                             customerId = custId
                         )
                     }
-                    mKYCPostData?.panDob = panCardData?.results?.get(0)?.cardInfo?.dateInfo.toString()
-                    mKYCPostData?.panFathername = panCardData?.results?.get(0)?.cardInfo?.fatherName.toString()
-                    mKYCPostData?.panFirstname = panCardData?.results?.get(0)?.cardInfo?.name.toString()
+                    mKYCPostData?.panDob =
+                        panCardData?.results?.get(0)?.cardInfo?.dateInfo.toString()
+                    mKYCPostData?.panFathername =
+                        panCardData?.results?.get(0)?.cardInfo?.fatherName.toString()
+                    mKYCPostData?.panFirstname =
+                        panCardData?.results?.get(0)?.cardInfo?.name.toString()
                     mKYCPostData?.panId = panCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
                     mKYCPostData?.panVerified = panCardData?.status.toString()
                     mKYCPostData?.panUrl = panCardData?.cardFrontUrl.toString()
@@ -126,7 +131,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     )
 
 
-//                    pan_accepted.visibility = View.VISIBLE
+                    pan_am_accepted.visibility = View.VISIBLE
                     txt_am_pan_card.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
@@ -141,9 +146,16 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     }
                     val aadharCardData =
                         it.getParcelableExtra(ArgumentKey.AadharDetails) as CardResponse
+                    AppPreferences.getInstance().also { ap ->
+                        ap.addString(
+                            AppPreferences.Key.AadharId,
+                            aadharCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
+                        )
+                    }
                     mKYCPostData?.aadharAddress =
                         aadharCardData?.results?.get(0)?.cardInfo?.address.toString()
-                    mKYCPostData?.aadharId = aadharCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
+                    mKYCPostData?.aadharId =
+                        aadharCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
                     mKYCPostData?.aadharFrontUrl = aadharCardData?.cardFrontUrl.toString()
                     mKYCPostData?.aadharBackUrl = aadharCardData?.cardBackUrl.toString()
                     mKYCPostData?.aadharVerified = aadharCardData?.status.toString()
@@ -157,6 +169,9 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                             aadharCardBack = aadharCardData?.results?.get(index)?.cardInfo
                         }
                     }
+                    Log.i("AADhar front", "Aadhar"+aadharCardData)
+                    Log.i("AADhar Back", "Aadhar"+aadharCardBack)
+
                     AppPreferences.getInstance().also { ap ->
                         ap.addString(AppPreferences.Key.Pincode, aadharCardBack?.pin)
                         ap.addString(
@@ -176,8 +191,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                         0,
                         0
                     )
-                    //   adhar_accepted.visibility=View.VISIBLE
-
+                    aadhar_am_accepted.visibility = View.VISIBLE
                     txt_am_aadhar_card.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
@@ -193,17 +207,18 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
 
                     val voterCardData: CardResponse? =
                         it.getParcelableExtra(ArgumentKey.VoterDetails) as? CardResponse
-                    mKYCPostData?.voterId = voterCardData?.results?.get(0)?.cardInfo?.voterId.toString()
+                    mKYCPostData?.voterId =
+                        voterCardData?.results?.get(0)?.cardInfo?.voterId.toString()
                     mKYCPostData?.voterUrl = voterCardData?.cardFrontUrl.toString()
-                    mKYCPostData?.voterVerified = voterCardData?.results?.get(0)?.cardInfo?.voterId.toString()
+                    mKYCPostData?.voterVerified =
+                        voterCardData?.results?.get(0)?.cardInfo?.voterId.toString()
                     txt_am_voter_id.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_document_attached,
                         0,
                         0,
                         0
                     )
-                    // voter_accepted.visibility=View.VISIBLE
-
+                    voter_am_accepted.visibility = View.VISIBLE
                     txt_am_voter_id.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
@@ -211,7 +226,6 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
             RequestCode.ApplicantPhoto -> {
 
                 data?.let {
-
                     val applicantData: CardResponse? =
                         it.getParcelableExtra(ArgumentKey.ApplicantPhoto) as? CardResponse
 
@@ -223,13 +237,10 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                         0,
                         0
                     )
-                    // applicant_accepted.visibility=View.VISIBLE
-
+                    aphoto_am_accepted.visibility = View.VISIBLE
                     txt_am_appl_photo.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
-
-
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
@@ -249,7 +260,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
             try {
                 mKYCPostData?.loanId = "L111"
                 mKYCPostData?.applicantType = "AM"
-//                mKYCPostData?.amId = ArthanApp.getAppInstance().loginUser
+                mKYCPostData?.amId = ArthanApp.getAppInstance().loginUser
                 val response = RetrofitFactory.getApiService().saveAMKycDetail(mKYCPostData)
                 if (response?.isSuccessful == true) {
                     val result = response.body()
@@ -262,10 +273,8 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                                 ).also {
                                     custId = result.customerId
 //                                    loanId = result.loanId
-                                    it.putExtra("custId", result.customerId)
                                     it.putExtra("PAN_DATA", mKYCPostData)
-                                    //  it.putExtra("loanId", result.loanId)
-                                    it.putExtra("type", intent.getStringExtra("type"))
+                                    it.putExtra("AADHAR_NO", mKYCPostData?.aadharId)
                                 }
                             )
                         }

@@ -31,4 +31,5 @@
         tools:layout="@layout/fragment_am_otherdetails" />
 
 
+
 </navigation>

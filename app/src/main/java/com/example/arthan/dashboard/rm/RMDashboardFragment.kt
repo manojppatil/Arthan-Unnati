@@ -80,12 +80,12 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 if(ArthanApp.getAppInstance().loginRole=="AM")
                 {
                     AMDetailsLL.visibility=View.VISIBLE
-                    if (data.amApproved!=null&&data.amApproved.toLowerCase() == "no"){
+                   /* if (data.amApproved!=null&&data.amApproved.toLowerCase() == "no"){
                         (activity as RMDashboardActivity).hideAddAM(true)
                     }else
                     {
                         (activity as RMDashboardActivity).hideAddAM(false)
-                    }
+                    }*/
                     txt_bm_name.text="Hello "+data.amName
                     branchName.text="Branch Name: "+data.amBranch
                     myRm.text="My RM: "+data.amRm

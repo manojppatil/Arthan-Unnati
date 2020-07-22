@@ -172,7 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:checked="true"
+                android:checked="false"
                 android:text="Whats App number same as Mobile No."
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tl_contact_number"
@@ -412,6 +412,7 @@
                     android:fontFamily="@font/lato_black"
                     android:hint="@string/pin_code"
                     android:inputType="number"
+                    android:maxLength="6"
                     android:maxLines="1"
                     android:imeOptions="actionNext"
                     android:nextFocusDown="@id/area_name_input"
@@ -493,13 +494,31 @@
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:nextFocusDown="@id/state_input"
+                    android:nextFocusDown="@id/spnr_am_state"
                     android:textColor="#000000"
                     android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spnr_am_state"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#000000"
+                android:fontFamily="@font/lato_black"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_district"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+
+
+            <!--<com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tl_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -523,7 +542,7 @@
                     android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
+-->
             <CheckBox
                 android:id="@+id/cb_sameAddress"
                 android:layout_width="wrap_content"
@@ -532,7 +551,7 @@
                 android:checked="true"
                 android:text="Permanent Address same as Current Address"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tl_state"
+                app:layout_constraintTop_toBottomOf="@+id/spnr_am_state"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintVertical_chainStyle="packed" />
 
@@ -738,36 +757,53 @@
                         android:inputType="text"
                         android:maxLines="1"
                         android:imeOptions="actionNext"
-                        android:nextFocusDown="@id/state_input"
+                        android:nextFocusDown="@id/spnr_am_state1"
                         android:textColor="#000000"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_state1"
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spnr_am_state1"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    app:hintEnabled="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/lato_black"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tl_district1"
-                    app:layout_constraintVertical_chainStyle="packed">
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/state_input1"
+
+                <!--    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_state1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_black"
-                        android:hint="@string/state"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
+                        android:layout_marginTop="16dp"
+                        app:hintEnabled="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tl_district1"
+                        app:layout_constraintVertical_chainStyle="packed">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/state_input1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_black"
+                            android:hint="@string/state"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>-->
                 <Button
                     android:id="@+id/btn_uploadAddressproof"
                     android:layout_width="wrap_content"
@@ -785,7 +821,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tl_state1"
+                    app:layout_constraintTop_toBottomOf="@+id/spnr_am_state1"
                     app:layout_constraintVertical_bias="0"
                     app:layout_constraintVertical_chainStyle="packed" />
             </LinearLayout>

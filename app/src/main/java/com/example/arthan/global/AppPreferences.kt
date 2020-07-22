@@ -91,6 +91,7 @@ class AppPreferences(context: Context) {
 
     object Key {
         const val LoginType = "login_type"
+        const val AadharId = "AadharId"
         const val Pincode = "pin_code"
         const val City = "city"
         const val State = "state"
