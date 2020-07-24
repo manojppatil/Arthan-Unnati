@@ -61,6 +61,11 @@ class DataFragment : Fragment() {
         }
     }
 
+    fun moveToPosition(position:Int)
+    {
+        vp_profile.currentItem=position
+    }
+
     fun updateData(
         loanId: String?,
         data: CustomerDocumentAndDataResponseData?,

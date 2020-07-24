@@ -2,6 +2,7 @@ package com.example.arthan.dashboard.bm
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.Log
@@ -22,11 +23,13 @@ import com.example.arthan.lead.model.responsedata.DocDetailsAM
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.fragment_document_verification.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DocumentVerificationFragment : BaseFragment() {
 
@@ -223,26 +226,28 @@ class DocumentVerificationFragment : BaseFragment() {
                 progressBar.dismmissLoading()
                 if (response.body()?.apiCode == "200") {
 
-                    if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
-                        actvity.moveToData()
-                    }
-                    /*if(response.body()?.discrepancy!!.equals("y",ignoreCase = true))
-                        {
-                            if(ArthanApp.getAppInstance().loginRole=="BM"||ArthanApp.getAppInstance().loginRole=="BCM")
-                            {
-                             startActivity(Intent(actvity,PendingCustomersActivity::class.java))
-                            }else
-                            {
+                    withContext(Dispatchers.Main) {
+                        //                    if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
+                        if (ArthanApp.getAppInstance().loginRole == "BCM") {
+                            actvity.moveToData()
+                        }
+                        if (response.body()?.discrepancy!!.equals("n", ignoreCase = true)) {
+                            if (ArthanApp.getAppInstance().loginRole == "BM") {
+                                actvity.moveToData()
 
+                            } else {
+                                startActivity(Intent(actvity, PendingCustomersActivity::class.java))
                             }
-                        }else {
-                        actvity.moveToData()
+                        } else {
+                            startActivity(Intent(actvity, PendingCustomersActivity::class.java))
+                        }
+
                     }
-*/
+                }else {
+                    withContext(Dispatchers.Main) {
 
-                } else {
-
-                    Toast.makeText(actvity,"Failed,try again later",Toast.LENGTH_LONG).show()
+                        Toast.makeText(actvity, "Failed,try again later", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

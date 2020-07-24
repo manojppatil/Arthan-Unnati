@@ -21,6 +21,7 @@ import androidx.core.view.size
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.arthan.R
+import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
@@ -543,17 +544,34 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                             /*  AppPreferences.getInstance()
                                   .addString(AppPreferences.Key.BusinessId, result.businessId)*/
                             progressBar.dismmissLoading()
-                            if (respo.body()!!.discrepancy?.toLowerCase() == "no removing descripency as per the new requirement") {
+                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
                                 if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
-                                    startActivity(
-                                        Intent(
-                                            activity,
-                                            PendingCustomersActivity::class.java
-                                        )
-                                    )
 
-                                    activity?.finish()
+                                    if (activity is LeadInfoCaptureActivity) {
+                                        (activity as LeadInfoCaptureActivity).enableDoc()
+                                        (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
+                                    }
+                                    var b = Bundle()
+                                    b.putString("loanType", result.loanType)
+                                    activity?.intent?.putExtra("loanType", result.loanType)
+                                    navController?.navigate(R.id.action_income_to_doc, b)
 
+                                    if(activity is BMDocumentVerificationActivity) {
+
+                                        (activity as BMDocumentVerificationActivity).moveVPinDataFragment(3)
+                                    }else
+                                    {
+
+                                    }
+                                    /* startActivity(
+                                         Intent(
+                                             activity,
+                                             PendingCustomersActivity::class.java
+                                         )
+                                     )
+
+                                     activity?.finish()
+ */
                                 } else {
                                     startActivity(Intent(activity, RMDashboardActivity::class.java))
                                     activity?.finish()

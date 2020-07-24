@@ -10,7 +10,7 @@
         layout="@layout/layout_bm_toolbar" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tb_profile"
+        android:id="@+id/tb_profiler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -28,7 +28,7 @@
         app:tabTextColor="#696969" />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp_profile"
+        android:id="@+id/vp_profiler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.adapter.BMDocumentVerificationAdapter
@@ -16,15 +17,16 @@ import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.model.responsedata.CustomerDocumentAndDataResponseData
 import com.example.arthan.model.Customer
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
+import com.example.arthan.views.activities.SplashActivity
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_bm_document_verification.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
-import com.example.arthan.utils.ArgumentKey
-import com.example.arthan.views.activities.SplashActivity
+
 
 class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
 
@@ -47,13 +49,28 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
 
-        vp_profile.adapter =
+        vp_profiler.adapter =
             BMDocumentVerificationAdapter(
                 supportFragmentManager,
                 intent?.getStringExtra("FROM")!!
             )
-        tb_profile.setupWithViewPager(vp_profile)
-        vp_profile?.offscreenPageLimit = 3
+        tb_profiler.setupWithViewPager(vp_profiler)
+        vp_profiler?.offscreenPageLimit = 3
+      /*  vp_profiler.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                tb_profiler.getTabAt(position)?.select()
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {}
+        })*/
+
 
         if (intent.getStringExtra("recordType") == "AM") {
 
@@ -89,16 +106,16 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
-                        ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateData(
+                        ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateData(
                             result?.docDetails,this@BMDocumentVerificationActivity
                         )
-                        ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateData(
+                        ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateData(
                             loanId,
                             result,
                             customerId
                         )
-                        if(vp_profile.adapter?.count!!>2) {
-                            ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
+                        if(vp_profiler.adapter?.count!!>2) {
+                            ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
                                 loanId,
                                 customerId
                             )
@@ -123,6 +140,11 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
             }
         }
     }
+    fun moveVPinDataFragment(position:Int)
+    {
+        var frag=(vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment
+        frag?.moveToPosition(position)
+    }
     private fun loadInitialDataForAM(loanId: String?, customerId: String?) {
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
@@ -133,16 +155,16 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
-                        ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateDataAM(
+                        ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateDataAM(
                             result?.docDetails,this@BMDocumentVerificationActivity
                         )
-                        ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateDataAM(
+                        ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateDataAM(
                             loanId,
                             result,
                             customerId
                         )
-                        if(vp_profile.adapter?.count!!>2) {
-                            ((vp_profile.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
+                        if(vp_profiler.adapter?.count!!>2) {
+                            ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
                                 loanId,
                                 customerId
                             )
@@ -172,7 +194,9 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
 
     fun moveToData()
     {
-        vp_profile.currentItem = 1
+        vp_profiler.setCurrentItem(1,true)
+//        tb_profiler.getTabAt(1)?.select()
+
     }
     companion object {
         fun startMe(

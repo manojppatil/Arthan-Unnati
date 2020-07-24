@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
@@ -212,17 +213,40 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                                 .addString(AppPreferences.Key.BusinessId, result.businessId)*/
                             progressBar.dismmissLoading()
 
-                            if (respo.body()!!.discrepancy?.toLowerCase() == "removed condition to bypass descripency") {
+                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
 
                                 if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
-                                    startActivity(
+                                    progressBar.dismmissLoading()
+
+                                    val navController: NavController? =
+                                        if (activity is LeadInfoCaptureActivity) Navigation.findNavController(
+                                            activity!!,
+                                            R.id.frag_container
+                                        ) else null
+                                    navController?.navigate(R.id.action_business_to_income)
+
+                                    if (activity is LeadInfoCaptureActivity) {
+                                        (activity as LeadInfoCaptureActivity).enableInCome()
+                                        (activity as LeadInfoCaptureActivity).infoCompleteState(
+                                            BUSINESS
+                                        )
+                                    } else{
+                                    if(activity is BMDocumentVerificationActivity) {
+
+                                        (activity as BMDocumentVerificationActivity).moveVPinDataFragment(2)
+                                    }else
+                                    {
+
+                                    }
+                                    }
+                                  /*  startActivity(
                                         Intent(
                                             activity,
                                             PendingCustomersActivity::class.java
                                         )
                                     )
                                     activity?.finish()
-
+*/
                                 } else {
                                     startActivity(Intent(activity, RMDashboardActivity::class.java))
                                     activity?.finish()
