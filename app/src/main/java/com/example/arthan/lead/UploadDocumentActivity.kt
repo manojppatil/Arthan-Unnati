@@ -900,6 +900,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     else -> {
                         null
                     }
+
                 }
                 if (response != null && response.isSuccessful) {
                     mCardData = response.body()
