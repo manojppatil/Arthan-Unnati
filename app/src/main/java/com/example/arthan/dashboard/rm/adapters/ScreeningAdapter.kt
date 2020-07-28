@@ -71,6 +71,14 @@ class ScreeningAdapter(private val context: Context,private var data: List<Scree
             itemView.findViewById<TextView>(R.id.txt_loan_id).text= "Loan ID: ${data[position].loanId}"
             itemView.findViewById<TextView>(R.id.txt_mobile).text= "Mobile NO: ${data[position].mobileNo}"
             itemView.findViewById<TextView>(R.id.txt_branch).text= "Branch: ${data[position].branch}"
+            if(data[position].recordType=="AM")
+            {
+                itemView.findViewById<TextView>(R.id.am_txt).visibility=View.VISIBLE
+            }else
+            {
+                itemView.findViewById<TextView>(R.id.am_txt).visibility=View.GONE
+
+            }
             itemView.setOnClickListener {
 
                 completeScreeningList(itemView.findViewById<TextView>(R.id.txt_loan_id).text.toString().replace("Loan ID: ",""),data[position].id)

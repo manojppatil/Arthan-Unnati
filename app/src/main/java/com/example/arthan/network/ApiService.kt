@@ -420,6 +420,9 @@ interface ApiService {
     @GET("rest/GetMstr/amStates")
     suspend fun getamStates(): Response<DetailsResponseData>?
 
+     @GET("bmAMReason")
+    suspend fun bmAMReason(): Response<DetailsResponseData>?
+
 
     /* @POST("getScreenDetails")
      Request:

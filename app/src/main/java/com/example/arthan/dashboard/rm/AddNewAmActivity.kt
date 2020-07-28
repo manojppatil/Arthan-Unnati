@@ -1,5 +1,6 @@
 package com.example.arthan.dashboard.rm
 
+import android.content.Intent
 import android.widget.TextView
 import android.widget.Toast
 import com.example.arthan.R
@@ -46,9 +47,25 @@ class AddNewAmActivity : BaseActivity() {
                     {
                         withContext(Dispatchers.Main)
                         {
+
                             progress.dismmissLoading()
-                            Toast.makeText(this@AddNewAmActivity,"New AM Added.",Toast.LENGTH_LONG).show()
-                            finish()
+                            if(res.body()!!.apiDesc=="Already Present")
+                            {
+                                Toast.makeText(
+                                    this@AddNewAmActivity,
+                                    res.body()!!.apiDesc,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                finish()
+                                startActivity(Intent(this@AddNewAmActivity,RMDashboardActivity::class.java))
+                            }else {
+                                Toast.makeText(
+                                    this@AddNewAmActivity,
+                                    "New AM Added.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                finish()
+                            }
 
                         }
                     }else

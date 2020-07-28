@@ -21,6 +21,8 @@ import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.global.STATUS
 import com.example.arthan.lead.UploadDocumentActivity
+import com.example.arthan.lead.adapter.DataSpinnerAdapter
+import com.example.arthan.lead.model.Data
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.network.S3UploadFile
 import com.example.arthan.network.S3Utility
@@ -79,6 +81,21 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         }else{
             tv_agreement.visibility = View.GONE
             tv_coc.visibility = View.GONE
+        }
+
+        if(ArthanApp.getAppInstance().loginRole=="BM"&&intent.getStringExtra("recordType")=="AM"&&intent.getStringExtra(STATUS).contains("Reject", ignoreCase = true))
+        {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val res=RetrofitFactory.getApiService().bmAMReason()
+
+                if(res?.body()!=null)
+                {
+                    withContext(Dispatchers.Main) {
+                        rejectReason.adapter = getAdapter(res.body()?.data)
+                    }
+                }
+            }
         }
         if (ArthanApp.getAppInstance().loginRole == "BCM") {
             sanctions.visibility = View.VISIBLE
@@ -144,6 +161,10 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+    private fun getAdapter(list: List<Data>?): DataSpinnerAdapter =
+        DataSpinnerAdapter(this, list?.toMutableList() ?: mutableListOf()).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
 
     fun removeSanctionField(position: Int) {
 
@@ -194,7 +215,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                 var decision = ""
                 if (intent.getStringExtra(STATUS).contains("reject", ignoreCase = true)) {
                     rejectReason.visibility = View.VISIBLE
-                    decision = rejectReason.selectedItem.toString()
+                    decision = (rejectReason.selectedItem as Data).value
                 } else if (intent.getStringExtra(STATUS).contains("Approve", ignoreCase = true)) {
                     rejectReason.visibility = View.GONE
                     decision = "Approve"

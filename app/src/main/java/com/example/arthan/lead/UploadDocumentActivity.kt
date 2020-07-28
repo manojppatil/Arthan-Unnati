@@ -646,7 +646,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun navigateToCamera(reqCode: Int) {
-        if (reqCode.equals(RequestCode.ApplicantPhoto)) {
+        if (reqCode.equals(RequestCode.ApplicantPhoto)&&ArthanApp.getAppInstance().loginRole=="AM") {
             startActivityForResult(Intent(this, FrontCameraActivity::class.java).apply {
                 putExtra(DOC_TYPE, reqCode)
                 val dir = File(

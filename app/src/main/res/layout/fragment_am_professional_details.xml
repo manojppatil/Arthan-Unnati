@@ -189,6 +189,7 @@
                     android:paddingTop="12dp"
                     android:paddingEnd="32dp"
                     android:paddingBottom="12dp"
+                    android:visibility="gone"
                     android:text="@string/upload_cheque"
                     android:textColor="#ffffff"
                     app:layout_constraintBottom_toBottomOf="parent"

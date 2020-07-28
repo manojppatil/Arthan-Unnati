@@ -161,7 +161,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     mKYCPostData?.aadharId =
                         aadharCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
                     mKYCPostData?.aadharFrontUrl = aadharCardData?.cardFrontUrl.toString()
-                    mKYCPostData?.aadharBackUrl = aadharCardData?.cardBackUrl.toString()
+                    mKYCPostData?.aadharBackUrl = aadharCardDataBack?.cardBackUrl.toString()
                     mKYCPostData?.aadharVerified = aadharCardData?.status.toString()
                     var aadharCardBack: CardInfo? = null
                     for (index in 0 until (aadharCardData?.results?.size ?: 0)) {

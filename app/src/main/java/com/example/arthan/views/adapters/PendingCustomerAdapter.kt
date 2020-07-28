@@ -134,7 +134,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                                         putExtra("custId", customer.customerId)
                                         putExtra("FROM", "BM")
                                         putExtra("recordType", customer.recordType)//put customer.am
-                                        putExtra("amId", customer.leadId)
+                                        putExtra("amId", customer.amId)
 
                                     })
                             }

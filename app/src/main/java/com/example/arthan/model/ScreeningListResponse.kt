@@ -9,5 +9,6 @@ val name: String,
 val id: String,
 val loanId: String,
 val loanAmt: String,
+val recordType: String,
 val branch: String,
 val mobileNo: String)
