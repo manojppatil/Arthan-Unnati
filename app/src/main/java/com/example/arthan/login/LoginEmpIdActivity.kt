@@ -92,13 +92,31 @@ class LoginEmpIdActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     ArthanApp.getAppInstance().loginUser=response.body()!!.amId
                     ArthanApp.getAppInstance().onboarded=response.body()!!.onboarded
-                    Toast.makeText(this@LoginEmpIdActivity,"OTP sent to registered mobile number",
-                        Toast.LENGTH_LONG).show()
-                    startActivity(Intent(this@LoginEmpIdActivity, LoginOTPActivity::class.java).apply {
-                        putExtra("role","NonEmp")
-                        putExtra("mobNo",et_role.text.toString())
-                        putExtra("empId",et_role.text.toString())
-                    })
+                    ArthanApp.getAppInstance().validAm = response.body()!!.validAM
+                    if (ArthanApp.getAppInstance().validAm == "No"){
+                        Toast.makeText(
+                            this@LoginEmpIdActivity, "Not yet Enrolled, try again later",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                    }else {
+                        Toast.makeText(
+                            this@LoginEmpIdActivity, "OTP sent to registered mobile number",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        startActivity(
+                            Intent(
+                                this@LoginEmpIdActivity,
+                                LoginOTPActivity::class.java
+                            ).apply {
+                                putExtra("role", "NonEmp")
+                                putExtra("mobNo", et_role.text.toString())
+                                putExtra("empId", et_role.text.toString())
+
+                            })
+                    }
+
 
                 }
             }

@@ -71,6 +71,9 @@ class SplashActivity : AppCompatActivity() {
                 if (res.body() != null) {
                     var response = RetrofitFactory.getApiService().getUserRole(map)
                     if (response.body() != null) {
+
+
+
                         var prefs = getSharedPreferences("user", Context.MODE_PRIVATE)
                         var editor = prefs.edit()
                         if (prefs.getString("empId", "") == "") {
@@ -80,8 +83,41 @@ class SplashActivity : AppCompatActivity() {
                         progressBar.dismmissLoading()
 //                    ArthanApp.getAppInstance().loginUser =  intent.getStringExtra("empId")
                         ArthanApp.getAppInstance().loginRole = response.body()!!.role
-
+                        ArthanApp.getAppInstance().onboarded = res.body()!!.onboarded
                         var user = response.body()!!.role
+
+                    if (user == "AM"){
+                        if (ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
+
+                            AppPreferences.getInstance()
+                                .remove(AppPreferences.Key.LoginType)
+                            AppPreferences.getInstance()
+                                .addString(AppPreferences.Key.LoginType, "RM1")
+                            startActivity(
+                                Intent(
+                                    this@SplashActivity,
+                                    RMDashboardActivity::class.java
+                                )
+                            )
+                            finish()
+                        } else {
+                            AppPreferences.getInstance()
+                                .remove(AppPreferences.Key.LoginType)
+                            AppPreferences.getInstance()
+                                .addString(AppPreferences.Key.LoginType, "AM")
+                            startActivity(
+                                Intent(
+                                    this@SplashActivity,
+                                    AMOnboardingAtivity::class.java
+                                )
+                            )
+                            finish()
+                        }
+                    }
+
+
+
+
                         withContext(Dispatchers.Main) {
                             if (!et_role.otp.isNullOrBlank()) {
 

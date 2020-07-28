@@ -106,17 +106,20 @@ class AMOtherDetailsFragment : BaseFragment(), CoroutineScope {
 //        profession.add((spnr_am_occupation_name?.selectedItem as? Data)?.value ?: "")
         val progressBar: ProgrssLoader? = if (context != null) ProgrssLoader(context!!) else null
         progressBar?.showLoading()
+        val smartphone = when (rgrp_ownphone?.checkedRadioButtonId) {
+            R.id.rb_yes -> rb_yes?.text?.toString() ?: "Yes"
+            R.id.rb_no -> rb_no?.text?.toString() ?: "no"
+            else -> ""
+        }
+        val twoWheeler = when (rgrp_twowheeler?.checkedRadioButtonId) {
+            R.id.rb_tw_yes -> rb_yes?.text?.toString() ?: "Yes"
+            R.id.rb_tw_no -> rb_no?.text?.toString() ?: "no"
+            else -> ""
+        }
+        Log.d("creat",""+smartphone+""+twoWheeler);
         val postBody = AMOtherdetailsPostData(
-            smartphone = when (rgrp_ownphone?.checkedRadioButtonId) {
-                R.id.rb_yes -> rb_yes?.text?.toString() ?: "Yes"
-                R.id.rb_no -> rb_no?.text?.toString() ?: "no"
-                else -> ""
-            },
-            twoWheeler = when (rgrp_twowheeler?.checkedRadioButtonId) {
-                R.id.rb_yes -> rb_yes?.text?.toString() ?: "Yes"
-                R.id.rb_no -> rb_no?.text?.toString() ?: "no"
-                else -> ""
-            },
+            smartphone = smartphone,
+            twoWheeler =twoWheeler,
             languages = am_otherlanguages,
             references = am_otherreferences,
             amId = ArthanApp.getAppInstance().loginUser

@@ -149,20 +149,23 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     }
                     val aadharCardData =
                         it.getParcelableExtra(ArgumentKey.AadharDetails) as CardResponse
+                    val aadharCardDataBack =
+                        it.getParcelableExtra(ArgumentKey.AadharDetailsBack) as CardResponse
+
                     mKYCPostData?.aadharAddress =
-                        aadharCardData?.results?.get(0)?.cardInfo?.address
+                        aadharCardDataBack?.results?.get(0)?.cardInfo?.address
                     mKYCPostData?.aadharId = aadharCardData?.results?.get(0)?.cardInfo?.cardNo
                     mKYCPostData?.aadharFrontUrl = aadharCardData?.cardFrontUrl
                     mKYCPostData?.aadharBackUrl = aadharCardData?.cardBackUrl
                     mKYCPostData?.aadharVerified = aadharCardData?.status
                     var aadharCardBack: CardInfo? = null
                     for (index in 0 until (aadharCardData?.results?.size ?: 0)) {
-                        if (aadharCardData?.results?.get(index)?.cardSide?.equals(
+                        if (aadharCardDataBack?.results?.get(index)?.cardSide?.equals(
                                 "back",
                                 ignoreCase = true
                             ) == true
                         ) {
-                            aadharCardBack = aadharCardData?.results?.get(index)?.cardInfo
+                            aadharCardBack = aadharCardDataBack?.results?.get(index)?.cardInfo
                         }
                     }
                     AppPreferences.getInstance().also { ap ->

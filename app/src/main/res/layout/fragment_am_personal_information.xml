@@ -491,7 +491,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
                     android:hint="@string/district"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLines="1"
                     android:nextFocusDown="@id/spnr_am_state"
@@ -756,7 +756,7 @@
                         android:hint="@string/district"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:nextFocusDown="@id/spnr_am_state1"
                         android:textColor="#000000"
                         android:textSize="14sp" />

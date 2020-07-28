@@ -69,7 +69,17 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             R.string.state_the_reasons_for_the_approval_of_this_application,
             intent.getStringExtra(STATUS)
         ))
+        tv_agreement.setOnClickListener(this)
+        tv_coc.setOnClickListener(this)
+        if (intent.getStringExtra(STATUS).contains("Recommend to BCM", ignoreCase = true)&&ArthanApp.getAppInstance().loginRole=="BM"&&
+                intent.getStringExtra("recordType")=="AM") {
 
+            tv_agreement.visibility = View.VISIBLE
+            tv_coc.visibility = View.VISIBLE
+        }else{
+            tv_agreement.visibility = View.GONE
+            tv_coc.visibility = View.GONE
+        }
         if (ArthanApp.getAppInstance().loginRole == "BCM") {
             sanctions.visibility = View.VISIBLE
         }
@@ -109,16 +119,15 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         // mDocAdapter = DocumentAdapter(this, docList,docUrlList)
         //   rv_docs.adapter=mDocAdapter
 
-        if (intent.getStringExtra("recordType") == "AM") {
+       /* if (intent.getStringExtra("recordType") == "AM") {
             tv_agreement.visibility = View.VISIBLE
             tv_coc.visibility = View.VISIBLE
 
-            tv_agreement.setOnClickListener(this)
-            tv_coc.setOnClickListener(this)
+
         } else {
             tv_agreement.visibility = View.GONE
             tv_coc.visibility = View.GONE
-        }
+        }*/
     }
 
     private fun saveSanction() {

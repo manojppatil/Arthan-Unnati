@@ -7,6 +7,8 @@ data class AmListResponse(
 data class AmListModel(
     val name:String,
     val submittedDate:String,
-    val status:String
+    val status:String,
+val amMobNo: String,
+    val amId: String
 ) {
 }

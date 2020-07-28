@@ -97,16 +97,22 @@ class AMProfessionalDetailsFragment : BaseFragment(), CoroutineScope {
         profession.add((spnr_am_occupation_name?.selectedItem as? Data)?.value ?: "")
         val progressBar: ProgrssLoader? = if (context != null) ProgrssLoader(context!!) else null
         progressBar?.showLoading()
+        Log.d("educatiolevel",""+(spnr_am_eduction?.selectedItem as? Data)?.value);
+        val educatiolevel = (spnr_am_eduction?.selectedItem as? Data)?.value ?: ""
+        Log.d("educatiolevel",""+educatiolevel);
         val postBody = ProfessionPostData(
-            educatiolevel = (spnr_am_eduction?.selectedItem as? Data)?.value ?: "",
+            educationlevel =educatiolevel,
 //            profession = profession.[(spnr_am_occupation_name?.selectedItem as? Data)?.value ?: ""],
             profession = profession,
             acNumber1 = et_am_account_number?.text.toString() ?: "",
             acNumber2 = et_am_conf_account_number?.text.toString() ?: "",
-            upiId = et_am_account_number?.text.toString() ?: "",
+            upiId = et_am_UPIid?.text.toString() ?: "",
             grossannualIncome = et_am_gross_annualincome?.text.toString() ?: "",
             checqueUrl = crossedCheque,
-            amId = ArthanApp.getAppInstance().loginUser
+            amId = ArthanApp.getAppInstance().loginUser,
+            bankName = et_am_bank_name?.text.toString() ?: "",
+            ifscCode = et_am_ifsc_code?.text.toString() ?:""
+
         )
         CoroutineScope(ioContext).launch {
             try {

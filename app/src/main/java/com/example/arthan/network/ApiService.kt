@@ -164,6 +164,8 @@ interface ApiService {
     @GET("getBMAmDocnData")
     suspend fun getBMAmDocnData(@Query("amId") amId: String?): Response<BMAmDocnDataResponse>?
 
+    @GET("sendAMNotification")
+    suspend fun reSendAMLink(@Query("amId") amId: String?): Response<BaseResponseData>?
     @POST("saveGST")
     suspend fun saveGST(@Body body: GSTPostData?): Response<BaseResponseData>?
 

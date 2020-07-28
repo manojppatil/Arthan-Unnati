@@ -55,6 +55,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         get() = Dispatchers.Main
 
     private var mCardData: CardResponse? = null
+    private var mCardDataBack: CardResponse? = null
     private var mFrontImagePath: String? = null
     private var mBackImagePath: String? = null
 
@@ -523,6 +524,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             }
             RequestCode.AadharCard -> {
                 resultIntent.putExtra(ArgumentKey.AadharDetails, mCardData)
+                resultIntent.putExtra(ArgumentKey.AadharDetailsBack, mCardDataBack)
             }
             RequestCode.VoterCard -> {
                 resultIntent.putExtra(ArgumentKey.VoterDetails, mCardData)
@@ -900,10 +902,15 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     else -> {
                         null
                     }
-
                 }
                 if (response != null && response.isSuccessful) {
-                    mCardData = response.body()
+                    if(cardType==CardType.AadharCardBack)
+                    {
+                        mCardDataBack = response.body()
+
+                    }else {
+                        mCardData = response.body()
+                    }
                     withContext(Dispatchers.Main) {
                         if (mCardData != null) {
                             if (cardType == CardType.PANCard) {
@@ -962,8 +969,10 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             put("pan", mCardData?.results?.get(0)?.cardInfo?.cardNo)
                         })
                     }
-                    CardType.AadharCardFront, CardType.AadharCardBack -> {
+                    CardType.AadharCardFront-> {
                         apiService.verifyAAdharCardInfo(mCardData?.results?.get(0)?.cardInfo?.cardNo)
+                    }CardType.AadharCardBack -> {
+                        apiService.verifyAAdharCardInfo(mCardDataBack?.results?.get(0)?.cardInfo?.cardNo)
                     }
                     CardType.VoterIdCard -> {
                         apiService.verifyVoterIdCardInfo(mCardData?.results?.get(0)?.cardInfo?.cardNo)
@@ -1198,7 +1207,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     if (cardType != CardType.AadharCardBack) {
                         mCardData?.cardFrontUrl = fileList[0].url
                     } else {
-                        mCardData?.cardBackUrl = fileList[0].url
+                        mCardDataBack?.cardBackUrl = fileList[0].url
                     }
 
                     Log.e("URL", ":::: ${fileList[0].url}")

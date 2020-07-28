@@ -109,7 +109,7 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         city_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
         district_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
 //        state_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.State))
-
+        et_am_contactno.setText(AppPreferences.getInstance().getString("amMobNo"))
         btn_am_next.setOnClickListener {
 
             if (activity is AMPersonalDetailsActivity) {

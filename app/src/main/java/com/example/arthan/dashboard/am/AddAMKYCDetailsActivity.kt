@@ -146,6 +146,10 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     }
                     val aadharCardData =
                         it.getParcelableExtra(ArgumentKey.AadharDetails) as CardResponse
+
+                    val aadharCardDataBack =
+                        it.getParcelableExtra(ArgumentKey.AadharDetailsBack) as CardResponse
+
                     AppPreferences.getInstance().also { ap ->
                         ap.addString(
                             AppPreferences.Key.AadharId,
@@ -153,7 +157,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                         )
                     }
                     mKYCPostData?.aadharAddress =
-                        aadharCardData?.results?.get(0)?.cardInfo?.address.toString()
+                        aadharCardDataBack?.results?.get(0)?.cardInfo?.address.toString()
                     mKYCPostData?.aadharId =
                         aadharCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
                     mKYCPostData?.aadharFrontUrl = aadharCardData?.cardFrontUrl.toString()
@@ -161,12 +165,12 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     mKYCPostData?.aadharVerified = aadharCardData?.status.toString()
                     var aadharCardBack: CardInfo? = null
                     for (index in 0 until (aadharCardData?.results?.size ?: 0)) {
-                        if (aadharCardData?.results?.get(index)?.cardSide?.equals(
+                        if (aadharCardDataBack?.results?.get(index)?.cardSide?.equals(
                                 "back",
                                 ignoreCase = true
                             ) == true
                         ) {
-                            aadharCardBack = aadharCardData?.results?.get(index)?.cardInfo
+                            aadharCardBack = aadharCardDataBack?.results?.get(index)?.cardInfo
                         }
                     }
                     Log.i("AADhar front", "Aadhar"+aadharCardData)
@@ -266,6 +270,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     val result = response.body()
                     withContext(Dispatchers.Main) {
                         if (result?.apiCode == "200") {
+                            progressBar?.dismmissLoading()
                             startActivity(
                                 Intent(
                                     this@AddAMKYCDetailsActivity,
@@ -273,6 +278,8 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                                 ).also {
                                     custId = result.customerId
 //                                    loanId = result.loanId
+                                    it.putExtra("amMobNo",result.amMobNo);
+                                    AppPreferences.getInstance().addString("amMobNo",result.amMobNo);
                                     it.putExtra("PAN_DATA", mKYCPostData)
                                     it.putExtra("AADHAR_NO", mKYCPostData?.aadharId)
                                 }

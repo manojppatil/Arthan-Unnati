@@ -10,7 +10,7 @@ class ArthanApp : MultiDexApplication() {
     var empId:String=""
     var appVersion="Version:1.1"
     var onboarded=""
-
+    var validAm = ""
     override fun onCreate() {
         super.onCreate()
         instance = this

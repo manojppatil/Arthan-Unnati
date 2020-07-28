@@ -420,7 +420,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
 
                 alert.show()
-            } else if(ArthanApp.getAppInstance().loginRole=="RM"){
+            } else if(ArthanApp.getAppInstance().loginRole=="RM"||ArthanApp.getAppInstance().loginRole=="AM"){
 //                if (navController != null) {
                     val progressLoader: ProgrssLoader? =
                         if (context != null) ProgrssLoader(context!!) else null

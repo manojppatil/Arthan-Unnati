@@ -5,6 +5,7 @@ import android.text.BoringLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -28,19 +29,23 @@ class RMDashboardActivity : BaseActivity() {
 
     override fun contentView() = R.layout.activity_rm_dashboard
 
+   public lateinit var btn_add_lead: Button
+
     override fun onToolbarBackPressed() {
         drawer_layout.openDrawer(GravityCompat.START)
        // startActivity(Intent(this, MyProfileActivity::class.java))
     }
 
     override fun init() {
-
+        btn_add_lead = findViewById(R.id.btn_add_lead) as Button
         btn_add_lead.setOnClickListener {
             startActivity(Intent(this@RMDashboardActivity, AddLeadStep1Activity::class.java))
         }
-        if(ArthanApp.getAppInstance().loginRole=="RM"){
-        btn_add_am.visibility=View.VISIBLE
-            }
+        if (ArthanApp.getAppInstance().loginRole == "RM") {
+            btn_add_am.visibility = View.VISIBLE
+        } else {
+            btn_add_am.visibility = View.GONE
+        }
         btn_add_am.setOnClickListener {
             startActivity(Intent(this,AddNewAmActivity::class.java))
         }

@@ -64,11 +64,10 @@
         <activity android:name=".lead.ObligationsInputDetailsActivity" />
         <activity android:name=".lead.BillsInputDetailsActivity" />
         <activity android:name=".lead.GSTInputDetailsActivity" />
-        <activity android:name=".lead.AddNewLeadActivity" />
         <activity android:name=".lead.AddLeadActivity" />
         <activity android:name=".profile.MyProfileActivity" />
         <activity android:name=".dashboard.rm.RMReassignPendingScreenlist" />
-
+        <activity android:name=".dashboard.rm.MyAmListFragment"/>
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="ocr" /> <!-- File access -->

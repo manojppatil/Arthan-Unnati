@@ -2,6 +2,7 @@ package com.example.arthan.dashboard.rm
 
 import android.content.Intent
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +13,7 @@ import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.RMDashboardData
 import com.example.arthan.profile.MyProfileActivity
 import com.example.arthan.views.fragments.BaseFragment
+import kotlinx.android.synthetic.main.activity_rm_dashboard.*
 import kotlinx.android.synthetic.main.fragment_rm_dashboard.*
 import java.lang.Exception
 
@@ -33,7 +35,9 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
         cv_reassign.setOnClickListener(this)
         cv_to_be_disbursed.setOnClickListener(this)
         cv_inprogress.setOnClickListener(this)
-
+        status_am.setOnClickListener(this)
+        am_list.setOnClickListener(this)
+        Am_status.setOnClickListener(this)
         loadRmData()
     }
 
@@ -80,19 +84,45 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 if(ArthanApp.getAppInstance().loginRole=="AM")
                 {
                     AMDetailsLL.visibility=View.VISIBLE
-                   /* if (data.amApproved!=null&&data.amApproved.toLowerCase() == "no"){
-                        (activity as RMDashboardActivity).hideAddAM(true)
-                    }else
-                    {
-                        (activity as RMDashboardActivity).hideAddAM(false)
-                    }*/
+                    /* if (data.amApproved!=null&&data.amApproved.toLowerCase() == "no"){
+                         (activity as RMDashboardActivity).hideAddAM(true)
+                     }else
+                     {
+                         (activity as RMDashboardActivity).hideAddAM(false)
+                     }*/
                     txt_bm_name.text="Hello "+data.amName
                     branchName.text="Branch Name: "+data.amBranch
                     myRm.text="My RM: "+data.amRm
                     contact.text="Contact:  "+data.amRmContact
+                    status.text = "Status: "+data.amRmStatus
+
+                    if (data.amRmStatus == "Active")
+                        (activity as RMDashboardActivity).btn_add_lead.visibility = View.VISIBLE
+                    else
+                        (activity as RMDashboardActivity).btn_add_lead.visibility = View.INVISIBLE
+
+                    try {
+                        context?.let {
+                            if (data.amRmImage.isNotEmpty()) {
+                                Glide.with(it).load(data.amRmImage).into(img_profile)
+                            }
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
+
+
                 }else
                 {
                     AMDetailsLL.visibility=View.GONE
+                }
+
+                if (ArthanApp.getAppInstance().loginRole=="RM"){
+                    am_list.visibility=View.VISIBLE
+
+                }else{
+                    am_list.visibility=View.GONE
                 }
             }
         })
@@ -113,11 +143,21 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(view: View?) {
         when (view?.id) {
-
+            R.id.am_list -> startActivity(
+                Intent(activity, MyAmListFragment::class.java).apply {
+                    putExtra("FROM", "RM")
+                }
+            )
+            R.id.Am_status -> startActivity(
+                Intent(activity, MyAmListFragment::class.java).apply {
+                    putExtra("FROM", "RM")
+                }
+            )
             R.id.cv_leads -> startActivity(
                 Intent(activity, RMLeadListingActivity::class.java).apply {
                     putExtra("FROM", "RM")
                 })
+
             R.id.cv_screening -> startActivity(Intent(activity, RMScreeningListingActivity::class.java).apply {
                 putExtra("screeningCount",response.screening.count)
             })

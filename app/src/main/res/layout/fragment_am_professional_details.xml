@@ -163,7 +163,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="#000000"
-                    android:digits="abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:fontFamily="@font/lato_black"
                     android:hint="UPI ID"
                     android:singleLine="true"

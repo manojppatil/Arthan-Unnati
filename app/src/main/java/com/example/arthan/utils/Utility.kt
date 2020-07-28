@@ -169,6 +169,7 @@ object ArgumentKey {
     const val InPrincipleAmount = "in_principle_amount"
     const val PanDetails = "pan_details"
     const val AadharDetails = "aadhar_details"
+    const val AadharDetailsBack = "aadhar_details Back"
     const val VoterDetails = "voter_details"
     const val ApplicantPhoto = "applicant_photo"
     const val CrossedCheque = "crossed_cheque"

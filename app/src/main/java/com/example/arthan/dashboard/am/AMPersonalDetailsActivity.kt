@@ -18,6 +18,7 @@ class AMPersonalDetailsActivity : BaseActivity() {
     var mKYCPostData: KYCPostData? = null
     var navController: NavController? = null
     var aadharNo: String = ""
+    var amMobNo: String = ""
     override fun contentView() = R.layout.activity_am_personal_information
 
     override fun init() {
@@ -27,6 +28,7 @@ class AMPersonalDetailsActivity : BaseActivity() {
         if (intent.hasExtra("PAN_DATA")) {
             mKYCPostData = intent.getParcelableExtra("PAN_DATA") as? KYCPostData
             aadharNo = intent.getStringExtra("AADHAR_NO")
+            amMobNo = intent.getStringExtra("amMobNo")
             Log.i("KYC Data", mKYCPostData?.panFirstname)
         }
 //        val bundle  = Bundle()

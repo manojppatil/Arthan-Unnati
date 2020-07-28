@@ -17,5 +17,7 @@ data class BaseResponseData(
     val loanId: String?,
     val leadId: String?,
     val canNavigate: String?="",
-    val verifyStatus:String?=""
+    val verifyStatus:String?="",
+    val amMobNo: String? = "",
+    val onboarded: String = ""
 )
