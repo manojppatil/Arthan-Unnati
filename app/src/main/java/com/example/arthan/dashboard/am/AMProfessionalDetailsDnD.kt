@@ -20,7 +20,7 @@ class AMProfessionalDetailsDnD : BaseFragment() {
 
 
         spnr_am_eduction.setText(professionalDetails?.educationlevel)
-        spnr_am_occupation_name.setText(professionalDetails?.profession)
+        spnr_am_occupation_name.setText(professionalDetails?.prof)
         et_am_gross_annualincome.setText(professionalDetails?.grossannualIncome)
         et_am_bank_name.setText(professionalDetails?.bankName)
         et_am_account_number.setText(professionalDetails?.acNumber1)

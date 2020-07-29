@@ -38,6 +38,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
         status_am.setOnClickListener(this)
         am_list.setOnClickListener(this)
         Am_status.setOnClickListener(this)
+        cv_am_cases.setOnClickListener(this)
         loadRmData()
     }
 
@@ -80,6 +81,9 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 //txt_reassign.text= "${data.reassign.label}"
                 txt_rmprogress_amt.text = "${data.inProgress.total}"
 
+                /*txt_amcases_count.text = "${data.amCases.count}"
+                //txt_reassign.text= "${data.reassign.label}"
+                txt_amcases_amt.text = "${data.amCases.total}"*/
 
                 if(ArthanApp.getAppInstance().loginRole=="AM")
                 {
@@ -176,6 +180,13 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                     putExtra("FROM", "RM")
                 })
             R.id.cv_reassign -> startActivity(
+                Intent(
+                    activity,
+                    RMReAssignListingActivity::class.java
+                ).apply {
+                    putExtra("FROM", "REASSIGN")
+                })
+            R.id.cv_am_cases -> startActivity(
                 Intent(
                     activity,
                     RMReAssignListingActivity::class.java

@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
-                    android:clickable="false"
+
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/lato_black"
                     android:text="@string/write" />
@@ -83,7 +83,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
-                    android:clickable="false"
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/lato_black"
                     android:text="@string/speak" />

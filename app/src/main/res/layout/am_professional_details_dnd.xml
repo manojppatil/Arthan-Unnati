@@ -207,6 +207,7 @@
                 android:background="@drawable/ic_next_enabled"
                 android:fontFamily="@font/lato_black"
                 android:minWidth="0dp"
+                android:visibility="gone"
                 android:minHeight="0dp"
                 android:paddingStart="32dp"
                 android:paddingTop="12dp"

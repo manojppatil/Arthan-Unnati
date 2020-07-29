@@ -157,7 +157,7 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                }*/
             R.id.btn_submit -> {
 
-                if(idProofUrl==""||addrProofUrl==""||businessCont==""||offcAddrProof==""||incomeProof==""||propertyDoc=="")
+                if(idProofUrl==""||businessCont==""||offcAddrProof==""||incomeProof==""||propertyDoc=="")
                 {
                     Toast.makeText(activity,"Please upload all the required documents",Toast.LENGTH_LONG).show()
                     return

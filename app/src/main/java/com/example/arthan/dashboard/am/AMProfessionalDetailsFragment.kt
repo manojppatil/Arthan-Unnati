@@ -74,7 +74,10 @@ class AMProfessionalDetailsFragment : BaseFragment(), CoroutineScope {
             )
         }
 
-        btn_am_pro_next.setOnClickListener {
+        btn_am_pro_next.setOnClickListener{
+        if (et_am_gross_annualincome.length() > 0 && et_am_bank_name.length() > 0 && et_am_account_number.length() > 0 && et_am_conf_account_number.length() > 0 &&
+            et_am_ifsc_code.length() > 0 && et_am_UPIid.length() > 0
+        ) {
             if (activity is AMPersonalDetailsActivity) {
                 (activity as AMPersonalDetailsActivity).enableOthers()
                 (activity as AMPersonalDetailsActivity).infoCompleteState(PROFESSIONAL)
@@ -88,7 +91,12 @@ class AMProfessionalDetailsFragment : BaseFragment(), CoroutineScope {
                     Toast.makeText(context, "Pls enter correct A/C No.", Toast.LENGTH_LONG).show()
                 }
             }
+        }else
+        {
+            Toast.makeText(context, "Please fill all the details", Toast.LENGTH_LONG).show()
+
         }
+    }
     }
 
     lateinit var profession: ArrayList<String>

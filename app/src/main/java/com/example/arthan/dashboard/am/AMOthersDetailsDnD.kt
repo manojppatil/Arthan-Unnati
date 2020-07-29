@@ -46,28 +46,28 @@ class AMOthersDetailsDnD : BaseFragment() {
         if(otherDetails!=null) {
             if(otherDetails.languages.size>=1) {
                 tv_am_lang1.text = otherDetails.languages[0].lang
-                cb_lang1_read.checked = otherDetails.languages[0].read=="Yes"
-                cb_lang1_write.checked = otherDetails.languages[0].write =="Yes"
-                cb_lang1_speak.checked = otherDetails.languages[0].speak=="Yes"
+                cb_lang1_read.checked = otherDetails.languages[0].read=="true"
+                cb_lang1_write.checked = otherDetails.languages[0].write =="true"
+                cb_lang1_speak.checked = otherDetails.languages[0].speak=="true"
             }
             if(otherDetails.languages.size>=2) {
 
                 tv_am_lang2.text = otherDetails.languages[1].lang
-                cb_lang2_read.checked = otherDetails.languages[0].read=="Yes"
-                cb_lang2_write.checked = otherDetails.languages[0].write =="Yes"
-                cb_lang2_speak.checked = otherDetails.languages[0].speak=="Yes"
+                cb_lang2_read.checked = otherDetails.languages[0].read=="true"
+                cb_lang2_write.checked = otherDetails.languages[0].write =="true"
+                cb_lang2_speak.checked = otherDetails.languages[0].speak=="true"
             }
             if(otherDetails.languages.size==3) {
 
                 tv_am_lang3.text = otherDetails.languages[2].lang
-                cb_lang3_read.checked = otherDetails.languages[0].read =="Yes"
-                cb_lang3_write.checked = otherDetails.languages[0].write =="Yes"
-                cb_lang3_speak.checked = otherDetails.languages[0].speak =="Yes"
+                cb_lang3_read.checked = otherDetails.languages[0].read =="true"
+                cb_lang3_write.checked = otherDetails.languages[0].write =="true"
+                cb_lang3_speak.checked = otherDetails.languages[0].speak =="true"
             }
             rb_yes.isChecked=otherDetails.smartphone =="Yes"
-            rb_no.isChecked=otherDetails.smartphone =="Yes"
+            rb_no.isChecked=otherDetails.smartphone =="No"
             rb_tw_yes.isChecked=otherDetails.twoWheeler =="Yes"
-            rb_tw_no.isChecked=otherDetails.twoWheeler =="Yes"
+            rb_tw_no.isChecked=otherDetails.twoWheeler =="No"
 
             et_am_ref1_name.setText(otherDetails.references[0].name)
             et_am_ref1_mno.setText(otherDetails.references[0].mobNo)
