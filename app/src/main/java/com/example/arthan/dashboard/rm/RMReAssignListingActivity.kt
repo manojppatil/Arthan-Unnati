@@ -151,6 +151,9 @@ class RMReAssignListingActivity : AppCompatActivity() {
         var incomeFlag = false
         var othersFlag = false
         var documentsFlag = false
+        var loanFlag = false
+        var personalFlag = false
+        var KYCFlag = false
         //startActivity(Intent(this,RMReassignPendingScreenlist::class.java).apply {
         for (doc in data.pending) {
             if (doc.equals("Documents", ignoreCase = true)) {
@@ -167,6 +170,18 @@ class RMReAssignListingActivity : AppCompatActivity() {
                 othersFlag = true
 
             }
+            if (doc.equals("Loan", ignoreCase = true)) {
+                loanFlag = true
+
+            }
+            if (doc.equals("personal", ignoreCase = true)) {
+                personalFlag = true
+
+            }
+            if (doc.equals("KYC", ignoreCase = true)) {
+                KYCFlag = true
+
+            }
         }
 
         startActivity(Intent(this, RMReassignPendingScreenlist::class.java).apply {
@@ -176,6 +191,9 @@ class RMReAssignListingActivity : AppCompatActivity() {
             putExtra("Business", businessFlag)
             putExtra("Income", incomeFlag)
             putExtra("Others", businessFlag)
+            putExtra("Loan", loanFlag)
+            putExtra("personal", personalFlag)
+            putExtra("KYC", KYCFlag)
         })
 
     }

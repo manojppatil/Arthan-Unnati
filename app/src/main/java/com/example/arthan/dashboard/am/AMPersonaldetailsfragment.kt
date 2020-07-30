@@ -112,7 +112,7 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         et_am_contactno.setText(AppPreferences.getInstance().getString("amMobNo"))
         btn_am_next.setOnClickListener {
 
-            if (et_am_name.length() > 0 && et_am_pan.length() > 0 && et_am_aadhar_number.length() > 0 && et_am_dob.length() > 0 && et_am_contactno.length() > 0 && whatsapp_number_input.length() > 0 && email_id_input.length() > 0 &&
+            if (et_am_name.length() > 0 && et_am_pan.length() > 0 && et_am_aadhar_number.length() > 0 && et_am_dob.length() > 0 && et_am_contactno.length() > 0 && (whatsapp_number_input.length() >= 0 && !cb_sameWhatsApp.isChecked )&& email_id_input.length() > 0 &&
                 address_line1_input.length() > 0 && address_line2_input.length() > 0 && landmark_input.length() > 0 && pincode_input.length() > 0 && city_input.length() > 0 && district_input.length() > 0
 
             ) {

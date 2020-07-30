@@ -205,6 +205,9 @@ interface ApiService {
     @POST("rmScreeningList")
     suspend fun getScreeningList(@Body request: RMDashboardRequest): Response<ScreeningListResponse>
 
+    @POST("getAMCases")
+    suspend fun getAMCases(@Body request: RMDashboardRequest): Response<ScreeningListResponse>
+
     @POST("rmLeadList")
     suspend fun getLeadList(@Body request: RMDashboardRequest): Response<RMLeadListResponse>
 

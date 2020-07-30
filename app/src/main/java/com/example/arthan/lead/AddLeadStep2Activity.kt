@@ -156,7 +156,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         aadharCardDataBack?.results?.get(0)?.cardInfo?.address
                     mKYCPostData?.aadharId = aadharCardData?.results?.get(0)?.cardInfo?.cardNo
                     mKYCPostData?.aadharFrontUrl = aadharCardData?.cardFrontUrl
-                    mKYCPostData?.aadharBackUrl = aadharCardData?.cardBackUrl
+                    mKYCPostData?.aadharBackUrl = aadharCardDataBack?.cardBackUrl
                     mKYCPostData?.aadharVerified = aadharCardData?.status
                     var aadharCardBack: CardInfo? = null
                     for (index in 0 until (aadharCardData?.results?.size ?: 0)) {

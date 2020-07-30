@@ -209,6 +209,11 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
+                if(ArthanApp.getAppInstance().loginRole=="BM"&&( cocUrl.isEmpty() ||agreementUrl.isEmpty()))
+                {
+                    Toast.makeText(this,"Coc & Agreement are mandatory.",Toast.LENGTH_LONG).show()
+                    return
+                }
                 val progressBar = ProgrssLoader(this)
                 progressBar.showLoading()
 
@@ -226,6 +231,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     user = intent.getStringExtra("amId")
 
                 }
+
                 var map = FinalReportPostData(
                     intent.getStringExtra("loanId"),
                     intent.getStringExtra("custId"),

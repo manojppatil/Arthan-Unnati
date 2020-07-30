@@ -35,10 +35,26 @@ class RMScreeningListingActivity : AppCompatActivity() {
         mViewModel= ViewModelProvider(this).get(RMDashboardViewModel::class.java)
 
         back_button?.setOnClickListener { onBackPressed() }
-        loadScreeningList()
+        if(intent.getStringExtra("tile")=="AMCASES")
+        {
+
+            loadAmCasesList()
+        }else {
+            loadScreeningList()
+        }
     }
 
     private fun loadScreeningList(){
+        mViewModel.loadScreeningList().observe(this, Observer { data->
+            if(data.isNullOrEmpty()){
+                Toast.makeText(this,"No Record Found",Toast.LENGTH_SHORT).show()
+            } else {
+                rv_listing.adapter = ScreeningAdapter(this,data)
+            }
+
+        })
+    }
+ private fun loadAmCasesList(){
         mViewModel.loadScreeningList().observe(this, Observer { data->
             if(data.isNullOrEmpty()){
                 Toast.makeText(this,"No Record Found",Toast.LENGTH_SHORT).show()

@@ -53,16 +53,16 @@ class AMOthersDetailsDnD : BaseFragment() {
             if(otherDetails.languages.size>=2) {
 
                 tv_am_lang2.text = otherDetails.languages[1].lang
-                cb_lang2_read.checked = otherDetails.languages[0].read=="true"
-                cb_lang2_write.checked = otherDetails.languages[0].write =="true"
-                cb_lang2_speak.checked = otherDetails.languages[0].speak=="true"
+                cb_lang2_read.checked = otherDetails.languages[1].read=="true"
+                cb_lang2_write.checked = otherDetails.languages[1].write =="true"
+                cb_lang2_speak.checked = otherDetails.languages[1].speak=="true"
             }
             if(otherDetails.languages.size==3) {
 
                 tv_am_lang3.text = otherDetails.languages[2].lang
-                cb_lang3_read.checked = otherDetails.languages[0].read =="true"
-                cb_lang3_write.checked = otherDetails.languages[0].write =="true"
-                cb_lang3_speak.checked = otherDetails.languages[0].speak =="true"
+                cb_lang3_read.checked = otherDetails.languages[2].read =="true"
+                cb_lang3_write.checked = otherDetails.languages[2].write =="true"
+                cb_lang3_speak.checked = otherDetails.languages[2].speak =="true"
             }
             rb_yes.isChecked=otherDetails.smartphone =="Yes"
             rb_no.isChecked=otherDetails.smartphone =="No"

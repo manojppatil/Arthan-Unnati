@@ -53,5 +53,34 @@
             android:background="@drawable/curve_rect_btn_bg_enabled"
             android:text="@string/documents"
             android:textColor="@android:color/white" />
+        <Button
+            android:id="@+id/btn_loan_rm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:background="@drawable/curve_rect_btn_bg_enabled"
+            android:text="@string/income"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_personal_rm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/curve_rect_btn_bg_enabled"
+            android:text="@string/others"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_kyc_rm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:background="@drawable/curve_rect_btn_bg_enabled"
+            android:text="@string/documents"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </LinearLayout>

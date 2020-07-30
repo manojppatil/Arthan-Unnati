@@ -38,6 +38,24 @@ class RMReassignPendingScreenlist : BaseActivity() {
             btn_others_rm.visibility = View.GONE
 
         }
+        if (intent.getBooleanExtra("loan", false)) {
+            btn_others_rm.visibility = View.VISIBLE
+        } else {
+            btn_others_rm.visibility = View.GONE
+
+        }
+        if (intent.getBooleanExtra("personal", false)) {
+            btn_others_rm.visibility = View.VISIBLE
+        } else {
+            btn_others_rm.visibility = View.GONE
+
+        }
+        if (intent.getBooleanExtra("kyc", false)) {
+            btn_others_rm.visibility = View.VISIBLE
+        } else {
+            btn_others_rm.visibility = View.GONE
+
+        }
         btn_others_rm.setOnClickListener {
             startActivity(Intent(this, ReUsableFragmentSpace::class.java).apply {
                 putExtra("task", "RM_AssignList")

@@ -124,9 +124,12 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
 
                 if (ArthanApp.getAppInstance().loginRole=="RM"){
                     am_list.visibility=View.VISIBLE
+                    cv_am_cases.visibility=View.VISIBLE
 
                 }else{
                     am_list.visibility=View.GONE
+                    cv_am_cases.visibility=View.GONE
+
                 }
             }
         })
@@ -185,6 +188,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                     RMReAssignListingActivity::class.java
                 ).apply {
                     putExtra("FROM", "REASSIGN")
+                    putExtra("tile", "REASSIGN")
                 })
             R.id.cv_am_cases -> startActivity(
                 Intent(
@@ -192,6 +196,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                     RMReAssignListingActivity::class.java
                 ).apply {
                     putExtra("FROM", "REASSIGN")
+                    putExtra("tile", "AMCASES")
                 })
             R.id.cv_to_be_disbursed -> startActivity(
                 Intent(

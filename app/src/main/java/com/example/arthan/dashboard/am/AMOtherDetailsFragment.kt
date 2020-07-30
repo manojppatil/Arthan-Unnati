@@ -58,98 +58,106 @@ class AMOtherDetailsFragment : BaseFragment(), CoroutineScope {
     lateinit var am_otherlanguages: ArrayList<Languages>
     lateinit var am_otherreferences: ArrayList<References>
     private fun saveOtherDetailsData() {
-        am_otherlanguages = ArrayList()
-        am_otherlanguages.add(
-            Languages(
-                lang = tv_am_lang1.text.toString() ?: "",
-                speak = cb_lang1_speak.isChecked.toString() ?: "Yes",
-                read = cb_lang1_read.isChecked.toString() ?: "Yes",
-                write = cb_lang1_write.isChecked.toString() ?: "Yes"
-            )
-        )
-        am_otherlanguages.add(
-            Languages(
-                lang = tv_am_lang2.text.toString() ?: "",
-                speak = cb_lang2_speak.isChecked.toString() ?: "Yes",
-                read = cb_lang2_read.isChecked.toString() ?: "Yes",
-                write = cb_lang2_write.isChecked.toString() ?: "Yes"
-            )
-        )
-        am_otherlanguages.add(
-            Languages(
-                lang = tv_am_lang3.text.toString() ?: "",
-                speak = cb_lang3_speak.isChecked.toString() ?: "Yes",
-                read = cb_lang3_read.isChecked.toString() ?: "Yes",
-                write = cb_lang3_write.isChecked.toString() ?: "Yes"
-            )
-        )
 
-        am_otherreferences = ArrayList()
-        am_otherreferences.add(
-            References(
-                name = et_am_ref1_name.text.toString() ?: "",
-                mobNo = et_am_ref1_mno.text.toString() ?: "",
-                address = et_am_ref1_address.text.toString() ?: "",
-                profession = (spnr_am_profession?.selectedItem as? Data)?.value ?: "",
-                comments = et_am_ref1_comments.text.toString() ?: ""
+        if(et_am_ref1_name.length()>0&&et_am_ref1_mno.length()>0&&et_am_ref1_address.length()>0&&et_am_ref1_comments.length()>0&&et_am_ref2_name.length()>0&&et_am_ref2_mno.length()>0
+            &&et_am_ref2_address.length()>0&&et_am_ref2_comments.length()>0) {
+            am_otherlanguages = ArrayList()
+            am_otherlanguages.add(
+                Languages(
+                    lang = tv_am_lang1.text.toString() ?: "",
+                    speak = cb_lang1_speak.isChecked.toString() ?: "Yes",
+                    read = cb_lang1_read.isChecked.toString() ?: "Yes",
+                    write = cb_lang1_write.isChecked.toString() ?: "Yes"
+                )
             )
-        )
-        am_otherreferences.add(
-            References(
-                name = et_am_ref2_name.text.toString() ?: "",
-                mobNo = et_am_ref2_mno.text.toString() ?: "",
-                address = et_am_ref2_address.text.toString() ?: "",
-                profession = (spnr_am_ref2_profession?.selectedItem as? Data)?.value ?: "",
-                comments = et_am_ref2_comments.text.toString() ?: ""
+            am_otherlanguages.add(
+                Languages(
+                    lang = tv_am_lang2.text.toString() ?: "",
+                    speak = cb_lang2_speak.isChecked.toString() ?: "Yes",
+                    read = cb_lang2_read.isChecked.toString() ?: "Yes",
+                    write = cb_lang2_write.isChecked.toString() ?: "Yes"
+                )
             )
-        )
+            am_otherlanguages.add(
+                Languages(
+                    lang = tv_am_lang3.text.toString() ?: "",
+                    speak = cb_lang3_speak.isChecked.toString() ?: "Yes",
+                    read = cb_lang3_read.isChecked.toString() ?: "Yes",
+                    write = cb_lang3_write.isChecked.toString() ?: "Yes"
+                )
+            )
+
+            am_otherreferences = ArrayList()
+            am_otherreferences.add(
+                References(
+                    name = et_am_ref1_name.text.toString() ?: "",
+                    mobNo = et_am_ref1_mno.text.toString() ?: "",
+                    address = et_am_ref1_address.text.toString() ?: "",
+                    profession = (spnr_am_profession?.selectedItem as? Data)?.value ?: "",
+                    comments = et_am_ref1_comments.text.toString() ?: ""
+                )
+            )
+            am_otherreferences.add(
+                References(
+                    name = et_am_ref2_name.text.toString() ?: "",
+                    mobNo = et_am_ref2_mno.text.toString() ?: "",
+                    address = et_am_ref2_address.text.toString() ?: "",
+                    profession = (spnr_am_ref2_profession?.selectedItem as? Data)?.value ?: "",
+                    comments = et_am_ref2_comments.text.toString() ?: ""
+                )
+            )
 //        profession.add((spnr_am_occupation_name?.selectedItem as? Data)?.value ?: "")
-        val progressBar: ProgrssLoader? = if (context != null) ProgrssLoader(context!!) else null
-        progressBar?.showLoading()
-        val smartphone = when (rgrp_ownphone?.checkedRadioButtonId) {
-            R.id.rb_yes -> rb_yes?.text?.toString() ?: "Yes"
-            R.id.rb_no -> rb_no?.text?.toString() ?: "no"
-            else -> ""
-        }
-        val twoWheeler = when (rgrp_twowheeler?.checkedRadioButtonId) {
-            R.id.rb_tw_yes -> rb_yes?.text?.toString() ?: "Yes"
-            R.id.rb_tw_no -> rb_no?.text?.toString() ?: "no"
-            else -> ""
-        }
-        Log.d("creat",""+smartphone+""+twoWheeler);
-        val postBody = AMOtherdetailsPostData(
-            smartphone = smartphone,
-            twoWheeler =twoWheeler,
-            languages = am_otherlanguages,
-            references = am_otherreferences,
-            amId = ArthanApp.getAppInstance().loginUser
-        )
-        CoroutineScope(ioContext).launch {
-            try {
-                val response =
-                    RetrofitFactory.getApiService().saveAMOtherDetails(postBody)
-                if (response?.isSuccessful == true) {
-                    val result = response.body()
-                    if (result?.apiCode == "200") {
-                        withContext(uiContext) {
-                            progressBar?.dismmissLoading()
-                            Toast.makeText(
-                                activity as AMPersonalDetailsActivity,
-                                "enrolment is complete",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            startActivity(Intent(activity, RMDashboardActivity::class.java))
+            val progressBar: ProgrssLoader? =
+                if (context != null) ProgrssLoader(context!!) else null
+            progressBar?.showLoading()
+            val smartphone = when (rgrp_ownphone?.checkedRadioButtonId) {
+                R.id.rb_yes -> rb_yes?.text?.toString() ?: "Yes"
+                R.id.rb_no -> rb_no?.text?.toString() ?: "no"
+                else -> ""
+            }
+            val twoWheeler = when (rgrp_twowheeler?.checkedRadioButtonId) {
+                R.id.rb_tw_yes -> rb_yes?.text?.toString() ?: "Yes"
+                R.id.rb_tw_no -> rb_no?.text?.toString() ?: "no"
+                else -> ""
+            }
+            Log.d("creat", "" + smartphone + "" + twoWheeler);
+            val postBody = AMOtherdetailsPostData(
+                smartphone = smartphone,
+                twoWheeler = twoWheeler,
+                languages = am_otherlanguages,
+                references = am_otherreferences,
+                amId = ArthanApp.getAppInstance().loginUser
+            )
+            CoroutineScope(ioContext).launch {
+                try {
+                    val response =
+                        RetrofitFactory.getApiService().saveAMOtherDetails(postBody)
+                    if (response?.isSuccessful == true) {
+                        val result = response.body()
+                        if (result?.apiCode == "200") {
+                            withContext(uiContext) {
+                                progressBar?.dismmissLoading()
+                                Toast.makeText(
+                                    activity as AMPersonalDetailsActivity,
+                                    "enrolment is complete",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                startActivity(Intent(activity, RMDashboardActivity::class.java))
+                            }
                         }
                     }
-                }
-            } catch (e: Exception) {
-                if (progressBar != null) {
-                    stopLoading(progressBar, "Something went wrong. Please try later!")
-                }
-                e.printStackTrace()
-                Crashlytics.log(e.message)
+                } catch (e: Exception) {
+                    if (progressBar != null) {
+                        stopLoading(progressBar, "Something went wrong. Please try later!")
+                    }
+                    e.printStackTrace()
+                    Crashlytics.log(e.message)
 
+                }
             }
+        }else
+        {
+            Toast.makeText(activity,"Please fill all the details",Toast.LENGTH_LONG).show()
         }
     }
 

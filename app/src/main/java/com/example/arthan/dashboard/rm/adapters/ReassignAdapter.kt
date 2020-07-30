@@ -69,6 +69,7 @@ private val data: List<ReassignLeadData>): RecyclerView.Adapter<ReassignAdapter.
                 activity.startActivity(Intent(activity, RmReassignNavActivity::class.java).apply {
                     putExtra("task", "RM_AssignList")
                     putExtra("loanId", loanId)
+
                 })
                 // activity.showPendingScreenList(data[position])
 

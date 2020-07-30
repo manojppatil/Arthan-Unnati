@@ -43,11 +43,38 @@ class RMDashboardViewModel: ViewModel() {
     fun loadScreeningList(): LiveData<List<ScreeningData>>{
 
         val response= MutableLiveData<List<ScreeningData>>()
-
         try {
 
             CoroutineScope(Dispatchers.IO).launch {
                 val respo = RetrofitFactory.getRMServiceService().getScreeningList(
+                    RMDashboardRequest(
+                      ArthanApp.getAppInstance().loginUser!!,
+                        SCREENING_SECTION
+                    )
+                )
+                if (respo.isSuccessful && respo.body() != null) {
+                    withContext(Dispatchers.Main) {
+                        response.value = respo.body()?.screeningList
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        response.value = null
+                    }
+                }
+            }
+        } catch (e: Exception){
+            response.value = null
+        }
+
+        return response
+    }
+    fun loadAMCases(): LiveData<List<ScreeningData>>{
+
+        val response= MutableLiveData<List<ScreeningData>>()
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val respo = RetrofitFactory.getRMServiceService().getAMCases(
                     RMDashboardRequest(
                       ArthanApp.getAppInstance().loginUser!!,
                         SCREENING_SECTION
