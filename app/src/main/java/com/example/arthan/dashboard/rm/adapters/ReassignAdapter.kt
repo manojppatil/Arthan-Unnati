@@ -15,9 +15,12 @@ import com.example.arthan.dashboard.rm.PendingInfoActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.model.ReassignLeadData
 
-class ReassignAdapter(private val context: Context,
-                      private val from:String,
-private val data: List<ReassignLeadData>): RecyclerView.Adapter<ReassignAdapter.ReassignVH>() {
+class ReassignAdapter(
+    private val context: Context,
+    private val from: String,
+    private val data: List<ReassignLeadData>,
+    private val tile: String?
+): RecyclerView.Adapter<ReassignAdapter.ReassignVH>() {
 
     inner class ReassignVH(private val root: View) : RecyclerView.ViewHolder(root) {
 
@@ -69,6 +72,7 @@ private val data: List<ReassignLeadData>): RecyclerView.Adapter<ReassignAdapter.
                 activity.startActivity(Intent(activity, RmReassignNavActivity::class.java).apply {
                     putExtra("task", "RM_AssignList")
                     putExtra("loanId", loanId)
+                    putExtra("tile", tile)
 
                 })
                 // activity.showPendingScreenList(data[position])

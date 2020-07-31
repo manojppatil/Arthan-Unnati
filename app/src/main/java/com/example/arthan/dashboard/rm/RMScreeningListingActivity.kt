@@ -38,7 +38,7 @@ class RMScreeningListingActivity : AppCompatActivity() {
         if(intent.getStringExtra("tile")=="AMCASES")
         {
 
-            loadAmCasesList()
+//            loadAMCasesesList()
         }else {
             loadScreeningList()
         }
@@ -54,16 +54,7 @@ class RMScreeningListingActivity : AppCompatActivity() {
 
         })
     }
- private fun loadAmCasesList(){
-        mViewModel.loadScreeningList().observe(this, Observer { data->
-            if(data.isNullOrEmpty()){
-                Toast.makeText(this,"No Record Found",Toast.LENGTH_SHORT).show()
-            } else {
-                rv_listing.adapter = ScreeningAdapter(this,data)
-            }
 
-        })
-    }
 
     companion object {
         fun startMe(context: Context?) =

@@ -1,9 +1,5 @@
 package com.example.arthan.dashboard.rm
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,7 +25,24 @@ class RMAssignListFragment : BaseFragment() {
             if(data.isNullOrEmpty()){
                 Toast.makeText(activity,"No Record Found", Toast.LENGTH_SHORT).show()
             } else {
-                rv_assign_listing.adapter = ReassignAdapter(context!!, ArthanApp.getAppInstance().loginRole,data)
+                rv_assign_listing.adapter = ReassignAdapter(context!!, ArthanApp.getAppInstance().loginRole,data,activity?.intent?.getStringExtra("tile"))
+            }
+
+        })
+    }
+    private fun loadAmCasesList(){
+        mViewModel.loadAMCases().observe(this, Observer { data->
+
+            progressLoader?.dismmissLoading()
+            if(data.isNullOrEmpty()){
+                Toast.makeText(activity,"No Record Found", Toast.LENGTH_SHORT).show()
+            } else {
+                rv_assign_listing.adapter = ReassignAdapter(
+                    context!!,
+                    ArthanApp.getAppInstance().loginRole,
+                    data,
+                    activity?.intent?.getStringExtra("tile")
+                )
             }
 
         })
@@ -39,7 +52,13 @@ class RMAssignListFragment : BaseFragment() {
         mViewModel= ViewModelProvider(this).get(RMDashboardViewModel::class.java)
          progressLoader = ProgrssLoader(context!!)
         progressLoader!!.showLoading()
-        loadReassignLeadList()
+        if(activity?.intent?.getStringExtra("tile")=="AMCASES")
+        {
+
+            loadAmCasesList()
+        }else {
+            loadReassignLeadList()
+        }
     }
 
 }

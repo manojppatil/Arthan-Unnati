@@ -34,7 +34,9 @@ class RMReAssignListingActivity : AppCompatActivity() {
 
             rel_frags.visibility=View.VISIBLE
             rv_listing.visibility=View.GONE
+
             showAssignListFragment()
+
         }
 
         back_button?.setOnClickListener {

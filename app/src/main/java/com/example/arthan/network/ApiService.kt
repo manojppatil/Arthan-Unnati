@@ -166,6 +166,7 @@ interface ApiService {
 
     @GET("sendAMNotification")
     suspend fun reSendAMLink(@Query("amId") amId: String?): Response<BaseResponseData>?
+
     @POST("saveGST")
     suspend fun saveGST(@Body body: GSTPostData?): Response<BaseResponseData>?
 
@@ -205,8 +206,8 @@ interface ApiService {
     @POST("rmScreeningList")
     suspend fun getScreeningList(@Body request: RMDashboardRequest): Response<ScreeningListResponse>
 
-    @POST("getAMCases")
-    suspend fun getAMCases(@Body request: RMDashboardRequest): Response<ScreeningListResponse>
+    @GET("getAMCases")
+    suspend fun getAMCases(@Query("rmId") rmID: String): Response<ReAssignLeadListResponse>
 
     @POST("rmLeadList")
     suspend fun getLeadList(@Body request: RMDashboardRequest): Response<RMLeadListResponse>
@@ -380,6 +381,9 @@ interface ApiService {
     @GET("getBMInprogress")
     suspend fun getBMInprogress(@Query("bmId") bmId: String?): Response<RMInProgressResponse>?
 
+    @GET("submitAMCase")
+    suspend fun submitAMCase(@Query("loanId") loanId: String?): Response<BaseResponseData>?
+
     @GET("getBCMInprogress")
     suspend fun getBCMInprogress(@Query("bcmId") bcmId: String?): Response<RMInProgressResponse>?
 
@@ -390,14 +394,13 @@ interface ApiService {
     suspend fun getAMs(@Query("rmId") rmId: String?): List<AmListModel>
 
     @POST("verifyOTPforEmp")
-    suspend fun verifyOTPforEmp(@Body body: Map<String, String>):Response<BaseResponseData>
+    suspend fun verifyOTPforEmp(@Body body: Map<String, String>): Response<BaseResponseData>
 
     @POST("storeMpin")
-    suspend fun storeMpin(@Body body: Map<String, String>):Response<BaseResponseData>
+    suspend fun storeMpin(@Body body: Map<String, String>): Response<BaseResponseData>
 
     @POST("addAM")
-    suspend fun addAM(@Body body: Map<String, String>):Response<BaseResponseData>
-
+    suspend fun addAM(@Body body: Map<String, String>): Response<BaseResponseData>
 
 
     /*AM APis start*/
@@ -423,7 +426,7 @@ interface ApiService {
     @GET("rest/GetMstr/amStates")
     suspend fun getamStates(): Response<DetailsResponseData>?
 
-     @GET("bmAMReason")
+    @GET("bmAMReason")
     suspend fun bmAMReason(): Response<DetailsResponseData>?
 
 

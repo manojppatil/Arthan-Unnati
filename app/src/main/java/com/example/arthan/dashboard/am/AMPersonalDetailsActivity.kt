@@ -101,6 +101,9 @@ class AMPersonalDetailsActivity : BaseActivity() {
     fun enableOthers() {
         vw_others.visibility = View.GONE
     }
+    fun enablePersonal() {
+        vw_personal.visibility = View.GONE
+    }
 
 
     override fun onToolbarBackPressed() = onBackPressed()
@@ -120,8 +123,7 @@ class AMPersonalDetailsActivity : BaseActivity() {
                 b.putString("from", "rmIncome")
                 navController?.navigate(R.id.frag_am_per_info, b)
                 vw_professional.visibility = View.VISIBLE
-                enableProfessional()
-//                infoCompleteState(INCOME)
+                enablePersonal()
                 infoInCompleteState(PERSONAL)
                 //income
                 // finish()

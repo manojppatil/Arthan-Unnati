@@ -2,6 +2,7 @@ package com.example.arthan
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arthan.dashboard.rm.adapters.RMReAssignNavAdapter
 import com.example.arthan.network.RetrofitFactory
@@ -22,7 +23,35 @@ class RmReassignNavActivity : AppCompatActivity() {
 //        toolbar_title.text = "Complete Loan Details"
 
         getRmAssignPendingScreenList()
+        if(intent?.getStringExtra("tile")=="AMCASES")
+        {
+            submitAMcases.visibility=View.VISIBLE
+        }else
+        {
+            submitAMcases.visibility=View.GONE
 
+        }
+
+        submitAMcases.setOnClickListener {
+            val loader=ProgrssLoader(this)
+            loader.showLoading()
+            CoroutineScope(Dispatchers.IO).launch {
+                val res=RetrofitFactory.getApiService().submitAMCase(intent.getStringExtra("loanId"))
+                if(res?.body()!=null)
+                {
+                    withContext(Dispatchers.Main) {
+                        loader.dismmissLoading()
+                        Toast.makeText(this@RmReassignNavActivity,"Submitted AM Case.",Toast.LENGTH_LONG).show()
+                    }
+                }
+                else{
+                    withContext(Dispatchers.Main) {
+                        loader.dismmissLoading()
+                        Toast.makeText(this@RmReassignNavActivity," Please try again",Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun getRmAssignPendingScreenList() {
