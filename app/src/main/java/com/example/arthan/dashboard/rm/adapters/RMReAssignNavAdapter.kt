@@ -8,8 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
+import com.example.arthan.RmReassignNavActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.dashboard.rm.ReUsableFragmentSpace
+import com.example.arthan.lead.AddLeadActivity
+import com.example.arthan.lead.AddLeadStep2Activity
+import com.example.arthan.lead.LeadInfoCaptureActivity
+import com.example.arthan.lead.PersonalInformationActivity
 import com.example.arthan.network.RmReAssignNavResponse
 
 class RMReAssignNavAdapter(
@@ -32,13 +37,14 @@ class RMReAssignNavAdapter(
                         context.startActivity(
                             Intent(
                                 context,
-                                ReUsableFragmentSpace::class.java
+                                AddLeadActivity::class.java
                             ).apply {
                                 putExtra("screen", "LOAN")
                                 putExtra("loanId", responseData.loanId)
                                 putExtra("custId", responseData.customerId)
                                 putExtra("task", "RM_AssignList")
                             })
+                        (context as RmReassignNavActivity).finish()
 
                     }
                     "ELIGIBILITY" -> {
@@ -52,46 +58,40 @@ class RMReAssignNavAdapter(
                                 putExtra("custId", responseData.customerId)
                                 putExtra("task", "RM_AssignList")
                             })
-                        (context as RMScreeningNavigationActivity).finish()
+                        (context as RmReassignNavActivity).finish()
                     }
                     "PERSONAL_PA" -> {
-                        context.startActivity(
-                            Intent(
-                                context,
-                                ReUsableFragmentSpace::class.java
-                            ).apply {
+                        context.startActivity(Intent(context, PersonalInformationActivity::class.java)
+                            .apply {
                                 putExtra("screen", "PERSONAL_PA")
                                 putExtra("loanId", responseData.loanId)
                                 putExtra("custId", responseData.customerId)
                                 putExtra("task", "RM_AssignList")
                             })
-                        (context as RMScreeningNavigationActivity).finish()
+                        (context as RmReassignNavActivity).finish()
+
                     }
                     "PERSONAL_CA" -> {
-                        context.startActivity(
-                            Intent(
-                                context,
-                                ReUsableFragmentSpace::class.java
-                            ).apply {
+                        context.startActivity(Intent(context, PersonalInformationActivity::class.java)
+                            .apply {
                                 putExtra("screen", "PERSONAL_CA")
                                 putExtra("loanId", responseData.loanId)
                                 putExtra("custId", responseData.customerId)
                                 putExtra("task", "RM_AssignList")
                             })
-                        (context as RMScreeningNavigationActivity).finish()
+                        (context as RmReassignNavActivity).finish()
+
                     }
                     "PERSONAL_G" -> {
-                        context.startActivity(
-                            Intent(
-                                context,
-                                ReUsableFragmentSpace::class.java
-                            ).apply {
+                        context.startActivity(Intent(context, PersonalInformationActivity::class.java)
+                            .apply {
                                 putExtra("screen", "PERSONAL_G")
                                 putExtra("loanId", responseData.loanId)
                                 putExtra("custId", responseData.customerId)
                                 putExtra("task", "RM_AssignList")
                             })
-                        (context as RMScreeningNavigationActivity).finish()
+                        (context as RmReassignNavActivity).finish()
+
                     }
                     "BUSINESS" -> {
                         context.startActivity(
@@ -106,6 +106,8 @@ class RMReAssignNavAdapter(
                                 putExtra("from", "rmbusiness")
 
                             })
+                        (context as RmReassignNavActivity).finish()
+
                     }
                     "INCOME" -> {
                         context.startActivity(
@@ -120,6 +122,8 @@ class RMReAssignNavAdapter(
                                 putExtra("from", "rmincome")
 
                             })
+                        (context as RmReassignNavActivity).finish()
+
 
                     }
                     "OTHERS", "OTHERS_TRADE", "OTHERS_SECURITY" -> {
@@ -135,20 +139,23 @@ class RMReAssignNavAdapter(
                                 putExtra("from", "rmothers")
 
                             })
+                        (context as RmReassignNavActivity).finish()
+
 
                     }
                     "KYC_PA" -> {
                         context.startActivity(
                             Intent(
                                 context,
-                                ReUsableFragmentSpace::class.java
+                                AddLeadStep2Activity::class.java
                             ).apply {
                                 putExtra("screen", "KYC_PA")
                                 putExtra("loanId", responseData.loanId)
                                 putExtra("custId", responseData.customerId)
                                 putExtra("task", "RM_AssignList")
                             })
-                        (context as RMScreeningNavigationActivity).finish()
+                        (context as RmReassignNavActivity).finish()
+
 
                     }
                     "CONSENT" -> {
@@ -162,7 +169,8 @@ class RMReAssignNavAdapter(
                                 putExtra("custId", responseData.customerId)
                                 putExtra("task", "RM_AssignList")
                             })
-                        (context as RMScreeningNavigationActivity).finish()
+                        (context as RmReassignNavActivity).finish()
+
 
                     }
                     "DOCUMENTS" -> {
@@ -176,6 +184,8 @@ class RMReAssignNavAdapter(
                                 putExtra("custId", responseData.customerId)
                                 putExtra("task", "RM_AssignList")
                             })
+                        (context as RmReassignNavActivity).finish()
+
 
                     }
 

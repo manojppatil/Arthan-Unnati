@@ -34,5 +34,6 @@ data class DocDetails(
     val paApplicantPhoto: String?,
     val businessProof: String?,
     val businessAddrProof: String?,
-    val incomeProof: String?
+    val incomeProof: String?,
+    val chequeUrl: String?
 )

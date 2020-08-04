@@ -212,6 +212,10 @@ class AMProfessionalDetailsFragment : BaseFragment(), CoroutineScope {
 
                     crossedCheque =
                         applicantData?.cardFrontUrl!!
+                    if(crossedCheque!=null)
+                    {
+                        uploadedCheckStatus.visibility=View.VISIBLE
+                    }
                 }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)

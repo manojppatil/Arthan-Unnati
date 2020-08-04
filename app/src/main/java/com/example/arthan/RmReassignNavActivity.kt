@@ -8,6 +8,7 @@ import com.example.arthan.dashboard.rm.adapters.RMReAssignNavAdapter
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import kotlinx.android.synthetic.main.activity_r_m_screening_navigation.*
+import kotlinx.android.synthetic.main.custom_toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +26,8 @@ class RmReassignNavActivity : AppCompatActivity() {
         getRmAssignPendingScreenList()
         if(intent?.getStringExtra("tile")=="AMCASES")
         {
+            toolbar_title?.text = "AM Cases"
+
             submitAMcases.visibility=View.VISIBLE
         }else
         {
@@ -61,9 +64,16 @@ class RmReassignNavActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val response =
+            val response =when(intent?.getStringExtra("tile")){
+
+            "AMCASES"-> {
                 RetrofitFactory.getApiService()
-                    .getRMReAssignedStatus(intent.getStringExtra("loanId")!!)
+                    .getAMScreenStatus(intent.getStringExtra("loanId")!!)
+            }else->{
+                    RetrofitFactory.getApiService()
+                        .getRMReAssignedStatus(intent.getStringExtra("loanId")!!)
+                }
+            }
 
             if (response?.body() != null) {
                 withContext(Dispatchers.Main) {

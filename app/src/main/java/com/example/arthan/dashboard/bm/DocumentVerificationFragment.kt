@@ -43,6 +43,7 @@ class DocumentVerificationFragment : BaseFragment() {
     private var isBusinessProof=false
     private var isOfficeAddressProof=false
     private var isIncomeProof=false
+    private var isChequeProof=false
     private var docDetails:DocDetails?=null
     private var docDetailsam:DocDetailsAM?=null
     private var mContext:Context?=null
@@ -51,6 +52,10 @@ class DocumentVerificationFragment : BaseFragment() {
 
         if (activity?.intent?.getStringExtra("recordType") == "AM") {
             otherproofs.visibility=View.GONE
+            btn_chq_disapprove.visibility=View.VISIBLE
+            btn_chq_approve.visibility=View.VISIBLE
+            img_chq.visibility=View.VISIBLE
+            txt_chqPhoto.visibility=View.VISIBLE
 
         }
             img_pan.setOnClickListener {
@@ -76,6 +81,9 @@ class DocumentVerificationFragment : BaseFragment() {
         }
         img_IncomeProof.setOnClickListener {
             showPreview(docDetails?.incomeProof)
+        }
+        img_chq.setOnClickListener {
+            showPreview(docDetails?.chequeUrl)
         }
 
         btn_aadhar_approve.setOnClickListener {
@@ -186,6 +194,19 @@ class DocumentVerificationFragment : BaseFragment() {
             btn_OfficeAddressProof_approve.setBackgroundResource(R.drawable.ic_next_disable)
             btn_OfficeAddressProof_disapprove.setTextColor(Color.WHITE)
             btn_OfficeAddressProof_approve.setTextColor(textColor)
+        }
+
+        btn_chq_approve.setOnClickListener { isChequeProof = true
+            btn_chq_approve.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_chq_disapprove.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_chq_approve.setTextColor(Color.WHITE)
+            btn_chq_disapprove.setTextColor(textColor)
+        }
+        btn_chq_disapprove.setOnClickListener { isChequeProof = false
+            btn_chq_disapprove.setBackgroundResource(R.drawable.ic_next_enabled)
+            btn_chq_approve.setBackgroundResource(R.drawable.ic_next_disable)
+            btn_chq_disapprove.setTextColor(Color.WHITE)
+            btn_chq_approve.setTextColor(textColor)
         }
 
 

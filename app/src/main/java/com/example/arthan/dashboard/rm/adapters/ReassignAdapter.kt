@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.RmReassignNavActivity
@@ -25,6 +27,27 @@ class ReassignAdapter(
     inner class ReassignVH(private val root: View) : RecyclerView.ViewHolder(root) {
 
         fun bind(position: Int) {
+
+            if(tile=="AMCASES")
+            {
+                root.findViewById<ConstraintLayout>(R.id.clparent).visibility=View.GONE
+                root.findViewById<LinearLayout>(R.id.amCasesLL).visibility=View.VISIBLE
+                var amCname=root.findViewById<TextView>(R.id.cnameAM)
+                var amlDate=root.findViewById<TextView>(R.id.amLdate)
+                var amltype=root.findViewById<TextView>(R.id.amLType)
+                var amlamt=root.findViewById<TextView>(R.id.amLAmt)
+                var amName=root.findViewById<TextView>(R.id.amAMName)
+                amCname.text="Customer Name: "+data[position].cname
+                amlDate.text="Login Date:"+data[position].loginDate
+                amlamt.text="Loan Amt:"+data[position].loanAmt
+                amltype.text="Loan Type"+data[position].loanType
+                amName.text="AM: "+data[position].amName
+
+            }else
+            {
+                root.findViewById<ConstraintLayout>(R.id.clparent).visibility=View.VISIBLE
+                root.findViewById<ConstraintLayout>(R.id.amCasesLL).visibility=View.GONE
+            }
             when (from) {
                 "REASSIGN" -> {
                     root.findViewById<TextView>(R.id.txt_amount).text= "Assigned By: ${data[position].assignedBy}"
@@ -61,6 +84,8 @@ class ReassignAdapter(
             var btnIncomeRm=root.findViewById<Button>(R.id.btn_income_rm)
             var btnOthersRm=root.findViewById<Button>(R.id.btn_others_rm)
             var btnDocumentsRm=root.findViewById<Button>(R.id.btn_documents_rm)
+
+
 
 
             var activity : RMReAssignListingActivity=context as RMReAssignListingActivity

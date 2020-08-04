@@ -9,6 +9,15 @@
     android:layout_marginRight="16dp"
     android:background="@drawable/bg_white_rectangle"
     android:paddingBottom="8dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:visibility="visible"
+        android:id="@+id/clparent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     <TextView
         android:id="@+id/txt_caseid"
@@ -239,6 +248,54 @@
             android:background="@drawable/curve_rect_btn_bg"
             android:text="@string/documents" />
     </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/amCasesLL"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cnameAM"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/amLdate"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/amLAmt"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/amLType"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/amAMName"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

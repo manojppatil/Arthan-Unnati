@@ -374,6 +374,9 @@ interface ApiService {
     @GET("getRMReAssignedStatus")
     suspend fun getRMReAssignedStatus(@Query("loanId") loanId: String?): Response<RmReAssignNavResponse>?
 
+    @GET("getAMScreenStatus")
+    suspend fun getAMScreenStatus(@Query("loanId") loanId: String?): Response<RmReAssignNavResponse>?
+
 
     @GET("getRMInprogress")
     suspend fun getRMInprogress(@Query("rmId") rmId: String?): Response<RMInProgressResponse>?

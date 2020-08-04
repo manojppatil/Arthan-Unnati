@@ -29,6 +29,10 @@ class RMReAssignListingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lisiting)
         toolbar_title?.text = "Re-Assigned Cases"
 
+        if(intent.getStringExtra("tile") == "AMCASES"){
+            toolbar_title?.text = "AM Cases"
+
+        }
         setSupportActionBar(toolbar as Toolbar?)
         if(intent.getStringExtra("FROM") == "REASSIGN") {
 
@@ -41,20 +45,25 @@ class RMReAssignListingActivity : AppCompatActivity() {
 
         back_button?.setOnClickListener {
 
-            if(toolbar_title.text == "Re-Assigned Cases")
+            finish()
+            /*if(toolbar_title.text == "Re-Assigned Cases")
             {
                 onBackPressed()
             }else
             {
                 toolbar_title.text == "Re-Assigned Cases"
                 showAssignListFragment()
-            }
+            }*/
         }
     }
 
 
      fun showAssignListFragment() {
         toolbar_title?.text = "Re-Assigned Cases"
+         if(intent.getStringExtra("tile") == "AMCASES"){
+             toolbar_title?.text = "AM Cases"
+
+         }
         supportFragmentManager.beginTransaction().replace(R.id.rel_frags,RMAssignListFragment()).commit()
 
     }

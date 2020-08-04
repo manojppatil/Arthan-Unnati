@@ -10,4 +10,8 @@ val cname: String,
 val loginDate: String,
 val loanId: String,
 val assignedBy: String,
+val loanAmt : String,
+val loanType : String,
+val amName : String,
+
 val pending: List<String>)

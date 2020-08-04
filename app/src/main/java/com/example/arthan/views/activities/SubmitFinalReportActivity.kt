@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -32,7 +33,6 @@ import com.example.arthan.views.adapters.DocumentAdapter
 import com.example.arthan.views.adapters.SanctionAdapter
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
-import kotlinx.android.synthetic.main.activity_am_kycdetails.*
 import kotlinx.android.synthetic.main.activity_submit_final_report.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +40,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+
 
 class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
@@ -73,7 +74,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         ))
         tv_agreement.setOnClickListener(this)
         tv_coc.setOnClickListener(this)
-        if (intent.getStringExtra(STATUS).contains("Recommend to BCM", ignoreCase = true)&&ArthanApp.getAppInstance().loginRole=="BM"&&
+        if (intent.getStringExtra(STATUS).contains("Recommended to CCM", ignoreCase = true)&&ArthanApp.getAppInstance().loginRole=="BM"&&
                 intent.getStringExtra("recordType")=="AM") {
 
             tv_agreement.visibility = View.VISIBLE
@@ -83,6 +84,16 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             tv_coc.visibility = View.GONE
         }
 
+        if(ArthanApp.getAppInstance().loginRole=="BM"&&intent.getStringExtra("recordType")=="AM"&&intent.getStringExtra(STATUS).contains("Recommended to CCM", ignoreCase = true)) {
+            val spinnerArrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                this.resources.getStringArray(R.array.recommendToCC)
+            ) //selected item will look like a spinner set from XML
+
+            rejectReason.adapter = spinnerArrayAdapter
+
+        }
         if(ArthanApp.getAppInstance().loginRole=="BM"&&intent.getStringExtra("recordType")=="AM"&&intent.getStringExtra(STATUS).contains("Reject", ignoreCase = true))
         {
 

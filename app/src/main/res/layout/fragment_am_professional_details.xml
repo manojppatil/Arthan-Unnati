@@ -181,6 +181,31 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_am_ifsc_code" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/uploadedCheckStatus"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/et_am_UPIid"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cheque uploaded successfully."
+                        android:textColor="@color/enable"
+                        />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/tick"
+                        android:src="@drawable/green_tick"
+                        />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/btn_upload_check"
@@ -201,7 +226,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_am_UPIid"
+                    app:layout_constraintTop_toBottomOf="@+id/uploadedCheckStatus"
                     app:layout_constraintVertical_bias="0"
                     app:layout_constraintVertical_chainStyle="packed" />
 

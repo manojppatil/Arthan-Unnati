@@ -40,7 +40,13 @@ class BMScreeningReportActivity : BaseActivity(), View.OnClickListener {
         custId = intent.getStringExtra("custId")
 
         if (ArthanApp.getAppInstance().loginRole == "BM") {
-            txt_recommend_bcm.text = "Recommend to BCM"
+            if(intent.getStringExtra("recordType")=="AM")
+            {
+                txt_recommend_bcm.text = "Recommended to CCM"
+
+            }else {
+                txt_recommend_bcm.text = "Recommend to BCM"
+            }
             txt_approve.visibility = View.GONE
         } else if (ArthanApp.getAppInstance().loginRole == "BCM") {
             txt_recommend_bcm.text = "Recommend to CC"
