@@ -220,9 +220,9 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
-                if(ArthanApp.getAppInstance().loginRole=="BM"&&( cocUrl.isEmpty() ||agreementUrl.isEmpty()))
+                if( intent.getStringExtra(STATUS).contains("Recommended to CCM", ignoreCase = true)&&intent.getStringExtra("recordType")=="AM"&&ArthanApp.getAppInstance().loginRole=="BM"&&( cocUrl.isEmpty() ||agreementUrl.isEmpty()||docUrlList.isEmpty()))
                 {
-                    Toast.makeText(this,"Coc & Agreement are mandatory.",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,"Document, Coc & Agreement are mandatory.",Toast.LENGTH_LONG).show()
                     return
                 }
                 val progressBar = ProgrssLoader(this)
@@ -287,7 +287,13 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                                     ) {
                                         "Case is Rejected Successfully"
                                     } else {
-                                        "Case is Successfully submitted to BCM"
+                                        if(intent.getStringExtra("recordType") == "AM"){
+
+                                            "Case successfully submitted to operations"
+                                        }else {
+
+                                            "Case is Successfully submitted to BCM"
+                                        }
                                     }
                                 Toast.makeText(
                                     this@SubmitFinalReportActivity,

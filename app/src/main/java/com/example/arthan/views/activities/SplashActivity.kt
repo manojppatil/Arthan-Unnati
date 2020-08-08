@@ -150,7 +150,7 @@ class SplashActivity : AppCompatActivity() {
                                     } "AM" -> {
 
 
-                                    if (ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
+                                    if (ArthanApp.getAppInstance().onboarded.toLowerCase() == "wyes") {
 
                                         AppPreferences.getInstance()
                                             .remove(AppPreferences.Key.LoginType)
@@ -254,7 +254,7 @@ class SplashActivity : AppCompatActivity() {
                                       finish()*/
                                     }
 
-                                }.let {
+                                }/*let {
                                     CoroutineScope(Dispatchers.IO).launch {
                                         withContext(Dispatchers.Main) {
 
@@ -287,7 +287,7 @@ class SplashActivity : AppCompatActivity() {
                                                 })
                                         }
                                     }
-                                }
+                                }*/
                             }
                         }
 

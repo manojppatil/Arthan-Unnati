@@ -81,9 +81,12 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 //txt_reassign.text= "${data.reassign.label}"
                 txt_rmprogress_amt.text = "${data.inProgress.total}"
 
-                /*txt_amcases_count.text = "${data.amCases.count}"
+                txt_amcases_count.text = "${data.amCase.count}"
                 //txt_reassign.text= "${data.reassign.label}"
-                txt_amcases_amt.text = "${data.amCases.total}"*/
+                txt_amcases_amt.text = "${data.amCase.total}"
+
+                am_count.text = "${data.myAm.total}"
+                txt_myam_amt.text = "${data.myAm.total}"
 
                 if(ArthanApp.getAppInstance().loginRole=="AM")
                 {
@@ -138,6 +141,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         try {
+            loadRmData()
             context?.let {
                 if (MyProfileActivity.profileImage.isNotEmpty()) {
                     Glide.with(it).load(MyProfileActivity.profileImage).into(img_profile)

@@ -3,6 +3,7 @@ package com.example.arthan.login
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,9 +12,13 @@ import com.example.arthan.R
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.SplashActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_login_emp_id.*
+import kotlinx.android.synthetic.main.activity_login_emp_id.et_role
 import kotlinx.android.synthetic.main.activity_login_o_t_p.*
 import kotlinx.android.synthetic.main.activity_login_o_t_p.btn_submit
+import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,6 +59,7 @@ class LoginOTPActivity : AppCompatActivity() {
                                 withContext(Dispatchers.Main) {
 
                                     progress.dismmissLoading()
+                                    sendTokenToServer()
                                     startActivity(Intent(this@LoginOTPActivity, SplashActivity::class.java).apply {
                                         putExtra("empId", intent.getStringExtra("empId"))
                                     })
@@ -88,6 +94,45 @@ class LoginOTPActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun sendTokenToServer() {
+
+        let {
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.Main) {
+
+                    FirebaseInstanceId.getInstance().instanceId
+                        .addOnCompleteListener(OnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                Log.w(
+                                    "TAG",
+                                    "getInstanceId failed",
+                                    task.exception
+                                )
+                                return@OnCompleteListener
+                            }
+
+                            // Get new Instance ID token
+                            val token = task.result?.token
+
+                            CoroutineScope(Dispatchers.IO).launch {
+
+                                var map = HashMap<String, String>()
+                                map["userId"] = intent.getStringExtra("empId")!!
+                                map["token"] = token!!
+                                val res = RetrofitFactory.getApiService()
+                                    .sendToken(map = map)
+                                Log.w("TAG", "getInstanceId :$token")
+
+
+                            }
+
+                        })
+                }
+            }
+        }
+    }
+
     private fun initiateOtpTimer()
     {
         object : CountDownTimer(45000, 1000) {

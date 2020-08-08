@@ -104,7 +104,7 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         et_am_dob.setText(mKYCPostData?.panDob.toString())
         et_am_aadhar_number.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AadharId))
         address_line1_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine1))
-        address1_line2_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine2))
+        address_line2_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine2))
         pincode_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.Pincode))
         city_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
         district_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))

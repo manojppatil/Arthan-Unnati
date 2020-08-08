@@ -912,7 +912,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         mCardData = response.body()
                     }
                     withContext(Dispatchers.Main) {
-                        if (mCardData != null) {
+                        if (mCardData != null|| mCardDataBack!=null) {
                             if (cardType == CardType.PANCard) {
                                 verifyCardDataAsync(filePath, cardType).await()
                             } else {

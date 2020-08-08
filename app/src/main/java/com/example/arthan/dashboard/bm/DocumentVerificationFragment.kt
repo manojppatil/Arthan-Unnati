@@ -230,6 +230,7 @@ class DocumentVerificationFragment : BaseFragment() {
             list.add(DocumentsData("","businessProof",docDetails?.businessProof,isBusinessProof.toString()))
             list.add(DocumentsData("","businessAddrProof",docDetails?.businessAddrProof,isOfficeAddressProof.toString()))
             list.add(DocumentsData("","incomeProof",docDetails?.incomeProof,isIncomeProof.toString()))
+            list.add(DocumentsData("","cheque",docDetails?.chequeUrl,isChequeProof.toString()))
             val postBody = DocScreeningStatusPost(
                 loanId = mLoanId,
                 userId=ArthanApp.getAppInstance().loginUser,
@@ -339,6 +340,34 @@ class DocumentVerificationFragment : BaseFragment() {
                     }
                 })
                 .into(img_aadhaar)
+            if(docDetails?.chequeUrl!=null) {
+                Glide.with(it)
+                    .load(docDetails?.chequeUrl)
+                    .addListener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                            return false
+                        }
+
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.e(TAG, "Success in loading image ")
+                            return false
+                        }
+                    })
+                    .into(img_chq)
+            }
             Glide.with(it)
                 .load(docDetails?.aadharBackUrl)
                 .addListener(object : RequestListener<Drawable> {
@@ -507,6 +536,35 @@ class DocumentVerificationFragment : BaseFragment() {
         this.docDetailsam=docDetails
         this.mContext=bmDocumentVerificationActivity
         context?.let {
+            if(docDetails?.chequeUrl!=null) {
+                Glide.with(it)
+                    .load(docDetails?.chequeUrl)
+                    .addListener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.e(TAG, "Error in loading image ---> ${e?.message}")
+                            return false
+                        }
+
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.e(TAG, "Success in loading image ")
+                            return false
+                        }
+                    })
+                    .into(img_chq)
+            }
+
             Glide.with(it)
                 .load(docDetails?.panUrl)
                 .addListener(object : RequestListener<Drawable> {
