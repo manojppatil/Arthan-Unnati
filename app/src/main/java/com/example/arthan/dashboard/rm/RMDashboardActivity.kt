@@ -37,7 +37,7 @@ class RMDashboardActivity : BaseActivity() {
     }
 
     override fun init() {
-        btn_add_lead = findViewById(R.id.btn_add_lead) as Button
+        btn_add_lead = findViewById<Button>(R.id.btn_add_lead)
         btn_add_lead.setOnClickListener {
             startActivity(Intent(this@RMDashboardActivity, AddLeadStep1Activity::class.java))
         }

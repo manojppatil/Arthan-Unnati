@@ -32,7 +32,6 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_loan_detail.*
 import kotlinx.coroutines.*
 import java.util.*
-import java.util.logging.Handler
 import kotlin.coroutines.CoroutineContext
 
 
@@ -708,14 +707,20 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                 finish()
                 if(ArthanApp.getAppInstance().loginRole=="RM")
                 {
-                    startActivity(Intent(this,RMDashboardActivity::class.java))
+                    startActivity(Intent(this,RMDashboardActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
+                    })
                 }else if(ArthanApp.getAppInstance().loginRole=="BCM")
                 {
-                    startActivity(Intent(this, BCMDashboardActivity::class.java))
+                    startActivity(Intent(this, BCMDashboardActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
+                    })
 
                 }else if(ArthanApp.getAppInstance().loginRole=="BM")
                 {
-                    startActivity(Intent(this, BMDashboardActivity::class.java))
+                    startActivity(Intent(this, BMDashboardActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
+                    })
 
                 }
             }

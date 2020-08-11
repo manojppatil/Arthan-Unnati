@@ -268,6 +268,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
         when (item.itemId) {
             R.id.homeMenu -> {
                 finish()
+
                 if(ArthanApp.getAppInstance().loginRole=="RM")
                 {
                     startActivity(Intent(this,RMDashboardActivity::class.java))

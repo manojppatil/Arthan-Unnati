@@ -135,14 +135,20 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                 finish()
                 if(ArthanApp.getAppInstance().loginRole=="RM")
                 {
-                    startActivity(Intent(this, RMDashboardActivity::class.java))
+                    startActivity(Intent(this,RMDashboardActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
+                    })
                 }else if(ArthanApp.getAppInstance().loginRole=="BCM")
                 {
-                    startActivity(Intent(this, BCMDashboardActivity::class.java))
+                    startActivity(Intent(this, BCMDashboardActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
+                    })
 
                 }else if(ArthanApp.getAppInstance().loginRole=="BM")
                 {
-                    startActivity(Intent(this, BMDashboardActivity::class.java))
+                    startActivity(Intent(this, BMDashboardActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
+                    })
 
                 }
             }
