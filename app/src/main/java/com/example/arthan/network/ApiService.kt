@@ -432,6 +432,14 @@ interface ApiService {
     @GET("bmAMReason")
     suspend fun bmAMReason(): Response<DetailsResponseData>?
 
+    @GET("getAMRejectStatus")
+    suspend fun getAMRejectStatus(@Query("amId") amId: String?): Response<AmCompletedScreens>
+
+
+    @POST("getAMScreenData")
+    suspend fun getAMScreenData(@Body body: HashMap<String,String?>): Response<BMAmDocnDataResponse>?
+
+
 
     /* @POST("getScreenDetails")
      Request:

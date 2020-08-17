@@ -52,6 +52,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".dashboard.rm.RMInProgressActivity" />
+        <activity android:name=".dashboard.am.AMRejectedScreenNavActivity" />
+        <activity android:name=".dashboard.am.AMRejectedCasesActivity" />
         <activity android:name=".dashboard.rm.RMScreeningNavigationActivity" />
         <activity android:name=".dashboard.bm.ShowPDFActivity" />
         <activity android:name=".dashboard.bcm.BureauDetailsLevel2" />

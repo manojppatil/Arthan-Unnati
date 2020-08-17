@@ -101,7 +101,8 @@ data class OtherDetailsList(
     val smartphone: String,
     val twoWheeler: String,
     val languages: ArrayList<LanguagesAM>,
-    val references: ArrayList<References>
+    val references: ArrayList<References>,
+    val otherId:String
 
 )
 

@@ -1,8 +1,12 @@
 package com.example.arthan.dashboard.am
 
+import android.view.View
 import android.widget.CheckBox
+import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.lead.model.responsedata.OtherDetailsList
+import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.am_others_details_dnd.*
 import kotlinx.android.synthetic.main.am_others_details_dnd.cb_lang1_read
@@ -21,6 +25,10 @@ import kotlinx.android.synthetic.main.am_others_details_dnd.rb_yes
 import kotlinx.android.synthetic.main.am_others_details_dnd.tv_am_lang1
 import kotlinx.android.synthetic.main.am_others_details_dnd.tv_am_lang2
 import kotlinx.android.synthetic.main.am_others_details_dnd.tv_am_lang3
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AMOthersDetailsDnD : BaseFragment() {
     override fun contentView(): Int {
@@ -29,7 +37,33 @@ class AMOthersDetailsDnD : BaseFragment() {
     }
 
     override fun init() {
-
+        //not using this for now
+        if(arguments!=null&& arguments!!.get("task")=="AMRejected" )
+        {
+            val progress= ProgrssLoader(context!!)
+            progress.showLoading()
+            val map=HashMap<String,String?>()
+            map["screen"]=arguments!!.getString("screen")
+            map["amId"]=arguments!!.getString("amId")
+            CoroutineScope(Dispatchers.IO).launch {
+                val res= RetrofitFactory.getApiService().getAMScreenData(map)
+                if(res?.body()!=null)
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        progress.dismmissLoading()
+                        updateData(res.body()!!.otherDetails)
+                        btn_am_submit.visibility=View.VISIBLE
+                    }
+                }
+                else{
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(context,"Try again later", Toast.LENGTH_LONG).show()
+                        progress.dismmissLoading()
+                    }
+                }
+            }
+        }
 
     }
     var CheckBox.checked: Boolean

@@ -17,6 +17,7 @@ import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.KYCPostData
 import com.example.arthan.lead.model.postdata.PersonalDetails
+import com.example.arthan.lead.model.responsedata.PersonalDetailsAM
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.dateSelection
@@ -63,6 +64,32 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
     var mKYCPostData: KYCPostData? = null
     override fun init() {
 
+        if(arguments!=null&& arguments!!.get("task")=="AMRejected" )
+        {
+            val progress=ProgrssLoader(context!!)
+            progress.showLoading()
+            val map=HashMap<String,String?>()
+            map["screen"]=arguments!!.getString("screen")
+            map["amId"]=arguments!!.getString("amId")
+            CoroutineScope(Dispatchers.IO).launch {
+                val res=RetrofitFactory.getApiService().getAMScreenData(map)
+                if(res?.body()!=null)
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        progress.dismmissLoading()
+                        updateData(res.body()!!.personalDetails)
+
+                    }
+                }
+                else{
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(context,"Try again later",Toast.LENGTH_LONG).show()
+                        progress.dismmissLoading()
+                    }
+                }
+            }
+        }
         launch(ioContext) {
             fetchAndUpdateStateNameAsync().await()
         }
@@ -70,6 +97,7 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         cb_sameAddress.setOnCheckedChangeListener { buttonView, isChecked ->
             if (!isChecked) {
                 sameAsAddressLL.visibility = View.VISIBLE
+
             } else {
                 sameAsAddressLL.visibility = View.GONE
             }
@@ -86,49 +114,106 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
         }
     }
 
+    private fun updateData(personalDetails: PersonalDetailsAM) {
+
+        et_am_name.setText(personalDetails?.fullName)
+        et_am_pan.setText(personalDetails.applicantPanNo)
+        et_am_aadhar_number.setText(personalDetails.applicantAadharNo)
+        et_am_dob.setText(personalDetails.dob)
+        et_am_contactno.setText(personalDetails.contactNo)
+        cb_sameWhatsApp.isChecked= personalDetails.whatsappNo==personalDetails.contactNo
+        whatsapp_number_input.setText(personalDetails.whatsappNo)
+        email_id_input.setText(personalDetails.email)
+        male_radio_button.isChecked=personalDetails.gender.toLowerCase()=="male"
+        female_radio_button.isChecked=personalDetails.gender.toLowerCase()=="female"
+        transgender_radio_button.isChecked=personalDetails.gender.toLowerCase()=="transgender"
+        address_line1_input.setText(personalDetails.addressLine1)
+        address_line2_input.setText(personalDetails.addressLine2)
+        landmark_input.setText(personalDetails.landmark)
+        pincode_input.setText(personalDetails.pinCode)
+        city_input.setText(personalDetails.city)
+        district_input.setText(personalDetails.district)
+        val list =
+            (spnr_am_state?.adapter as? DataSpinnerAdapter)?.list
+        if(list!=null&&list.isNotEmpty())
+        {
+            for (i in 0 until list.size)
+            {
+                if(list[i].value==personalDetails.state)
+                {
+                    spnr_am_state.setSelection(i)
+
+                }
+
+            }
+        }
+    }
+
     private var navController: NavController? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController =
-            if (activity is AMPersonalDetailsActivity) Navigation.findNavController(
-                activity!!,
-                R.id.frag_container
-            ) else null
+        if (arguments != null && arguments!!.get("task") == "AMRejected") {
+            btn_am_save.setOnClickListener {
 
-        mKYCPostData = (activity as AMPersonalDetailsActivity).mKYCPostData
+                if (et_am_name.length() > 0 && et_am_pan.length() > 0 && et_am_aadhar_number.length() > 0 && et_am_dob.length() > 0 && et_am_contactno.length() > 0 && email_id_input.length() > 0 &&
+                    address_line1_input.length() > 0 && pincode_input.length() > 0 && city_input.length() > 0 && district_input.length() > 0
 
-        et_am_name.setText(mKYCPostData?.panFirstname.toString())
-        et_am_pan.setText(mKYCPostData?.panId.toString())
-        et_am_aadhar_number.setText(mKYCPostData?.aadharId.toString())
-        et_am_dob.setText(mKYCPostData?.panDob.toString())
-        et_am_aadhar_number.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AadharId))
-        address_line1_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine1))
-        address_line2_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine2))
-        pincode_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.Pincode))
-        city_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
-        district_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
-//        state_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.State))
-        et_am_contactno.setText(AppPreferences.getInstance().getString("amMobNo"))
-        btn_am_next.setOnClickListener {
+                ) {
+                    if ((whatsapp_number_input.length() == 0 && !cb_sameWhatsApp.isChecked)) {
+                        Toast.makeText(context, "Please fill all the details", Toast.LENGTH_LONG)
+                            .show()
 
-            if (et_am_name.length() > 0 && et_am_pan.length() > 0 && et_am_aadhar_number.length() > 0 && et_am_dob.length() > 0 && et_am_contactno.length() > 0 && email_id_input.length() > 0 &&
-                address_line1_input.length() > 0  && pincode_input.length() > 0 && city_input.length() > 0 && district_input.length() > 0
+                        return@setOnClickListener
+                    }
 
-            ) {
-                if((whatsapp_number_input.length() == 0 && !cb_sameWhatsApp.isChecked ))
-                {
+                        savePersonalData("AM")
+                } else {
                     Toast.makeText(context, "Please fill all the details", Toast.LENGTH_LONG).show()
+                }
+            }
+        }else{
+            navController =
+                if (activity is AMPersonalDetailsActivity) Navigation.findNavController(
+                    activity!!,
+                    R.id.frag_container
+                ) else null
 
-                    return@setOnClickListener
+            mKYCPostData = (activity as AMPersonalDetailsActivity).mKYCPostData
+
+            et_am_name.setText(mKYCPostData?.panFirstname.toString())
+            et_am_pan.setText(mKYCPostData?.panId.toString())
+            et_am_aadhar_number.setText(mKYCPostData?.aadharId.toString())
+            et_am_dob.setText(mKYCPostData?.panDob.toString())
+            et_am_aadhar_number.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AadharId))
+            address_line1_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine1))
+            address_line2_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine2))
+            pincode_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.Pincode))
+            city_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
+            district_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
+//        state_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.State))
+            et_am_contactno.setText(AppPreferences.getInstance().getString("amMobNo"))
+
+            btn_am_save.setOnClickListener {
+
+                if (et_am_name.length() > 0 && et_am_pan.length() > 0 && et_am_aadhar_number.length() > 0 && et_am_dob.length() > 0 && et_am_contactno.length() > 0 && email_id_input.length() > 0 &&
+                    address_line1_input.length() > 0 && pincode_input.length() > 0 && city_input.length() > 0 && district_input.length() > 0
+
+                ) {
+                    if ((whatsapp_number_input.length() == 0 && !cb_sameWhatsApp.isChecked)) {
+                        Toast.makeText(context, "Please fill all the details", Toast.LENGTH_LONG)
+                            .show()
+
+                        return@setOnClickListener
+                    }
+                    if (activity is AMPersonalDetailsActivity) {
+                        (activity as AMPersonalDetailsActivity).enableProfessional()
+                        (activity as AMPersonalDetailsActivity).infoCompleteState(PERSONAL)
+                        savePersonalData("AM")
+                    }
+                } else {
+                    Toast.makeText(context, "Please fill all the details", Toast.LENGTH_LONG).show()
                 }
-                if (activity is AMPersonalDetailsActivity) {
-                    (activity as AMPersonalDetailsActivity).enableProfessional()
-                    (activity as AMPersonalDetailsActivity).infoCompleteState(PERSONAL)
-                    savePersonalData("AM")
-                }
-            } else {
-                Toast.makeText(context, "Please fill all the details", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -183,7 +268,13 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
                     if (result?.apiCode == "200") {
                         withContext(uiContext) {
                             progressBar?.dismmissLoading()
-                            navController?.navigate(R.id.action_personal_to_professional)
+                            if (arguments != null && arguments!!.get("task") == "AMRejected"){
+                                Toast.makeText(context, "Re-submitted case.", Toast.LENGTH_LONG).show()
+
+                                activity!!.finish()
+                            }else {
+                                navController?.navigate(R.id.action_personal_to_professional)
+                            }
                         }
                     }
                 } else {
@@ -222,7 +313,6 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
                 if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                     withContext(uiContext) {
                         spnr_am_state?.adapter = getAdapter(response.body()?.data)
-                        spnr_am_state1?.adapter = getAdapter(response.body()?.data)
                     }
                 }
             } catch (e: Exception) {

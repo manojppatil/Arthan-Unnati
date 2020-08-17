@@ -13,6 +13,7 @@ import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.lead.UploadDocumentActivity
 import com.example.arthan.lead.model.postdata.KYCPostData
 import com.example.arthan.lead.model.responsedata.BaseResponseData
+import com.example.arthan.lead.model.responsedata.DocDetailsAM
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.ocr.CardInfo
 import com.example.arthan.ocr.CardResponse
@@ -46,12 +47,48 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
 
     override fun init() {
         Log.d("TAG", "In AddAMDetailsActivity")
-
+        if(intent.extras!=null&& intent!!.getStringExtra("task")=="AMRejected" )
+        {
+            val progress= ProgrssLoader(this)
+            progress.showLoading()
+            val map=HashMap<String,String?>()
+            map["screen"]=intent.getStringExtra("screen")
+            map["amId"]=intent.getStringExtra("amId")
+            CoroutineScope(Dispatchers.IO).launch {
+                val res= RetrofitFactory.getApiService().getAMScreenData(map)
+                if(res?.body()!=null)
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        progress.dismmissLoading()
+                        updateData(res.body()!!.docDetails)
+                    }
+                }
+                else{
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(this@AddAMKYCDetailsActivity,"Try again later", Toast.LENGTH_LONG).show()
+                        progress.dismmissLoading()
+                    }
+                }
+            }
+        }
         txt_am_pan_card.setOnClickListener(this)
         txt_am_aadhar_card.setOnClickListener(this)
         txt_am_voter_id.setOnClickListener(this)
         txt_am_appl_photo.setOnClickListener(this)
         btn_am_next.setOnClickListener(this)
+    }
+
+    private fun updateData(docDetails: DocDetailsAM) {
+
+        mKYCPostData=KYCPostData()
+        mKYCPostData?.panUrl=docDetails.panUrl
+        mKYCPostData?.aadharFrontUrl=docDetails.aadharFrontUrl
+        mKYCPostData?.aadharBackUrl=docDetails.aadharBackUrl
+        mKYCPostData?.voterUrl=docDetails.voterUrl
+        mKYCPostData?.paApplicantPhoto=docDetails.paApplicantPhoto
+
+
     }
 
     override fun onClick(view: View?) {
@@ -93,7 +130,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
 
     }
 
-    override fun onToolbarBackPressed() = onBackPressed()
+    override fun onToolbarBackPressed() = finish()
 
     override fun screenTitle() = "KYC details"
     var applicantPhoto: String = ""

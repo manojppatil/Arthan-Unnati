@@ -86,38 +86,6 @@ class SplashActivity : AppCompatActivity() {
                         ArthanApp.getAppInstance().onboarded = res.body()!!.onboarded
                         var user = response.body()!!.role
 
-                    if (user == "AM"){
-                        if (ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
-
-                            AppPreferences.getInstance()
-                                .remove(AppPreferences.Key.LoginType)
-                            AppPreferences.getInstance()
-                                .addString(AppPreferences.Key.LoginType, "RM1")
-                            startActivity(
-                                Intent(
-                                    this@SplashActivity,
-                                    RMDashboardActivity::class.java
-                                )
-                            )
-                            finish()
-                        } else {
-                            AppPreferences.getInstance()
-                                .remove(AppPreferences.Key.LoginType)
-                            AppPreferences.getInstance()
-                                .addString(AppPreferences.Key.LoginType, "AM")
-                            startActivity(
-                                Intent(
-                                    this@SplashActivity,
-                                    AMOnboardingAtivity::class.java
-                                )
-                            )
-                            finish()
-                        }
-                    }
-
-
-
-
                         withContext(Dispatchers.Main) {
                             if (!et_role.otp.isNullOrBlank()) {
 
@@ -150,7 +118,7 @@ class SplashActivity : AppCompatActivity() {
                                     } "AM" -> {
 
 
-                                    if (ArthanApp.getAppInstance().onboarded.toLowerCase() == "wyes") {
+                                    if (ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
 
                                         AppPreferences.getInstance()
                                             .remove(AppPreferences.Key.LoginType)

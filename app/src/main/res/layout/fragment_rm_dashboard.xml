@@ -86,6 +86,7 @@
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_gravity="center"
+                    android:background="@drawable/bg_upload_photo"
                     android:src="@drawable/bg_upload_photo" />
 
             </FrameLayout>

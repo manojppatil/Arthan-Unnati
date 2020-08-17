@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.arthan.R
+import com.example.arthan.dashboard.am.AMRejectedCasesActivity
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.RMDashboardData
@@ -35,7 +36,15 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
         cv_reassign.setOnClickListener(this)
         cv_to_be_disbursed.setOnClickListener(this)
         cv_inprogress.setOnClickListener(this)
-        status_am.setOnClickListener(this)
+        status.setOnClickListener {
+            startActivity(
+                Intent(
+                    activity,
+                    AMRejectedCasesActivity::class.java
+                ).apply {
+                    putExtra("FROM", "RM")
+                })
+        }
         am_list.setOnClickListener(this)
         Am_status.setOnClickListener(this)
         cv_am_cases.setOnClickListener(this)
@@ -81,12 +90,12 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 //txt_reassign.text= "${data.reassign.label}"
                 txt_rmprogress_amt.text = "${data.inProgress.total}"
 
-                txt_amcases_count.text = "${data.amCase.count}"
-                //txt_reassign.text= "${data.reassign.label}"
-                txt_amcases_amt.text = "${data.amCase.total}"
+//      //          txt_amcases_count.text = "${data.amCase.count}"
+                txt_reassign.text= "${data.reassign.label}"
+//                txt_amcases_amt.text = "${data.amCase.total}"
 
-                am_count.text = "${data.myAm.total}"
-                txt_myam_amt.text = "${data.myAm.total}"
+//                am_count.text = "${data.myAm.total}"
+//                txt_myam_amt.text = "${data.myAm.total}"
 
                 if(ArthanApp.getAppInstance().loginRole=="AM")
                 {
@@ -111,6 +120,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                     try {
                         context?.let {
                             if (data.amRmImage.isNotEmpty()) {
+                                img_profile.setBackgroundResource(0)
                                 Glide.with(it).load(data.amRmImage).into(img_profile)
                             }
                         }
@@ -186,6 +196,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 ).apply {
                     putExtra("FROM", "RM")
                 })
+
             R.id.cv_reassign -> startActivity(
                 Intent(
                     activity,
