@@ -46,7 +46,7 @@ class ReassignAdapter(
             }else
             {
                 root.findViewById<ConstraintLayout>(R.id.clparent).visibility=View.VISIBLE
-                root.findViewById<ConstraintLayout>(R.id.amCasesLL).visibility=View.GONE
+                root.findViewById<LinearLayout>(R.id.amCasesLL).visibility=View.GONE
             }
             when (from) {
                 "REASSIGN" -> {

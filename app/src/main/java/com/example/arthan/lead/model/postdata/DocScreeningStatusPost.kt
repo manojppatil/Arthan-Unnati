@@ -4,7 +4,8 @@ data class DocScreeningStatusPost(
     val  loanId :String?,
     val custId:String?,
     val userId:String?,
-    val documents:ArrayList<DocumentsData>
+    val documents:ArrayList<DocumentsData>,
+    val amId:String?
 )
 
  data class DocumentsData(

@@ -362,7 +362,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             {
                                 if(ArthanApp.getAppInstance().loginRole == "BM" && et_remarks?.text.toString().isNotEmpty())
                                 {
-                                    Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
+                                    //Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
                                 }
                             }
 
@@ -377,38 +377,55 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                                 activity?.finish()
 
                             } else {
-                                val intent = Intent(activity, BMScreeningReportActivity::class.java)
-                                // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                                intent.putExtra("loanId", mLoanId)
-                                intent.putExtra(
-                                    "indSeg",
-                                    activity?.intent?.getStringExtra("indSeg")
-                                )
-                                intent.putExtra(
-                                    "loginDate",
-                                    activity?.intent?.getStringExtra("loginDate")
-                                )
-                                intent.putExtra(
-                                    "loanId",
-                                    activity?.intent?.getStringExtra("loanId")
-                                )
-                                intent.putExtra(
-                                    "loanAmt",
-                                    activity?.intent?.getStringExtra("loanAmt")
-                                )
-                                intent.putExtra("cname", activity?.intent?.getStringExtra("cname"))
-                                intent.putExtra(
-                                    "custId",
-                                    activity?.intent?.getStringExtra("custId")
-                                )
-                                intent.putExtra(
-                                    "loanType",
-                                    activity?.intent?.getStringExtra("loanType")
-                                )
 
-                                startActivity(intent)
+                                if (ArthanApp.getAppInstance().loginRole == "BM") {
 
-                                activity?.finish()
+                                    startActivity(
+                                        Intent(
+                                            activity,
+                                            PendingCustomersActivity::class.java
+                                        ).apply {
+                                            putExtra("FROM", "BM")
+                                        })
+                                    activity?.finish()
+                                } else {
+                                    val intent =
+                                        Intent(activity, BMScreeningReportActivity::class.java)
+                                    // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    intent.putExtra("loanId", mLoanId)
+                                    intent.putExtra(
+                                        "indSeg",
+                                        activity?.intent?.getStringExtra("indSeg")
+                                    )
+                                    intent.putExtra(
+                                        "loginDate",
+                                        activity?.intent?.getStringExtra("loginDate")
+                                    )
+                                    intent.putExtra(
+                                        "loanId",
+                                        activity?.intent?.getStringExtra("loanId")
+                                    )
+                                    intent.putExtra(
+                                        "loanAmt",
+                                        activity?.intent?.getStringExtra("loanAmt")
+                                    )
+                                    intent.putExtra(
+                                        "cname",
+                                        activity?.intent?.getStringExtra("cname")
+                                    )
+                                    intent.putExtra(
+                                        "custId",
+                                        activity?.intent?.getStringExtra("custId")
+                                    )
+                                    intent.putExtra(
+                                        "loanType",
+                                        activity?.intent?.getStringExtra("loanType")
+                                    )
+
+                                    startActivity(intent)
+
+                                    activity?.finish()
+                                }
                             }
 
                         } else {

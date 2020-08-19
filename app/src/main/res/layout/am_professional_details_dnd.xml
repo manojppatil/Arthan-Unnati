@@ -198,6 +198,21 @@
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintVertical_chainStyle="packed" />
 
+            <EditText
+                android:id="@+id/et_am_remarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#000000"
+                android:fontFamily="@font/lato_black"
+                android:hint="Remarks"
+                android:textColor="#000000"
+                android:imeOptions="actionDone"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_am_UPIid" />
+
             <Button
                 android:id="@+id/btn_am_pro_next"
                 android:layout_width="wrap_content"
@@ -207,7 +222,7 @@
                 android:background="@drawable/ic_next_enabled"
                 android:fontFamily="@font/lato_black"
                 android:minWidth="0dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:minHeight="0dp"
                 android:paddingStart="32dp"
                 android:paddingTop="12dp"
@@ -218,7 +233,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_upload_check"
+                app:layout_constraintTop_toBottomOf="@+id/et_am_remarks"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintVertical_chainStyle="packed" />
 

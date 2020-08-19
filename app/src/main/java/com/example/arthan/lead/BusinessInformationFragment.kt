@@ -207,13 +207,14 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                         withContext(Dispatchers.Main) {
                             if(ArthanApp.getAppInstance().loginRole == "BM" && et_remarks?.text.toString().isNotEmpty())
                             {
-                                Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
+                                //Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
                             }
                             /*  AppPreferences.getInstance()
                                 .addString(AppPreferences.Key.BusinessId, result.businessId)*/
                             progressBar.dismmissLoading()
 
-                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
+                            //writing same flow for both y n for discrepency since bcm will have the different flow
+//                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
 
                                 if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
                                     progressBar.dismmissLoading()
@@ -252,8 +253,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                                     activity?.finish()
                                 }
 
-                            }
-                            else {
+//                            }
+                            /*else {
                                 progressBar.dismmissLoading()
 
                                 val navController: NavController? =
@@ -271,8 +272,17 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                                 } else {
 
                                 }
+                                //making discrepency void
+                                if(activity is BMDocumentVerificationActivity) {
+
+                                    (activity as BMDocumentVerificationActivity).moveVPinDataFragment(2)
+                                }else
+                                {
+
                                 }
-                        }
+                                }*/
+
+                            }
                     }
                         else  {
                         withContext(Dispatchers.Main) {

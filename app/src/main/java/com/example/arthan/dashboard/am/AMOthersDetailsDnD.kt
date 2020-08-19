@@ -64,6 +64,33 @@ class AMOthersDetailsDnD : BaseFragment() {
                 }
             }
         }
+        btn_am_submit.setOnClickListener {
+            val progress= ProgrssLoader(context!!)
+            progress.showLoading()
+            val req=HashMap<String,String?>()
+            req["loanId"]=activity?.intent?.getStringExtra("loanId")
+            req["remarks"]=et_am_remarks.text.toString()
+            CoroutineScope(Dispatchers.IO).launch {
+                val res= RetrofitFactory.getApiService().updateAMOtherDetails(req)
+                if(res?.body()!=null)
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        progress.dismmissLoading()
+
+                        activity?.finish()
+                        btn_am_submit.visibility=View.VISIBLE
+                    }
+                }
+                else{
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(context,"Try again later", Toast.LENGTH_LONG).show()
+                        progress.dismmissLoading()
+                    }
+                }
+            }
+        }
+
 
     }
     var CheckBox.checked: Boolean

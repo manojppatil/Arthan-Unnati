@@ -539,12 +539,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                         withContext(Dispatchers.Main) {
                             if(ArthanApp.getAppInstance().loginRole == "BM" && et_remarks?.text.toString().isNotEmpty())
                             {
-                                Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
+                              //  Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
                             }
                             /*  AppPreferences.getInstance()
                                   .addString(AppPreferences.Key.BusinessId, result.businessId)*/
                             progressBar.dismmissLoading()
-                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
+//                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
                                 if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
 
                                     if (activity is LeadInfoCaptureActivity) {
@@ -576,7 +576,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                                     startActivity(Intent(activity, RMDashboardActivity::class.java))
                                     activity?.finish()
                                 }
-                            } else {
+                          /*  } else {
                                 if (activity is LeadInfoCaptureActivity) {
                                     (activity as LeadInfoCaptureActivity).enableDoc()
                                     (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
@@ -585,9 +585,15 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                                 b.putString("loanType", result.loanType)
                                 activity?.intent?.putExtra("loanType", result.loanType)
                                 navController?.navigate(R.id.action_income_to_doc, b)
+                                if(activity is BMDocumentVerificationActivity) {
 
+                                    (activity as BMDocumentVerificationActivity).moveVPinDataFragment(3)
+                                }else
+                                {
 
-                            }
+                                }
+
+                            }*/
 
                         }
                     } else {

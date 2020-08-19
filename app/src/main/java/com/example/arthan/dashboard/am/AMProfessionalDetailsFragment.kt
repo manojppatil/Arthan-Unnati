@@ -59,6 +59,8 @@ class AMProfessionalDetailsFragment : BaseFragment(), CoroutineScope {
                     {
                         progress.dismmissLoading()
                         updateData(res.body()!!.professionalDetails)
+                        et_remarks_am.setText(res.body()!!.professionalDetails.remarks)
+
                         btn_am_pro_next.visibility=View.VISIBLE
                     }
                 }

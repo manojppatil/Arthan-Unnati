@@ -235,14 +235,20 @@ class DocumentVerificationFragment : BaseFragment() {
                 loanId = mLoanId,
                 userId=ArthanApp.getAppInstance().loginUser,
                 custId = mCustomerId,
-                documents = list
+                documents = list,
+                amId = ""+actvity.intent.getStringExtra("amId")
             )
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-            val response =
-                RetrofitFactory.getApiService().docScreeningStatus(
-                   postBody
+            val response = if(activity?.intent?.getStringExtra("recordType") == "AM"){
+                RetrofitFactory.getApiService().amDocScreeningStatus(
+                    postBody
                 )
+            }else {
+                RetrofitFactory.getApiService().docScreeningStatus(
+                    postBody
+                )
+            }
             if (response.isSuccessful && response.body() != null) {
 
                 progressBar.dismmissLoading()
@@ -258,7 +264,9 @@ class DocumentVerificationFragment : BaseFragment() {
                                 actvity.moveToData()
 
                             } else {
-                                startActivity(Intent(actvity, PendingCustomersActivity::class.java))
+                                //barring the condition check mail on aug 17 2020 tasks
+                                actvity.moveToData()
+                               // startActivity(Intent(actvity, PendingCustomersActivity::class.java))
                             }
                         } else {
                             startActivity(Intent(actvity, PendingCustomersActivity::class.java))

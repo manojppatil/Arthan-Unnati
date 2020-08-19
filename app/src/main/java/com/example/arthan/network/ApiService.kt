@@ -254,8 +254,17 @@ interface ApiService {
     @POST("submitPresanctionDocs")
     suspend fun submitPresanctionDocs(@Body body: PresanctionDocsRequestData): Response<BaseResponseData>
 
-    @POST("docScreeningStatus")
+    @POST("amDocScreeningStatus")
+    suspend fun amDocScreeningStatus(@Body body: DocScreeningStatusPost): Response<BaseResponseData>
+
+     @POST("docScreeningStatus")
     suspend fun docScreeningStatus(@Body body: DocScreeningStatusPost): Response<BaseResponseData>
+
+    @POST("updateAMOtherDetails")
+    suspend fun updateAMOtherDetails(@Body body: Map<String, String?>): Response<BaseResponseData>
+
+    @POST("updateProfessionalDetails")
+    suspend fun updateProfessionalDetails(@Body body: Map<String, String?>): Response<BaseResponseData>
 
     @POST("updateOtherDetails")
     suspend fun updateOtherDetails(@Body body: Map<String, String>): Response<BaseResponseData>

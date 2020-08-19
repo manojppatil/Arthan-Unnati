@@ -3,6 +3,7 @@ package com.example.arthan.dashboard.am
 import android.view.View
 import android.widget.Toast
 import com.example.arthan.R
+import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.lead.model.responsedata.ProfessionalDetailsAM
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
@@ -48,6 +49,31 @@ class AMProfessionalDetailsDnD : BaseFragment() {
                 }
             }
         }
+        btn_am_pro_next.setOnClickListener {
+            val progress= ProgrssLoader(context!!)
+            progress.showLoading()
+            val map=HashMap<String,String?>()
+            map["loanId"]=activity?.intent?.getStringExtra("loanId")
+            map["remarks"]=et_am_remarks.text.toString()
+            CoroutineScope(Dispatchers.IO).launch {
+                val res= RetrofitFactory.getApiService().updateProfessionalDetails(map)
+                if(res?.body()!=null)
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        progress.dismmissLoading()
+                        (activity as BMDocumentVerificationActivity).moveVPinDataFragment(2)
+                        btn_am_pro_next.visibility=View.VISIBLE
+                    }
+                }
+                else{
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(context,"Try again later", Toast.LENGTH_LONG).show()
+                        progress.dismmissLoading()
+                    }
+                }
+            }
+        }
 
     }
 
@@ -61,8 +87,5 @@ class AMProfessionalDetailsDnD : BaseFragment() {
         et_am_account_number.setText(professionalDetails?.acNumber1)
         et_am_ifsc_code.setText(professionalDetails?.ifscCode)
         et_am_UPIid.setText(professionalDetails?.upiId)
-        btn_am_pro_next.setOnClickListener {
-
-        }
     }
 }

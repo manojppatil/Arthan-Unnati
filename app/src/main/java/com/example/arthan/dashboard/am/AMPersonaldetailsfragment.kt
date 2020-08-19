@@ -79,6 +79,7 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
                     {
                         progress.dismmissLoading()
                         updateData(res.body()!!.personalDetails)
+                        et_remarks_am.setText(res.body()!!.personalDetails.remarks)
 
                     }
                 }

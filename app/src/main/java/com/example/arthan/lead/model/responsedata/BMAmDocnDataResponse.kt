@@ -60,7 +60,8 @@ data class PersonalDetailsAM(
     val statep: String,
     val amId: String,
     val whatsappNo: String,
-    val addressProofUrl: String
+    val addressProofUrl: String,
+    val remarks: String
 )
 
 data class ProfessionalDetailsAM(
@@ -74,7 +75,9 @@ data class ProfessionalDetailsAM(
     val upiId: String,
     val ifscCode: String,
     val chequeUrl: String,
-    val prof: String
+    val prof: String,
+    val remarks: String
+
 )
 
 data class DocDetailsAM(
@@ -94,7 +97,9 @@ data class DocDetailsAM(
     val docName: String?,
     val docUrl: String?,
     val docStatus: String?,
-    val chequeUrl: String?
+    val chequeUrl: String?,
+    val remarks: String
+
 )
 
 data class OtherDetailsList(
@@ -102,7 +107,9 @@ data class OtherDetailsList(
     val twoWheeler: String,
     val languages: ArrayList<LanguagesAM>,
     val references: ArrayList<References>,
-    val otherId:String
+    val otherId:String,
+    val remarks: String
+
 
 )
 

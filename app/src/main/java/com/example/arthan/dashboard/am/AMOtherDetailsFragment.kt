@@ -24,7 +24,6 @@ import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.fragment_am_otherdetails.*
-import kotlinx.android.synthetic.main.fragment_am_professional_details.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -61,6 +60,7 @@ class AMOtherDetailsFragment : BaseFragment(), CoroutineScope {
                     {
                         progress.dismmissLoading()
                         updateData(res.body()!!.otherDetails)
+                        et_remarks_am.setText(res.body()!!.otherDetails.remarks)
                         btn_am_submit.visibility=View.VISIBLE
                     }
                 }
