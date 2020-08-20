@@ -326,6 +326,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     mCustomerId= arguments?.getString("custId")
                 }
             }
+
             if (ArthanApp.getAppInstance().loginRole == "BM"||ArthanApp.getAppInstance().loginRole == "BCM") {
                 var dialog = AlertDialog.Builder(activity)
                 var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
@@ -741,6 +742,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             if (arguments?.getString("task").equals("RM_AssignList")) {
 
                 postBody.resubmit = "yes"
+                postBody.reassign="Y"
             }
             val response = RetrofitFactory.getApiService().saveTradeReference(postBody)
             return@async if (response?.isSuccessful == true) {
@@ -1131,6 +1133,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             if (arguments?.getString("task").equals("RM_AssignList")) {
 
                 postBody.resubmit = "yes"
+                postBody.reassign="Y"
             }
 
             /*  securityType = sp_security.selectedItem.toString(),

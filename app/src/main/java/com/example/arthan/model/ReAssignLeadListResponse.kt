@@ -13,5 +13,5 @@ val assignedBy: String,
 val loanAmt : String,
 val loanType : String,
 val amName : String,
-
+val mobNo:String,
 val pending: List<String>)

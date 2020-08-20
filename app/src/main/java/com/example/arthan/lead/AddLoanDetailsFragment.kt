@@ -101,6 +101,10 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
     }
 
     private fun saveLoanDetails() {
+        var reassign="N"
+        if(activity?.intent?.getStringExtra("task").equals("RM_AssignList",ignoreCase = true)){
+            reassign="Y"
+        }
         val progressBar: ProgrssLoader? = if (context != null) ProgrssLoader(context!!) else null
         progressBar?.showLoading()
         val postBody = LoanPostData(
@@ -117,7 +121,8 @@ class AddLoanDetailsFragment : NavHostFragment(), CoroutineScope {
             existingLoanObligationPm = existing_loan_obligation_input?.text?.toString() ?: "",
             additionalIncomePm = additional_income_input?.text?.toString() ?: "",
             householdExpensesPm = household_expenses_input?.text?.toString() ?: "",
-            createdBy = ArthanApp.getAppInstance().loginUser
+            createdBy = ArthanApp.getAppInstance().loginUser,
+            reassign = reassign
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {

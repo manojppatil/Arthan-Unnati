@@ -684,6 +684,11 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
 
     private fun saveBusinessData() {
+        var reassign="N"
+        if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)){
+            reassign="Y"
+        }
+
         val progressBar = ProgrssLoader(context ?: return)
         progressBar.showLoading()
         val sourceOfIncomeList: MutableList<Income> = mutableListOf()
@@ -914,7 +919,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             monthlybusinessexpenditures = business_expenditure_amount_input?.text?.toString(),
             expenditures = expenditureList,
             liabilities = liablitiesList,
-            methodUsed = method_used_spinner?.selectedItem as? String
+            methodUsed = method_used_spinner?.selectedItem as? String,
+            reassign = reassign
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {

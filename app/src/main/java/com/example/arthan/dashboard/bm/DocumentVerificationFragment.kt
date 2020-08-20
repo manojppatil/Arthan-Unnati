@@ -259,8 +259,8 @@ class DocumentVerificationFragment : BaseFragment() {
                         if (ArthanApp.getAppInstance().loginRole == "BCM") {
                             actvity.moveToData()
                         }
-                        if (response.body()?.discrepancy!!.equals("n", ignoreCase = true)) {
-                            if (ArthanApp.getAppInstance().loginRole == "BM") {
+                     //   if (response.body()?.discrepancy!!.equals("n", ignoreCase = true)) {
+                           else if (ArthanApp.getAppInstance().loginRole == "BM") {
                                 actvity.moveToData()
 
                             } else {
@@ -268,9 +268,9 @@ class DocumentVerificationFragment : BaseFragment() {
                                 actvity.moveToData()
                                // startActivity(Intent(actvity, PendingCustomersActivity::class.java))
                             }
-                        } else {
+                        /*} else {
                             startActivity(Intent(actvity, PendingCustomersActivity::class.java))
-                        }
+                        }*/
 
                     }
                 }else {

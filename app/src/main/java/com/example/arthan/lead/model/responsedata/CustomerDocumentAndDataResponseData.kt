@@ -21,7 +21,7 @@ data class CustomerDocumentAndDataResponseData(
     val path: String?,
     val loanType:String?,
     val businessComments:String?,
-    val OtherComments:String?,
+    val otherComments:String?,
     val incomeComments:String?,
     val loanDetails:LoanPostData?
 )

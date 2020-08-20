@@ -311,6 +311,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
     }
 
     private fun saveBusinessData() {
+        var reassign="N"
         if(loanId==null||loanId==""||custId==null||custId=="")
         {
             loanId=activity?.intent?.getStringExtra("loanId")
@@ -320,9 +321,15 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             {
                 loanId= arguments?.getString("loanId")
                 custId= arguments?.getString("custId")
+
             }
         }
-        val progressBar = ProgrssLoader(context ?: return)
+        if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)){
+                reassign="Y"
+            }
+
+
+            val progressBar = ProgrssLoader(context ?: return)
         progressBar.showLoading()
 
         val partners: MutableList<Partner> = mutableListOf()
@@ -374,7 +381,9 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             annualturnoverofpreviousfinancialyear = annual_turnover_previous_year_input?.text?.toString(),
             projectedturnover = projected_turnover_input?.text?.toString(),
             operatingbusinessaddress = operating_business_address_input?.text?.toString(),
-            registeredbusinessaddress = registered_business_address_input?.text?.toString()
+            registeredbusinessaddress = registered_business_address_input?.text?.toString(),
+                reassign = reassign
+
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {

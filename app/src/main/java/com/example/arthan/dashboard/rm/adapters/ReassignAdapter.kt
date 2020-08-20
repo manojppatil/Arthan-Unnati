@@ -47,6 +47,7 @@ class ReassignAdapter(
             {
                 root.findViewById<ConstraintLayout>(R.id.clparent).visibility=View.VISIBLE
                 root.findViewById<LinearLayout>(R.id.amCasesLL).visibility=View.GONE
+
             }
             when (from) {
                 "REASSIGN" -> {
@@ -80,6 +81,8 @@ class ReassignAdapter(
             root.findViewById<TextView>(R.id.txt_caseid).text= data[position].loanId
             root.findViewById<TextView>(R.id.txt_customer_name).text= data[position].cname
             root.findViewById<TextView>(R.id.txt_assign_date).text= data[position].assignedDate
+            root.findViewById<TextView>(R.id.txt_loanamount).text= "Loan Amt: "+data[position].loanAmt
+            root.findViewById<TextView>(R.id.txt_phone).text= "Mobile No.: "+data[position].mobNo
             var btnBusinessRm=root.findViewById<Button>(R.id.btn_business_rm)
             var btnIncomeRm=root.findViewById<Button>(R.id.btn_income_rm)
             var btnOthersRm=root.findViewById<Button>(R.id.btn_others_rm)

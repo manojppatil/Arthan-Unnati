@@ -167,6 +167,11 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
     private fun savePersonalData( applicantType:String) {
 
+        var reassign="N"
+        if(intent?.getStringExtra("task").equals("RM_AssignList",ignoreCase = true)){
+            reassign="Y"
+        }
+
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
         val postBody = PersonalPostData(

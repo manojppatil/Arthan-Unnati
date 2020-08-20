@@ -2,6 +2,7 @@ package com.example.arthan.lead.model.postdata
 
 data class CollateralDetailsPostData(
     var resubmit:String="",
+    var reassign:String="",
     var loanId: String? ="",
     var collaterals: ArrayList<CollateralData>,
     var custId: String? =""

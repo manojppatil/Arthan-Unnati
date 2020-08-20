@@ -524,6 +524,7 @@
             <EditText
                 android:id="@+id/et_am_remarks"
                 android:layout_width="0dp"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_black"
                 android:hint="Remarks"

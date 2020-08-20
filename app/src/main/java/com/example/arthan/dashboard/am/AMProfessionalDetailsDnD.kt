@@ -1,6 +1,9 @@
 package com.example.arthan.dashboard.am
 
+import android.app.AlertDialog
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
@@ -50,29 +53,45 @@ class AMProfessionalDetailsDnD : BaseFragment() {
             }
         }
         btn_am_pro_next.setOnClickListener {
-            val progress= ProgrssLoader(context!!)
-            progress.showLoading()
-            val map=HashMap<String,String?>()
-            map["loanId"]=activity?.intent?.getStringExtra("loanId")
-            map["remarks"]=et_am_remarks.text.toString()
-            CoroutineScope(Dispatchers.IO).launch {
-                val res= RetrofitFactory.getApiService().updateProfessionalDetails(map)
-                if(res?.body()!=null)
-                {
-                    withContext(Dispatchers.Main)
+
+            var dialog = AlertDialog.Builder(context)
+            var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
+            dialog.setView(view)
+            var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
+            var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+            var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
+            var alert= dialog.create() as AlertDialog
+            alert.show()
+            btn_cancel?.setOnClickListener {
+                alert.dismiss()
+            }
+            btn_submit_remark?.setOnClickListener {
+                val progress= ProgrssLoader(context!!)
+                progress.showLoading()
+                val map=HashMap<String,String?>()
+                map["amId"]=activity?.intent?.getStringExtra("amId")
+                map["remarks"]=et_remarks?.text.toString()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val res= RetrofitFactory.getApiService().updateProfessionalDetails(map)
+                    if(res?.body()!=null)
                     {
-                        progress.dismmissLoading()
-                        (activity as BMDocumentVerificationActivity).moveVPinDataFragment(2)
-                        btn_am_pro_next.visibility=View.VISIBLE
+                        withContext(Dispatchers.Main)
+                        {
+                            alert.dismiss()
+                            progress.dismmissLoading()
+                            (activity as BMDocumentVerificationActivity).moveVPinDataFragment(2)
+                            btn_am_pro_next.visibility=View.VISIBLE
+                        }
                     }
-                }
-                else{
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(context,"Try again later", Toast.LENGTH_LONG).show()
-                        progress.dismmissLoading()
+                    else{
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(context,"Try again later", Toast.LENGTH_LONG).show()
+                            progress.dismmissLoading()
+                        }
                     }
                 }
             }
+
         }
 
     }

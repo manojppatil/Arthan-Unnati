@@ -1,7 +1,10 @@
 package com.example.arthan.dashboard.am
 
+import android.app.AlertDialog
 import android.view.View
+import android.widget.Button
 import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.lead.model.responsedata.OtherDetailsList
@@ -65,30 +68,48 @@ class AMOthersDetailsDnD : BaseFragment() {
             }
         }
         btn_am_submit.setOnClickListener {
-            val progress= ProgrssLoader(context!!)
-            progress.showLoading()
-            val req=HashMap<String,String?>()
-            req["loanId"]=activity?.intent?.getStringExtra("loanId")
-            req["remarks"]=et_am_remarks.text.toString()
-            CoroutineScope(Dispatchers.IO).launch {
-                val res= RetrofitFactory.getApiService().updateAMOtherDetails(req)
-                if(res?.body()!=null)
-                {
-                    withContext(Dispatchers.Main)
-                    {
-                        progress.dismmissLoading()
 
-                        activity?.finish()
-                        btn_am_submit.visibility=View.VISIBLE
+            var dialog = AlertDialog.Builder(context)
+            var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
+            dialog.setView(view)
+            var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
+            var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+            var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
+            var alert= dialog.create() as AlertDialog
+            alert.show()
+            btn_cancel?.setOnClickListener {
+                alert.dismiss()
+            }
+            btn_submit_remark?.setOnClickListener {
+
+                val progress= ProgrssLoader(context!!)
+                progress.showLoading()
+                val req=HashMap<String,String?>()
+                req["amId"]=activity?.intent?.getStringExtra("amId")
+                req["remarks"]=et_remarks?.text.toString()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val res= RetrofitFactory.getApiService().updateAMOtherDetails(req)
+                    if(res?.body()!=null)
+                    {
+                        withContext(Dispatchers.Main)
+                        {
+                            progress.dismmissLoading()
+                            alert.dismiss()
+
+                            activity?.finish()
+                            btn_am_submit.visibility=View.VISIBLE
+                        }
                     }
-                }
-                else{
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(context,"Try again later", Toast.LENGTH_LONG).show()
-                        progress.dismmissLoading()
+                    else{
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(context,"Try again later", Toast.LENGTH_LONG).show()
+                            progress.dismmissLoading()
+                        }
                     }
                 }
             }
+
+
         }
 
 
