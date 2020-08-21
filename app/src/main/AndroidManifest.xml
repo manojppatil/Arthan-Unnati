@@ -37,7 +37,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.rm.AMdashboardActivity"></activity>
+        <activity android:name=".dashboard.bcm.BCMApprovedTechDocActivity"></activity>
+        <activity android:name=".dashboard.bcm.BCMApprovedLegalStatusActivity" />
+        <activity android:name=".dashboard.rm.AMdashboardActivity" />
         <activity android:name=".dashboard.rm.AddNewAmActivity" />
         <activity android:name=".RmReassignNavActivity" />
         <activity android:name=".dashboard.rm.ReUsableFragmentSpace" />
@@ -69,7 +71,8 @@
         <activity android:name=".lead.AddLeadActivity" />
         <activity android:name=".profile.MyProfileActivity" />
         <activity android:name=".dashboard.rm.RMReassignPendingScreenlist" />
-        <activity android:name=".dashboard.rm.MyAmListFragment"/>
+        <activity android:name=".dashboard.rm.MyAmListFragment" />
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="ocr" /> <!-- File access -->
@@ -189,14 +192,11 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-
-        <!--AM module-->
+        </service> <!-- AM module -->
         <activity android:name=".dashboard.am.AddAMKYCDetailsActivity" />
         <activity android:name=".dashboard.am.AMPersonalDetailsActivity" />
-        <activity android:name=".dashboard.am.AMOnboardingAtivity"/>
+        <activity android:name=".dashboard.am.AMOnboardingAtivity" />
         <activity android:name=".views.activities.FrontCameraActivity" />
-
     </application>
 
 </manifest>

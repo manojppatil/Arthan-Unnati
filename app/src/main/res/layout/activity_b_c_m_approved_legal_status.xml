@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".dashboard.bcm.BCMApprovedLegalStatusActivity">
+
+    <include layout="@layout/layout_rm_toolbar"
+        android:id="@+id/toolbar"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_next_enabled"
+        android:text="View Report"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textAllCaps="false"
+        android:id="@+id/viewReport"
+        android:textColor="#fff"
+        />
+ <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_next_enabled"
+        android:text="Add Co-Applicant"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textAllCaps="false"
+        android:id="@+id/coApplicantAdd"
+        android:textColor="#fff"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="4"
+        android:layout_margin="16dp"
+        android:id="@+id/Legalremarks"
+        android:hint="Enter Remarks"
+        android:gravity="center_vertical"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/submitlegal"
+        android:textColor="#fff"
+        android:textAllCaps="false"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/ic_next_enabled"/>
+
+</LinearLayout>

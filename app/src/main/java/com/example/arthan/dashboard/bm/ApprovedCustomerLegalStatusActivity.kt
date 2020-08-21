@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.BCMApprovedLegalStatusActivity
+import com.example.arthan.dashboard.bcm.BCMApprovedTechDocActivity
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.rm.CommonApprovedListingActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
@@ -80,6 +82,25 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
             if(isChecked)
             statusSelected = "Move to My Queue"
         }
+
+        btn_view_rcu_doc.setOnClickListener {
+
+
+        }
+        btn_view_legal_doc.setOnClickListener {
+
+            startActivity(Intent(this,BCMApprovedLegalStatusActivity::class.java).apply {
+                putExtra("loanId",data.caseId)
+            })
+        }
+
+        btn_view_tech_doc.setOnClickListener {
+
+            startActivity(Intent(this,BCMApprovedTechDocActivity::class.java).apply {
+                putExtra("loanId",data.caseId)
+            })
+        }
+
 
 
 

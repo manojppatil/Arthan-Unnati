@@ -339,6 +339,12 @@ interface ApiService {
     @GET("checkRLTStatus")
     suspend fun checkRLTStatus(@Query("loanId") loanId: String?): Response<CheckRLTStatusResponse>?
 
+    @GET("getLegalBcmData")
+    suspend fun getLegalBcmData(@Query("loanId") loanId: String?): Response<GetLegalnTechBCMResponse>?
+
+    @GET("getTechBcmData")
+    suspend fun getTechBcmData(@Query("loanId") loanId: String?): Response<GetLegalnTechBCMResponse>?
+
     @GET("sendPaymentLink")
     suspend fun sendPaymentLink(@Query("loanId") loanId: String?): Response<BaseResponseData>?
 
@@ -372,6 +378,12 @@ interface ApiService {
 
     @POST("getScreenData")
     suspend fun getScreenData(@Body body: HashMap<String, String>): Response<CustomerDocumentAndDataResponseData>
+
+     @POST("bcmLegalSubmit")
+    suspend fun bcmLegalSubmit(@Body body: HashMap<String, String>): Response<BaseResponseData>
+
+    @POST("bcmTechSubmit")
+    suspend fun bcmTechSubmit(@Body body: HashMap<String, String>): Response<BaseResponseData>
 
     @GET("getIncSrcMstr")
     suspend fun getIncSrcMstr(): Response<CollateralResponseData>?
