@@ -8,10 +8,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMApprovedLegalStatusActivity
 import com.example.arthan.dashboard.bcm.BCMApprovedTechDocActivity
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
+import com.example.arthan.dashboard.bcm.ExceptionReportActivity
 import com.example.arthan.dashboard.rm.CommonApprovedListingActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.ArthanApp
@@ -100,6 +102,11 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
                 putExtra("loanId",data.caseId)
             })
         }
+        exceptionReport.setOnClickListener {
+            startActivity(Intent(this,ExceptionReportActivity::class.java).apply {
+                putExtra("loanId",data.caseId)
+            })
+        }
 
 
 
@@ -141,107 +148,128 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
                                 }
 
                          */
-                        withContext(Dispatchers.Main) {
-                            progressBar.dismmissLoading()
-                            if ((data.rcuStatus.equals(
-                                    "Y",
-                                    ignoreCase = true
-                                ) && data.techStatus.equals(
-                                    "Y",
-                                    ignoreCase = true
-                                ) && data.legalStatus.equals("Y", ignoreCase = true))
-                                && (data.rcuReport.toLowerCase().equals(
-                                    "positive",
-                                    ignoreCase = true
-                                ) && data.legalReport.toLowerCase().equals(
-                                    "positive",
-                                    ignoreCase = true
-                                )
-                                        && data.techReport.toLowerCase().contentEquals("positive"))
-                            ) {
-                                when (statusSelected) {
-                                    "approve" -> {
-                                        startActivity(
-                                            Intent(
-                                                this@ApprovedCustomerLegalStatusActivity,
-                                                LPCActivity::class.java
-                                            ).apply {
-                                                putExtra("FROM", ArthanApp.getAppInstance().loginRole)
-                                                putExtra("Name", intent.getStringExtra("Name"))
-                                                putExtra(
-                                                    "object",
-                                                    intent.getSerializableExtra("object")
-                                                )
-                                            })
-                                    }
-                                    "reject", "recommend", "Move to My Queue" -> {
-                                        startActivity(
-                                            Intent(
-                                                this@ApprovedCustomerLegalStatusActivity,
-                                                CommonApprovedListingActivity::class.java
-                                            ).apply {
-                                                putExtra("FROM", ArthanApp.getAppInstance().loginRole)
-                                                putExtra("Name", intent.getStringExtra("Name"))
-                                                putExtra(
-                                                    "object",
-                                                    intent.getSerializableExtra("object")
-                                                )
-                                            })
+                        if(response.body()!!.eligibility=="N")
+                        {
 
+                            withContext(Dispatchers.Main)
+                            {
+                                Toast.makeText(this@ApprovedCustomerLegalStatusActivity,response.body()!!.apiDesc,Toast.LENGTH_LONG).show()
+                            }
+                        }else {
+                            withContext(Dispatchers.Main) {
+                                progressBar.dismmissLoading()
+                                if ((data.rcuStatus.equals(
+                                        "Y",
+                                        ignoreCase = true
+                                    ) && data.techStatus.equals(
+                                        "Y",
+                                        ignoreCase = true
+                                    ) && data.legalStatus.equals("Y", ignoreCase = true))
+                                    && (data.rcuReport.toLowerCase().equals(
+                                        "positive",
+                                        ignoreCase = true
+                                    ) && data.legalReport.toLowerCase().equals(
+                                        "positive",
+                                        ignoreCase = true
+                                    )
+                                            && data.techReport.toLowerCase().contentEquals("positive"))
+                                ) {
+                                    when (statusSelected) {
+                                        "approve" -> {
+                                            startActivity(
+                                                Intent(
+                                                    this@ApprovedCustomerLegalStatusActivity,
+                                                    LPCActivity::class.java
+                                                ).apply {
+                                                    putExtra(
+                                                        "FROM",
+                                                        ArthanApp.getAppInstance().loginRole
+                                                    )
+                                                    putExtra("Name", intent.getStringExtra("Name"))
+                                                    putExtra(
+                                                        "object",
+                                                        intent.getSerializableExtra("object")
+                                                    )
+                                                })
+                                        }
+                                        "reject", "recommend", "Move to My Queue" -> {
+                                            startActivity(
+                                                Intent(
+                                                    this@ApprovedCustomerLegalStatusActivity,
+                                                    CommonApprovedListingActivity::class.java
+                                                ).apply {
+                                                    putExtra(
+                                                        "FROM",
+                                                        ArthanApp.getAppInstance().loginRole
+                                                    )
+                                                    putExtra("Name", intent.getStringExtra("Name"))
+                                                    putExtra(
+                                                        "object",
+                                                        intent.getSerializableExtra("object")
+                                                    )
+                                                })
+
+                                        }
                                     }
+
+                                } else if ((data.rcuStatus.equals(
+                                        "n",
+                                        ignoreCase = true
+                                    ) && data.techStatus.equals(
+                                        "Y",
+                                        ignoreCase = true
+                                    ) && data.legalStatus.equals("y", ignoreCase = true))
+                                    && (data.legalReport.toLowerCase().contentEquals("positive") && data.techReport.toLowerCase().contentEquals(
+                                        "positive"
+                                    ))
+                                ) {
+                                    when (statusSelected) {
+                                        "approve" -> {
+                                            startActivity(
+                                                Intent(
+                                                    this@ApprovedCustomerLegalStatusActivity,
+                                                    LPCActivity::class.java
+                                                ).apply {
+                                                    putExtra(
+                                                        "FROM",
+                                                        ArthanApp.getAppInstance().loginRole
+                                                    )
+                                                    putExtra("Name", intent.getStringExtra("Name"))
+                                                    putExtra(
+                                                        "object",
+                                                        intent.getSerializableExtra("object")
+                                                    )
+                                                })
+                                        }
+                                        "reject", "recommend", "Move to My Queue" -> {
+                                            startActivity(
+                                                Intent(
+                                                    this@ApprovedCustomerLegalStatusActivity,
+                                                    CommonApprovedListingActivity::class.java
+                                                ).apply {
+                                                    putExtra(
+                                                        "FROM",
+                                                        ArthanApp.getAppInstance().loginRole
+                                                    )
+                                                    putExtra("Name", intent.getStringExtra("Name"))
+                                                    putExtra(
+                                                        "object",
+                                                        intent.getSerializableExtra("object")
+                                                    )
+                                                })
+
+                                        }
+                                    }
+                                } else {
+                                    startActivity(
+                                        Intent(
+                                            this@ApprovedCustomerLegalStatusActivity,
+                                            PendingCustomersActivity::class.java
+                                        ).apply {
+                                            putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+
+                                        })
                                 }
-
-                            } else if ((data.rcuStatus.equals(
-                                    "n",
-                                    ignoreCase = true
-                                ) && data.techStatus.equals(
-                                    "Y",
-                                    ignoreCase = true
-                                ) && data.legalStatus.equals("y", ignoreCase = true))
-                                && (data.legalReport.toLowerCase().contentEquals("positive") && data.techReport.toLowerCase().contentEquals(
-                                    "positive"
-                                ))
-                            ) {
-                                when (statusSelected) {
-                                    "approve" -> {
-                                        startActivity(
-                                            Intent(
-                                                this@ApprovedCustomerLegalStatusActivity,
-                                                LPCActivity::class.java
-                                            ).apply {
-                                                putExtra("FROM",ArthanApp.getAppInstance().loginRole)
-                                                putExtra("Name", intent.getStringExtra("Name"))
-                                                putExtra(
-                                                    "object",
-                                                    intent.getSerializableExtra("object")
-                                                )
-                                            })
-                                    }
-                                    "reject", "recommend", "Move to My Queue" -> {
-                                        startActivity(
-                                            Intent(
-                                                this@ApprovedCustomerLegalStatusActivity,
-                                                CommonApprovedListingActivity::class.java
-                                            ).apply {
-                                                putExtra("FROM", ArthanApp.getAppInstance().loginRole)
-                                                putExtra("Name", intent.getStringExtra("Name"))
-                                                putExtra(
-                                                    "object",
-                                                    intent.getSerializableExtra("object")
-                                                )
-                                            })
-
-                                    }
-                                }
-                            } else {
-                                startActivity(
-                                    Intent(
-                                        this@ApprovedCustomerLegalStatusActivity,
-                                        PendingCustomersActivity::class.java
-                                    ).apply {
-                                        putExtra("FROM", ArthanApp.getAppInstance().loginRole)
-
-                                    })
                             }
                         }
                     }else

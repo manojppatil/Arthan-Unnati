@@ -239,7 +239,13 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                 )
                                 finish()
                                 return@withContext
-                            } else {
+                            } else if(intent.getStringExtra("task")=="Add-CoApplicant")
+                            {
+                                withContext(Dispatchers.Main)
+                                {
+                                    finish()
+                                }
+                            }else {
                                 AppPreferences.getInstance()
                                     .addString(
                                         AppPreferences.Key.CustomerId,

@@ -42,6 +42,7 @@ class BCMApprovedTechDocActivity : BaseActivity() {
                 techData=response.body()!!
                 withContext(Dispatchers.Main)
                 {
+                    progress.dismmissLoading()
                     setUiData()
                 }
             }
@@ -55,7 +56,7 @@ class BCMApprovedTechDocActivity : BaseActivity() {
         newLabelValue2.text=techData?.loanAmtNew
         oldLabelValue1.text=techData?.ltvOld
         oldLabelValue2.text=techData?.loanAmtOld
-        viewTechReport.setOnClickListener {
+        submitTech.setOnClickListener {
             val progrssLoader=ProgrssLoader(this)
             progrssLoader.showLoading()
             val map=HashMap<String,String>()

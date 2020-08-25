@@ -37,7 +37,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.bcm.BCMApprovedTechDocActivity"></activity>
+        <activity android:name=".dashboard.bcm.BCMReAssignedActivity"></activity>
+        <activity android:name=".dashboard.bcm.ExceptionReportActivity" />
+        <activity android:name=".dashboard.bcm.BCMApprovedCollateral" />
+        <activity android:name=".dashboard.bcm.BCMApprovedAddCoApplicant" />
+        <activity android:name=".dashboard.bcm.BCMApprovedTechDocActivity" />
         <activity android:name=".dashboard.bcm.BCMApprovedLegalStatusActivity" />
         <activity android:name=".dashboard.rm.AMdashboardActivity" />
         <activity android:name=".dashboard.rm.AddNewAmActivity" />

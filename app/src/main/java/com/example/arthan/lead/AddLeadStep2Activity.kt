@@ -337,7 +337,13 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                                     )
                                     finish()
                                 }
-                            } else {
+                            } else if(intent.getStringExtra("task")=="Add-CoApplicant")
+                            {
+                                withContext(Dispatchers.Main)
+                                {
+                                    finish()
+                                }
+                            }else {
                                 progressBar?.dismmissLoading()
 
                                 if (result.canNavigate.equals("no")) {

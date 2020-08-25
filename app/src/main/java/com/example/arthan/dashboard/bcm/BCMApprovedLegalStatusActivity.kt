@@ -21,7 +21,13 @@ class BCMApprovedLegalStatusActivity : BaseActivity() {
      var getLegalnTechBCMResponse:GetLegalnTechBCMResponse?=null
     override fun init() {
 
+        coApplicantAdd.setOnClickListener {
 
+            startActivity(Intent(this,BCMApprovedAddCoApplicant::class.java).apply {
+                putExtra("loanId",intent.getStringExtra("loanId"))
+                putExtra("task","Add-CoApplicant")
+            })
+        }
         viewReport.setOnClickListener {
             startActivity(Intent(this,ShowPDFActivity::class.java).apply {
                 putExtra("pdf_url",getLegalnTechBCMResponse?.legalRptUrl)

@@ -417,6 +417,12 @@ interface ApiService {
     @GET("getAMs")
     suspend fun getAMs(@Query("rmId") rmId: String?): List<AmListModel>
 
+    @GET("getExceptionRpt")
+    suspend fun getExceptionRpt(@Query("loanId") loanId: String?): Response<EXceptionReportResponse>
+
+    @GET("getBCMReAssigned")
+    suspend fun getBCMReAssigned(@Query("bcmId") bcmId: String?): Response<GetBCMReAssignedResponse>
+
     @POST("verifyOTPforEmp")
     suspend fun verifyOTPforEmp(@Body body: Map<String, String>): Response<BaseResponseData>
 
@@ -425,6 +431,9 @@ interface ApiService {
 
     @POST("addAM")
     suspend fun addAM(@Body body: Map<String, String>): Response<BaseResponseData>
+
+    @POST("submitExceptionRpt")
+    suspend fun submitExceptionRpt(@Body body: Map<String, String>): Response<BaseResponseData>
 
 
     /*AM APis start*/

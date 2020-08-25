@@ -106,7 +106,8 @@ class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
             R.id.cv_reassigned_by -> startActivity(
                 Intent(
                     this@BCMDashboardActivity,
-                    RMReAssignListingActivity::class.java
+//                    RMReAssignListingActivity::class.java
+                    BCMReAssignedActivity::class.java
                 ).apply {
                     putExtra("FROM", "REASSIGN-BY")
                 })
