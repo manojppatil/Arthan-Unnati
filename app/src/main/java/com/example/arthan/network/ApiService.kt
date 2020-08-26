@@ -354,6 +354,9 @@ interface ApiService {
     @POST("bmRequestWaiver")
     suspend fun bmRequestWaiver(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
+    @POST("updateUserProfile")
+    suspend fun updateUserProfile(@Body map: HashMap<String, String>): Response<BaseResponseData>?
+
     @POST("sendToken")
     suspend fun sendToken(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 

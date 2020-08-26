@@ -139,6 +139,11 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         //fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
                         if (list?.get(position)?.description?.toLowerCase() == "movable") {
                             security_section_movable.visibility = View.VISIBLE
+                            CoroutineScope(Dispatchers.IO).launch {
+
+                                fetchmstrIdsubSecurity(list[position].description!!.toLowerCase())
+                            }
+
                         } else {
                             security_section_movable.visibility = View.GONE
 

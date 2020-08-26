@@ -7,9 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -32,10 +30,13 @@ import com.example.arthan.lead.model.responsedata.BusinessDetailsResponseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
+import com.example.arthan.utils.getRupeeSymbol
 import com.example.arthan.views.activities.PendingCustomersActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_business_information.*
+import kotlinx.android.synthetic.main.fragment_business_information.btn_save_continue
+import kotlinx.android.synthetic.main.fragment_income_information.*
 import kotlinx.android.synthetic.main.layout_partner_details.*
 import kotlinx.coroutines.*
 import retrofit2.Response
@@ -112,6 +113,16 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 any_associate_firm_switch?.text = "No"
             }
         }
+        btn_add_partner.setOnClickListener {
+            val partnerView =
+                LayoutInflater.from(activity!!).inflate(R.layout.layout_partner_details, null, false)
+            partnerView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
+                ll_partners?.removeView(partnerView)
+
+            }
+
+                ll_partners.addView(partnerView)
+            }
 
         switch_partners?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -736,7 +747,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                     }
                 }
 
-                ll_partners?.addView(partnerView)
+               // ll_partners?.addView(partnerView)
             }
         }
 

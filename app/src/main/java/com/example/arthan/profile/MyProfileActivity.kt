@@ -9,6 +9,8 @@ import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils.runOnUiThread
 import com.bumptech.glide.Glide
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.global.ArthanApp
+import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.network.S3UploadFile
 import com.example.arthan.network.S3Utility
 import com.example.arthan.utils.ProgrssLoader
@@ -17,6 +19,10 @@ import com.example.arthan.views.fragments.BaseFragment
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import kotlinx.android.synthetic.main.activity_my_profile.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.*
 
 class MyProfileActivity : BaseFragment(){ //: AppCompatActivity() {
@@ -84,10 +90,19 @@ class MyProfileActivity : BaseFragment(){ //: AppCompatActivity() {
                             .uploadFile(fileList,
                                 {
                                     profileImage = fileList[0].url ?: filePath
-                                    runOnUiThread { loader.dismmissLoading() }
-                                }) {
-                                runOnUiThread { loader.dismmissLoading() }
-                            }
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        val map = HashMap<String, String>()
+                                        map["userId"] = ArthanApp.getAppInstance().loginUser
+                                        map["empPic"] = profileImage
+                                        val res =
+                                            RetrofitFactory.getApiService().updateUserProfile(map)
+                                        if (res?.body() != null) {
+                                            withContext(Dispatchers.Main) {
+                                                loader.dismmissLoading()
+                                            }
+                                        }
+                                    }
+                                })
                     } catch (e: Exception) {
                         runOnUiThread { loader.dismmissLoading() }
                         e.printStackTrace()

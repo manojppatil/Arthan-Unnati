@@ -99,6 +99,8 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                     root.findViewById<Button>(R.id.btn_legal).visibility=View.GONE
                     root.findViewById<Button>(R.id.btn_tech).visibility=View.GONE
                     root.findViewById<TextView>(R.id.txt_fee_paid).visibility=View.GONE
+                    root.findViewById<ImageView>(R.id.iv_generate).visibility=View.GONE
+
                     root.findViewById<Button>(R.id.btn_collect_fees).setOnClickListener {
 
                         CoroutineScope(Dispatchers.IO).launch {
@@ -118,13 +120,53 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                     }
 
             }
+            root.findViewById<EditText>(R.id.remarks).visibility=View.GONE
+            root.findViewById<EditText>(R.id.waiverAmt).visibility=View.GONE
+            root.findViewById<Button>(R.id.submitWaiver).visibility=View.GONE
+
             root.findViewById<Button>(R.id.btn_requestWaiver).setOnClickListener {
+                root.findViewById<EditText>(R.id.remarks).visibility=View.VISIBLE
+                root.findViewById<EditText>(R.id.waiverAmt).visibility=View.VISIBLE
+                root.findViewById<Button>(R.id.submitWaiver).visibility=View.VISIBLE
+
+                root.findViewById<Button>(R.id.submitWaiver).setOnClickListener {
+
+                    val progressLoader = ProgrssLoader(context)
+                    progressLoader.showLoading()
+                    var map = HashMap<String, String>()
+                    map["loanId"] = data[position].caseId
+                    map["remarks"] = root.findViewById<EditText>(R.id.remarks).text.toString()
+                    map["eId"] = "RM1"
+                    map["userId"] = ArthanApp.getAppInstance().loginUser
+                    map["waiveAmt"] = root.findViewById<EditText>(R.id.waiverAmt).text.toString()
+                    CoroutineScope(Dispatchers.IO).launch {
+
+                        var res = RetrofitFactory.getApiService().rmRequestWaiver(map)
+                        if (res?.body() != null) {
+                            withContext(Dispatchers.Main) {
+                                progressLoader.dismmissLoading()
+
+                                root.findViewById<EditText>(R.id.remarks).setText("")
+                                root.findViewById<EditText>(R.id.waiverAmt).setText("")
+                                root.findViewById<EditText>(R.id.remarks).visibility=View.GONE
+                                root.findViewById<EditText>(R.id.waiverAmt).visibility=View.GONE
+                                root.findViewById<Button>(R.id.submitWaiver).visibility=View.GONE
+                                Toast.makeText(context, "Request successful", Toast.LENGTH_LONG)
+                                    .show()
+                                (context as CommonApprovedListingActivity).nnotifyAfterWaiver()
+                            }
+                        }
+                    }
+                }
+
 
                 var layoutInflater: LayoutInflater =
                     context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 var view = layoutInflater.inflate(R.layout.remarks_popup, null)
                 val dailog = AlertDialog.Builder(context).setView(view).create()
-                dailog!!.show()
+                if (from == "BM") {
+                    dailog!!.show()
+                }
                 var etRemark = view.findViewById<EditText>(R.id.et_remarks)
                 var btnSubmit = view.findViewById<Button>(R.id.btn_submit)
                 btnSubmit.setOnClickListener {
