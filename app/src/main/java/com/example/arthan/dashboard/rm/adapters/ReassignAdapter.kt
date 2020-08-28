@@ -13,8 +13,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.RmReassignNavActivity
+import com.example.arthan.dashboard.rm.OpsCaseActivity
 import com.example.arthan.dashboard.rm.PendingInfoActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.ReassignLeadData
 
 class ReassignAdapter(
@@ -96,13 +98,34 @@ class ReassignAdapter(
 
             root.setOnClickListener {
 
-                val loanId = data[position].loanId
-                activity.startActivity(Intent(activity, RmReassignNavActivity::class.java).apply {
-                    putExtra("task", "RM_AssignList")
-                    putExtra("loanId", loanId)
-                    putExtra("tile", tile)
 
-                })
+                if( data[position].opsCase.equals("yes",ignoreCase = true)&&ArthanApp.getAppInstance().loginRole=="RM")
+                    {
+                        val loanId = data[position].loanId
+                        activity.startActivity(
+                            Intent(
+                                activity,
+                                OpsCaseActivity::class.java
+                            ).apply {
+                                putExtra("task", "RM_AssignList")
+                                putExtra("loanId", loanId)
+                                putExtra("tile", tile)
+
+                            })
+
+                    }else {
+                    val loanId = data[position].loanId
+                    activity.startActivity(
+                        Intent(
+                            activity,
+                            RmReassignNavActivity::class.java
+                        ).apply {
+                            putExtra("task", "RM_AssignList")
+                            putExtra("loanId", loanId)
+                            putExtra("tile", tile)
+
+                        })
+                }
                 // activity.showPendingScreenList(data[position])
 
             }

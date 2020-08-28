@@ -1,5 +1,6 @@
 package com.example.arthan.dashboard.rm.viewmodel
 
+import android.text.BoringLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class RMDashboardViewModel: ViewModel() {
+     var isOps="no"
 
     fun loadRMDashboard(): LiveData<RMDashboardData?>{
 
@@ -119,9 +121,9 @@ class RMDashboardViewModel: ViewModel() {
         return response
     }
 
-    fun loadReassignLeadList(): LiveData<List<ReassignLeadData>>{
+    fun loadReassignLeadList(): LiveData<ReAssignLeadListResponse>{
 
-        val response= MutableLiveData<List<ReassignLeadData>>()
+        val response= MutableLiveData<ReAssignLeadListResponse>()
 
         try{
 
@@ -129,7 +131,7 @@ class RMDashboardViewModel: ViewModel() {
             val respo= RetrofitFactory.getApiService().getRMReassigned(ArthanApp.getAppInstance().loginUser)
             if(respo.isSuccessful && respo.body() != null){
                 withContext(Dispatchers.Main){
-                    response.value= respo.body()?.details
+                    response.value= respo.body()
                 }
             } else {
                 withContext(Dispatchers.Main){

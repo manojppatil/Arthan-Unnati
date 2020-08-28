@@ -19,13 +19,13 @@ class RMAssignListFragment : BaseFragment() {
     }
     var  progressLoader:ProgrssLoader?= null
     private fun loadReassignLeadList(){
-        mViewModel.loadReassignLeadList().observe(this, Observer { data->
+        mViewModel.loadReassignLeadList().observe(this, Observer { res->
 
             progressLoader?.dismmissLoading()
-            if(data.isNullOrEmpty()){
+            if(res.details.isNullOrEmpty()){
                 Toast.makeText(activity,"No Record Found", Toast.LENGTH_SHORT).show()
             } else {
-                rv_assign_listing.adapter = ReassignAdapter(context!!, ArthanApp.getAppInstance().loginRole,data,activity?.intent?.getStringExtra("tile"))
+                rv_assign_listing.adapter = ReassignAdapter(context!!, ArthanApp.getAppInstance().loginRole,res.details,activity?.intent?.getStringExtra("tile"))
             }
 
         })

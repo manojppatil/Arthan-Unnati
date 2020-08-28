@@ -708,7 +708,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     sourceOfIncomeList.add(
                         Income(
                             incomePerMonth = sourceOfIncome?.findViewById<TextInputEditText?>(R.id.income_per_month_input)?.text?.toString(),
-                            incomeSource = (source_of_income_input?.selectedItem as Data).value.toString()
+//                            incomeSource = (source_of_income_input?.selectedItem as Data).value.toString()
+                            incomeSource = (sourceOfIncome?.findViewById<Spinner?>(R.id.source_of_income_input)?.selectedItem as Data).value.toString()
                         )
                     )
                 }

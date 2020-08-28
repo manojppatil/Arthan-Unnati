@@ -4,5 +4,6 @@ data class Deviation(
     var deviationDecision: String?="",
     var deviationDesc: String?="",
     var deviationId: String?,
-    var deviationRemark: String?=""
+    var deviationRemark: String?="",
+    var Justification: String?=""
 )

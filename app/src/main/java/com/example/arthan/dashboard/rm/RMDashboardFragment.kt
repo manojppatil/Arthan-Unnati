@@ -93,7 +93,16 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
 //      //          txt_amcases_count.text = "${data.amCase.count}"
                 txt_reassign.text= "${data.reassign.label}"
 //                txt_amcases_amt.text = "${data.amCase.total}"
-
+                try {
+                    context?.let {
+                        if (data.rmImage.isNotEmpty()) {
+                            img_profile.setBackgroundResource(0)
+                            Glide.with(it).load(data.rmImage).into(img_profile)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
 //                am_count.text = "${data.myAm.total}"
 //                txt_myam_amt.text = "${data.myAm.total}"
 

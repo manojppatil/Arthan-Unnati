@@ -20,7 +20,6 @@ class ScoreCardActivity : BaseActivity() {
 
     override fun init() {
 
-        back_button.setOnClickListener { finish() }
         setDataTFields()
     }
 

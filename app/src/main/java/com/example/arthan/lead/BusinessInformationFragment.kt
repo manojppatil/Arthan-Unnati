@@ -23,6 +23,7 @@ import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.BUSINESS
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
+import com.example.arthan.lead.model.postdata.AssociateFirm
 import com.example.arthan.lead.model.postdata.BusinessDetails
 import com.example.arthan.lead.model.postdata.BusinessDetailsPostData
 import com.example.arthan.lead.model.postdata.Partner
@@ -119,6 +120,22 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             partnerView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
                 ll_partners?.removeView(partnerView)
 
+            }
+            partnerView?.findViewById<EditText>(R.id.et_dob)?.let { view ->
+                view.setOnClickListener {
+                    val c = Calendar.getInstance()
+                    DatePickerDialog(
+                        activity!!,
+                        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                            val date =
+                                dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                            view.setText(date)
+                        },
+                        c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH),
+                        c.get(Calendar.DAY_OF_MONTH)
+                    ).show()
+                }
             }
 
                 ll_partners.addView(partnerView)
@@ -344,6 +361,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         progressBar.showLoading()
 
         val partners: MutableList<Partner> = mutableListOf()
+        val associateFirm:MutableList<AssociateFirm> = mutableListOf()
         if (partners_name_input?.text?.isNotEmpty() == true &&
             partners_designation_input?.text?.isNotEmpty() == true &&
             partners_designation_input?.text?.isNotEmpty() == true
@@ -351,7 +369,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             partners.add(
                 Partner(
                     partnername = partners_name_input?.text?.toString(),
-                    partnerdesignation = partners_designation_input?.text?.toString()
+                    partnerdesignation = partners_designation_input?.text?.toString(),
+                    partnerdob = et_dob?.text?.toString()
                 )
             )
 
@@ -361,11 +380,37 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                     partners.add(
                         Partner(
                             partnername = partnerView?.findViewById<TextInputEditText?>(R.id.partners_name_input)?.text?.toString(),
-                            partnerdesignation = partnerView?.findViewById<TextInputEditText?>(R.id.partners_designation_input)?.text?.toString()
+                            partnerdesignation = partnerView?.findViewById<TextInputEditText?>(R.id.partners_designation_input)?.text?.toString(),
+                            partnerdob = partnerView?.findViewById<EditText?>(R.id.et_dob)?.text?.toString()
+
                         )
                     )
                 }
             }
+        }
+        if (any_associate_firm_switch.isChecked
+        ) {
+            associateFirm.add(
+                AssociateFirm(
+                    assoFirmName = name_of_associate_firm_input?.text?.toString(),
+                    addressLine1 = firm_address_input?.text?.toString(),
+                    constitution = (constitution_spinner.selectedItem as Data).value.toString(),
+                    bankingWith = presently_banking_with_spinner.selectedItem.toString()
+            ))
+
+            /*if ((ll_partners?.childCount ?: 0) > 1) {
+                for (childCount in 1 until (ll_partners?.childCount ?: 0)) {
+                    val partnerView = ll_partners?.getChildAt(childCount)
+                    partners.add(
+                        Partner(
+                            partnername = partnerView?.findViewById<TextInputEditText?>(R.id.partners_name_input)?.text?.toString(),
+                            partnerdesignation = partnerView?.findViewById<TextInputEditText?>(R.id.partners_designation_input)?.text?.toString(),
+                            partnerdob = partnerView?.findViewById<EditText?>(R.id.et_dob)?.text?.toString()
+
+                        )
+                    )
+                }
+            }*/
         }
             val postBody = BusinessDetailsPostData(
               resubmit = "",
@@ -393,7 +438,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             projectedturnover = projected_turnover_input?.text?.toString(),
             operatingbusinessaddress = operating_business_address_input?.text?.toString(),
             registeredbusinessaddress = registered_business_address_input?.text?.toString(),
-                reassign = reassign
+                reassign = reassign,
+                associateFirms =associateFirm
 
         )
         CoroutineScope(Dispatchers.IO).launch {

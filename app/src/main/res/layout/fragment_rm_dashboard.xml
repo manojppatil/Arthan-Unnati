@@ -81,7 +81,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/ic_profile_stripe" />
 
-                <com.example.arthan.utils.CircularImageView
+                <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/img_profile"
                     android:layout_width="96dp"
                     android:layout_height="96dp"

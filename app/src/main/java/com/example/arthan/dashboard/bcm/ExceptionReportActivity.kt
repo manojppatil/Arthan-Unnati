@@ -74,9 +74,10 @@ class ExceptionReportActivity : BaseActivity() {
             map["userId"]=ArthanApp.getAppInstance().loginUser
             map["propOwner"]=remarksvalue1.text.toString()
             map["area"]=remarksvalue2.text.toString()
-            map["west"]=remarksvalue3.text.toString()
-            map["north"]=remarksvalue4.text.toString()
-            map["south"]=remarksvalue5.text.toString()
+            map["east"]=remarksvalue3.text.toString()
+            map["west"]=remarksvalue4.text.toString()
+            map["north"]=remarksvalue5.text.toString()
+            map["south"]=remarksvalue6.text.toString()
 
             val progrssLoader=ProgrssLoader(this)
             progrssLoader.showLoading()

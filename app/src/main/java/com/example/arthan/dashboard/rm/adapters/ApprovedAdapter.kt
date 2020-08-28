@@ -1,5 +1,6 @@
 package com.example.arthan.dashboard.rm.adapters
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,7 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.bm.ApprovedCustomerLegalStatusActivity
 import com.example.arthan.dashboard.bm.model.RejectedCaseResponse
 import com.example.arthan.dashboard.rm.CommonApprovedListingActivity
+import com.example.arthan.dashboard.rm.RMRequestWaiverActivity
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.ApprovedCaseData
 import com.example.arthan.network.RetrofitFactory
@@ -94,14 +96,20 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                     root.findViewById<ImageView>(R.id.iv_generate).visibility=View.VISIBLE
                 }
                 else -> {
-                    root.setOnClickListener(null)
+                    root.setOnClickListener{
+
+                        context.startActivity(Intent(context,RMRequestWaiverActivity::class.java).apply {
+                            putExtra("loanId",this@ApprovedAdapter.data[position].caseId)
+                        })
+                        (context as Activity).finish()
+                    }
                     root.findViewById<Button>(R.id.btn_rcu).visibility=View.GONE
                     root.findViewById<Button>(R.id.btn_legal).visibility=View.GONE
                     root.findViewById<Button>(R.id.btn_tech).visibility=View.GONE
                     root.findViewById<TextView>(R.id.txt_fee_paid).visibility=View.GONE
                     root.findViewById<ImageView>(R.id.iv_generate).visibility=View.GONE
 
-                    root.findViewById<Button>(R.id.btn_collect_fees).setOnClickListener {
+                   /* root.findViewById<Button>(R.id.btn_collect_fees).setOnClickListener {
 
                         CoroutineScope(Dispatchers.IO).launch {
                             var res=RetrofitFactory.getApiService().sendPaymentLink(data[position].caseId)
@@ -113,10 +121,10 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                                 }
                             }
                         }
-                    }
+                    }*/
                     var dailog:AlertDialog?=null
-                    root.findViewById<Button>(R.id.btn_collect_fees).visibility=View.VISIBLE
-                    root.findViewById<Button>(R.id.btn_requestWaiver).visibility=View.VISIBLE
+                    root.findViewById<Button>(R.id.btn_collect_fees).visibility=View.GONE
+                    root.findViewById<Button>(R.id.btn_requestWaiver).visibility=View.GONE
                     }
 
             }
@@ -125,11 +133,11 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
             root.findViewById<Button>(R.id.submitWaiver).visibility=View.GONE
 
             root.findViewById<Button>(R.id.btn_requestWaiver).setOnClickListener {
-                root.findViewById<EditText>(R.id.remarks).visibility=View.VISIBLE
+              /*  root.findViewById<EditText>(R.id.remarks).visibility=View.VISIBLE
                 root.findViewById<EditText>(R.id.waiverAmt).visibility=View.VISIBLE
-                root.findViewById<Button>(R.id.submitWaiver).visibility=View.VISIBLE
+                root.findViewById<Button>(R.id.submitWaiver).visibility=View.VISIBLE*/
 
-                root.findViewById<Button>(R.id.submitWaiver).setOnClickListener {
+                /*root.findViewById<Button>(R.id.submitWaiver).setOnClickListener {
 
                     val progressLoader = ProgrssLoader(context)
                     progressLoader.showLoading()
@@ -157,7 +165,7 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                             }
                         }
                     }
-                }
+                }*/
 
 
                 var layoutInflater: LayoutInflater =
@@ -205,7 +213,8 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
 
                                     Toast.makeText(context, "Request successful", Toast.LENGTH_LONG)
                                         .show()
-                                    (context as CommonApprovedListingActivity).nnotifyAfterWaiver()
+                                    (context as Activity).finish()
+                                    context.startActivity(Intent(context,CommonApprovedListingActivity::class.java))
 
                                 }
                             }

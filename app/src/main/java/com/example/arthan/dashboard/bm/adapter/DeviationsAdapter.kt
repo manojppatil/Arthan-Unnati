@@ -27,9 +27,10 @@ class DeviationsAdapter : RecyclerView.Adapter<DeviationsAdapter.ViewHolder>() {
         holder.bindViewHolder(mList[position], position)
     }
 
-    fun updateListData(deviationRemark: String?, deviationDecision: String?, position: Int) {
+    fun updateListData(deviationRemark: String?, deviationDecision: String?, position: Int,deviationJustification:String) {
         mList[position].deviationRemark = deviationRemark
         mList[position].deviationDecision = deviationDecision
+        mList[position].Justification=deviationJustification
         notifyItemChanged(position)
     }
 

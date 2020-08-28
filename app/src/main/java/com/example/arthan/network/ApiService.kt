@@ -426,6 +426,12 @@ interface ApiService {
     @GET("getBCMReAssigned")
     suspend fun getBCMReAssigned(@Query("bcmId") bcmId: String?): Response<GetBCMReAssignedResponse>
 
+    @GET("getRMOpsCases")
+    suspend fun getRMOpsCases(@Query("loanId") loanId: String?): Response<GetRMOpsCasesResponse>
+
+    @POST("submitRMOpsCases")
+    suspend fun submitRMOpsCases(@Body body: HashMap<String, Any?>): Response<BaseResponseData>
+
     @POST("verifyOTPforEmp")
     suspend fun verifyOTPforEmp(@Body body: Map<String, String>): Response<BaseResponseData>
 

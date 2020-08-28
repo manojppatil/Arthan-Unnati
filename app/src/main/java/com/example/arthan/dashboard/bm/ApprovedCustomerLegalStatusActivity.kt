@@ -153,6 +153,7 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
 
                             withContext(Dispatchers.Main)
                             {
+                                progressBar.dismmissLoading()
                                 Toast.makeText(this@ApprovedCustomerLegalStatusActivity,response.body()!!.apiDesc,Toast.LENGTH_LONG).show()
                             }
                         }else {

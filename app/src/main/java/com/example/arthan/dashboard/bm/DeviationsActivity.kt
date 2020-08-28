@@ -53,7 +53,7 @@ class DeviationsActivity : AppCompatActivity(), CoroutineScope {
                             )
                             .show()
                         (recycler_list?.adapter as? DeviationsAdapter)?.updateListData(
-                            it, "Approve", position
+                            it!!.data, "Approve", position, it!!.justiification
                         )
                     }
                 }
@@ -66,7 +66,7 @@ class DeviationsActivity : AppCompatActivity(), CoroutineScope {
                             )
                             .show()
                         (recycler_list?.adapter as? DeviationsAdapter)?.updateListData(
-                            it, "Reject", position
+                            it!!.data, "Reject", position,it!!.justiification
                         )
                     }
                 }
@@ -79,7 +79,7 @@ class DeviationsActivity : AppCompatActivity(), CoroutineScope {
                             )
                             .show()
                         (recycler_list?.adapter as? DeviationsAdapter)?.updateListData(
-                            it, "Recommend", position
+                            it!!.data, "Recommend", position,it.justiification
                         )
                     }
                 }
@@ -108,7 +108,7 @@ class DeviationsActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    private fun openBottomDialog(onSave: ((data: String?) -> Unit)? = null) {
+    private fun openBottomDialog(onSave: ((data: DataTopass?) -> Unit)? = null) {
          RemarkDialogFragment().also {
             it.setOnSaveClick(onSave)
         }.show(supportFragmentManager, RemarkDialogFragment.TAG)
@@ -171,17 +171,18 @@ class DeviationsActivity : AppCompatActivity(), CoroutineScope {
         when(item.itemId){
             R.id.homeMenu->{
                 finish()
-                if(ArthanApp.getAppInstance().loginRole=="RM")
-                {
-                    startActivity(Intent(this, RMDashboardActivity::class.java))
-                }else if(ArthanApp.getAppInstance().loginRole=="BCM")
-                {
-                    startActivity(Intent(this, BCMDashboardActivity::class.java))
+                when (ArthanApp.getAppInstance().loginRole) {
+                    "RM" -> {
+                        startActivity(Intent(this, RMDashboardActivity::class.java))
+                    }
+                    "BCM" -> {
+                        startActivity(Intent(this, BCMDashboardActivity::class.java))
 
-                }else if(ArthanApp.getAppInstance().loginRole=="BM")
-                {
-                    startActivity(Intent(this,BMDashboardActivity::class.java))
+                    }
+                    "BM" -> {
+                        startActivity(Intent(this,BMDashboardActivity::class.java))
 
+                    }
                 }
             }
             R.id.logoutMenu->
@@ -203,7 +204,8 @@ interface MultipleButtonClickListener {
 
 class RemarkDialogFragment : BottomSheetDialogFragment() {
 
-    private var mOnSave: ((data: String?) -> Unit)? = null
+    private var mOnSave: ((data: DataTopass?) -> Unit)? = null
+    var justification:String=""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -213,18 +215,22 @@ class RemarkDialogFragment : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.bottom_dialog_remark, container, false);
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        justification=Justification_input.text.toString()
 
         save_button?.setOnClickListener {
-            mOnSave?.invoke(remark_input?.text?.toString())
+            var data=DataTopass( remark_input?.text?.toString(),Justification_input.text.toString())
+            mOnSave?.invoke(
+                data)
             dismiss()
         }
         cancel_button?.setOnClickListener { dismiss() }
         close_button?.setOnClickListener { dismiss() }
     }
 
-    fun setOnSaveClick(onSave: ((data: String?) -> Unit)? = null) {
+    fun setOnSaveClick(onSave: ((data: DataTopass?) -> Unit)? = null) {
         mOnSave = onSave
     }
 
@@ -233,3 +239,7 @@ class RemarkDialogFragment : BottomSheetDialogFragment() {
     }
 
 }
+data class DataTopass(
+    val data:String?,
+    val justiification:String
+)

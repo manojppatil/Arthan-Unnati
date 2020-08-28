@@ -231,7 +231,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                 var decision = ""
                 if (intent.getStringExtra(STATUS).contains("reject", ignoreCase = true)) {
                     rejectReason.visibility = View.VISIBLE
-                    decision = (rejectReason.selectedItem as Data).value
+                    decision = rejectReason.selectedItem.toString()
                 } else if (intent.getStringExtra(STATUS).contains("Approve", ignoreCase = true)) {
                     rejectReason.visibility = View.GONE
                     decision = "Approve"
