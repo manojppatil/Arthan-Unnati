@@ -34,6 +34,7 @@
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:id="@+id/cb_TriggerDeviations"
             android:layout_marginTop="8dp"
             android:text="Trigger Deviations"

@@ -37,7 +37,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.rm.RMRequestWaiverActivity"></activity>
+        <activity android:name=".dashboard.bcm.BCMAddCoApplicant"></activity>
+        <activity android:name=".dashboard.rm.RMRequestWaiverActivity" />
         <activity android:name=".dashboard.rm.OpsCaseActivity" />
         <activity android:name=".dashboard.bcm.BCMReAssignedActivity" />
         <activity android:name=".dashboard.bcm.ExceptionReportActivity" />

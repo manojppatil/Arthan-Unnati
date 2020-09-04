@@ -270,6 +270,23 @@
                 android:inputType="numberDecimal"
                 android:hint="Any other Income" />
         </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/remarks_text_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/any_other_income_text_input_layout">
+
+            <EditText
+                android:id="@+id/remarks_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:inputType="numberDecimal"
+                android:hint="Remarks" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/operating_expenses_label"
@@ -280,7 +297,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/any_other_income_text_input_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/remarks_text_input_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/operating_expenses_salaries_text_input_layout"

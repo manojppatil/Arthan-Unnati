@@ -35,7 +35,7 @@ class BCMApprovedAddCoApplicant : BaseActivity() {
 
             startActivity(Intent(this,BCMApprovedCollateral::class.java).apply {
                 putExtra("loanId",intent.getStringExtra("loanId"))
-                putExtra("task","Add-CoApplicant")
+                putExtra("task","BCMApproved")
                 putExtra("loanType","immovable")
 
             })

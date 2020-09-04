@@ -30,7 +30,7 @@ class DeviationsAdapter : RecyclerView.Adapter<DeviationsAdapter.ViewHolder>() {
     fun updateListData(deviationRemark: String?, deviationDecision: String?, position: Int,deviationJustification:String) {
         mList[position].deviationRemark = deviationRemark
         mList[position].deviationDecision = deviationDecision
-        mList[position].Justification=deviationJustification
+        mList[position].deviationJustification=deviationJustification
         notifyItemChanged(position)
     }
 

@@ -101,6 +101,7 @@ class DeviationsActivity : AppCompatActivity(), CoroutineScope {
                 {
                     withContext(Dispatchers.Main){
                         Toast.makeText(this@DeviationsActivity,"Data submitted successfully",Toast.LENGTH_LONG).show()
+                        finish()
 
                     }
                 }

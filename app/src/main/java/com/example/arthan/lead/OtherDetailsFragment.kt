@@ -66,7 +66,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         loadInitialData()
         if (ArthanApp.getAppInstance().loginRole == "BCM" || ArthanApp.getAppInstance().loginRole == "BM"
         ) {
-            bcmCheckBoxes.visibility = View.VISIBLE
+            //bcmCheckBoxes.visibility = View.VISIBLE
         } else {
             bcmCheckBoxes.visibility = View.GONE
             if (activity?.intent?.getStringExtra("loanType")

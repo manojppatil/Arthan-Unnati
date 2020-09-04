@@ -444,6 +444,9 @@ interface ApiService {
     @POST("submitExceptionRpt")
     suspend fun submitExceptionRpt(@Body body: Map<String, String>): Response<BaseResponseData>
 
+    @POST("payRLTFee")
+    suspend fun payRLTFee(@Body body: Map<String, String>): Response<BaseResponseData>
+
 
     /*AM APis start*/
 
@@ -477,6 +480,9 @@ interface ApiService {
 
     @POST("getAMScreenData")
     suspend fun getAMScreenData(@Body body: HashMap<String,String?>): Response<BMAmDocnDataResponse>?
+
+    @POST("getLegalQueue")
+    suspend fun getLegalQueue(@Body body: HashMap<String,String>): Response<BaseResponseData>?
 
 
 

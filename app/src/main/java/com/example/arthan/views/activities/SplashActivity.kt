@@ -50,6 +50,12 @@ class SplashActivity : AppCompatActivity() {
             finish()
         }*/
 
+        CoroutineScope(Dispatchers.IO).launch {
+            val map=HashMap<String,String>()
+            map["legalId"]="123"
+            val res=RetrofitFactory.getApiService().getLegalQueue(map)
+        }
+
         btn_submit.setOnClickListener {
 
 

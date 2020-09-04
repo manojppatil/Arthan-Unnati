@@ -47,7 +47,7 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
         screenTitle()
         var data = intent.getSerializableExtra("object") as ApprovedCaseData
 
-        if (data.rcuStatus.contentEquals("Y")) {
+        if (data.rcuStatus!=null&&data.rcuStatus.contentEquals("Y")) {
             iv_RCU.setImageResource(R.drawable.checked)
 
         } else {

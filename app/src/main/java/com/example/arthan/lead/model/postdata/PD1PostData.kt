@@ -30,5 +30,6 @@ data class PD1PostData(
     var otherOpex: String? = "",
     var otherhhExpnse: String? = "",
     var personalDebt: String? = "",
+    var incomeRemarks: String? = "",
     var comfEmi: String? = ""
 )

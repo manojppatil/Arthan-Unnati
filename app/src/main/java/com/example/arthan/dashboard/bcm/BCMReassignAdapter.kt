@@ -13,10 +13,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.RmReassignNavActivity
+import com.example.arthan.dashboard.bm.ApprovedCustomerLegalStatusActivity
 import com.example.arthan.dashboard.rm.PendingInfoActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.ReAssignedData
 import com.example.arthan.model.ReassignLeadData
+import kotlinx.coroutines.withContext
 
 class BCMReassignAdapter(
     private val context: Context,
@@ -36,6 +39,16 @@ class BCMReassignAdapter(
             root.findViewById<TextView>(R.id.assignedBy).text = data[position].assignedBy
 //            data[position].loanId
 
+
+            root.setOnClickListener {
+
+                    context.startActivity(Intent(context, BCMAddCoApplicant::class.java).apply {
+                        putExtra("FROM",ArthanApp.getAppInstance().loginRole)
+                        putExtra("loanId", this@BCMReassignAdapter.data[position].loanId)
+
+
+                    })
+            }
 
             var activity: BCMReAssignedActivity = context as BCMReAssignedActivity
 

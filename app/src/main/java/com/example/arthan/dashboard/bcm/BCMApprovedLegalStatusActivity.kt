@@ -25,7 +25,7 @@ class BCMApprovedLegalStatusActivity : BaseActivity() {
 
             startActivity(Intent(this,BCMApprovedAddCoApplicant::class.java).apply {
                 putExtra("loanId",intent.getStringExtra("loanId"))
-                putExtra("task","Add-CoApplicant")
+                putExtra("task","BCMApproved")
             })
         }
         viewReport.setOnClickListener {
