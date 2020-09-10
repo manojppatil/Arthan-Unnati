@@ -37,7 +37,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.bcm.BCMAddCoApplicant"></activity>
+        <activity android:name=".dashboard.rm.DocumentSubCategoryActivity"></activity>
+        <activity android:name=".utils.UploadActivityNew" />
+        <activity android:name=".dashboard.bcm.BCMAddCoApplicant" />
         <activity android:name=".dashboard.rm.RMRequestWaiverActivity" />
         <activity android:name=".dashboard.rm.OpsCaseActivity" />
         <activity android:name=".dashboard.bcm.BCMReAssignedActivity" />
@@ -194,6 +196,7 @@
         <activity android:name=".dashboard.bm.PostSanctionDocActivity" />
         <activity android:name=".views.activities.WebContentPreviewActivity" />
         <activity android:name=".views.activities.CustomerCameraActivity" />
+        <activity android:name=".lead.DocumentFragment2" />
 
         <service android:name=".utils.MyFirebaseInstanceIdService">
             <intent-filter>

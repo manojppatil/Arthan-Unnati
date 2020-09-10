@@ -2,6 +2,7 @@ package com.example.arthan.global
 
 import androidx.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
+import com.example.arthan.model.SubmitMultipleDocsRequest
 
 class ArthanApp : MultiDexApplication() {
 
@@ -11,6 +12,8 @@ class ArthanApp : MultiDexApplication() {
     var appVersion="Version:1.1"
     var onboarded=""
     var validAm = ""
+    var submitDocs: SubmitMultipleDocsRequest? =null
+
     override fun onCreate() {
         super.onCreate()
         instance = this

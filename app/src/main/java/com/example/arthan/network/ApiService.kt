@@ -342,6 +342,9 @@ interface ApiService {
     @GET("getLegalBcmData")
     suspend fun getLegalBcmData(@Query("loanId") loanId: String?): Response<GetLegalnTechBCMResponse>?
 
+     @GET("getDocCategories")
+    suspend fun getDocCategories(@Query("loanId") loanId: String?): Response<DocCategoriesList>?
+
     @GET("getTechBcmData")
     suspend fun getTechBcmData(@Query("loanId") loanId: String?): Response<GetLegalnTechBCMResponse>?
 
@@ -447,6 +450,9 @@ interface ApiService {
     @POST("payRLTFee")
     suspend fun payRLTFee(@Body body: Map<String, String>): Response<BaseResponseData>
 
+    @POST("getDocSubCategories")
+    suspend fun getDocSubCategories(@Body body: Map<String, String>): Response<DocSubCategories>
+
 
     /*AM APis start*/
 
@@ -483,6 +489,9 @@ interface ApiService {
 
     @POST("getLegalQueue")
     suspend fun getLegalQueue(@Body body: HashMap<String,String>): Response<BaseResponseData>?
+
+    @POST("submitMultipleDocs")
+        suspend fun submitMultipleDocs(@Body body: SubmitMultipleDocsRequest): Response<BaseResponseData>?
 
 
 

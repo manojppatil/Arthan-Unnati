@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_rm_toolbar" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txt_msg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="32dp"
+                android:fontFamily="@font/lato_regular"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="6.5sp"
+                android:text="@string/capture_the_original_pan_card_within_the_provided_box"
+                android:textColor="#696969"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toTopOf="@id/fl_document_front"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <FrameLayout
+                android:id="@+id/fl_document_front"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/fl_document_back"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_msg">
+
+                <ImageView
+                    android:id="@+id/img_document_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="32dp"
+                    android:background="@drawable/bg_document_placeholder"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toTopOf="@id/btn_attach_document"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_msg" />
+
+                <ImageView
+                    android:id="@+id/img_clear_front"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="20dp"
+                    android:foregroundGravity="center"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_close" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_document_back"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/btn_attach_document"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fl_document_front">
+
+                <ImageView
+                    android:id="@+id/img_document_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="32dp"
+                    android:background="@drawable/bg_document_placeholder"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toTopOf="@id/btn_attach_document"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_msg" />
+
+                <ImageView
+                    android:id="@+id/img_clear_back"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="20dp"
+                    android:foregroundGravity="center"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_close" />
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/btn_attach_document"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="32dp"
+                android:drawableLeft="@drawable/ic_attach_doc"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_black"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="12dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="12dp"
+                android:enabled="true"
+                android:text="upload document"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fl_document_back" />
+
+            <!-- <ProgressBar
+                 android:id="@+id/pb_approve"
+                 android:layout_width="60dp"
+                 android:layout_height="60dp"
+                 app:layout_constraintLeft_toLeftOf="parent"
+                 app:layout_constraintRight_toRightOf="parent"
+                 app:layout_constraintTop_toBottomOf="@id/btn_attach_document"
+                 android:layout_centerInParent="true"
+                 android:layout_gravity="center"
+                 android:indeterminate="true"
+                 android:max="100"
+                 android:progress="0"
+                 android:progressDrawable="@drawable/bg_progressbar"
+                 android:rotation="-90"
+                 android:visibility="gone"
+                 android:background="@android:color/transparent"/>-->
+
+            <Button
+                android:id="@+id/btn_take_picture"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:drawableTop="@drawable/ic_take_picture"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/lato_regular"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="12dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="12dp"
+                android:text="@string/take_picture"
+                android:textAllCaps="false"
+                android:textColor="#696969"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_attach_document"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/lato_black"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="36dp"
+                android:paddingTop="8dp"
+                android:paddingRight="36dp"
+                android:paddingBottom="8dp"
+                android:text="@string/next"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_take_picture"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</ScrollView>
+
+
