@@ -37,7 +37,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.rm.DocumentSubCategoryActivity"></activity>
+        <activity android:name=".dashboard.bm.BMReassignToActivity"></activity>
+        <activity android:name=".dashboard.rm.DocumentSubCategoryActivity" />
         <activity android:name=".utils.UploadActivityNew" />
         <activity android:name=".dashboard.bcm.BCMAddCoApplicant" />
         <activity android:name=".dashboard.rm.RMRequestWaiverActivity" />

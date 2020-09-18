@@ -152,7 +152,7 @@ class RMDashboardViewModel: ViewModel() {
 
         try{
 
-            if(from=="RM") {
+            if(from=="RM"||ArthanApp.getAppInstance().loginRole=="AM") {
                 CoroutineScope(Dispatchers.IO).launch {
                     val respo = RetrofitFactory.getApiService().getRMApproved(ArthanApp.getAppInstance().loginUser)
                     if (respo?.body() != null) {
@@ -253,7 +253,7 @@ class RMDashboardViewModel: ViewModel() {
         try{
 
         CoroutineScope(Dispatchers.IO).launch {
-            val respo= RetrofitFactory.getRMServiceService().getToDisbursedCases(RMDashboardRequest("R1234",
+            val respo= RetrofitFactory.getRMServiceService().getToDisbursedCases(RMDashboardRequest(ArthanApp.getAppInstance().loginUser,
                 TODISBURSED_SECTION))
             if(respo.isSuccessful && respo.body() != null){
                 withContext(Dispatchers.Main){

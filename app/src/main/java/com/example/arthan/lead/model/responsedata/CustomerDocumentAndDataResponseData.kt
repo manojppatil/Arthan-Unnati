@@ -23,7 +23,20 @@ data class CustomerDocumentAndDataResponseData(
     val businessComments:String?,
     val otherComments:String?,
     val incomeComments:String?,
+    val businessDocs:ArrayList<RequireDocs> = ArrayList(),
+    val kycDocs:ArrayList<RequireDocs> = ArrayList(),
+    val residentialDocs:ArrayList<RequireDocs> = ArrayList(),
+    val bussPremisesDocs:ArrayList<RequireDocs> = ArrayList(),
     val loanDetails:LoanPostData?
+
+)
+data class RequireDocs(
+
+    val loanId:String,
+    val docId:String,
+    val docName:String,
+    val docUrl:String,
+    val docStatus:String="false"
 )
 
 data class DocDetails(

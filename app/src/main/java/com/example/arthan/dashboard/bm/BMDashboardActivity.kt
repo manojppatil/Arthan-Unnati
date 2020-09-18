@@ -94,7 +94,7 @@ class BMDashboardActivity : BaseActivity(), OnClickListener {
         txt_rejected_count.text=body?.rejected?.count
         txt_reassigned_to_count.text=body?.reassignTo?.count
         txt_reassigned_by_count.text=body?.reassignBy?.count
-        txt_disbursed.text=body?.disbursed?.count
+        txt_disbursed_count.text=body?.disbursed?.count
 
         txt_lead_count_tot.text=body?.leads?.total
         txt_rm_review_count_tot.text=body?.rmReview?.count
@@ -159,14 +159,14 @@ class BMDashboardActivity : BaseActivity(), OnClickListener {
             R.id.cv_reassign_to -> startActivity(
                 Intent(
                     this@BMDashboardActivity,
-                    RMReAssignListingActivity::class.java
+                    BMReassignToActivity::class.java
                 ).apply {
                     putExtra("FROM", "REASSIGN-TO")
                 })
             R.id.cv_reassigned_by -> startActivity(
                 Intent(
                     this@BMDashboardActivity,
-                    RMReAssignListingActivity::class.java
+                    BMReassignToActivity::class.java
                 ).apply {
                     putExtra("FROM", "REASSIGN-BY")
                 })

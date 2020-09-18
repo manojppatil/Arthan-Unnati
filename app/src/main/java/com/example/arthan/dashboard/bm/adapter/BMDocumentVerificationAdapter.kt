@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.arthan.dashboard.bm.DocumentVerificationFragment
+import com.example.arthan.dashboard.bm.DocumentVerificationFragmentNew
 import com.example.arthan.dashboard.ops.BCMDataFragment
 import com.example.arthan.dashboard.ops.DataFragment
 import com.example.arthan.global.AppPreferences
@@ -20,7 +21,8 @@ class BMDocumentVerificationAdapter(fm: FragmentManager, from: String) : Fragmen
 
     init {
         lstTitles.add("Documents")
-        frags.add(DocumentVerificationFragment())
+//        frags.add(DocumentVerificationFragment())
+        frags.add(DocumentVerificationFragmentNew())
 
         lstTitles.add("Data")
         frags.add(DataFragment())

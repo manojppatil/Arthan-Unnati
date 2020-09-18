@@ -19,12 +19,27 @@
         android:visibility="gone"
         />
 
+    <ImageView
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:id="@+id/img_dummy"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_listing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/row_screening_customers" />
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitDocs"
+        android:background="@drawable/ic_next_enabled"
+        android:text="Submit"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:textColor="#fff"/>
 </LinearLayout>

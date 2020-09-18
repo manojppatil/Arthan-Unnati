@@ -220,9 +220,16 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
-                if( intent.getStringExtra(STATUS).contains("Recommended to CCM", ignoreCase = true)&&intent.getStringExtra("recordType")=="AM"&&ArthanApp.getAppInstance().loginRole=="BM"&&( cocUrl.isEmpty() ||agreementUrl.isEmpty()||docUrlList.isEmpty()))
-                {
-                    Toast.makeText(this,"Document, Coc & Agreement are mandatory.",Toast.LENGTH_LONG).show()
+                if (intent.getStringExtra(STATUS).contains(
+                        "Recommended to CCM",
+                        ignoreCase = true
+                    ) && intent.getStringExtra("recordType") == "AM" && ArthanApp.getAppInstance().loginRole == "BM" && (cocUrl.isEmpty() || agreementUrl.isEmpty() || docUrlList.isEmpty())
+                ) {
+                    Toast.makeText(
+                        this,
+                        "Document, Coc & Agreement are mandatory.",
+                        Toast.LENGTH_LONG
+                    ).show()
                     return
                 }
                 val progressBar = ProgrssLoader(this)
@@ -236,6 +243,10 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                     rejectReason.visibility = View.GONE
                     decision = "Approve"
 
+                } else if (intent.getStringExtra(STATUS).contains("RM Reassigned")){
+
+                    rejectReason.visibility = View.GONE
+                    decision = "RM Reassigned"
                 }
                 var user = ""
                 if (intent.getStringExtra("recordType") == "AM") {

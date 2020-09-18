@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.arthan.dashboard.am.*
 import com.example.arthan.dashboard.ops.model.DataPagerFragmentItem
+import com.example.arthan.dashboard.rm.BMCollateralFragmentIndependent
 import com.example.arthan.lead.BusinessInformationFragment
 import com.example.arthan.lead.IncomeInformationFragment
 import com.example.arthan.lead.OtherDetailsFragment
@@ -31,7 +32,8 @@ class DataPagerFragmentAdapter(
                 DataPagerFragmentItem("Personal", PersonalDetailFragment()),
                 DataPagerFragmentItem("Business", BusinessInformationFragment()),
                 DataPagerFragmentItem("Income", IncomeInformationFragment()),
-                DataPagerFragmentItem("Other", OtherDetailsFragment())
+                DataPagerFragmentItem("Other", OtherDetailsFragment()),
+                DataPagerFragmentItem("Collateral", BMCollateralFragmentIndependent())
             )
         }
         return list

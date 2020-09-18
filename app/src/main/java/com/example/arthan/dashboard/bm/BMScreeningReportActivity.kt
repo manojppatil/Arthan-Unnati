@@ -28,6 +28,7 @@ class BMScreeningReportActivity : BaseActivity(), View.OnClickListener {
         txt_recommend_rm.setOnClickListener(this)
         txt_reject.setOnClickListener(this)
         txt_approve.setOnClickListener(this)
+        txt_reassignToRm.setOnClickListener(this)
 
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
@@ -38,7 +39,7 @@ class BMScreeningReportActivity : BaseActivity(), View.OnClickListener {
         txt_amount.text = intent.getStringExtra("loanAmt")
         txt_customer_name.text = intent.getStringExtra("cname")
         custId = intent.getStringExtra("custId")
-
+        txt_reassignToRm.visibility=View.GONE
         if (ArthanApp.getAppInstance().loginRole == "BM") {
             if(intent.getStringExtra("recordType")=="AM")
             {
@@ -48,6 +49,7 @@ class BMScreeningReportActivity : BaseActivity(), View.OnClickListener {
                 txt_recommend_bcm.text = "Recommend to BCM"
             }
             txt_approve.visibility = View.GONE
+            txt_reassignToRm.visibility = View.VISIBLE
         } else if (ArthanApp.getAppInstance().loginRole == "BCM") {
             txt_recommend_bcm.text = "Recommend to CC"
         } else if (ArthanApp.getAppInstance().loginRole == "AM") {
@@ -114,6 +116,22 @@ class BMScreeningReportActivity : BaseActivity(), View.OnClickListener {
             R.id.txt_approve -> {
                 startActivity(Intent(this, SubmitFinalReportActivity::class.java).apply {
                     putExtra(STATUS, "Approve")
+                    putExtra("indSeg", intent.getStringExtra("indSeg"))
+                    putExtra("loginDate", intent.getStringExtra("loginDate"))
+                    putExtra("loanId", loanId)
+                    putExtra("custId", custId)
+                    putExtra("recordType", intent.getStringExtra("recordType"))
+                    putExtra("amId", intent.getStringExtra("amId"))
+
+                    putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+
+
+                })
+                finish()
+            }
+            R.id.txt_reassignToRm -> {
+                startActivity(Intent(this, SubmitFinalReportActivity::class.java).apply {
+                    putExtra(STATUS, "RM Reassigned")
                     putExtra("indSeg", intent.getStringExtra("indSeg"))
                     putExtra("loginDate", intent.getStringExtra("loginDate"))
                     putExtra("loanId", loanId)

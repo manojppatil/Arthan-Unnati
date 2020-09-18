@@ -56,7 +56,9 @@ class RMAssignListFragment : BaseFragment() {
         {
 
             loadAmCasesList()
-        }else {
+        }else
+
+        {
             loadReassignLeadList()
         }
     }

@@ -1,6 +1,8 @@
 package com.example.arthan.dashboard.rm
 
 import android.content.Intent
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.DocSubCategoryAdapter
@@ -39,7 +41,7 @@ class DocumentSubCategoryActivity : BaseActivity() {
                 withContext(Dispatchers.Main)
                 {
                     progress.dismmissLoading()
-                    rvSubDocs.adapter=DocSubCategoryAdapter(this@DocumentSubCategoryActivity,"",res.body()!!)
+                    rvSubDocs.adapter=DocSubCategoryAdapter(this@DocumentSubCategoryActivity,"",res.body()!!,intent.getStringExtra("cate"))
                 }
 
             }
@@ -63,6 +65,7 @@ class DocumentSubCategoryActivity : BaseActivity() {
             if(view!=null)
             {
                 view.findViewById<TextView>(R.id.capturedFileName).text=docName
+                view.findViewById<ImageView>(R.id.delete).visibility=View.VISIBLE
             }
 
         }

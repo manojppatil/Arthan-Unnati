@@ -31,21 +31,20 @@ class RMRequestWaiverActivity : BaseActivity() {
 
 
         btn_requestWaiver.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked)
-            {
-                waiveOption="Req. Waiver"
-                waiverAmt.visibility=View.VISIBLE
-            }else
-            {
-                waiverAmt.visibility=View.GONE
+            if (isChecked) {
+                waiveOption = "Req. Waiver"
+                waiverAmt.visibility = View.VISIBLE
+                remarks.visibility = View.VISIBLE
+            } else {
+                waiverAmt.visibility = View.GONE
+                remarks.visibility = View.GONE
 
             }
         }
         btn_collectDisb_fees.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked)
-            {
-              waiveOption= "Collect From Disb. Amt"
-
+            if (isChecked) {
+                waiveOption = "Collect From Disb. Amt"
+/*
                 val progess=ProgrssLoader(this)
                 progess.showLoading()
                 val map=HashMap<String,String>()
@@ -75,68 +74,81 @@ class RMRequestWaiverActivity : BaseActivity() {
                     }
                 }
             }
+        }*/
+            }
         }
 
-        btn_collect_fees.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked)
-            {
-                waiveOption="Collect fees"
-                CoroutineScope(Dispatchers.IO).launch {
-                    var res= RetrofitFactory.getApiService().sendPaymentLink(intent.getStringExtra("loanId"))
-                    if(res?.body()!=null)
-                    {
-                        withContext(Dispatchers.Main)
-                        {
-                            Toast.makeText(this@RMRequestWaiverActivity,"Payment link sent to customer successfully",
-                                Toast.LENGTH_LONG).show()
+                btn_collect_fees.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        waiveOption = "Collect fees"
+
+                    }
+                }
+
+                submitWaiver.setOnClickListener {
+                    if (waiveOption == "Collect fees") {
+                        val map = HashMap<String, String>()
+                        map["loanId"] = intent.getStringExtra("loanId")
+//                        map["remarks"] = remarks.text.toString()
+                        map["eId"] = "RM1"
+                        map["userId"] = ArthanApp.getAppInstance().loginUser
+                        CoroutineScope(Dispatchers.IO).launch {
+                            var res = RetrofitFactory.getApiService()
+//                                .sendPaymentLink(intent.getStringExtra("loanId"))
+                                .payRLTFee(map)
+                            if (res?.body() != null) {
+                                withContext(Dispatchers.Main)
+                                {
+                                    Toast.makeText(
+                                        this@RMRequestWaiverActivity,
+                                        "Payment link sent to customer successfully",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                        }
+                    } else {
+
+                        val progressLoader = ProgrssLoader(this)
+                        progressLoader.showLoading()
+                        var map = HashMap<String, String>()
+                        map["loanId"] = intent.getStringExtra("loanId")
+                        map["remarks"] = remarks.text.toString()
+                        map["eId"] = "RM1"
+                        map["userId"] = ArthanApp.getAppInstance().loginUser
+                        map["waiveAmt"] = waiverAmt.text.toString()
+                        map["waiveOption"] = waiveOption
+                        CoroutineScope(Dispatchers.IO).launch {
+
+                            var res = RetrofitFactory.getApiService().rmRequestWaiver(map)
+                            if (res?.body() != null) {
+                                withContext(Dispatchers.Main) {
+                                    progressLoader.dismmissLoading()
+
+                                    Toast.makeText(
+                                        this@RMRequestWaiverActivity,
+                                        "Request successful",
+                                        Toast.LENGTH_LONG
+                                    )
+                                        .show()
+                                    finish()
+                                    startActivity(
+                                        Intent(
+                                            this@RMRequestWaiverActivity,
+                                            CommonApprovedListingActivity::class.java
+                                        )
+                                    )
+                                }
+                            } else {
+                                withContext(Dispatchers.Main) {
+                                    progressLoader.dismmissLoading()
+
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
-
-       submitWaiver.setOnClickListener {
-
-            val progressLoader = ProgrssLoader(this)
-            progressLoader.showLoading()
-            var map = HashMap<String, String>()
-            map["loanId"] = intent.getStringExtra("loanId")
-//            map["remarks"] = remarks.text.toString()
-            map["eId"] = "RM1"
-            map["userId"] = ArthanApp.getAppInstance().loginUser
-            map["waiveAmt"] = waiverAmt.text.toString()
-            map["waiveOption"] =waiveOption
-            CoroutineScope(Dispatchers.IO).launch {
-
-                var res = RetrofitFactory.getApiService().rmRequestWaiver(map)
-                if (res?.body() != null) {
-                    withContext(Dispatchers.Main) {
-                        progressLoader.dismmissLoading()
-
-                        Toast.makeText(
-                            this@RMRequestWaiverActivity,
-                            "Request successful",
-                            Toast.LENGTH_LONG
-                        )
-                            .show()
-                        finish()
-                        startActivity(
-                            Intent(
-                                this@RMRequestWaiverActivity,
-                                CommonApprovedListingActivity::class.java
-                            )
-                        )
-                    }
-                }else
-                    {
-                        withContext(Dispatchers.Main) {
-                            progressLoader.dismmissLoading()
-
-                        }
-                }
-            }
-        }
-    }
 
     override fun onToolbarBackPressed() {
         finish()

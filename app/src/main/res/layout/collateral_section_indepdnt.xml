@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <!-- <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical"
+         android:layout_margin="16dp"
+         >
+
+         <TextView
+             android:id="@+id/collateral_property_details"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="16dp"
+             android:layout_marginEnd="16dp"
+             android:text="Collateral Property Details"
+             android:textStyle="bold"
+             />
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Security Type"
+             android:layout_marginTop="24dp"
+             android:textStyle="bold"
+
+             android:layout_marginLeft="8dp"/>
+         <Spinner
+             android:layout_width="match_parent"
+             android:layout_height="48dp"
+             android:layout_marginTop="8dp"
+             android:id="@+id/sp_security"
+             />
+
+     <include layout="@layout/liquid_type_layout"
+         android:id="@+id/liquid_type"
+         android:visibility="gone"
+         />
+     <include layout="@layout/movable_type_layout"
+         android:id="@+id/movable_type"
+         android:visibility="gone"
+
+         />
+
+     <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+         android:id="@+id/immovableType"
+         android:orientation="vertical">
+         <com.google.android.material.textfield.TextInputLayout
+             android:id="@+id/tl_ownerName"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="8dp"
+             android:layout_marginTop="16dp"
+             android:layout_marginEnd="8dp"
+             >
+
+             <com.google.android.material.textfield.TextInputEditText
+                 android:id="@+id/et_ownerNameLoan"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:drawablePadding="4dp"
+                 android:hint="Owner name"
+                 android:inputType="text"
+                 android:singleLine="true"
+                 android:textColor="#000000"
+                 android:textSize="14sp" />
+
+         </com.google.android.material.textfield.TextInputLayout>
+
+         <com.google.android.material.textfield.TextInputLayout
+             android:id="@+id/tl_Address"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="8dp"
+             android:layout_marginTop="16dp"
+             android:layout_marginEnd="8dp"
+             >
+
+             <com.google.android.material.textfield.TextInputEditText
+                 android:id="@+id/et_address"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:drawablePadding="4dp"
+                 android:hint="Address"
+                 android:inputType="text"
+                 android:minLines="3"
+                 android:singleLine="true"
+                 android:textColor="#000000"
+                 android:textSize="14sp" />
+
+         </com.google.android.material.textfield.TextInputLayout>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Security SubType"
+             android:textStyle="bold"
+
+             android:layout_marginTop="8dp"
+             android:layout_marginLeft="8dp"/>
+         <Spinner
+             android:layout_width="match_parent"
+             android:layout_height="48dp"
+             android:layout_marginTop="8dp"
+             android:id="@+id/sp_security_subType"
+             />
+                <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Immovable SubType"
+             android:textStyle="bold"
+
+             android:id="@+id/immsubHead"
+             android:visibility="gone"
+             android:layout_marginTop="8dp"
+             android:layout_marginLeft="8dp"/>
+         <Spinner
+             android:layout_width="match_parent"
+             android:layout_height="48dp"
+             android:layout_marginTop="8dp"
+
+             android:visibility="gone"
+             android:id="@+id/sp_immovable_security"
+             />
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/ll_plotType"
+             android:visibility="gone"
+             android:orientation="vertical">
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Plot Type:"
+             android:textColor="#000"
+             android:layout_marginTop="8dp"
+             android:textStyle="bold"
+
+             android:layout_marginLeft="8dp"/>
+         <RadioGroup
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="8dp"
+
+             android:id="@+id/rg_plotType"
+             android:orientation="horizontal">
+             <RadioButton
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="8dp"
+                 android:text="BOUNDARY"
+                 android:id="@+id/rb_boundary"/>
+             <RadioButton
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="8dp"
+                 android:layout_marginLeft="16dp"
+                 android:text="NO BOUNDARY"
+                 android:id="@+id/rb_noBoundary"/>
+         </RadioGroup>
+         </LinearLayout>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/ll_namuna"
+             android:visibility="gone"
+             android:orientation="vertical">
+         <TextView
+
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="NAMUNA 8A Property Type:"
+             android:layout_marginTop="8dp"
+             android:textColor="#000"
+             android:textStyle="bold"
+
+             android:layout_marginLeft="8dp"/>
+         <RadioGroup
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="8dp"
+
+             android:id="@+id/rg_namuna"
+             android:orientation="horizontal">
+             <RadioButton
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="8dp"
+                 android:text="Online"
+                 android:id="@+id/rb_online"/>
+             <RadioButton
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="16dp"
+                 android:layout_marginTop="8dp"
+                 android:text="Offline"
+                 android:id="@+id/rb_offline"/>
+         </RadioGroup>
+         </LinearLayout>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Occupied By"
+             android:layout_marginTop="8dp"
+             android:textStyle="bold"
+
+             android:layout_marginLeft="8dp"/>
+         <Spinner
+             android:layout_width="match_parent"
+             android:layout_height="48dp"
+             android:id="@+id/sp_occupiedBy"
+             android:layout_marginTop="16dp"/>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Nature of Doc"
+             android:textStyle="bold"
+             android:visibility="gone"
+
+             android:layout_marginLeft="8dp"/>
+         <Spinner
+             android:layout_width="match_parent"
+             android:layout_height="48dp"
+             android:visibility="gone"
+             android:id="@+id/sp_NatureOfDo"
+             android:layout_marginTop="16dp"/>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Type of Doc"
+             android:textStyle="bold"
+             android:visibility="gone"
+
+             android:layout_marginLeft="8dp"/>
+         <Spinner
+             android:layout_width="match_parent"
+             android:layout_height="48dp"
+             android:id="@+id/sp_typeOfDoc"
+             android:visibility="gone"
+
+             android:layout_marginTop="16dp"/>
+         <EditText
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/et_docDesc"
+             android:visibility="gone"
+
+             android:hint="Doc Description"
+             android:minLines="3"/>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/ll_docStatus"
+             android:visibility="gone"
+
+             android:layout_marginTop="8dp"
+             android:orientation="vertical">
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Doc Status"
+                 android:layout_marginLeft="8dp"
+                 android:textStyle="bold"
+
+                 android:textColor="#000"
+                />
+         <RadioGroup
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/rg_docStatus"
+             android:layout_marginTop="8dp"
+             android:orientation="horizontal">
+             <RadioButton
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="RECEIVED"
+                 android:id="@+id/rb_received"/>
+             <RadioButton
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="16dp"
+                 android:text="NOT RECEIVED"
+                 android:id="@+id/rb_notReceived"/>
+         </RadioGroup>
+         </LinearLayout>
+     </LinearLayout>
+     </LinearLayout>-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collateral Details"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Security Type"
+                android:layout_marginTop="24dp"
+                android:textStyle="bold"
+
+                android:layout_marginLeft="8dp"/>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/sp_security"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/security_section_movable"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Security SubType"
+                    android:textStyle="bold"
+
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/sp_security_subType"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/liquid_section"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:text="Owner Name:"
+                            />
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/et_coOwnerName"
+                            android:inputType="text|textCapCharacters"
+                            android:layout_weight="0.7"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:text="Policy/Unique No:"
+                            />
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/et_COpolicyNo"
+                            android:inputType="text|textCapCharacters"
+                            android:layout_weight="0.7"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:text="Surrender value:"
+                            />
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/et_cosurrenderValue"
+                            android:inputType="number"
+                            android:text="₹"
+                            android:layout_weight="0.7"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/others_section"
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp"
+
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:text="Owner Name:"
+                            />
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/et_coOthersOwnerName"
+                            android:inputType="text|textCapCharacters"
+                            android:layout_weight="0.7"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:text="Policy/Unique No:"
+                            />
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/et_COOtherspolicyNo"
+                            android:inputType="text|textCapCharacters"
+                            android:layout_weight="0.7"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:text="Market value:"
+
+                            />
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/et_marketValueCo"
+                            android:inputType="number"
+                            android:text="₹"
+                            android:layout_weight="0.7"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:text="Derived value:"
+                            />
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/et_derivedValueCO"
+                            android:inputType="number"
+                            android:text="₹"
+                            android:layout_weight="0.7"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/immovable_section"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Collateral type"
+                    android:textStyle="bold"
+
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/sp_collateral_type_liq"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jurisdiction "
+                    android:textStyle="bold"
+
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/sp_jurisdictionType"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:text="Market value:"
+                        />
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/et_MarketValueImm"
+                        android:inputType="number"
+                        android:text="₹"
+                        android:layout_weight="0.7"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:text="Owner Name:"
+                        />
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/et_COOwnerNameImm"
+                        android:inputType="text|textCapCharacters"
+                        android:layout_weight="0.7"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Relationship applicant "
+                    android:textStyle="bold"
+
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/sp_relaionShipApplicant"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ownership "
+                    android:textStyle="bold"
+
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/sp_ownerShip"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address same as "
+                    android:textStyle="bold"
+
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"/>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rg_address"
+                    android:layout_marginTop="8dp"
+
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_ResidentType"
+                        android:checked="true"
+                        android:text="Residential"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_Business"
+                        android:text="Business"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_Others"
+                        android:text="Others"/>
+                </RadioGroup>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+
+                    android:inputType="textCapCharacters"
+                    android:hint="Enter others Address"
+                    android:minLines="3"
+                    android:id="@+id/et_address"/>
+            </LinearLayout>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_save_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/ic_next_enabled"
+            android:fontFamily="@font/lato_black"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="32dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="32dp"
+            android:paddingBottom="12dp"
+            android:text="Submit"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
@@ -15,7 +16,8 @@ import com.example.arthan.model.DocsRequest
 class DocSubCategoryAdapter(
     private val context: Context,
     private val from: String,
-    private val responseData: DocSubCategories?
+    private val responseData: DocSubCategories?,
+    private val category: String?
 ) : RecyclerView.Adapter<DocSubCategoryAdapter.ScreenNav>() {
 
 
@@ -25,12 +27,24 @@ class DocSubCategoryAdapter(
             root.findViewById<TextView>(R.id.screenValue).text =
                 responseData!!.docCategories[position]
 
+            root.findViewById<ImageView>(R.id.delete).setOnClickListener {
+
+                removeFileAtPos(position, category)
+                root.findViewById<TextView>(R.id.capturedFileName).text =
+                    "No File Selected"
+                root.findViewById<ImageView>(R.id.delete).visibility = View.GONE
+
+            }
             root.findViewById<TextView>(R.id.capturedFileName).text =
-                responseData!!.docCategories[position]
+                "No File Selected"
 
             root.setOnClickListener {
 
-                (context as DocumentSubCategoryActivity).invokeUploadActivity(position,responseData.docCategories[position].replace(" ","_"),responseData.loanId)
+                (context as DocumentSubCategoryActivity).invokeUploadActivity(
+                    position,
+                    responseData.docCategories[position].replace(" ", "_"),
+                    responseData.loanId
+                )
 
             }
 
@@ -52,6 +66,34 @@ class DocSubCategoryAdapter(
         holder.bind(position)
     }
 
+    fun removeFileAtPos(pos: Int, category: String?) {
+        if (ArthanApp.getAppInstance().submitDocs != null) {
+            when (category) {
+                "Business Proof and Stabilty" -> {
+                    ArthanApp.getAppInstance().submitDocs?.businessDocs?.removeAt(pos)
+
+
+                }
+                "Other KYC" -> {
+                    ArthanApp.getAppInstance().submitDocs?.kycDocs?.removeAt(pos)
+
+
+                }
+                "Business Premises" -> {
+                    ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.removeAt(pos)
+
+
+                }
+                "Residential Premises" -> {
+                    ArthanApp.getAppInstance().submitDocs?.residentialDocs?.removeAt(pos)
+
+
+                }
+
+            }
+        }
+    }
+
     fun updateTile(
         pos: Int,
         docName: String?,
@@ -59,28 +101,71 @@ class DocSubCategoryAdapter(
         category: String?
     ) {
 
-        when(category)
-        {
+        when (category) {
             "Business Proof and Stabilty" -> {
-                ArthanApp.getAppInstance().submitDocs?.businessDocs?.add(DocsRequest(pos.toString(),docName!!,docUrl!!))
+                if (ArthanApp.getAppInstance().submitDocs?.businessDocs?.size!! > 0&&ArthanApp.getAppInstance().submitDocs?.businessDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
 
+                    ArthanApp.getAppInstance().submitDocs?.businessDocs?.removeAt(pos)
+                }
+
+                    ArthanApp.getAppInstance().submitDocs?.businessDocs?.add(
+                        DocsRequest(
+                            pos.toString(),
+                            docName!!,
+                            docUrl!!
+                        )
+                    )
 
             }
             "Other KYC" -> {
-                ArthanApp.getAppInstance().submitDocs?.kycDocs?.add(DocsRequest(pos.toString(),docName!!,docUrl!!))
+                if (ArthanApp.getAppInstance().submitDocs?.kycDocs?.size!! > 0&&ArthanApp.getAppInstance().submitDocs?.kycDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
+
+                    ArthanApp.getAppInstance().submitDocs?.kycDocs?.removeAt(pos)
+
+                }
+                    ArthanApp.getAppInstance().submitDocs?.kycDocs?.add(
+                        DocsRequest(
+                            pos.toString(),
+                            docName!!,
+                            docUrl!!
+                        )
+                    )
 
 
             }
             "Business Premises" -> {
-                ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.add(DocsRequest(pos.toString(),docName!!,docUrl!!))
+                if (ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.size!! > 0&&ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
+
+                    ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.removeAt(pos)
+
+                }
+
+                    ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.add(
+                        DocsRequest(
+                            pos.toString(),
+                            docName!!,
+                            docUrl!!
+                        )
+                    )
 
 
             }
-            "Residential Premises"-> {
-                ArthanApp.getAppInstance().submitDocs?.residentialDocs?.add(DocsRequest(pos.toString(),docName!!,docUrl!!))
+            "Residential Premises" -> {
+                if (ArthanApp.getAppInstance().submitDocs?.residentialDocs?.size!! > 0&&ArthanApp.getAppInstance().submitDocs?.residentialDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
 
+                    ArthanApp.getAppInstance().submitDocs?.residentialDocs?.removeAt(pos)
 
-            }
+                }
+
+                    ArthanApp.getAppInstance().submitDocs?.residentialDocs?.add(
+                        DocsRequest(
+                            pos.toString(),
+                            docName!!,
+                            docUrl!!
+                        )
+                    )
+                }
+
 
         }
 

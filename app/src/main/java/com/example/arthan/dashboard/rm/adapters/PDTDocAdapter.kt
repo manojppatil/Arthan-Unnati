@@ -14,7 +14,7 @@ class PDTDocAdapter(val context: Context,private val mListener: OnUploadListener
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.btn_upload -> mListener.onUpload()
-            R.id.btn_take_approval -> ApprovalDialog(context).show()
+            R.id.btn_take_approval -> ApprovalDialog(context,0).show()
         }
     }
 

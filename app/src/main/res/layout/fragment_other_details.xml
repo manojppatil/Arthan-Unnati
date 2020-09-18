@@ -812,6 +812,7 @@
             android:id="@+id/ll_collateral"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_2_product_purchase_sale">

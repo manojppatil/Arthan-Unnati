@@ -9,7 +9,9 @@ import android.view.ViewGroup
 
 import com.example.arthan.R
 import com.example.arthan.dashboard.am.*
+import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.ops.adapter.DataPagerFragmentAdapter
+import com.example.arthan.dashboard.rm.BMCollateralFragmentIndependent
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.BusinessInformationFragment
 import com.example.arthan.lead.IncomeInformationFragment
@@ -55,7 +57,6 @@ class DataFragment : Fragment() {
             )
             (adapter?.getItem(2) as? AMOthersDetailsDnD)?.updateData(
                 data?.otherDetails
-
 
             )
         }
@@ -111,6 +112,14 @@ class DataFragment : Fragment() {
             (adapter?.getItem(3) as? OtherDetailsFragment)?.updateData(
                 data?.neighborRefDetails,
                 data?.tradeRefDetails,
+                data?.collateralDetails,
+                loanId,
+                data?.loanType,
+                data?.otherComments
+
+
+            )
+            (adapter?.getItem(4) as? BMCollateralFragmentIndependent)?.updateData(
                 data?.collateralDetails,
                 loanId,
                 data?.loanType,

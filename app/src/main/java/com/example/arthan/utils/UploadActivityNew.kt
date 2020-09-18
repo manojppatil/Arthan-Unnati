@@ -114,7 +114,7 @@ class UploadActivityNew : BaseActivity() , CoroutineScope {
             try {
 
                 val file: File = File(filePath)
-                val url = file.name + file.extension
+                val url = file.name
                 val fileList: MutableList<S3UploadFile> = mutableListOf()
                 fileList.add(S3UploadFile(file, url))
                 S3Utility.getInstance(this)
@@ -151,7 +151,7 @@ class UploadActivityNew : BaseActivity() , CoroutineScope {
         if (!dir.exists())
             dir.mkdirs()
         return File(
-            dir.absolutePath + "/"+intent.getSerializableExtra("loanId")+"_"+intent.getSerializableExtra("docName")+".jpg"
+            dir.absolutePath + "/"+intent.getSerializableExtra("loanId")+"_"+intent.getSerializableExtra("docName")
         )
     }
     private fun navigateToCamera() {

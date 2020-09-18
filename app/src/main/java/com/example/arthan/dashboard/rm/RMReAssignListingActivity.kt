@@ -16,6 +16,7 @@ import com.example.arthan.lead.DocumentFragment
 import com.example.arthan.lead.IncomeInformationFragment
 import com.example.arthan.lead.OtherDetailsFragment
 import com.example.arthan.model.ReassignLeadData
+import com.example.arthan.utils.DocumentUploadFragment
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
@@ -43,6 +44,14 @@ class RMReAssignListingActivity : AppCompatActivity() {
 
         }
 
+        if(intent.getStringExtra("FROM") == "REASSIGN") {
+
+            rel_frags.visibility=View.VISIBLE
+            rv_listing.visibility=View.GONE
+
+            showAssignListFragment()
+
+        }
         back_button?.setOnClickListener {
 
             finish()
@@ -111,7 +120,7 @@ class RMReAssignListingActivity : AppCompatActivity() {
     }
     fun showDocumentsFragment(loanId:String)
     {
-        supportFragmentManager.beginTransaction().replace(R.id.rel_frags,DocumentFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.rel_frags,DocumentUploadFragment()
             .apply {
                 var b=Bundle()
                 b.putString("task","RM_AssignList")

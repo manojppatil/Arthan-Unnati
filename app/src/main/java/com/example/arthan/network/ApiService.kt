@@ -257,8 +257,14 @@ interface ApiService {
     @POST("amDocScreeningStatus")
     suspend fun amDocScreeningStatus(@Body body: DocScreeningStatusPost): Response<BaseResponseData>
 
+    @POST("amDocScreeningStatus")
+    suspend fun amDocScreeningStatus(@Body body: DocScreeningStatusPostNew): Response<BaseResponseData>
+
      @POST("docScreeningStatus")
     suspend fun docScreeningStatus(@Body body: DocScreeningStatusPost): Response<BaseResponseData>
+
+     @POST("docScreeningStatus")
+    suspend fun docScreeningStatus(@Body body: DocScreeningStatusPostNew): Response<BaseResponseData>
 
     @POST("updateAMOtherDetails")
     suspend fun updateAMOtherDetails(@Body body: Map<String, String?>): Response<BaseResponseData>
@@ -268,6 +274,9 @@ interface ApiService {
 
     @POST("updateOtherDetails")
     suspend fun updateOtherDetails(@Body body: Map<String, String>): Response<BaseResponseData>
+
+    @POST("updateCollateralDetails")
+    suspend fun updateCollateralDetails(@Body body: Map<String, String>): Response<BaseResponseData>
 
     @POST("bmSubmit")
     suspend fun bmSubmit(@Body body: FinalReportPostData): Response<BaseResponseData>
@@ -298,6 +307,12 @@ interface ApiService {
 
     @GET("getRMRejected")
     suspend fun getRMRejected(@Query("rmId") bmId: String?): Response<RejectedCaseData>?
+
+    @GET("getBMReassignedTo")
+    suspend fun getBMReassignedTo(@Query("bmId") bmId: String?): Response<BMReassignCaseData>?
+
+    @GET("getBMReassignedBy")
+    suspend fun getBMReassignedBy(@Query("bmId") bmId: String?): Response<BMReassignCaseData>?
 
 
     @GET("saveBMReopen")
@@ -391,8 +406,14 @@ interface ApiService {
     @POST("bcmTechSubmit")
     suspend fun bcmTechSubmit(@Body body: HashMap<String, String>): Response<BaseResponseData>
 
+    @POST("submitRMPendingDocs")
+    suspend fun submitRMPendingDocs(@Body body: HashMap<String, Any>): Response<BaseResponseData>
+
     @GET("getIncSrcMstr")
     suspend fun getIncSrcMstr(): Response<CollateralResponseData>?
+
+    @GET("getRMPendingDocs")
+    suspend fun getRMPendingDocs(@Query("loanId") loanId: String?): Response<RMPendingDocs>?
 
 
     @GET("getLoanDataStatus")

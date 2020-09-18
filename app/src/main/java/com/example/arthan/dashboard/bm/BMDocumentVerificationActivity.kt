@@ -14,6 +14,7 @@ import com.example.arthan.dashboard.ops.BCMDataFragment
 import com.example.arthan.dashboard.ops.DataFragment
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.lead.model.postdata.DocumentsData
 import com.example.arthan.lead.model.responsedata.CustomerDocumentAndDataResponseData
 import com.example.arthan.model.Customer
 import com.example.arthan.network.RetrofitFactory
@@ -43,7 +44,7 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
     override fun contentView() = R.layout.activity_bm_document_verification
 
     override fun onToolbarBackPressed() = onBackPressed()
-
+    var list=ArrayList<DocumentsData>()
     override fun init() {
 
         btn_search.visibility = View.GONE
@@ -106,8 +107,11 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
-                        ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateData(
+                      /*  ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateData(
                             result?.docDetails,this@BMDocumentVerificationActivity
+                        ) */
+                        ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragmentNew)?.updateData(
+                            result?.businessDocs,result?.bussPremisesDocs,result?.kycDocs,result?.residentialDocs,this@BMDocumentVerificationActivity
                         )
                         ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateData(
                             loanId,

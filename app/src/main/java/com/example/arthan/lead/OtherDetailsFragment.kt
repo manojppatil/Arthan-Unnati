@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.dashboard.rm.ReUsableFragmentSpace
@@ -386,14 +387,25 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
                                 if (ArthanApp.getAppInstance().loginRole == "BM") {
 
-                                    startActivity(
+                                    if(activity is BMDocumentVerificationActivity) {
+                                        withContext(Dispatchers.Main) {
+
+                                            (activity as BMDocumentVerificationActivity).moveVPinDataFragment(
+                                                4
+                                            )
+                                        }
+                                    }else
+                                    {
+
+                                    }
+                                    /*startActivity(
                                         Intent(
                                             activity,
                                             PendingCustomersActivity::class.java
                                         ).apply {
                                             putExtra("FROM", "BM")
                                         })
-                                    activity?.finish()
+                                    activity?.finish()*/
                                 } else {
                                     val intent =
                                         Intent(activity, BMScreeningReportActivity::class.java)
@@ -1269,7 +1281,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     ignoreCase = true
                 )
             ) {
-                ll_collateral.visibility = View.VISIBLE
+//                ll_collateral.visibility = View.VISIBLE
             } else {
                 ll_collateral.visibility = View.GONE
 

@@ -91,15 +91,24 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
 //        ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_next.setOnClickListener {
-            if(intent.getStringExtra("type")==null) {
-                savePersonalData("PA")
+
+            if (et_name.length() > 0 && panNoEt.length() > 0 && et_father_name.length() > 0 && et_mother_name.length() > 0 && et_dob.length() > 0
+                && contact_number_input.length() > 0 && email_id_input.length() > 0 && gross_annual_income_spinner.length() > 0 &&
+                address_line1_input.length() > 0 && address_line2_input.length() > 0 && pincode_input.length() > 0 && city_input.length() > 0
+                && district_input.length() > 0 && state_input.length() > 0
+            ) {
+                if (intent.getStringExtra("type") == null) {
+                    savePersonalData("PA")
+                } else {
+                    savePersonalData(intent.getStringExtra("type"))
+
+                }
             }else
             {
-                savePersonalData(intent.getStringExtra("type"))
-
+                Toast.makeText(this,"ALl fields are mandatory",Toast.LENGTH_LONG).show()
             }
-        }
 
+        }
         et_dob.setOnClickListener {
             dateSelection(this, et_dob)
         }

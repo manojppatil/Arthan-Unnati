@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#f4f4f4">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Business Docs"
+            android:textColor="#000"
+            android:id="@+id/docType"
+            android:textStyle="bold"
+            android:textSize="16dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBusinessDocs"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KYC Docs"
+            android:textColor="#000"
+            android:id="@+id/kycDocs"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:textSize="16dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvKycDocs"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:layout_width="match_parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Residential Docs"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"
+
+            android:id="@+id/resDocs"
+            android:textStyle="bold"
+            android:textSize="16dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvResDocs"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:layout_width="match_parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BussPremises Docs"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"
+
+            android:id="@+id/bizPremDocs"
+            android:textStyle="bold"
+            android:textSize="16dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvbizPremDocs"
+            android:layout_marginTop="8dp"
+
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/ic_next_enabled"
+            android:textColor="#ffffff"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="8dp"
+            android:fontFamily="@font/lato_black"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"/>
+
+    </LinearLayout>
+
+
+</ScrollView>

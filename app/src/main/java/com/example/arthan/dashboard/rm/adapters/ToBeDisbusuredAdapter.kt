@@ -21,7 +21,9 @@ private val data: List<ToDisbursedData>): RecyclerView.Adapter<ToBeDisbusuredAda
         fun bind(position: Int) {
             root.findViewById<Button>(R.id.btn_reopen).visibility= View.GONE
             root.setOnClickListener {
-                context.startActivity(Intent(context, PDTDocUploadActivity::class.java))
+                context.startActivity(Intent(context, PDTDocUploadActivity::class.java).apply {
+                    putExtra("loanId",this@ToBeDisbusuredAdapter.data[position].caseId)
+                })
             }
 
             root.findViewById<TextView>(R.id.txt_caseid).text= "Case ID: ${data[position].caseId}"

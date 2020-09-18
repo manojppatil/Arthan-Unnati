@@ -7,6 +7,7 @@ import com.example.arthan.lead.BusinessInformationFragment
 import com.example.arthan.lead.DocumentFragment
 import com.example.arthan.lead.IncomeInformationFragment
 import com.example.arthan.lead.OtherDetailsFragment
+import com.example.arthan.utils.DocumentUploadFragment
 import kotlinx.android.synthetic.main.activity_re_usable_fragment_space.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
 
@@ -76,7 +77,7 @@ class ReUsableFragmentSpace : AppCompatActivity() {
     }
 
     fun showDocumentsFragment(loanId: String) {
-        supportFragmentManager.beginTransaction().replace(R.id.frag, DocumentFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.frag, DocumentUploadFragment()
             .apply {
                 var b = Bundle()
                 b.putString("task", "RM_AssignList")

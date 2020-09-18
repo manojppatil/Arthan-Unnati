@@ -59,6 +59,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
         holder.bind(position, list[position])
 
         val customer=list[position]
+
        holder. mViewCustomer360.setOnClickListener {
             mContext.startActivity(Intent(mContext, Customer360Activity::class.java).apply {
                 putExtra("indSeg",customer.indSeg)
@@ -81,6 +82,14 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                 from,
                 customer.recordType
             )
+        }
+        if(from=="BM")
+        {
+            holder. mViewCustomer360.visibility=View.GONE
+        }else
+        {
+            holder. mViewCustomer360.visibility=View.VISIBLE
+
         }
 
         holder.mTakeDecision.setOnClickListener {
