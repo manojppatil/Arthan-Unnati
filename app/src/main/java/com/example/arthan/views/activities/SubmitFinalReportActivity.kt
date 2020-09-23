@@ -282,13 +282,6 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                         val result = respo.body()
                         if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
 
-                            progressBar.dismmissLoading()
-                            startActivity(Intent(
-                                this@SubmitFinalReportActivity,
-                                BMDashboardActivity::class.java
-                            ).apply {
-                                putExtra("FROM", "BM")
-                            })
                             withContext(Dispatchers.Main) {
                                 var msg =
                                     if (intent.getStringExtra(STATUS).contains(
@@ -311,6 +304,15 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                                     msg,
                                     Toast.LENGTH_LONG
                                 ).show()
+
+
+                                progressBar.dismmissLoading()
+                                startActivity(Intent(
+                                    this@SubmitFinalReportActivity,
+                                    BMDashboardActivity::class.java
+                                ).apply {
+                                    putExtra("FROM", "BM")
+                                })
                                 finish()
                             }
 

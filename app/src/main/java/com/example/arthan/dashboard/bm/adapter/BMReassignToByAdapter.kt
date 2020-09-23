@@ -1,5 +1,6 @@
 package com.example.arthan.dashboard.bm.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import com.example.arthan.dashboard.bm.MultipleButtonClickListener
 import com.example.arthan.model.BMCasesData
 
 class BMReassignToByAdapter(
-    private val context: BMReassignToActivity,
+    private val context: Context,
     private val id: String,
    private val mList: ArrayList<BMCasesData>
 ) : RecyclerView.Adapter<BMReassignToByAdapter.ViewHolder>() {

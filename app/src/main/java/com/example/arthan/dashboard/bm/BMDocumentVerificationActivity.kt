@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.adapter.BMDocumentVerificationAdapter
@@ -53,7 +52,9 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
         vp_profiler.adapter =
             BMDocumentVerificationAdapter(
                 supportFragmentManager,
-                intent?.getStringExtra("FROM")!!
+                intent?.getStringExtra("FROM")!!,
+                intent.getStringExtra("recordType")
+
             )
         tb_profiler.setupWithViewPager(vp_profiler)
         vp_profiler?.offscreenPageLimit = 3
@@ -107,12 +108,20 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
-                      /*  ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateData(
-                            result?.docDetails,this@BMDocumentVerificationActivity
-                        ) */
-                        ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragmentNew)?.updateData(
-                            result?.businessDocs,result?.bussPremisesDocs,result?.kycDocs,result?.residentialDocs,this@BMDocumentVerificationActivity
-                        )
+                        if (intent.getStringExtra("recordType") == "AM") {
+
+                              ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragment)?.updateData(
+                                  result?.docDetails,this@BMDocumentVerificationActivity
+                              )
+                        }else {
+                            ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragmentNew)?.updateData(
+                                result?.businessDocs,
+                                result?.bussPremisesDocs,
+                                result?.kycDocs,
+                                result?.residentialDocs,
+                                this@BMDocumentVerificationActivity
+                            )
+                        }
                         ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(1) as? DataFragment)?.updateData(
                             loanId,
                             result,

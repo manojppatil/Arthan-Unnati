@@ -8,6 +8,7 @@ import com.example.arthan.dashboard.bm.model.RejectedCaseResponse
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.model.*
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ProgrssLoader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

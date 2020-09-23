@@ -25,6 +25,18 @@ class LoginEmpIdActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_emp_id)
         var btn_Submit=findViewById<Button>(R.id.btn_submit)
+        rbEmployee.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+            {
+                et_role.hint = "Enter Employee Code"
+            }
+        }
+        rbNonEmployee.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+            {
+                et_role.hint = "Enter Mobile Number"
+            }
+        }
         if (getSharedPreferences("user", Context.MODE_PRIVATE).getString("empId", "") != "") {
 
             ArthanApp.getAppInstance().loginUser =

@@ -259,7 +259,7 @@
                 android:nextFocusDown="@id/trade_reference_1_relationship_with_applicant_spinner" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/trade_reference_1_relationship_with_applicant_spinner"
             style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="match_parent"
@@ -267,8 +267,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="#000000"
-            android:entries="@array/arr_nature_of_collateral"
             android:nextFocusDown="@id/trade_reference_1_contact_details_input"
             android:singleLine="true"
             android:textColor="#000000"
@@ -377,7 +375,6 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/no_of_employee_count"
             app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_1_contact_details"
             app:layout_constraintVertical_chainStyle="packed" />
 
@@ -456,7 +453,6 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="#000000"
-            android:entries="@array/arr_nature_of_collateral"
             android:singleLine="true"
             android:textColor="#000000"
             android:textSize="14sp"
@@ -563,7 +559,6 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/no_of_employee_count"
             app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_2_contact_details"
             app:layout_constraintVertical_chainStyle="packed" />
 
@@ -812,7 +807,7 @@
             android:id="@+id/ll_collateral"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_2_product_purchase_sale">

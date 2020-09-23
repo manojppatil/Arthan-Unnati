@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -1417,174 +1418,179 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         loanId: String?,
         incomeComments: String?
     ) {
-        switch_other_sources?.isChecked = false
-        if (incomeDetails?.incomes?.size != 0) {
-            switch_other_sources?.isChecked = true
+        launch(ioContext) {
+            fetchAndUpdateCollateralAsync().await()
 
-        }
-        family_members_count?.text = incomeDetails?.numberofFamilyMembers
-        no_of_earning_family_member_count?.text = incomeDetails?.noofEarningFamilyMembers
-        monthly_income_input?.setText(incomeDetails?.monthlyFamilyIncome)
-        total_amount_input?.setText(incomeDetails?.monthlyhouseholdexpenditures)
-        txt_income_list_msg?.setText(activity?.resources?.getString(R.string.list_all_sources_of_income_1) + " (" + incomeDetails?.incomes?.size + ")")
-        mLoanId = loanId
+            withContext(Dispatchers.Main){
+            switch_other_sources?.isChecked = false
+            if (incomeDetails?.incomes?.size != 0) {
+                switch_other_sources?.isChecked = true
+
+            }
+            family_members_count?.text = incomeDetails?.numberofFamilyMembers
+            no_of_earning_family_member_count?.text = incomeDetails?.noofEarningFamilyMembers
+            monthly_income_input?.setText(incomeDetails?.monthlyFamilyIncome)
+            total_amount_input?.setText(incomeDetails?.monthlyhouseholdexpenditures)
+            txt_income_list_msg?.setText(activity?.resources?.getString(R.string.list_all_sources_of_income_1) + " (" + incomeDetails?.incomes?.size + ")")
+            mLoanId = loanId
 //        mCustomerId = incomeDetails?.customerId
-        if (activity is ReUsableFragmentSpace) {
-            (activity as ReUsableFragmentSpace).setCommentsToField(incomeComments.toString()+"")
-        }
-        mCustomerId = customerId
-        for (item in incomeDetails?.expenditures ?: listOf()) {
-            when {
-                item.expenditureName?.equals(
-                    grocery_expenditure_label?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    grocery_expenditure_input?.setText(item.amountPerMonth)
-                }
-                item.expenditureName?.equals(
-                    transport_expenditure_label?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    transport_expenditure_input?.setText(item.amountPerMonth)
-                }
-                item.expenditureName?.equals(
-                    education_expenditure_label?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    education_expenditure_input?.setText(item.amountPerMonth)
-                }
-                item.expenditureName?.equals(
-                    medicine_expenditure_label?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    medicine_expenditure_input?.setText(item.amountPerMonth)
-                }
-                item.expenditureName?.equals(
-                    other_expenditure_label?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    other_expenditure_input?.setText(item.amountPerMonth)
-                }
-
-                item.expenditureName?.equals(
-                    chk_type1?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    type1_expenditure_input?.setText(item.amountPerMonth)
-                }
-                item.expenditureName?.equals(
-                    chk_type4?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    type4_expenditure_input?.setText(item.amountPerMonth)
-                }
-                item.expenditureName?.equals(
-                    chk_type3?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    type3_expenditure_input?.setText(item.amountPerMonth)
-                }
-                item.expenditureName?.equals(
-                    chk_type2?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    type2_expenditure_input?.setText(item.amountPerMonth)
-                }
-                item.expenditureName?.equals(
-                    chk_type5?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    type5_expenditure_input?.setText(item.amountPerMonth)
-                }
-                item.expenditureName?.equals(
-                    chk_type6?.text?.toString(),
-                    ignoreCase = true
-                ) ?: false -> {
-                    type6_expenditure_input?.setText(item.amountPerMonth)
-                }
+            if (activity is ReUsableFragmentSpace) {
+                (activity as ReUsableFragmentSpace).setCommentsToField(incomeComments.toString() + "")
             }
-        }
+            mCustomerId = customerId
+            for (item in incomeDetails?.expenditures ?: listOf()) {
+                when {
+                    item.expenditureName?.equals(
+                        grocery_expenditure_label?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        grocery_expenditure_input?.setText(item.amountPerMonth)
+                    }
+                    item.expenditureName?.equals(
+                        transport_expenditure_label?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        transport_expenditure_input?.setText(item.amountPerMonth)
+                    }
+                    item.expenditureName?.equals(
+                        education_expenditure_label?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        education_expenditure_input?.setText(item.amountPerMonth)
+                    }
+                    item.expenditureName?.equals(
+                        medicine_expenditure_label?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        medicine_expenditure_input?.setText(item.amountPerMonth)
+                    }
+                    item.expenditureName?.equals(
+                        other_expenditure_label?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        other_expenditure_input?.setText(item.amountPerMonth)
+                    }
 
-        ll_income_source.removeAllViews()
-        for (item in incomeDetails?.incomes ?: listOf()) {
-            val partnerView =
-                LayoutInflater.from(activity!!).inflate(R.layout.layout_income_source, null, false)
-            if ((ll_income_source?.size ?: 0) > 0) {
-                partnerView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
-                    ll_income_source?.removeView(partnerView)
-                }
-            } else {
-                partnerView?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
-            }
-            var spinner = partnerView?.findViewById<Spinner?>(R.id.source_of_income_input)
-
-            spinner?.adapter = sourceInceomeAdapter
-
-            val listAdap =
-                (spinner?.adapter as? DataSpinnerAdapter)?.list
-            if (listAdap != null) {
-                for (i in listAdap) {
-
-                    if (i.value == item.incomeSource) {
-                        spinner?.setSelection(listAdap.indexOf(i))
+                    item.expenditureName?.equals(
+                        chk_type1?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        type1_expenditure_input?.setText(item.amountPerMonth)
+                    }
+                    item.expenditureName?.equals(
+                        chk_type4?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        type4_expenditure_input?.setText(item.amountPerMonth)
+                    }
+                    item.expenditureName?.equals(
+                        chk_type3?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        type3_expenditure_input?.setText(item.amountPerMonth)
+                    }
+                    item.expenditureName?.equals(
+                        chk_type2?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        type2_expenditure_input?.setText(item.amountPerMonth)
+                    }
+                    item.expenditureName?.equals(
+                        chk_type5?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        type5_expenditure_input?.setText(item.amountPerMonth)
+                    }
+                    item.expenditureName?.equals(
+                        chk_type6?.text?.toString(),
+                        ignoreCase = true
+                    ) ?: false -> {
+                        type6_expenditure_input?.setText(item.amountPerMonth)
                     }
                 }
             }
 
-
-            partnerView?.findViewById<TextView?>(R.id.income_per_month_input)?.let { tv ->
-                tv.setCompoundDrawablesWithIntrinsicBounds(
-                    getRupeeSymbol(
-                        context,
-                        tv.textSize,
-                        tv.currentTextColor
-                    ), null, null, null
-                )
-                tv.text = item.incomePerMonth
-                ll_income_source.addView(partnerView)
-            }
-        }
-        ll_loan_details.removeAllViews()
-        for (item in incomeDetails?.liabilities ?: listOf()) {
-
-            val loanView =
-                LayoutInflater.from(activity!!).inflate(R.layout.layout_loan_details, null, false)
-            if ((ll_loan_details?.size ?: 0) > 0) {
-                loanView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
-                    ll_loan_details?.removeView(loanView)
+            ll_income_source.removeAllViews()
+            for (item in incomeDetails?.incomes ?: listOf()) {
+                val partnerView =
+                    LayoutInflater.from(activity!!)
+                        .inflate(R.layout.layout_income_source, null, false)
+                if ((ll_income_source?.size ?: 0) > 0) {
+                    partnerView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
+                        ll_income_source?.removeView(partnerView)
+                    }
+                } else {
+                    partnerView?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
                 }
-            } else {
-                loanView?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
-            }
+                var spinner = partnerView?.findViewById<Spinner?>(R.id.source_of_income_input)
 
+                spinner?.adapter = sourceInceomeAdapter
 
-            var list=retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_type))
-            var list2=retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by))
-            for(i in 0 until list!!.size)
-            {
-                if(item.loanType==list[i])
-                {
-                   var spnr_loan_type= loanView.findViewById<Spinner>(R.id.spnr_loan_type)
-                    spnr_loan_type.setSelection(i)
+                val listAdap =
+                    (spinner?.adapter as? DataSpinnerAdapter)?.list
+                if (listAdap != null) {
+                    for (i in listAdap) {
+
+                        if (i.value == item.incomeSource) {
+                            spinner?.setSelection(listAdap.indexOf(i))
+                        }
+                    }
                 }
 
+
+                partnerView?.findViewById<TextView?>(R.id.income_per_month_input)?.let { tv ->
+                    tv.setCompoundDrawablesWithIntrinsicBounds(
+                        getRupeeSymbol(
+                            context,
+                            tv.textSize,
+                            tv.currentTextColor
+                        ), null, null, null
+                    )
+                    tv.text = item.incomePerMonth
+                    ll_income_source.addView(partnerView)
+                }
             }
-            for(i in 0 until list2!!.size)
-            {
-                if(item.loanSanctionedBy==list2[i])
-                {
-                    var spnr_santioned_by=loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by)
-                    spnr_santioned_by.setSelection(i)
+            ll_loan_details.removeAllViews()
+            for (item in incomeDetails?.liabilities ?: listOf()) {
+
+                val loanView =
+                    LayoutInflater.from(activity!!)
+                        .inflate(R.layout.layout_loan_details, null, false)
+                if ((ll_loan_details?.size ?: 0) > 0) {
+                    loanView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
+                        ll_loan_details?.removeView(loanView)
+                    }
+                } else {
+                    loanView?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
                 }
 
-            }
-            loanView.findViewById<EditText>(R.id.loan_amount_input)?.setText(item.loanAmount)
-            loanView.findViewById<EditText?>(R.id.emi_input)?.setText(item.emi)
-            loanView.findViewById<EditText?>(R.id.outstanding_amount_input)
-                ?.setText(item.outstandingAmount)
-            loanView?.findViewById<EditText?>(R.id.et_from)?.setText(item.loanTenureFrom)
-            loanView?.findViewById<EditText?>(R.id.et_to)?.setText(item.loanTenureTo)
-            /*loanView?.findViewById<EditText?>(R.id.loan_amount_input)?.let { tv ->
+
+                var list =
+                    retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_type))
+                var list2 =
+                    retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by))
+                for (i in 0 until list!!.size) {
+                    if (item.loanType == list[i]) {
+                        var spnr_loan_type = loanView.findViewById<Spinner>(R.id.spnr_loan_type)
+                        spnr_loan_type.setSelection(i)
+                    }
+
+                }
+                for (i in 0 until list2!!.size) {
+                    if (item.loanSanctionedBy == list2[i]) {
+                        var spnr_santioned_by =
+                            loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by)
+                        spnr_santioned_by.setSelection(i)
+                    }
+
+                }
+                loanView.findViewById<EditText>(R.id.loan_amount_input)?.setText(item.loanAmount)
+                loanView.findViewById<EditText?>(R.id.emi_input)?.setText(item.emi)
+                loanView.findViewById<EditText?>(R.id.outstanding_amount_input)
+                    ?.setText(item.outstandingAmount)
+                loanView?.findViewById<EditText?>(R.id.et_from)?.setText(item.loanTenureFrom)
+                loanView?.findViewById<EditText?>(R.id.et_to)?.setText(item.loanTenureTo)
+                /*loanView?.findViewById<EditText?>(R.id.loan_amount_input)?.let { tv ->
                 tv.setText(item.loanAmount)
                 getRupeeSymbol(context, tv.textSize, tv.currentTextColor).let { drawable ->
                     tv.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
@@ -1599,32 +1605,37 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 }
             }
 */
-            when {
-                item.frequencyOfInstallment?.equals("weekly", ignoreCase = true) -> {
-                    loanView?.findViewById<RadioButton>(R.id.weekly_radio_button)?.isChecked = true
+                when {
+                    item.frequencyOfInstallment?.equals("weekly", ignoreCase = true) -> {
+                        loanView?.findViewById<RadioButton>(R.id.weekly_radio_button)?.isChecked =
+                            true
+                    }
+                    item.frequencyOfInstallment?.equals("monthly", ignoreCase = true) -> {
+                        loanView?.findViewById<RadioButton>(R.id.monthly_radio_button)?.isChecked =
+                            true
+                    }
+                    item.frequencyOfInstallment?.equals("yearly", ignoreCase = true) -> {
+                        loanView?.findViewById<RadioButton>(R.id.yearly_radio_button)?.isChecked =
+                            true
+                    }
+                    item.frequencyOfInstallment?.equals("Quarterly", ignoreCase = true) -> {
+                        loanView?.findViewById<RadioButton>(R.id.qtrly_radio_button)?.isChecked =
+                            true
+                    }
+                    item.frequencyOfInstallment?.equals("Half yearly", ignoreCase = true) -> {
+                        loanView?.findViewById<RadioButton>(R.id.halfyearly_radio_button)
+                            ?.isChecked =
+                            true
+                    }
                 }
-                item.frequencyOfInstallment?.equals("monthly", ignoreCase = true) -> {
-                    loanView?.findViewById<RadioButton>(R.id.monthly_radio_button)?.isChecked = true
-                }
-                item.frequencyOfInstallment?.equals("yearly", ignoreCase = true) -> {
-                    loanView?.findViewById<RadioButton>(R.id.yearly_radio_button)?.isChecked = true
-                }
-                item.frequencyOfInstallment?.equals("Quarterly", ignoreCase = true) -> {
-                    loanView?.findViewById<RadioButton>(R.id.qtrly_radio_button)?.isChecked = true
-                }
-                item.frequencyOfInstallment?.equals("Half yearly", ignoreCase = true) -> {
-                    loanView?.findViewById<RadioButton>(R.id.halfyearly_radio_button)?.isChecked =
-                        true
-                }
-            }
 
-            loanView?.findViewById<EditText?>(R.id.et_from)?.setOnClickListener {
-                dateSelection(
-                    context!!,
-                    loanView.findViewById(R.id.et_from)
-                )
-            }
-            /*loanView?.findViewById<EditText?>(R.id.et_from)?.let {
+                loanView?.findViewById<EditText?>(R.id.et_from)?.setOnClickListener {
+                    dateSelection(
+                        context!!,
+                        loanView.findViewById(R.id.et_from)
+                    )
+                }
+                /*loanView?.findViewById<EditText?>(R.id.et_from)?.let {
               it.setText(item.loanTenureFrom)
               it.setOnClickListener {
                   dateSelection(
@@ -1632,47 +1643,50 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                       loanView.findViewById(R.id.et_from)
                   )
               }*/
-            loanView?.findViewById<EditText?>(R.id.et_to)?.setOnClickListener {
+                loanView?.findViewById<EditText?>(R.id.et_to)?.setOnClickListener {
 
 
-                val c = Calendar.getInstance()
-                DatePickerDialog(
-                    context!!,
-                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                        val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
-
-                        if (SimpleDateFormat("dd-MM-yyyy").parse(date)
-                                .after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString()))
-                        )
-                            loanView.findViewById<EditText>(R.id.et_to)?.setText(date)
-                        else
-                            Toast.makeText(
-                                activity,
-                                "Please select date greater than from date",
-                                Toast.LENGTH_LONG
-                            ).show()
-                    },
-                    c.get(Calendar.YEAR),
-                    c.get(Calendar.MONTH),
-                    c.get(Calendar.DAY_OF_MONTH)
-                ).show()
-
-            }
-            loanView.findViewById<AppCompatSpinner?>(R.id.spnr_loan_type)?.onItemSelectedListener =
-                mOnLoanTypeItemSelectedListener
-            loanView?.findViewById<EditText?>(R.id.et_to)?.let {
-                it.setOnClickListener {
-
-
-                    dateSelection(
+                    val c = Calendar.getInstance()
+                    DatePickerDialog(
                         context!!,
-                        loanView.findViewById(R.id.et_to)
-                    )
-                }
-            }
-            ll_loan_details.addView(loanView)
-        }
+                        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                            val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
 
+                            if (SimpleDateFormat("dd-MM-yyyy").parse(date)
+                                    .after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString()))
+                            )
+                                loanView.findViewById<EditText>(R.id.et_to)?.setText(date)
+                            else
+                                Toast.makeText(
+                                    activity,
+                                    "Please select date greater than from date",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                        },
+                        c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH),
+                        c.get(Calendar.DAY_OF_MONTH)
+                    ).show()
+
+                }
+                loanView.findViewById<AppCompatSpinner?>(R.id.spnr_loan_type)
+                    ?.onItemSelectedListener =
+                    mOnLoanTypeItemSelectedListener
+                loanView?.findViewById<EditText?>(R.id.et_to)?.let {
+                    it.setOnClickListener {
+
+
+                        dateSelection(
+                            context!!,
+                            loanView.findViewById(R.id.et_to)
+                        )
+                    }
+                }
+                ll_loan_details.addView(loanView)
+            }
+
+        }
+    }
     }
 }
 

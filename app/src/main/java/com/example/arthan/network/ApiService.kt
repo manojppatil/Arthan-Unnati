@@ -314,6 +314,9 @@ interface ApiService {
     @GET("getBMReassignedBy")
     suspend fun getBMReassignedBy(@Query("bmId") bmId: String?): Response<BMReassignCaseData>?
 
+  @GET("getBMDisburesed")
+    suspend fun getBMDisburesed(@Query("bmId") bmId: String?): Response<BMReassignCaseData>?
+
 
     @GET("saveBMReopen")
     suspend fun saveBMReopen(@Query("loanId") loanId: String?): Response<BaseResponseData>?

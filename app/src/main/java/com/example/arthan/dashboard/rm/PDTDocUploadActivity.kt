@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
@@ -40,10 +41,11 @@ class PDTDocUploadActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lisiting)
 
-        toolbar_title?.text = "Upload PDT/OTC"
+        toolbar_title?.text = "Upload PDD/OTC"
 
         loadDataFromServer()
 
+        submitDocs.visibility=View.VISIBLE
         submitDocs.setOnClickListener {
             sendDataToServer()
         }

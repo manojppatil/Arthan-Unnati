@@ -39,5 +39,8 @@ data class PersonalPostData(
     var ageofCustomer: String = "",
     var applicantType: String = "",
     var maidenName: String = "",
-    var rshipWithApplicant: String = ""
+    var category: String = "",
+    var rshipWithApplicant: String = "",
+    var religion: String = "",
+    var maritalStatus: String = ""
 )

@@ -4,6 +4,8 @@ package com.example.arthan.lead
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +23,7 @@ import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.*
+import com.example.arthan.lead.model.responsedata.DetailsResponseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.PendingCustomersActivity
@@ -48,6 +51,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
     private var mLoanId: String? = null
     private var mCustomerId: String? = null
     var collaterals: ArrayList<CollateralData> = ArrayList()
+    var tradeAdapterResponse: DetailsResponseData?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,7 +72,10 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         if (ArthanApp.getAppInstance().loginRole == "BCM" || ArthanApp.getAppInstance().loginRole == "BM"
         ) {
             //bcmCheckBoxes.visibility = View.VISIBLE
+            ll_collateral.visibility=View.GONE
+
         } else {
+            ll_collateral.visibility=View.VISIBLE
             bcmCheckBoxes.visibility = View.GONE
             if (activity?.intent?.getStringExtra("loanType")
                     .equals("unsecure", ignoreCase = true)
@@ -1042,6 +1049,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             getAdapter(response.body()?.data)
                         trade_reference_2_relationship_with_applicant_spinner?.adapter =
                             getAdapter(response.body()?.data)
+                        tradeAdapterResponse=response.body()
                     }
                 }
             } catch (e: java.lang.Exception) {
@@ -1214,63 +1222,87 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             neighbour_reference_2_mobile_input?.setText(neighborReference?.get(1)?.mobileNo)
             neighbour_reference_2_known_since_input?.setText(neighborReference?.get(1)?.knownSince)
         }
-        if ((tradeRefDetails?.size ?: 0) > 0) {
-            if (mCustomerId == null) {
-                mCustomerId = neighborReference?.get(0)?.customerId
-            }
-            trade_reference_1_firm_name_input?.setText(tradeRefDetails?.get(0)?.firmName)
-            trade_reference_1_person_name_dealing_with_input?.setText(tradeRefDetails?.get(0)?.nameofPersonDealingWith)
-            var position = -1
-            val list =
-                (trade_reference_1_relationship_with_applicant_spinner?.adapter as? DataSpinnerAdapter)?.list
-            for (index in 0 until (list?.size ?: 0)) {
-                if (list?.get(index)?.value == tradeRefDetails?.get(0)?.rshipWithApplicant) {
-                    position = index
+        CoroutineScope(Dispatchers.IO).launch {
+
+
+            val relationshipWitApplicant =
+                fetchAndUpdateRelationshipWithApplicantAsync().await()
+            withContext(Dispatchers.Main)
+            {
+                if ((tradeRefDetails?.size ?: 0) > 0) {
+                    if (mCustomerId == null) {
+                        mCustomerId = neighborReference?.get(0)?.customerId
+                    }
+                    trade_reference_1_firm_name_input?.setText(tradeRefDetails?.get(0)?.firmName)
+                    trade_reference_1_person_name_dealing_with_input?.setText(tradeRefDetails?.get(0)?.nameofPersonDealingWith)
+                    var position = -1
+                    val list =
+                        (trade_reference_1_relationship_with_applicant_spinner?.adapter as? DataSpinnerAdapter)?.list
+                    for (index in 0 until (list?.size ?: 0)) {
+                        if (list?.get(index)?.value == tradeRefDetails?.get(0)?.rshipWithApplicant) {
+                            position = index
+                            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                                trade_reference_1_relationship_with_applicant_spinner.setSelection(position)
+
+                            },1000)
+
+
+                        }
+                    }
+
+
+//                        if (position != -1) {
+
+//                            }
+
+                    trade_reference_1_contact_details_input?.setText(tradeRefDetails?.get(0)?.contactDetails)
+                    //   trade_reference_1_product_purchase_sale_input?.setText(tradeRefDetails?.get(0)?.productPurchaseSale)
+                    try {
+                        trade_reference_1_years_working_with_count?.tag =
+                            tradeRefDetails?.get(0)?.noOfYrsWorkingWith?.toInt()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Crashlytics.log(e.message)
+
+                    }
+                    trade_reference_1_years_working_with_count?.text =
+                        "${tradeRefDetails?.get(0)?.noOfYrsWorkingWith}"
+                }
+                if ((tradeRefDetails?.size ?: 0) > 1) {
+                    trade_reference_2_firm_name_input?.setText(tradeRefDetails?.get(1)?.firmName)
+                    trade_reference_2_person_name_dealing_with_input?.setText(tradeRefDetails?.get(1)?.nameofPersonDealingWith)
+                    var position = -1
+                    val list =
+                        (trade_reference_2_relationship_with_applicant_spinner?.adapter as? DataSpinnerAdapter)?.list
+                    for (index in 0 until (list?.size ?: 0)) {
+                        if (list?.get(index)?.value == tradeRefDetails?.get(1)?.rshipWithApplicant) {
+                            position = index
+                        }
+                    }
+                    if (position != -1) {
+                        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+
+                            trade_reference_2_relationship_with_applicant_spinner?.setSelection(
+                                position
+                            )
+                        },1000)
+                    }
+                    trade_reference_2_contact_details_input?.setText(tradeRefDetails?.get(1)?.contactDetails)
+                    trade_reference_2_product_purchase_sale_input?.setText(tradeRefDetails?.get(1)?.productPurchaseSale)
+                    try {
+                        trade_reference_2_years_working_with_count?.tag =
+                            tradeRefDetails?.get(1)?.noOfYrsWorkingWith?.toInt()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Crashlytics.log(e.message)
+
+                    }
+                    trade_reference_2_years_working_with_count?.text =
+                        "${tradeRefDetails?.get(1)?.noOfYrsWorkingWith}"
                 }
             }
-            if (position != -1) {
-                trade_reference_1_relationship_with_applicant_spinner?.setSelection(position)
-            }
-            trade_reference_1_contact_details_input?.setText(tradeRefDetails?.get(0)?.contactDetails)
-            //   trade_reference_1_product_purchase_sale_input?.setText(tradeRefDetails?.get(0)?.productPurchaseSale)
-            try {
-                trade_reference_1_years_working_with_count?.tag =
-                    tradeRefDetails?.get(0)?.noOfYrsWorkingWith?.toInt()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Crashlytics.log(e.message)
-
-            }
-            trade_reference_1_years_working_with_count?.text =
-                "${tradeRefDetails?.get(0)?.noOfYrsWorkingWith}"
         }
-        if ((tradeRefDetails?.size ?: 0) > 1) {
-            trade_reference_2_firm_name_input?.setText(tradeRefDetails?.get(1)?.firmName)
-            trade_reference_2_person_name_dealing_with_input?.setText(tradeRefDetails?.get(1)?.nameofPersonDealingWith)
-            var position = -1
-            val list =
-                (trade_reference_2_relationship_with_applicant_spinner?.adapter as? DataSpinnerAdapter)?.list
-            for (index in 0 until (list?.size ?: 0)) {
-                if (list?.get(index)?.value == tradeRefDetails?.get(1)?.rshipWithApplicant) {
-                    position = index
-                }
-            }
-            if (position != -1) {
-                trade_reference_2_relationship_with_applicant_spinner?.setSelection(position)
-            }
-            trade_reference_2_contact_details_input?.setText(tradeRefDetails?.get(1)?.contactDetails)
-            trade_reference_2_product_purchase_sale_input?.setText(tradeRefDetails?.get(1)?.productPurchaseSale)
-            try {
-                trade_reference_2_years_working_with_count?.tag =
-                    tradeRefDetails?.get(1)?.noOfYrsWorkingWith?.toInt()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Crashlytics.log(e.message)
 
-            }
-            trade_reference_2_years_working_with_count?.text =
-                "${tradeRefDetails?.get(1)?.noOfYrsWorkingWith}"
-        }
 
 
 

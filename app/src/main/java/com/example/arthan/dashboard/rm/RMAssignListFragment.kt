@@ -10,6 +10,8 @@ import com.example.arthan.global.ArthanApp
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.assign_list_frag.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RMAssignListFragment : BaseFragment() {
     private lateinit var mViewModel: RMDashboardViewModel
@@ -21,19 +23,20 @@ class RMAssignListFragment : BaseFragment() {
     private fun loadReassignLeadList(){
         mViewModel.loadReassignLeadList().observe(this, Observer { res->
 
-            progressLoader?.dismmissLoading()
             if(res.details.isNullOrEmpty()){
                 Toast.makeText(activity,"No Record Found", Toast.LENGTH_SHORT).show()
             } else {
                 rv_assign_listing.adapter = ReassignAdapter(context!!, ArthanApp.getAppInstance().loginRole,res.details,activity?.intent?.getStringExtra("tile"))
             }
 
+              //  progressLoader!!.dismmissLoading()
+
         })
     }
     private fun loadAmCasesList(){
         mViewModel.loadAMCases().observe(this, Observer { data->
 
-            progressLoader?.dismmissLoading()
+       //     progressLoader!!.dismmissLoading()
             if(data.isNullOrEmpty()){
                 Toast.makeText(activity,"No Record Found", Toast.LENGTH_SHORT).show()
             } else {
@@ -51,7 +54,7 @@ class RMAssignListFragment : BaseFragment() {
 
         mViewModel= ViewModelProvider(this).get(RMDashboardViewModel::class.java)
          progressLoader = ProgrssLoader(context!!)
-        progressLoader!!.showLoading()
+        //progressLoader!!.showLoading()
         if(activity?.intent?.getStringExtra("tile")=="AMCASES")
         {
 

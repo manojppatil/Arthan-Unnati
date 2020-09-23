@@ -3,7 +3,7 @@ package com.example.arthan.model
 data class BMReassignCaseData(
 
     val id:String,
-    val reAssignedCases:ArrayList<BMCasesData>
+    val reAssignedCases:ArrayList<BMCasesData> =ArrayList()
 ) {
 
 }

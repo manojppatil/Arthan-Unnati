@@ -27,7 +27,7 @@ class RMTobeDisbursedListingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lisiting)
-        toolbar_title?.text = "Pending OTC/PDT"
+        toolbar_title?.text = "PDD/OTC"
 
         setSupportActionBar(toolbar as Toolbar?)
         mViewModel= ViewModelProvider(this).get(RMDashboardViewModel::class.java)

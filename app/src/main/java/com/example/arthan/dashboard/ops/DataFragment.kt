@@ -38,7 +38,7 @@ class DataFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         vp_profile.adapter = DataPagerFragmentAdapter(childFragmentManager,activity?.intent?.getStringExtra("recordType"))
         tb_profile.setupWithViewPager(vp_profile)
-        vp_profile?.offscreenPageLimit = 4
+        vp_profile?.offscreenPageLimit = 5
     }
 
     fun updateDataAM(

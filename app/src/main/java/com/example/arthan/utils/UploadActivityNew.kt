@@ -148,10 +148,11 @@ class UploadActivityNew : BaseActivity() , CoroutineScope {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "Arthan"
         )*/
+
         if (!dir.exists())
             dir.mkdirs()
         return File(
-            dir.absolutePath + "/"+intent.getSerializableExtra("loanId")+"_"+intent.getSerializableExtra("docName")
+            dir.absolutePath + "/"+intent.getSerializableExtra("loanId")+"_"+intent.getSerializableExtra("docName")+".jpg"
         )
     }
     private fun navigateToCamera() {

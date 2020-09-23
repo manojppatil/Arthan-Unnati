@@ -4,16 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
+import com.example.arthan.dashboard.bm.adapter.BMReassignToByAdapter
 import com.example.arthan.dashboard.rm.adapters.DisbursedAdapter
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.SplashActivity
 import kotlinx.android.synthetic.main.activity_lisiting.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RMDisbursedListingActivity : AppCompatActivity() {
 
@@ -24,8 +32,35 @@ class RMDisbursedListingActivity : AppCompatActivity() {
         setSupportActionBar(toolbar as Toolbar?)
         toolbar_title?.text = "Disbursed Cases"
         back_button?.setOnClickListener { onBackPressed() }
-        rv_listing.adapter = DisbursedAdapter(this)
+        loadInitialData()
     }
+
+    private fun loadInitialData() {
+
+        val progress=ProgrssLoader(this)
+        progress.showLoading()
+        CoroutineScope(Dispatchers.IO).launch {
+            val res=RetrofitFactory.getApiService().getBMDisburesed(ArthanApp.getAppInstance().loginUser)
+            if(res?.body()!=null)
+            {
+                withContext(Dispatchers.Main)
+                {
+                    progress.dismmissLoading()
+                    if(res.body()!!.reAssignedCases!=null&&res.body()!!.reAssignedCases.size>0)
+                    rv_listing.adapter=BMReassignToByAdapter(this@RMDisbursedListingActivity,res?.body()!!.id,res?.body()!!.reAssignedCases)
+                }
+
+            }else
+            {
+                withContext(Dispatchers.Main)
+                {
+                    progress.dismmissLoading()
+                    Toast.makeText(this@RMDisbursedListingActivity,"No Data found",Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
 

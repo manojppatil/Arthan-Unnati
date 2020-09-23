@@ -181,6 +181,23 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             reassign="Y"
         }
 
+        val category=when(cat_General.isChecked){
+            true->"General"
+            else->{
+                when(cat_OBC.isChecked)
+                {
+                    true->"OBC"
+                    else->{
+                        when(cat_SC.isChecked){
+                            true->"SC"
+                            else->""
+                        }
+                    }
+                }
+            }
+
+
+        }
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
         val postBody = PersonalPostData(
@@ -224,7 +241,17 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             cityp = city1_input?.text?.toString() ?: "",
             districtp = district_input1?.text?.toString() ?: "",
             statep = state_input1?.text?.toString() ?: "",
-            applicantType = applicantType
+            applicantType = applicantType,
+            category = category,
+            religion = when(Rel_hindu.isChecked){
+                true->"Hindu"
+                else->"Muslim"
+            },
+            maritalStatus = when(rb_married.isChecked)
+            {
+                true->"Married"
+                else->"UnMarried"
+            }
         )
 
         CoroutineScope(ioContext).launch {

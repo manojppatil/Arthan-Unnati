@@ -7,22 +7,24 @@ import com.example.arthan.dashboard.bm.DocumentVerificationFragment
 import com.example.arthan.dashboard.bm.DocumentVerificationFragmentNew
 import com.example.arthan.dashboard.ops.BCMDataFragment
 import com.example.arthan.dashboard.ops.DataFragment
-import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
-import com.example.arthan.views.fragments.BankDetailsFragment
-import com.example.arthan.views.fragments.KYCDocumentFragment
-import com.example.arthan.views.fragments.PermanentAddressFragment
-import com.example.arthan.views.fragments.PersonalDetailFragment
 
-class BMDocumentVerificationAdapter(fm: FragmentManager, from: String) : FragmentPagerAdapter(fm) {
+class BMDocumentVerificationAdapter(
+    fm: FragmentManager,
+    from: String,
+    recordType: String?
+) : FragmentPagerAdapter(fm) {
 
     private val lstTitles = mutableListOf<String>()
     private val frags = mutableListOf<Fragment>()
 
     init {
         lstTitles.add("Documents")
-//        frags.add(DocumentVerificationFragment())
-        frags.add(DocumentVerificationFragmentNew())
+        if(recordType=="AM") {
+            frags.add(DocumentVerificationFragment())
+        }else {
+            frags.add(DocumentVerificationFragmentNew())
+        }
 
         lstTitles.add("Data")
         frags.add(DataFragment())

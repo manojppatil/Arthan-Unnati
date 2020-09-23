@@ -725,7 +725,7 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
             CoroutineScope(Dispatchers.IO).launch {
                 fetchmstrId(collateralDetails.collaterals[0].securityType)
                 fetchAndUpdateCollateralNatureAsync(collateralDetails.collaterals[0].immovableDetails.collateralType).await()
-//                fetchRelationshipAsync(collateralDetails.collaterals[0].immovableDetails.rshipWithApplicant)
+                fetchRelationshipAsync(collateralDetails.collaterals[0].immovableDetails.rshipWithApplicant)
                 fetchAndUpdatePropertyJurisdictionAsync(collateralDetails.collaterals[0].immovableDetails.jurisdiction).await()
                 fetchOwnerShip(collateralDetails.collaterals[0].immovableDetails.ownership)
 
@@ -841,6 +841,47 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
 
     }
 
+    private fun fetchRelationshipAsync(value: String?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getMasterApiService().getRelationship()
+                if (response?.isSuccessful == true) {
+                    withContext(Dispatchers.Main) {
+                        try {
+                            if (sp_relaionShipApplicant?.adapter == null) {
+                                sp_relaionShipApplicant?.adapter = DataSpinnerAdapter(
+                                    context!!,
+                                    response.body()?.data?.toMutableList() ?: mutableListOf()
+                                ).also {
+                                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                                }
+                            }
+                            if (value != null && value.isNotEmpty()) {
+                                var sp_relaionShipApplicantList =
+                                    (sp_relaionShipApplicant?.adapter as? DataSpinnerAdapter)?.list
+                                if (sp_relaionShipApplicantList != null) {
+                                    for (i in 0 until sp_relaionShipApplicantList.size) {
+
+                                        if (sp_relaionShipApplicantList[i].value == value) {
+                                            sp_relaionShipApplicant.setSelection(i)
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Crashlytics.log(e.message)
+
+                        }
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Crashlytics.log(e.message)
+
+            }
+        }
+    }
 
     private fun fetchOwnerShip(value: String?) {
         CoroutineScope(Dispatchers.IO).launch {
