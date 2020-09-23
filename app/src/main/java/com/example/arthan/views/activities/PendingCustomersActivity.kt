@@ -111,6 +111,9 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
 
+                        if(result?.myQueue!!.isEmpty()){
+                            Toast.makeText(this@PendingCustomersActivity,"No Records founds",Toast.LENGTH_LONG).show()
+                        }
                         rv_pending_customer.adapter =
                             PendingCustomerAdapter(
                                 this@PendingCustomersActivity,
@@ -118,6 +121,7 @@ class PendingCustomersActivity : AppCompatActivity(), CoroutineScope {
                             ).also {
                                 it.updateList(result?.myQueue)
                             }
+
                         progressBar.dismmissLoading()
                     }
                 } else {

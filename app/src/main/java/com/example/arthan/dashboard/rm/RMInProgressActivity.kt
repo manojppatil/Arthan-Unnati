@@ -100,6 +100,11 @@ class RMInProgressActivity : AppCompatActivity() {
                                 response.body()!!.casesData!!
                             )
                     }
+                }else
+                {
+                    withContext(Dispatchers.Main) {
+                        progressBar?.dismmissLoading()
+                    }
                 }
             }
         }catch (e:Exception)

@@ -1,16 +1,23 @@
 package com.example.arthan.dashboard.bcm
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.*
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
+import com.example.arthan.views.activities.PendingCustomersActivity
 import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -29,133 +36,6 @@ class BCMApprovedCollateral : BaseActivity(), CoroutineScope {
 
     override fun contentView(): Int {
         return R.layout.activity_b_c_m_approved_collateral
-    }
-    private fun fetchAndUpdateCollateralNatureAsync(value: String?): Deferred<Boolean> =
-        async(context = ioContext) {
-            try {
-                val response = RetrofitFactory.getMasterApiService().getCollateralNature()
-                if (response?.isSuccessful == true) {
-                    withContext(Dispatchers.Main) {
-                        try {
-                            if (sp_collateral_type_liq?.adapter == null) {
-                                sp_collateral_type_liq?.adapter = DataSpinnerAdapter(
-                                    this@BCMApprovedCollateral,
-                                    response.body()?.data?.toMutableList() ?: mutableListOf()
-                                ).also {
-                                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                                }
-                            }
-                            if (value != null && value.isNotEmpty()) {
-                                var colType =
-                                    (sp_collateral_type_liq?.adapter as? DataSpinnerAdapter)?.list
-                                if (colType != null) {
-                                    for (i in 0 until colType.size) {
-
-                                        if (colType[i].value == value) {
-                                            sp_collateral_type_liq.setSelection(i)
-                                        }
-                                    }
-                                }
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            Crashlytics.log(e.message)
-
-                        }
-                    }
-                }
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                Crashlytics.log(e.message)
-
-            }
-            return@async true
-        }
-
-
-    private fun fetchRelationshipAsync(value: String?) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = RetrofitFactory.getMasterApiService().getRelationship()
-                if (response?.isSuccessful == true) {
-                    withContext(Dispatchers.Main) {
-                        try {
-                            if (sp_relaionShipApplicant?.adapter == null) {
-                                sp_relaionShipApplicant?.adapter = DataSpinnerAdapter(
-                                    this@BCMApprovedCollateral,
-                                    response.body()?.data?.toMutableList() ?: mutableListOf()
-                                ).also {
-                                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                                }
-                            }
-                            if (value != null && value.isNotEmpty()) {
-                                var sp_relaionShipApplicantList =
-                                    (sp_relaionShipApplicant?.adapter as? DataSpinnerAdapter)?.list
-                                if (sp_relaionShipApplicantList != null) {
-                                    for (i in 0 until sp_relaionShipApplicantList.size) {
-
-                                        if (sp_relaionShipApplicantList[i].value == value) {
-                                            sp_relaionShipApplicant.setSelection(i)
-                                        }
-                                    }
-                                }
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            Crashlytics.log(e.message)
-
-                        }
-                    }
-                }
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                Crashlytics.log(e.message)
-
-            }
-        }
-    }
-
-    private fun fetchOwnerShip(value: String?) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = RetrofitFactory.getApiService().getCollateralOwnership()
-                if (response?.isSuccessful == true) {
-                    withContext(Dispatchers.Main) {
-                        try {
-                            if (sp_ownerShip?.adapter == null) {
-                                sp_ownerShip?.adapter = DataSpinnerAdapter(
-                                   this@BCMApprovedCollateral,
-                                    response.body()?.data?.toMutableList() ?: mutableListOf()
-                                ).also {
-                                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                                }
-                            }
-                            if (value != null && value.isNotEmpty()) {
-                                var sp_ownerShipList =
-                                    (sp_ownerShip?.adapter as? DataSpinnerAdapter)?.list
-
-                                if (sp_ownerShipList != null) {
-                                    for (i in 0 until sp_ownerShipList.size) {
-
-                                        if (sp_ownerShipList[i].value == value) {
-                                            sp_ownerShip.setSelection(i)
-                                        }
-                                    }
-                                }
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            Crashlytics.log(e.message)
-
-                        }
-                    }
-                }
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                Crashlytics.log(e.message)
-
-            }
-        }
     }
 
     private fun fetchAndUpdatePropertyJurisdictionAsync(value: String?): Deferred<Boolean> =
@@ -224,42 +104,288 @@ class BCMApprovedCollateral : BaseActivity(), CoroutineScope {
     }
 
     override fun init() {
-        var type=intent.getStringExtra("loanType")
+        var mLoanId = intent?.getStringExtra("loanId")
+        var mCustomerId = intent?.getStringExtra("custId")
+        val securitySpinner: AdapterView.OnItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
 
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    parent?.getItemAtPosition(position)?.let {
 
+                        var list =
+                            (sp_security?.adapter as? DataSpinnerAdapter)?.list
 
+                        //fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
+                        if (list?.get(position)?.description?.toLowerCase() == "movable") {
+                            security_section_movable.visibility = View.VISIBLE
+                            CoroutineScope(Dispatchers.IO).launch {
+
+                                fetchmstrIdsubSecurity(list[position].description!!.toLowerCase())
+                            }
+
+                        } else {
+                            security_section_movable.visibility = View.GONE
+
+                        }
+                        if (list?.get(position)?.description?.toLowerCase() == "immovable" || list?.get(
+                                position
+                            )?.description?.toLowerCase() == "Negative Lien".toLowerCase()
+                        ) {
+                            immovable_section.visibility = View.VISIBLE
+                            CoroutineScope(Dispatchers.IO).launch {
+                                fetchAndUpdateCollateralNatureAsync("").await()
+                                fetchRelationshipAsync("")
+                                fetchOwnerShip("")
+                            }
+
+                        } else {
+                            immovable_section.visibility = View.GONE
+
+                        }
+                    }
+                }
+            }
+        val subSecuritySpinner: AdapterView.OnItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    parent?.getItemAtPosition(position)?.let {
+                        var list =
+                            (sp_security_subType?.adapter as? DataSpinnerAdapter)?.list
+                        if (list?.get(position)?.description == "liquid") {
+                            liquid_section.visibility = View.VISIBLE
+                            others_section.visibility = View.GONE
+                        } else if (list?.get(position)?.description == "others") {
+                            liquid_section.visibility = View.GONE
+                            others_section.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+
+        sp_security.onItemSelectedListener = securitySpinner
+        sp_security_subType.onItemSelectedListener = subSecuritySpinner
         loadInitialData()
-       /* CoroutineScope(Dispatchers.IO).launch {
-            fetchmstrId(collateralDetails.collaterals[0].securityType)
-            fetchAndUpdateCollateralNatureAsync(collateralDetails.collaterals[0].immovableDetails.collateralType).await()
-            fetchRelationshipAsync(collateralDetails.collaterals[0].immovableDetails.rshipWithApplicant)
-            fetchAndUpdatePropertyJurisdictionAsync(collateralDetails.collaterals[0].immovableDetails.jurisdiction).await()
-            fetchOwnerShip(collateralDetails.collaterals[0].immovableDetails.ownership)
+        submitCollateral?.setOnClickListener {
 
-        }
+            if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
 
-*/
-        if (type.toLowerCase() == "movable") {
-            security_section_movable.visibility = View.VISIBLE
-        } else {
-            security_section_movable.visibility = View.GONE
+                var dialog = AlertDialog.Builder(this)
+                var view: View? = layoutInflater?.inflate(R.layout.remarks_popup, null)
+                dialog.setView(view)
+                var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
+                var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+                var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
 
-        }
-        if (type.toLowerCase() == "immovable" || type.toLowerCase() == "Negative Lien".toLowerCase()
-        ) {
-            immovable_section.visibility = View.VISIBLE
-        } else {
-            immovable_section.visibility = View.GONE
+                var alert = dialog.create() as AlertDialog
+                btn_cancel?.setOnClickListener {
+                    alert.dismiss()
+                }
+                btn_submit_remark?.setOnClickListener {
+                    alert.dismiss()
+                    var map = HashMap<String, String>()
 
-        }
 
-        liquid_section.visibility = View.VISIBLE
-        others_section.visibility = View.VISIBLE
+                    map["loanId"] = mLoanId!!
+                    map["remarks"] = et_remarks?.text.toString()
+                    map["userId"] = ArthanApp.getAppInstance().loginUser + ""
 
-        submitCollateral.setOnClickListener {
-            saveCollateralDataAsync()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val respo = RetrofitFactory.getApiService().updateCollateralDetails(
+                            map
+                        )
+
+
+                        val result = respo.body()
+                        if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+                            withContext(Dispatchers.Main)
+                            {
+                                finish()
+                            }
+
+
+                        }
+                    }
+
+
+
+                }
+                alert.show()
+
+            }
+
         }
     }
+    private fun fetchRelationshipAsync(value: String?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getMasterApiService().getRelationship()
+                if (response?.isSuccessful == true) {
+                    withContext(Dispatchers.Main) {
+                        try {
+                            if (sp_relaionShipApplicant?.adapter == null) {
+                                sp_relaionShipApplicant?.adapter = DataSpinnerAdapter(
+                                    this@BCMApprovedCollateral,
+                                    response.body()?.data?.toMutableList() ?: mutableListOf()
+                                ).also {
+                                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                                }
+                            }
+                            if (value != null && value.isNotEmpty()) {
+                                var sp_relaionShipApplicantList =
+                                    (sp_relaionShipApplicant?.adapter as? DataSpinnerAdapter)?.list
+                                if (sp_relaionShipApplicantList != null) {
+                                    for (i in 0 until sp_relaionShipApplicantList.size) {
+
+                                        if (sp_relaionShipApplicantList[i].value == value) {
+                                            sp_relaionShipApplicant.setSelection(i)
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Crashlytics.log(e.message)
+
+                        }
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Crashlytics.log(e.message)
+
+            }
+        }
+    }
+    private fun fetchOwnerShip(value: String?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getApiService().getCollateralOwnership()
+                if (response?.isSuccessful == true) {
+                    withContext(Dispatchers.Main) {
+                        try {
+                            if (sp_ownerShip?.adapter == null) {
+                                sp_ownerShip?.adapter = DataSpinnerAdapter(
+                                   this@BCMApprovedCollateral,
+                                    response.body()?.data?.toMutableList() ?: mutableListOf()
+                                ).also {
+                                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                                }
+                            }
+                            if (value != null && value.isNotEmpty()) {
+                                var sp_ownerShipList =
+                                    (sp_ownerShip?.adapter as? DataSpinnerAdapter)?.list
+
+                                if (sp_ownerShipList != null) {
+                                    for (i in 0 until sp_ownerShipList.size) {
+
+                                        if (sp_ownerShipList[i].value == value) {
+                                            sp_ownerShip.setSelection(i)
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Crashlytics.log(e.message)
+
+                        }
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Crashlytics.log(e.message)
+
+            }
+        }
+    }
+    private fun fetchAndUpdateCollateralNatureAsync(value: String?): Deferred<Boolean> =
+        async(context = ioContext) {
+            try {
+                val response = RetrofitFactory.getMasterApiService().getCollateralNature()
+                if (response?.isSuccessful == true) {
+                    withContext(Dispatchers.Main) {
+                        try {
+                            if (sp_collateral_type_liq?.adapter == null) {
+                                sp_collateral_type_liq?.adapter = DataSpinnerAdapter(
+                                 this@BCMApprovedCollateral,
+                                    response.body()?.data?.toMutableList() ?: mutableListOf()
+                                ).also {
+                                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                                }
+                            }
+                            if (value != null && value.isNotEmpty()) {
+                                var colType =
+                                    (sp_collateral_type_liq?.adapter as? DataSpinnerAdapter)?.list
+                                if (colType != null) {
+                                    for (i in 0 until colType.size) {
+
+                                        if (colType[i].value == value) {
+                                            sp_collateral_type_liq.setSelection(i)
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Crashlytics.log(e.message)
+
+                        }
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Crashlytics.log(e.message)
+
+            }
+            return@async true
+        }
+    private fun fetchmstrIdsubSecurity(str: String) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                var temp = str
+                if (temp == "immovable") {
+                    temp = "immovable_type"
+                }
+                val response = RetrofitFactory.getApiService().getCollateralMstr(temp)
+                if (response?.body()?.errorCode == "200") {
+
+                    withContext(Dispatchers.Main) {
+                        sp_security_subType.adapter = null
+                        sp_security_subType.adapter = getAdapter(response.body()?.data)
+                    }
+                } else {
+                    withContext(Dispatchers.Main)
+                    {
+                        sp_security_subType.adapter = null
+
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Crashlytics.log(e.message)
+
+            }
+
+        }
+    }
+
     private fun saveCollateralDataAsync() {
         try {
             var collaterals:ArrayList<CollateralData> = ArrayList()
