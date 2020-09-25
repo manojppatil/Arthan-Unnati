@@ -89,6 +89,7 @@ class ExceptionReportActivity : BaseActivity() {
                     {
                         progrssLoader.dismmissLoading()
                         Toast.makeText(this@ExceptionReportActivity,"Submitted successfully",Toast.LENGTH_LONG).show()
+                        finish()
                     }
                 }else
                 {

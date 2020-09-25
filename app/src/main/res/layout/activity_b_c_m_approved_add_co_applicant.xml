@@ -129,5 +129,13 @@
                 android:layout_gravity="center_vertical|end"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_next_enabled"
+        android:text="DONE"
+        android:textColor="#fff"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/done"/>
 
 </LinearLayout>

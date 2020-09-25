@@ -82,20 +82,22 @@ class BureauActivity : BaseActivity() {
 
         val bureau: BureauDetails? = intent?.extras?.getParcelable<BureauDetails>("data")
 
-        txt_appName.text = "Name of the applicant:${bureau?.applicantName}"
-        txt_scoreValue.text = "Score:${bureau?.score}"
-        noOfLoans.text = "No Of Loans:${bureau?.noOfLoans}"
-        noOfActiveLoans.text = "No of active loans:${bureau?.noOfActiveLoans}"
-        moOfUnsecuredLoans.text = "No of Unsecured loans:${bureau?.noOfUnsecuredLoans}"
-        moOfsecuredLoans.text = "No of secured loans:${bureau?.noOfSecuredLoans}"
-        noOfDpdAccounts.text = "No of Dpd account:${bureau?.noOfDpdAccounts}"
-        defaultCreditLoan.text = "Default in credit card/Gold loan/Agri loan:${bureau?.defaultCGA}"
-        defaultInAutoLoans.text = "Default in Auto loan/other loans:${bureau?.defaultAO}"
-        NoOfSuitFiled.text = "No of suit filed,written:${bureau?.noOfSuitfiledWritten}"
-        noOfLoanAsGarunter.text = "No of loans as guarantor:${bureau?.noOfLoanAsGuarantor}"
-        last6MonthsHist.text = "Last 6 months history:${bureau?.sixMonthsHistory}"
-        lastLoanTaken.text = "Last loan taken:${bureau?.lastLoanTaken}"
-
+        if(bureau!=null) {
+            txt_appName.text = "Name of the applicant:${bureau?.applicantName}"
+            txt_scoreValue.text = "Score:${bureau?.score}"
+            noOfLoans.text = "No Of Loans:${bureau?.noOfLoans}"
+            noOfActiveLoans.text = "No of active loans:${bureau?.noOfActiveLoans}"
+            moOfUnsecuredLoans.text = "No of Unsecured loans:${bureau?.noOfUnsecuredLoans}"
+            moOfsecuredLoans.text = "No of secured loans:${bureau?.noOfSecuredLoans}"
+            noOfDpdAccounts.text = "No of Dpd account:${bureau?.noOfDpdAccounts}"
+            defaultCreditLoan.text =
+                "Default in credit card/Gold loan/Agri loan:${bureau?.defaultCGA}"
+            defaultInAutoLoans.text = "Default in Auto loan/other loans:${bureau?.defaultAO}"
+            NoOfSuitFiled.text = "No of suit filed,written:${bureau?.noOfSuitfiledWritten}"
+            noOfLoanAsGarunter.text = "No of loans as guarantor:${bureau?.noOfLoanAsGuarantor}"
+            last6MonthsHist.text = "Last 6 months history:${bureau?.sixMonthsHistory}"
+            lastLoanTaken.text = "Last loan taken:${bureau?.lastLoanTaken}"
+        }
 
         noOfActiveLoans.setOnClickListener {
 

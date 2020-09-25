@@ -15,9 +15,10 @@ class BCMAddCoApplicant : BaseActivity() {
     override fun init() {
         coApplicantAdd.setOnClickListener {
 
-            startActivity(Intent(this,BCMApprovedCollateral::class.java).apply {
+            startActivity(Intent(this,BCMApprovedAddCoApplicant::class.java).apply {
                 putExtra("loanId",intent.getStringExtra("loanId"))
-                putExtra("task","ReAssigned")
+                putExtra("task","Add-CoApplicant")
+                putExtra("stage","Add-CoApplicant")
             })
         }
 
@@ -28,6 +29,6 @@ class BCMAddCoApplicant : BaseActivity() {
     }
 
     override fun screenTitle(): String {
-        return "BCM Legal"
+        return "BCM Reassigned"
     }
 }

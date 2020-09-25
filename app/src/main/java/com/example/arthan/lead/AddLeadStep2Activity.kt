@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.BCMApprovedAddCoApplicant
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
@@ -314,6 +315,10 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
         progressBar?.showLoading()
         CoroutineScope(ioContext).launch {
             try {
+                if(intent.getStringExtra("task")=="Add-CoApplicant"){
+                    mKYCPostData?.userId=ArthanApp.getAppInstance().loginUser
+                    mKYCPostData?.stage="BCM Approved"
+                }
                 mKYCPostData?.customerId = custId
                 mKYCPostData?.loanId=loanId
                 mKYCPostData?.applicantType = intent.getStringExtra("type") ?: "pa"
@@ -341,6 +346,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                             {
                                 withContext(Dispatchers.Main)
                                 {
+                                    BCMApprovedAddCoApplicant.custId=result.customerId
+
                                     finish()
                                 }
                             }else {

@@ -42,5 +42,7 @@ data class PersonalPostData(
     var category: String = "",
     var rshipWithApplicant: String = "",
     var religion: String = "",
-    var maritalStatus: String = ""
+    var maritalStatus: String = "",
+    var userId: String = "",
+    var stage: String = ""
 )

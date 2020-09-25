@@ -7,6 +7,8 @@ import kotlinx.android.parcel.Parcelize
 data class KYCPostData(
     var loanId: String? = "",
     var customerId: String? = "",
+    var userId: String? = "",
+    var stage: String? = "",
 
     var aadharAddress: String? = "",
     var aadharId: String? = "",

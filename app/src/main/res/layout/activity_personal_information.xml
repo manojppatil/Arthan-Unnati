@@ -581,7 +581,22 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/tl_state"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#000000"
+                android:fontFamily="@font/lato_black"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintTop_toBottomOf="@+id/tl_district"/>
+
+          <!--  <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tl_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -604,7 +619,7 @@
                     android:textColor="#000000"
                     android:textSize="14sp" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>-->
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -824,7 +839,21 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/tl_state1"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/lato_black"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tl_district1"
+                    app:layout_constraintVertical_chainStyle="packed"/>
+               <!-- <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_state1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -848,7 +877,7 @@
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
+-->
             </LinearLayout>
 
             <!--            <com.google.android.material.textfield.TextInputLayout-->

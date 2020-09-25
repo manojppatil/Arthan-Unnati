@@ -58,7 +58,7 @@ class CollateralActivity : BaseActivity() {
         }
     }
 
-    override fun screenTitle() = "Collateral | Customer Full Name"
+    override fun screenTitle() = "Collateral Details"
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
 

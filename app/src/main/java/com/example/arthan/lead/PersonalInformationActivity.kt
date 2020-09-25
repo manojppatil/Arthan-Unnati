@@ -11,6 +11,8 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.BCMApprovedAddCoApplicant
+import com.example.arthan.dashboard.bcm.BCMApprovedLegalStatusActivity
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
@@ -68,7 +70,9 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 address_line1_input?.setText(it.getString(AppPreferences.Key.AddressLine1))
                 address_line2_input?.setText(it.getString(AppPreferences.Key.AddressLine2))
                 city_input?.setText(it.getString(AppPreferences.Key.City))
-                state_input?.setText(it.getString(AppPreferences.Key.State))
+
+                setValueToState(tl_state,AppPreferences.Key.State)
+//                state_input?.setText(it.getString(AppPreferences.Key.State))
                 pincode_input?.setText(it.getString(AppPreferences.Key.Pincode))
             }
             cb_sameAddress.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -95,7 +99,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             if (et_name.length() > 0 && panNoEt.length() > 0 && et_father_name.length() > 0 && et_mother_name.length() > 0 && et_dob.length() > 0
                 && contact_number_input.length() > 0 && email_id_input.length() > 0 && gross_annual_income_spinner.length() > 0 &&
                 address_line1_input.length() > 0 && address_line2_input.length() > 0 && pincode_input.length() > 0 && city_input.length() > 0
-                && district_input.length() > 0 && state_input.length() > 0
+                && district_input.length() > 0
             ) {
                 if (intent.getStringExtra("type") == null) {
                     savePersonalData("PA")
@@ -200,6 +204,10 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         }
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
+        var stage=""
+        if(intent.getStringExtra("task")=="Add-CoApplicant"){
+         stage ="BCM Approved"
+        }
         val postBody = PersonalPostData(
             loanId = loanId,
             custId = custId,
@@ -231,7 +239,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             areaName = area_name_input?.text?.toString() ?: "",
             city = city_input?.text?.toString() ?: "",
             district = district_input?.text?.toString() ?: "",
-            state = state_input?.text?.toString() ?: "",
+//            state = state_input?.text?.toString() ?: "",
+            state = (tl_state.selectedItem as Data).value ?: "",
             addrFlag = cb_sameAddress.isChecked,
             addressLine1p = address1_line1_input?.text?.toString() ?: "",
             addressLine2p = address1_line2_input?.text?.toString() ?: "",
@@ -240,7 +249,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             areaNamep = area_name1_input?.text?.toString() ?: "",
             cityp = city1_input?.text?.toString() ?: "",
             districtp = district_input1?.text?.toString() ?: "",
-            statep = state_input1?.text?.toString() ?: "",
+            statep = (tl_state1.selectedItem as Data).value ?: "",
             applicantType = applicantType,
             category = category,
             religion = when(Rel_hindu.isChecked){
@@ -251,7 +260,9 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             {
                 true->"Married"
                 else->"UnMarried"
-            }
+            },
+            userId = ArthanApp.getAppInstance().loginUser,
+            stage = stage
         )
 
         CoroutineScope(ioContext).launch {
@@ -280,6 +291,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                 withContext(Dispatchers.Main)
                                 {
                                     finish()
+
                                 }
                             }else {
                                 AppPreferences.getInstance()
@@ -448,6 +460,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         custId=intent.getStringExtra("custId")
         launch(ioContext) {
             val title = fetchAndUpdateServerTitleAsync().await()
+            val state = fetchAndUpdateStateNameAsync().await()
             val nationality = fetchAndUpdateNationalityAsync().await()
             val education = fetchAndUpdateEducationAsync().await()
             val occupationType = fetchAndUpdateOccupationTypeAsync().await()
@@ -469,6 +482,20 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                         val response =
                             RetrofitFactory.getApiService().getScreenData(map)
                         withContext(Dispatchers.Main) {
+                            setDataToFields(response.body()?.personalDetails)
+                        }
+                    }
+                   else if(intent.getStringExtra("task")=="Add-CoApplicant")
+                    {
+                        var map= HashMap<String,String>()
+                        map["loanId"]=loanId!!
+//                        map["screen"]="PERSONAL_CA"
+                        map["screen"]=intent.getStringExtra("screen")
+
+                        val response =
+                            RetrofitFactory.getApiService().getScreenData(map)
+                        withContext(Dispatchers.Main) {
+                            if(response.body()?.personalDetails!=null)
                             setDataToFields(response.body()?.personalDetails)
                         }
                     }
@@ -530,7 +557,9 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         pincode_input.setText(personalDetails.pinCode)
         city_input.setText(personalDetails.city)
         district_input.setText(personalDetails.district)
-        state_input.setText(personalDetails.state)
+
+//        state_input.setText(personalDetails.state)
+        setDataToSpinner(tl_state,personalDetails.state)
         panNoEt.setText(personalDetails.applicantPanNo)
 
         when(personalDetails.addrFlag)
@@ -543,7 +572,9 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 pincode1_input.setText(personalDetails.pinCodep)
                 city1_input.setText(personalDetails.cityp)
                 district_input1.setText(personalDetails.districtp)
-                state_input1.setText(personalDetails.statep)
+                setDataToSpinner(tl_state1,personalDetails.state)
+
+//                state_input1.setText(personalDetails.statep)
 
             }
 
@@ -766,5 +797,34 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
         }
 
+    private fun fetchAndUpdateStateNameAsync(): Deferred<Boolean> =
+        async(context = ioContext) {
+            try {
+                val response = RetrofitFactory.getMasterApiService().getamStates()
+                if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
+                    withContext(uiContext) {
+                        tl_state?.adapter = getAdapter(response.body()?.data)
+                        tl_state1?.adapter=getAdapter(response.body()?.data)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Crashlytics.log(e.message)
 
+            }
+            return@async true
+        }
+
+    fun setValueToState(sp:Spinner,value: String?)
+    {
+
+        val list=(sp.adapter as DataSpinnerAdapter).list
+        for(i in 0 until list.size){
+            if(list[i].value.toLowerCase()==value?.toLowerCase())
+            {
+            sp.setSelection(i)
+            }
+        }
+
+    }
 }

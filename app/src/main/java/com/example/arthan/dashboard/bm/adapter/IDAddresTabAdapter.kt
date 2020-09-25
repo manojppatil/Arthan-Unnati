@@ -13,10 +13,10 @@ class IDAddresTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm){
 
     init {
         lstTitles.add("Individual")
-        lstTitles.add("Non-Individual")
+      //  lstTitles.add("Non-Individual")
 
         frags.add(IndividualIdAddressFragment())
-        frags.add(NonIndividualIdAddressFragment())
+//        frags.add(NonIndividualIdAddressFragment())
     }
 
     override fun getCount()= lstTitles.size

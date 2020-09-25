@@ -116,6 +116,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                     if(mCustomer360Data?.canNavigate.equals("NO",ignoreCase = true)){ //TODO check mail 04-06-20
                         withContext(Dispatchers.Main) {
 
+                            progressBar.dismmissLoading()
                             Toast.makeText(
                                 this@Customer360Activity,
                                 apiResponse.body()?.message,
@@ -125,6 +126,8 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                     }else{
                     withContext(Dispatchers.Main) {
                         setDataToFields(mCustomer360Data)
+                        progressBar.dismmissLoading()
+
                     }
                     stopLoading(progressBar, null)
                 }

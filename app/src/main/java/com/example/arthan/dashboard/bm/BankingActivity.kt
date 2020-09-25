@@ -37,7 +37,7 @@ class BankingActivity : AppCompatActivity(),CoroutineScope {
         setContentView(R.layout.activity_lisiting)
 
 
-        toolbar_title?.text = "Banking | "+intent.getStringExtra("cname")
+        toolbar_title?.text = "Banking | "+intent.getStringExtra("cname")?:" "
         back_button?.setOnClickListener { onBackPressed() }
 //        rv_listing.adapter = BankingAdapter(this, detailsList)
 //        loadInitialData()
