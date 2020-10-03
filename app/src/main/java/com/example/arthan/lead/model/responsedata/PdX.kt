@@ -5,8 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class PdX(
-    val data1:DataPD,
-    val data2:DataPD
+    val data1:DataPD?,
+    val data2:DataPD?
 ): Parcelable
 @Parcelize
 data class DataPD(

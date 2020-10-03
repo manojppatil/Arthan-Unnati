@@ -182,6 +182,16 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         ap.addString(AppPreferences.Key.City, aadharCardBack?.city)
                         ap.addString(AppPreferences.Key.State, aadharCardBack?.state)
                     }
+                    mKYCPostData?.pincode=aadharCardBack?.pin
+                    mKYCPostData?.state=aadharCardBack?.state
+                    mKYCPostData?.city=aadharCardBack?.city
+                    mKYCPostData?.district=aadharCardBack?.district
+                    mKYCPostData?.address_line1=aadharCardBack?.addressLineOne
+                    mKYCPostData?. address_line2=aadharCardBack?.addressLineTwo
+                    mKYCPostData?.landmark=aadharCardBack?.landmark
+                    mKYCPostData?.areaName=aadharCardBack?.areaName
+
+
                     txt_aadhar_card.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_document_attached,
                         0,

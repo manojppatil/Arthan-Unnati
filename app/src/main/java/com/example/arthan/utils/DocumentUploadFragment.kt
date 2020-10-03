@@ -98,6 +98,8 @@ class DocumentUploadFragment : BaseFragment() {
                     progrssLoader.dismmissLoading()
                     ArthanApp.getAppInstance().submitDocs= SubmitMultipleDocsRequest()
                     rvDocsListMain.adapter=DocCategoryAdapter(context!!,"",res.body()!!)
+                    ArthanApp.getAppInstance().submitDocs?.loanId=res.body()!!.loanId
+                    ArthanApp.getAppInstance().submitDocs?.userId=ArthanApp.getAppInstance().loginUser
 
                 }
 

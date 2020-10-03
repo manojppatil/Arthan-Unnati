@@ -182,51 +182,52 @@ class BCMApprovedCollateral : BaseActivity(), CoroutineScope {
         loadInitialData()
         submitCollateral?.setOnClickListener {
 
-            if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
-
-                var dialog = AlertDialog.Builder(this)
-                var view: View? = layoutInflater?.inflate(R.layout.remarks_popup, null)
-                dialog.setView(view)
-                var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
-                var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
-                var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
-
-                var alert = dialog.create() as AlertDialog
-                btn_cancel?.setOnClickListener {
-                    alert.dismiss()
-                }
-                btn_submit_remark?.setOnClickListener {
-                    alert.dismiss()
-                    var map = HashMap<String, String>()
-
-
-                    map["loanId"] = mLoanId!!
-                    map["remarks"] = et_remarks?.text.toString()
-                    map["userId"] = ArthanApp.getAppInstance().loginUser + ""
-
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val respo = RetrofitFactory.getApiService().updateCollateralDetails(
-                            map
-                        )
-
-
-                        val result = respo.body()
-                        if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
-                            withContext(Dispatchers.Main)
-                            {
-                                finish()
-                            }
-
-
-                        }
-                    }
-
-
-
-                }
-                alert.show()
-
-            }
+            saveCollateralDataAsync()
+//            if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
+//
+//                var dialog = AlertDialog.Builder(this)
+//                var view: View? = layoutInflater?.inflate(R.layout.remarks_popup, null)
+//                dialog.setView(view)
+//                var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
+//                var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+//                var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
+//
+//                var alert = dialog.create() as AlertDialog
+//                btn_cancel?.setOnClickListener {
+//                    alert.dismiss()
+//                }
+//                btn_submit_remark?.setOnClickListener {
+//                    alert.dismiss()
+//                    var map = HashMap<String, String>()
+//
+//
+//                    map["loanId"] = mLoanId!!
+//                    map["remarks"] = et_remarks?.text.toString()
+//                    map["userId"] = ArthanApp.getAppInstance().loginUser + ""
+//
+//                    CoroutineScope(Dispatchers.IO).launch {
+//                        val respo = RetrofitFactory.getApiService().updateCollateralDetails(
+//                            map
+//                        )
+//
+//
+//                        val result = respo.body()
+//                        if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
+//                            withContext(Dispatchers.Main)
+//                            {
+//                                finish()
+//                            }
+//
+//
+//                        }
+//                    }
+//
+//
+//
+//                }
+//                alert.show()
+//
+//            }
 
         }
     }
@@ -388,6 +389,8 @@ class BCMApprovedCollateral : BaseActivity(), CoroutineScope {
 
     private fun saveCollateralDataAsync() {
         try {
+            val progrssLoader=ProgrssLoader(this)
+            progrssLoader.showLoading()
             var collaterals:ArrayList<CollateralData> = ArrayList()
 
             var addressType = ""
@@ -461,6 +464,12 @@ class BCMApprovedCollateral : BaseActivity(), CoroutineScope {
                     val result = response?.body()
                     result?.apiCode == "200"
 
+                  withContext(Dispatchers.Main)
+                  {
+                      progrssLoader.dismmissLoading()
+                      finish()
+
+                  }
                 } else {
                     false
                 }

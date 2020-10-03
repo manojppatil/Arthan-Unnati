@@ -514,6 +514,9 @@ interface ApiService {
     @POST("getLegalQueue")
     suspend fun getLegalQueue(@Body body: HashMap<String,String>): Response<BaseResponseData>?
 
+    @POST("bcmReAssignSubmit")
+    suspend fun bcmReAssignSubmit(@Body body: HashMap<String,String>): Response<BaseResponseData>?
+
     @POST("submitMultipleDocs")
         suspend fun submitMultipleDocs(@Body body: SubmitMultipleDocsRequest): Response<BaseResponseData>?
 

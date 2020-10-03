@@ -30,6 +30,14 @@ data class KYCPostData(
 
     var paApplicantPhoto: String? = "",
     var applicantType: String? = "",
+    var pincode: String? = "",
+    var state: String? = "",
+    var city: String? = "",
+    var district: String? = "",
+    var  address_line1: String? = "",
+    var address_line2: String? = "",
+    var landmark: String? = "",
+    var areaName: String? = "",
 
     var amId: String? = ""
 ) : Parcelable

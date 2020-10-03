@@ -43,8 +43,7 @@ class DocCategoryAdapter(
                         putExtra("loanId", responseData.loanId)
                         putExtra("task", "RM_AssignList")
 //                        ArthanApp.getAppInstance().submitDocs=null
-                        ArthanApp.getAppInstance().submitDocs?.loanId=responseData.loanId
-                        ArthanApp.getAppInstance().submitDocs?.userId=ArthanApp.getAppInstance().loginUser
+
                     })
 
 
