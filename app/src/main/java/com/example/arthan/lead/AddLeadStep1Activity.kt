@@ -6,11 +6,12 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
+import android.graphics.*
 import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -48,10 +49,7 @@ import com.example.arthan.network.S3UploadFile
 import com.example.arthan.network.S3Utility
 import com.example.arthan.ocr.CardResponse
 import com.example.arthan.profile.MyProfileActivity
-import com.example.arthan.utils.BitmapUtils
-import com.example.arthan.utils.ConstantValue
-import com.example.arthan.utils.ProgrssLoader
-import com.example.arthan.utils.loadImage
+import com.example.arthan.utils.*
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
 import com.fondesa.kpermissions.extension.listeners
@@ -76,6 +74,9 @@ import kotlinx.android.synthetic.main.fragment_add_new_lead.*
 import kotlinx.coroutines.*
 import retrofit2.HttpException
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.coroutines.CoroutineContext
@@ -312,7 +313,9 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 //                if(File(shopUri?.path).length()>0) {
                 ll_upload_photo.visibility = View.GONE
 //                img_shop.visibility = View.VISIBLE
-                Glide.with(this).load(shopUri).error(R.mipmap.ic_launcher).into(img_shop)
+                val uriNew=compressImage(shopUri!!)
+                shopUri= getUriFromBitmap(uriNew,img_shop)
+              //  Glide.with(this).load(shopUri).error(R.mipmap.ic_launcher).into(img_shop)
                 checkForProceed()
 
 
@@ -347,6 +350,8 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 //                if(File(shopUri?.path).length()>0) {
                 ll_upload_photo.visibility = View.GONE
                 img_shop.visibility = View.VISIBLE
+                val uriNew=compressImage(shop1Uri!!)
+                shop1Uri= getUriFromBitmap(uriNew,shop1)
                 checkForProceed()
 
 
@@ -383,6 +388,8 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 //                if(File(shopUri?.path).length()>0) {
                 ll_upload_photo.visibility = View.GONE
 //                img_shop.visibility = View.VISIBLE
+                val uriNew=compressImage(shop2Uri!!)
+                shop2Uri= getUriFromBitmap(uriNew,shop2)
                 checkForProceed()
 
 
@@ -854,6 +861,205 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
     override fun onProviderDisabled(provider: String?) {
     }
 
+    fun compressImage(imageUri: Uri): Bitmap? {
+
+
+        val file = copyFile(this, imageUri)
+        var path = ""
+        if (file != null) {
+            path = file.absolutePath
+        }
+//        val filePath = getRealPathFromURI(path)
+        var scaledBitmap: Bitmap? = null
+        val options = BitmapFactory.Options()
+        //      by setting this field as true, the actual bitmap pixels are not loaded in the memory. Just the bounds are loaded. If
+//      you try the use the bitmap here, you will get null.
+        options.inJustDecodeBounds = true
+        var bmp = BitmapFactory.decodeFile(path, options)
+        var actualHeight = options.outHeight
+        var actualWidth = options.outWidth
+        //      max Height and width values of the compressed image is taken as 816x612
+        val maxHeight = 816.0f
+        val maxWidth = 612.0f
+        var imgRatio = actualWidth / actualHeight.toFloat()
+        val maxRatio = maxWidth / maxHeight
+        //      width and height values are set maintaining the aspect ratio of the image
+        if (actualHeight > maxHeight || actualWidth > maxWidth) {
+            if (imgRatio < maxRatio) {
+                imgRatio = maxHeight / actualHeight
+                actualWidth = (imgRatio * actualWidth).toInt()
+                actualHeight = maxHeight.toInt()
+            } else if (imgRatio > maxRatio) {
+                imgRatio = maxWidth / actualWidth
+                actualHeight = (imgRatio * actualHeight).toInt()
+                actualWidth = maxWidth.toInt()
+            } else {
+                actualHeight = maxHeight.toInt()
+                actualWidth = maxWidth.toInt()
+            }
+        }
+        //      setting inSampleSize value allows to load a scaled down version of the original image
+        options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight)
+        //      inJustDecodeBounds set to false to load the actual bitmap
+        options.inJustDecodeBounds = false
+        //      this options allow android to claim the bitmap memory if it runs low on memory
+        options.inPurgeable = true
+        options.inInputShareable = true
+        options.inTempStorage = ByteArray(16 * 1024)
+        try { //          load the bitmap from its path
+            bmp = BitmapFactory.decodeFile(path, options)
+        } catch (exception: OutOfMemoryError) {
+            exception.printStackTrace()
+        }
+        try {
+            scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888)
+        } catch (exception: OutOfMemoryError) {
+            exception.printStackTrace()
+        }
+        val ratioX = actualWidth / options.outWidth.toFloat()
+        val ratioY = actualHeight / options.outHeight.toFloat()
+        val middleX = actualWidth / 2.0f
+        val middleY = actualHeight / 2.0f
+        val scaleMatrix = Matrix()
+        scaleMatrix.setScale(ratioX, ratioY, middleX, middleY)
+        val canvas = Canvas(scaledBitmap!!)
+        canvas.setMatrix(scaleMatrix)
+        canvas.drawBitmap(
+            bmp,
+            middleX - bmp.width / 2,
+            middleY - bmp.height / 2,
+            Paint(Paint.FILTER_BITMAP_FLAG)
+        )
+        //      check the rotation of the image and display it properly
+        val exif: ExifInterface
+        try {
+            exif = ExifInterface(path)
+            val orientation: Int = exif.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION, 0
+            )
+            Log.d("EXIF", "Exif: $orientation")
+            val matrix = Matrix()
+            if (orientation == 6) {
+                matrix.postRotate(90f)
+                Log.d("EXIF", "Exif: $orientation")
+            } else if (orientation == 3) {
+                matrix.postRotate(180f)
+                Log.d("EXIF", "Exif: $orientation")
+            } else if (orientation == 8) {
+                matrix.postRotate(270f)
+                Log.d("EXIF", "Exif: $orientation")
+            }
+            scaledBitmap = Bitmap.createBitmap(
+                scaledBitmap!!, 0, 0,
+                scaledBitmap.width, scaledBitmap.height, matrix,
+                true
+            )
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        var out: FileOutputStream? = null
+        /* val filename=getFilename()
+         try{
+             out =FileOutputStream(filename);
+
+ //          write the compressed bitmap at the destination specified by filename.
+             scaledBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, out);
+         }
+         catch (e:FileNotFoundException)
+         {
+
+         }
+
+         return  FileProvider.getUriForFile(
+             this, this?.applicationContext?.packageName + ".provider",
+             File(filename)
+         )*/
+        /* val fileName = getOutputMediaFile()
+         try {
+             if(fileName.exists())
+             {
+                 fileName.delete()
+                 fileName.createNewFile()
+             }
+             out = FileOutputStream(fileName)
+             //          write the compressed bitmap at the destination specified by filename.
+             scaledBitmap!!.compress(Bitmap.CompressFormat.JPEG, 80, out)
+         } catch (e: FileNotFoundException) {
+             e.printStackTrace()
+         }
+         return FileProvider.getUriForFile(
+             this, this?.applicationContext?.packageName + ".provider",
+             fileName
+         )*/
+
+        return scaledBitmap
+
+    }
+
+    fun getFilename(): File {
+        val dir = File(
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            "Arthan"
+        )
+
+        if (!dir.exists())
+            dir.mkdirs()
+        val file=File(
+            dir.absolutePath + "/"+intent.getSerializableExtra("loanId")+"_"+intent.getSerializableExtra("docName")+"_"+(0..100).random()+".jpg"
+//            dir.absolutePath + "/"+intent.getSerializableExtra("loanId")+"_"+intent.getSerializableExtra("docName")+".jpg"
+        )
+        if(file.length()>0)
+        {
+            file.delete()
+            file.createNewFile()
+        }
+
+        return file
+    }
+    fun calculateInSampleSize(
+        options: BitmapFactory.Options,
+        reqWidth: Int,
+        reqHeight: Int
+    ): Int {
+        val height = options.outHeight
+        val width = options.outWidth
+        var inSampleSize = 1
+        if (height > reqHeight || width > reqWidth) {
+            val heightRatio =
+                Math.round(height.toFloat() / reqHeight.toFloat())
+            val widthRatio =
+                Math.round(width.toFloat() / reqWidth.toFloat())
+            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+        }
+        val totalPixels = width * height.toFloat()
+        val totalReqPixelsCap = reqWidth * reqHeight * 2.toFloat()
+        while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
+            inSampleSize++
+        }
+        return inSampleSize
+    }
+
+    fun getUriFromBitmap(scaledBitmap:Bitmap?,imageview:ImageView):Uri?
+    {
+        var out: FileOutputStream? = null
+        val fileName = getOutputMediaFile()
+        try {
+            out = FileOutputStream(fileName,false)
+            //          write the compressed bitmap at the destination specified by filename.
+            scaledBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, out)
+//            imageview.setImageBitmap(scaledBitmap)
+            val udi=FileProvider.getUriForFile(
+                this, this?.applicationContext?.packageName + ".provider",
+                fileName
+            )
+            Glide.with(this).load(udi).into(imageview)
+
+            return udi
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        return null
+    }
 }
 
 

@@ -20,7 +20,7 @@ class WebContentPreviewActivity : BaseActivity() {
         wv_preview?.settings?.javaScriptEnabled = true
         wv_preview?.settings?.pluginState = WebSettings.PluginState.ON
         wv_preview?.webViewClient = MyWebViewwClient()
-        wv_preview?.loadUrl("http://13.233.27.170:8080/JerseyDemos/Home?name=MSD&FileNo=MSD12345&contactNo=9876543211&acType=Saving&reqId=rk1234")
+        //wv_preview?.loadUrl("http://13.233.27.170:8080/JerseyDemos/Home?name=MSD&FileNo=MSD12345&contactNo=9876543211&acType=Saving&reqId=rk1234")
     }
 
     class MyWebViewwClient : WebViewClient() {

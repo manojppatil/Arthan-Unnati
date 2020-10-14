@@ -29,6 +29,7 @@ class BMScreeningReportActivity : BaseActivity(), View.OnClickListener {
         txt_reject.setOnClickListener(this)
         txt_approve.setOnClickListener(this)
         txt_reassignToRm.setOnClickListener(this)
+        txt_ReAssignedtoBM.setOnClickListener(this)
 
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
@@ -54,6 +55,7 @@ class BMScreeningReportActivity : BaseActivity(), View.OnClickListener {
         } else if (ArthanApp.getAppInstance().loginRole == "BCM") {
             txt_recommend_bcm.text = "Recommend to CCM"
             txt_approve.visibility = View.GONE
+            txt_ReAssignedtoBM.visibility = View.VISIBLE
         } else if (ArthanApp.getAppInstance().loginRole == "AM") {
             txt_recommend_bcm.text = "AM Approved"
         } else {
@@ -69,6 +71,22 @@ class BMScreeningReportActivity : BaseActivity(), View.OnClickListener {
             R.id.txt_recommend_bcm -> {
                 startActivity(Intent(this, SubmitFinalReportActivity::class.java).apply {
                     putExtra(STATUS, txt_recommend_bcm.text.toString())
+                    putExtra("indSeg", intent.getStringExtra("indSeg"))
+                    putExtra("loginDate", intent.getStringExtra("loginDate"))
+                    putExtra("loanId", loanId)
+                    putExtra("custId", custId)
+                    putExtra("recordType", intent.getStringExtra("recordType"))
+
+                    putExtra("FROM", ArthanApp.getAppInstance().loginRole)
+                    putExtra("amId", intent.getStringExtra("amId"))
+
+                })
+                finish()
+
+            }
+            R.id.txt_ReAssignedtoBM -> {
+                startActivity(Intent(this, SubmitFinalReportActivity::class.java).apply {
+                    putExtra(STATUS, txt_ReAssignedtoBM.text.toString())
                     putExtra("indSeg", intent.getStringExtra("indSeg"))
                     putExtra("loginDate", intent.getStringExtra("loginDate"))
                     putExtra("loanId", loanId)

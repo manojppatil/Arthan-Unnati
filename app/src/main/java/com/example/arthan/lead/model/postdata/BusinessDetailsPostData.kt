@@ -44,5 +44,7 @@ data class BusinessDetailsPostData(
     var pincode: String? = "",
     var sameasregisteredaddress: String? = "",
     var state: String? = "",
-    val reassign:String="N"
+    val reassign:String="N",
+    var remarks:String?="",
+    var userId:String?=""
 )

@@ -103,8 +103,9 @@ class DocSubCategoryAdapter(
 
         when (category) {
             "Business Proof and Stabilty" -> {
-                if (ArthanApp.getAppInstance().submitDocs?.businessDocs?.size!! > 0&&ArthanApp.getAppInstance().submitDocs?.businessDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
+                if (ArthanApp.getAppInstance().submitDocs?.businessDocs?.size!! > 0) {
 
+                    if(ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.size!!-1 > pos&&ArthanApp.getAppInstance().submitDocs?.businessDocs?.get(pos)?.docUrl!!.isNotEmpty())
                     ArthanApp.getAppInstance().submitDocs?.businessDocs?.removeAt(pos)
                 }
 
@@ -118,9 +119,13 @@ class DocSubCategoryAdapter(
 
             }
             "Other KYC" -> {
-                if (ArthanApp.getAppInstance().submitDocs?.kycDocs?.size!! > 0&&ArthanApp.getAppInstance().submitDocs?.kycDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
+                if (ArthanApp.getAppInstance().submitDocs?.kycDocs?.size!! > 0) {
 
-                    ArthanApp.getAppInstance().submitDocs?.kycDocs?.removeAt(pos)
+                    if(ArthanApp.getAppInstance().submitDocs?.kycDocs?.size!!-1 > pos&&ArthanApp.getAppInstance().submitDocs?.kycDocs?.get(pos)?.docUrl!!.isNotEmpty())
+                    {
+                        ArthanApp.getAppInstance().submitDocs?.kycDocs?.removeAt(pos)
+                    }
+
 
                 }
                     ArthanApp.getAppInstance().submitDocs?.kycDocs?.add(
@@ -134,10 +139,13 @@ class DocSubCategoryAdapter(
 
             }
             "Business Premises" -> {
-                if (ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.size!! > 0&&ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
+                if (ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.size!! > 0) {
 
-                    ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.removeAt(pos)
+                    if (ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.size!!-1 > pos&&ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
 
+                        ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.removeAt(pos)
+
+                    }
                 }
 
                     ArthanApp.getAppInstance().submitDocs?.bussPremisesDocs?.add(
@@ -151,10 +159,13 @@ class DocSubCategoryAdapter(
 
             }
             "Residential Premises" -> {
-                if (ArthanApp.getAppInstance().submitDocs?.residentialDocs?.size!! > 0&&ArthanApp.getAppInstance().submitDocs?.residentialDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
+                if (ArthanApp.getAppInstance().submitDocs?.residentialDocs?.size!! > 0)
+                {
+                        if(ArthanApp.getAppInstance().submitDocs?.residentialDocs?.size!!-1 > pos&&ArthanApp.getAppInstance().submitDocs?.residentialDocs?.get(pos)?.docUrl!!.isNotEmpty()) {
 
-                    ArthanApp.getAppInstance().submitDocs?.residentialDocs?.removeAt(pos)
+                            ArthanApp.getAppInstance().submitDocs?.residentialDocs?.removeAt(pos)
 
+                        }
                 }
 
                     ArthanApp.getAppInstance().submitDocs?.residentialDocs?.add(

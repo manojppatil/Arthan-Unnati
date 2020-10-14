@@ -3,14 +3,20 @@ package com.example.arthan.lead
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.graphics.BitmapFactory
+import android.database.Cursor
+import android.graphics.*
+import android.media.ExifInterface
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.crashlytics.android.Crashlytics
@@ -37,8 +43,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
-import java.io.File
-import java.io.FileInputStream
+import java.io.*
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -492,9 +497,10 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
 
         val docName = when (intent.getIntExtra(DOC_TYPE, 0)) {
             RequestCode.PanCard -> "PAN Card"
+
             RequestCode.AadharCard -> "Aadhar Card"
             RequestCode.VoterCard -> "Voter ID"
-            RequestCode.ApplicantPhoto -> "Applicant Photo"
+            RequestCode.ApplicantPhoto -> "Applicant Photo_${intent.getStringExtra("applicant_type") ?: "PA"}"
             RequestCode.CrossedCheque -> "Crossed Cheque"
             RequestCode.PFP -> "Profile firm and promoters"
             else -> ""
@@ -660,13 +666,13 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     dir.mkdirs()
                 putExtra(
                     ArgumentKey.FilePath, when (reqCode) {
-                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN.jpg"
-                        RequestCode.Passport -> "${dir.absolutePath}/passport.jpg"
-                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT.jpg"
-                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR.jpg"
+                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.Passport -> "${dir.absolutePath}/passport_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
                         RequestCode.PFP -> "${dir.absolutePath}/PFP.jpg"
                         RequestCode.DrivingLicense -> "${dir.absolutePath}/driving_license.jpg"
-                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId.jpg"
+                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
 
                         RequestCode.electricityBill -> "${dir.absolutePath}/electricityBill.jpg"
                         RequestCode.waterBill -> "${dir.absolutePath}/waterBill.jpg"
@@ -722,13 +728,13 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     dir.mkdirs()
                 putExtra(
                     ArgumentKey.FilePath, when (reqCode) {
-                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN.jpg"
-                        RequestCode.Passport -> "${dir.absolutePath}/passport.jpg"
-                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT.jpg"
-                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR.jpg"
+                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.Passport -> "${dir.absolutePath}/passport_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
                         RequestCode.PFP -> "${dir.absolutePath}/PFP.jpg"
                         RequestCode.DrivingLicense -> "${dir.absolutePath}/driving_license.jpg"
-                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId.jpg"
+                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
 
                         RequestCode.electricityBill -> "${dir.absolutePath}/electricityBill.jpg"
                         RequestCode.waterBill -> "${dir.absolutePath}/waterBill.jpg"
@@ -820,6 +826,10 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 RequestCode.AadharFrontCard -> {
                     if (data?.hasExtra(ArgumentKey.FilePath) == true) {
                         mFrontImagePath = data?.getStringExtra(ArgumentKey.FilePath)
+                        compressImage(FileProvider.getUriForFile(
+                                this, this.applicationContext?.packageName + ".provider",
+                        File(mFrontImagePath)
+                        ))
                         loadImage(mFrontImagePath, img_document_front)
                         img_clear_front?.visibility = View.VISIBLE
                         if (requestCode != RequestCode.AadharFrontCard) {
@@ -827,6 +837,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         }
                     } else {
                         data?.data?.let { uri ->
+                            compressImage(uri)
                             loadImage(this, img_document_front, uri, {
                                 mFrontImagePath = it
                                 img_clear_front?.visibility = View.VISIBLE
@@ -1059,13 +1070,191 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             }
         }
 
+    fun compressImage(imageUri: Uri): Uri?{
+
+
+        val file = copyFile(this, imageUri)
+        var path = ""
+        if (file != null) {
+            path = file.absolutePath
+        }
+//        val filePath = getRealPathFromURI(path)
+        var scaledBitmap: Bitmap? = null
+        val options = BitmapFactory.Options()
+        //      by setting this field as true, the actual bitmap pixels are not loaded in the memory. Just the bounds are loaded. If
+//      you try the use the bitmap here, you will get null.
+        options.inJustDecodeBounds = true
+        var bmp = BitmapFactory.decodeFile(path, options)
+        var actualHeight = options.outHeight
+        var actualWidth = options.outWidth
+        //      max Height and width values of the compressed image is taken as 816x612
+        val maxHeight = 816.0f
+        val maxWidth = 612.0f
+        var imgRatio = actualWidth / actualHeight.toFloat()
+        val maxRatio = maxWidth / maxHeight
+        //      width and height values are set maintaining the aspect ratio of the image
+        if (actualHeight > maxHeight || actualWidth > maxWidth) {
+            if (imgRatio < maxRatio) {
+                imgRatio = maxHeight / actualHeight
+                actualWidth = (imgRatio * actualWidth).toInt()
+                actualHeight = maxHeight.toInt()
+            } else if (imgRatio > maxRatio) {
+                imgRatio = maxWidth / actualWidth
+                actualHeight = (imgRatio * actualHeight).toInt()
+                actualWidth = maxWidth.toInt()
+            } else {
+                actualHeight = maxHeight.toInt()
+                actualWidth = maxWidth.toInt()
+            }
+        }
+        //      setting inSampleSize value allows to load a scaled down version of the original image
+        options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight)
+        //      inJustDecodeBounds set to false to load the actual bitmap
+        options.inJustDecodeBounds = false
+        //      this options allow android to claim the bitmap memory if it runs low on memory
+        options.inPurgeable = true
+        options.inInputShareable = true
+        options.inTempStorage = ByteArray(16 * 1024)
+        try { //          load the bitmap from its path
+            bmp = BitmapFactory.decodeFile(path, options)
+        } catch (exception: OutOfMemoryError) {
+            exception.printStackTrace()
+        }
+        try {
+            scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888)
+        } catch (exception: OutOfMemoryError) {
+            exception.printStackTrace()
+        }
+        val ratioX = actualWidth / options.outWidth.toFloat()
+        val ratioY = actualHeight / options.outHeight.toFloat()
+        val middleX = actualWidth / 2.0f
+        val middleY = actualHeight / 2.0f
+        val scaleMatrix = Matrix()
+        scaleMatrix.setScale(ratioX, ratioY, middleX, middleY)
+        val canvas = Canvas(scaledBitmap!!)
+        canvas.setMatrix(scaleMatrix)
+        canvas.drawBitmap(
+            bmp,
+            middleX - bmp.width / 2,
+            middleY - bmp.height / 2,
+            Paint(Paint.FILTER_BITMAP_FLAG)
+        )
+        //      check the rotation of the image and display it properly
+        val exif: ExifInterface
+        try {
+            exif = ExifInterface(path)
+            val orientation: Int = exif.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION, 0
+            )
+            Log.d("EXIF", "Exif: $orientation")
+            val matrix = Matrix()
+            if (orientation == 6) {
+                matrix.postRotate(90f)
+                Log.d("EXIF", "Exif: $orientation")
+            } else if (orientation == 3) {
+                matrix.postRotate(180f)
+                Log.d("EXIF", "Exif: $orientation")
+            } else if (orientation == 8) {
+                matrix.postRotate(270f)
+                Log.d("EXIF", "Exif: $orientation")
+            }
+            scaledBitmap = Bitmap.createBitmap(
+                scaledBitmap!!, 0, 0,
+                scaledBitmap.width, scaledBitmap.height, matrix,
+                true
+            )
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        var out: FileOutputStream? = null
+         val filename=file?.canonicalFile?.name
+         try{
+             out =FileOutputStream(filename);
+
+ //          write the compressed bitmap at the destination specified by filename.
+             scaledBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, out);
+         }
+         catch (e:FileNotFoundException)
+         {
+
+         }
+
+       /* val uri=FileProvider.getUriForFile(
+            this, this.applicationContext?.packageName + ".provider",
+            File(filename)
+        )
+*/
+        /* val fileName = getOutputMediaFile()
+         try {
+             if(fileName.exists())
+             {
+                 fileName.delete()
+                 fileName.createNewFile()
+             }
+             out = FileOutputStream(fileName)
+             //          write the compressed bitmap at the destination specified by filename.
+             scaledBitmap!!.compress(Bitmap.CompressFormat.JPEG, 80, out)
+         } catch (e: FileNotFoundException) {
+             e.printStackTrace()
+         }
+         return FileProvider.getUriForFile(
+             this, this?.applicationContext?.packageName + ".provider",
+             fileName
+         )*/
+
+        return  getUriFromBitmap(scaledBitmap,filename!!)
+    }
+
+    fun getUriFromBitmap(scaledBitmap:Bitmap?,fileName:String):Uri?
+    {
+        var out: FileOutputStream? = null
+//        val fileName = fileName
+        try {
+            out = FileOutputStream(fileName,false)
+            //          write the compressed bitmap at the destination specified by filename.
+            scaledBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, out)
+//            imageview.setImageBitmap(scaledBitmap)
+            val udi=FileProvider.getUriForFile(
+                this, this?.applicationContext?.packageName + ".provider",
+                File(fileName)
+            )
+//            Glide.with(this).load(udi).into(imageview)
+
+            return udi
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+    fun calculateInSampleSize(
+        options: BitmapFactory.Options,
+        reqWidth: Int,
+        reqHeight: Int
+    ): Int {
+        val height = options.outHeight
+        val width = options.outWidth
+        var inSampleSize = 1
+        if (height > reqHeight || width > reqWidth) {
+            val heightRatio =
+                Math.round(height.toFloat() / reqHeight.toFloat())
+            val widthRatio =
+                Math.round(width.toFloat() / reqWidth.toFloat())
+            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+        }
+        val totalPixels = width * height.toFloat()
+        val totalReqPixelsCap = reqWidth * reqHeight * 2.toFloat()
+        while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
+            inSampleSize++
+        }
+        return inSampleSize
+    }
     private suspend fun uploadToS3(
         filePath: String,
         cardType: CardType
     ) = suspendCoroutine<Unit> { continuation ->
         val fileList = mutableListOf(
             S3UploadFile(
-                File(filePath),
+               File(filePath),
                 "${
                 if (AppPreferences.getInstance()
                         .getString(AppPreferences.Key.LoanId) != null
@@ -1073,19 +1262,19 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     .getString(AppPreferences.Key.LoanId) else ArthanApp.getAppInstance().loginUser}${
                 when (cardType) {
                     CardType.PANCard -> {
-                        "_PAN"
+                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_PAN"
                     }
                     CardType.AadharCardFront -> {
-                        "_AADHAR_FRONT"
+                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_FRONT"
                     }
                     CardType.AadharCardBack -> {
-                        "_AADHAR_BACK"
+                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_BACK"
                     }
                     CardType.VoterIdCard -> {
-                        "_VOTER"
+                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_VOTER"
                     }
                     CardType.ApplicantPhoto -> {
-                        "_PHOTO"
+                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_PHOTO"
                     }
                     CardType.CrossedCheque -> {
                         "_CrossedCheque"

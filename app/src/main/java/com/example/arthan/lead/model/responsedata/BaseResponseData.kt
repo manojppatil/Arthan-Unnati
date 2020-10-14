@@ -19,5 +19,6 @@ data class BaseResponseData(
     val canNavigate: String?="",
     val verifyStatus:String?="",
     val amMobNo: String? = "",
+    val validUser: String? = "",
     val onboarded: String = ""
 )

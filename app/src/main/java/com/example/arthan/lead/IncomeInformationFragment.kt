@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
@@ -65,6 +66,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
     CoroutineScope {
 
     private var loanDocUrl: String = ""
+    private  var incomeDetails:IncomeDetails?=null
     private val mOnLoanTypeItemSelectedListener: AdapterView.OnItemSelectedListener =
         object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -128,7 +130,10 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 R.id.frag_container
             ) else null
         loadInitialData()
-        if (arguments?.getString("task").equals("RM_AssignList")||arguments?.getString("task").equals("RMreJourney")) {
+        if (arguments?.getString("task").equals("RM_AssignList") || arguments?.getString("task").equals(
+                "RMreJourney"
+            )
+        ) {
             getIncomeDetailsFromRm()
         }
         itr_container?.visibility = View.GONE
@@ -253,7 +258,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 //        collateral_container?.visibility = View.VISIBLE
         spnr_loan_type?.onItemSelectedListener = mOnLoanTypeItemSelectedListener
         btn_save_continue?.setOnClickListener {
-//
+            //
             if (ArthanApp.getAppInstance().loginRole == "BM") {
                 updateIncomeDetails()
             } else {
@@ -506,44 +511,44 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         }
     }
 
-    private fun updateIncomeDetails() {
+    /* private fun updateIncomeDetails() {
 
-        if (ArthanApp.getAppInstance().loginRole == "BM") {
-            var dialog = AlertDialog.Builder(activity)
-            var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
-            dialog.setView(view)
-            var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
-            var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
-            var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
-            var alert = dialog.create() as AlertDialog
-            btn_cancel?.setOnClickListener {
-                alert.dismiss()
-            }
+         if (ArthanApp.getAppInstance().loginRole == "BM") {
+             var dialog = AlertDialog.Builder(activity)
+             var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
+             dialog.setView(view)
+             var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
+             var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+             var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
+             var alert = dialog.create() as AlertDialog
+             btn_cancel?.setOnClickListener {
+                 alert.dismiss()
+             }
 
-            btn_submit_remark?.setOnClickListener {
-                val progressBar = ProgrssLoader(this.context!!)
-                progressBar.showLoading()
-                alert.dismiss()
-                var map = HashMap<String, String>()
-                map["loanId"] = mLoanId!!
-                map["remarks"] = et_remarks?.text.toString()
-                map["userId"] = ArthanApp.getAppInstance().loginUser + ""
+             btn_submit_remark?.setOnClickListener {
+                 val progressBar = ProgrssLoader(this.context!!)
+                 progressBar.showLoading()
+                 alert.dismiss()
+                 var map = HashMap<String, String>()
+                 map["loanId"] = mLoanId!!
+                 map["remarks"] = et_remarks?.text.toString()
+                 map["userId"] = ArthanApp.getAppInstance().loginUser + ""
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    val respo = RetrofitFactory.getApiService().updateIncomeDetails(
-                        map
-                    )
+                 CoroutineScope(Dispatchers.IO).launch {
+                     val respo = RetrofitFactory.getApiService().updateIncomeDetails(
+                         map
+                     )
 
-                    val result = respo?.body()
-                    if (respo?.body() != null && result?.apiCode == "200") {
+                     val result = respo?.body()
+                     if (respo?.body() != null && result?.apiCode == "200") {
 
-                        withContext(Dispatchers.Main) {
-                            if(ArthanApp.getAppInstance().loginRole == "BM" && et_remarks?.text.toString().isNotEmpty())
-                            {
-                              //  Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
-                            }
-                            /*  AppPreferences.getInstance()
-                                  .addString(AppPreferences.Key.BusinessId, result.businessId)*/
+                         withContext(Dispatchers.Main) {
+                             if(ArthanApp.getAppInstance().loginRole == "BM" && et_remarks?.text.toString().isNotEmpty())
+                             {
+                               //  Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
+                             }
+                             *//*  AppPreferences.getInstance()
+                                  .addString(AppPreferences.Key.BusinessId, result.businessId)*//*
                             progressBar.dismmissLoading()
 //                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
                                 if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
@@ -564,7 +569,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                                     {
 
                                     }
-                                    /* startActivity(
+                                    *//* startActivity(
                                          Intent(
                                              activity,
                                              PendingCustomersActivity::class.java
@@ -572,12 +577,12 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                                      )
 
                                      activity?.finish()
- */
+ *//*
                                 } else {
                                     startActivity(Intent(activity, RMDashboardActivity::class.java))
                                     activity?.finish()
                                 }
-                          /*  } else {
+                          *//*  } else {
                                 if (activity is LeadInfoCaptureActivity) {
                                     (activity as LeadInfoCaptureActivity).enableDoc()
                                     (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
@@ -594,7 +599,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
                                 }
 
-                            }*/
+                            }*//*
 
                         }
                     } else {
@@ -612,6 +617,370 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
             alert.show()
         }
+    }*/
+    private fun updateIncomeDetails() {
+
+        if (ArthanApp.getAppInstance().loginRole == "BM") {
+            var dialog = AlertDialog.Builder(activity)
+            var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
+            dialog.setView(view)
+            var et_remarks = view?.findViewById<EditText>(R.id.et_remarks)
+            var btn_submit_remark = view?.findViewById<Button>(R.id.btn_submit)
+            var btn_cancel = view?.findViewById<Button>(R.id.btn_cancel)
+            var alert = dialog.create() as AlertDialog
+            btn_cancel?.setOnClickListener {
+                alert.dismiss()
+            }
+            alert.show()
+
+            btn_submit_remark?.setOnClickListener {
+                val progressBar = ProgrssLoader(this.context!!)
+                progressBar.showLoading()
+                alert.dismiss()
+                var map = HashMap<String, String>()
+               /* map["loanId"] = mLoanId!!
+                map["remarks"] = et_remarks?.text.toString()
+                map["userId"] = ArthanApp.getAppInstance().loginUser + ""*/
+
+                if (mLoanId == null || mLoanId == "") {
+                    mLoanId = activity?.intent?.getStringExtra("loanId")
+                    mCustomerId = activity?.intent?.getStringExtra("custId")
+                    if (arguments?.getString("task").equals("RM_AssignList", ignoreCase = true) ||
+                        arguments?.getString("task").equals("RMreJourney", ignoreCase = true)
+                    ) {
+                        mLoanId = arguments?.getString("loanId")
+                        mCustomerId = arguments?.getString("custId")
+                    }
+                }
+
+                val postdata: IncomeDetailsPostData=getPostdata()
+                postdata.remarks=et_remarks?.text.toString()
+                postdata.loanId= mLoanId!!
+                postdata.customerId=mCustomerId
+                postdata.userId=ArthanApp.getAppInstance().loginUser + ""
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respo = RetrofitFactory.getApiService().updateIncomeDetails(
+                        postdata
+                    )
+
+                    val result = respo?.body()
+                    if (respo?.body() != null && result?.apiCode == "200") {
+
+                        withContext(Dispatchers.Main) {
+                            if (ArthanApp.getAppInstance().loginRole == "BM") {
+                                //  Toast.makeText(activity,"Case ReAssigned to RM",Toast.LENGTH_LONG).show()
+                            }
+                            /*  AppPreferences.getInstance()
+                              .addString(AppPreferences.Key.BusinessId, result.businessId)*/
+                            progressBar.dismmissLoading()
+//                            if (respo.body()!!.discrepancy?.toLowerCase() == "y") {
+                            if (ArthanApp.getAppInstance().loginRole == "BM" || ArthanApp.getAppInstance().loginRole == "BCM") {
+
+                                if (activity is LeadInfoCaptureActivity) {
+                                    (activity as LeadInfoCaptureActivity).enableDoc()
+                                    (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
+                                }
+                                var b = Bundle()
+                                b.putString("loanType", result.loanType)
+                                activity?.intent?.putExtra("loanType", result.loanType)
+                                navController?.navigate(R.id.action_income_to_doc, b)
+
+                                if (activity is BMDocumentVerificationActivity) {
+
+                                    (activity as BMDocumentVerificationActivity).moveVPinDataFragment(
+                                        3
+                                    )
+                                } else {
+
+                                }
+                                /* startActivity(
+                                 Intent(
+                                     activity,
+                                     PendingCustomersActivity::class.java
+                                 )
+                             )
+
+                             activity?.finish()
+*/
+                            } else {
+                                startActivity(Intent(activity, RMDashboardActivity::class.java))
+                                activity?.finish()
+                            }
+                            /*  } else {
+                              if (activity is LeadInfoCaptureActivity) {
+                                  (activity as LeadInfoCaptureActivity).enableDoc()
+                                  (activity as LeadInfoCaptureActivity).infoCompleteState(INCOME)
+                              }
+                              var b = Bundle()
+                              b.putString("loanType", result.loanType)
+                              activity?.intent?.putExtra("loanType", result.loanType)
+                              navController?.navigate(R.id.action_income_to_doc, b)
+                              if(activity is BMDocumentVerificationActivity) {
+
+                                  (activity as BMDocumentVerificationActivity).moveVPinDataFragment(3)
+                              }else
+                              {
+
+                              }
+
+                          }*/
+
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+
+                            progressBar.dismmissLoading()
+                            Toast.makeText(activity, "something went wrong", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    private fun getPostdata(): IncomeDetailsPostData {
+        if(incomeDetails!=null){
+
+
+        }
+        val sourceOfIncomeList: MutableList<Income> = mutableListOf()
+        if (source_of_income_input?.selectedItem.toString()
+                .isNotEmpty()
+        ) {
+            /*sourceOfIncomeList.add(
+                Income(
+                    incomePerMonth = income_per_month_input?.text?.toString(),
+                    incomeSource = (source_of_income_input?.selectedItem as Data).value.toString()
+                )
+            )*/
+
+            if ((ll_income_source?.childCount ?: 0) > 0) {
+                for (childCount in 0 until (ll_income_source?.childCount ?: 0)) {
+                    val sourceOfIncome = ll_income_source?.getChildAt(childCount)
+                    sourceOfIncomeList.add(
+                        Income(
+                            incomePerMonth = ((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(1) as Spinner).selectedItem as Data).value,
+                                    incomeSource =    (((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(2) as ViewGroup)).getChildAt(0) as ViewGroup).getChildAt(0) as TextInputEditText).text.toString()
+//                            incomePerMonth = sourceOfIncome?.findViewById<TextInputEditText?>(R.id.income_per_month_input)?.text?.toString(),
+//                            incomeSource = (source_of_income_input?.selectedItem as Data).value.toString()
+//                            incomeSource = (sourceOfIncome?.findViewById<Spinner?>(R.id.source_of_income_input)?.selectedItem as Data).value.toString()
+                        )
+                    )
+                }
+            }
+        }
+        val expenditureList: MutableList<Expenditure> = mutableListOf()
+        if (grocery_expenditure_label?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = grocery_expenditure_label?.text?.toString(),
+                    amountPerMonth = grocery_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
+                )
+            )
+        }
+        if (transport_expenditure_label?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = transport_expenditure_label?.text?.toString(),
+                    amountPerMonth = transport_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
+
+                )
+            )
+        }
+        education_expenditure_label?.isChecked = true
+        if (education_expenditure_label?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = education_expenditure_label?.text?.toString(),
+                    amountPerMonth = education_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
+
+                )
+            )
+        }
+        if (medicine_expenditure_label?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = medicine_expenditure_label?.text?.toString(),
+                    amountPerMonth = medicine_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
+
+                )
+            )
+        }
+        if (other_expenditure_label?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = other_expenditure_label?.text?.toString(),
+                    amountPerMonth = other_expenditure_input?.text?.toString(),
+                    expenditureType = "household"
+
+                )
+            )
+        }
+
+        if (chk_type1?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type1?.text?.toString(),
+                    amountPerMonth = type1_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type2?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type2?.text?.toString(),
+                    amountPerMonth = type2_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type3?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type3?.text?.toString(),
+                    amountPerMonth = type3_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type4?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type4?.text?.toString(),
+                    amountPerMonth = type4_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type5?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type5?.text?.toString(),
+                    amountPerMonth = type5_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+        if (chk_type6?.isChecked == true) {
+            expenditureList.add(
+                Expenditure(
+                    expenditureName = chk_type6?.text?.toString(),
+                    amountPerMonth = type6_expenditure_input?.text?.toString(),
+                    expenditureType = "business"
+
+                )
+            )
+        }
+
+        if (mLoanId == null || mLoanId == "") {
+            mLoanId = activity?.intent?.getStringExtra("loanId")
+            mCustomerId = activity?.intent?.getStringExtra("custId")
+            if (arguments?.getString("task").equals("RM_AssignList", ignoreCase = true) ||
+                arguments?.getString("task").equals("RMreJourney", ignoreCase = true)
+            ) {
+                mLoanId = arguments?.getString("loanId")
+                mCustomerId = arguments?.getString("custId")
+            }
+        }
+
+        val liablitiesList: MutableList<Liability> = mutableListOf()
+        val loanView =
+            LayoutInflater.from(activity!!)
+                .inflate(R.layout.layout_loan_details, null, false)
+//        if (loan_amount_input?.text?.isNotEmpty() == true && emi_input?.text?.isNotEmpty() == true) {
+            liablitiesList?.add(
+                Liability(
+                    emi = emi_input?.text?.toString(),
+                    loanType = spnr_loan_type?.selectedItem as? String,
+                    loanSanctionedBy = spnr_loan_sanctioned_by?.selectedItem as? String,
+                    loanAmount = loan_amount_input?.text?.toString(),
+                    frequencyOfInstallment = if (weekly_radio_button?.isChecked == true) {
+                        weekly_radio_button?.text?.toString()
+                    } else if (monthly_radio_button?.isChecked == true) {
+                        monthly_radio_button?.text?.toString()
+                    } else if (yearly_radio_button?.isChecked == true) {
+                        yearly_radio_button?.text?.toString()
+                    } else if (qtrly_radio_button?.isChecked == true) {
+                        qtrly_radio_button?.text?.toString()
+                    } else if (halfyearly_radio_button?.isChecked == true) {
+                        halfyearly_radio_button?.text?.toString()
+                    } else {
+                        ""
+                    },
+                    loanTenureFrom = et_from?.text?.toString(),
+                    loanTenureTo = et_to?.text?.toString(),
+                    outstandingAmount = outstanding_amount_input?.text?.toString(),
+                    loanDocumentUrl = loanDocUrl,
+                    considerCFA = cfa_cb.isChecked
+                )
+            )
+            if ((ll_loan_details?.childCount ?: 0) > 1) {
+                for (childCount in 0 until (ll_loan_details?.childCount ?: 0)) {
+                    val loanDetails = ll_loan_details?.getChildAt(childCount)
+                    liablitiesList.add(
+                        Liability(
+                            emi = loanDetails?.findViewById<TextInputEditText?>(R.id.emi_input)?.text?.toString(),
+                            loanType = loanDetails?.findViewById<AppCompatSpinner?>(R.id.emi_input)?.selectedItem as? String,
+                            loanSanctionedBy = loanDetails?.findViewById<AppCompatSpinner?>(R.id.spnr_loan_sanctioned_by)?.selectedItem as? String,
+                            loanAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.loan_amount_input)?.text?.toString(),
+                            frequencyOfInstallment = if (loanDetails?.findViewById<RadioButton?>(R.id.weekly_radio_button)?.isChecked == true) {
+                                loanDetails?.findViewById<RadioButton?>(R.id.weekly_radio_button)
+                                    ?.text?.toString()
+                            } else if (loanDetails?.findViewById<RadioButton?>(R.id.monthly_radio_button)?.isChecked == true) {
+                                loanDetails?.findViewById<RadioButton?>(R.id.monthly_radio_button)
+                                    ?.text?.toString()
+                            } else if (loanDetails?.findViewById<RadioButton?>(R.id.yearly_radio_button)?.isChecked == true) {
+                                loanDetails?.findViewById<RadioButton?>(R.id.yearly_radio_button)
+                                    ?.text?.toString()
+                            } else if (loanDetails?.findViewById<RadioButton?>(R.id.qtrly_radio_button)?.isChecked == true) {
+                                loanDetails?.findViewById<RadioButton?>(R.id.qtrly_radio_button)
+                                    ?.text?.toString()
+                            } else if (loanDetails?.findViewById<RadioButton?>(R.id.halfyearly_radio_button)?.isChecked == true) {
+                                loanDetails?.findViewById<RadioButton?>(R.id.halfyearly_radio_button)
+                                    ?.text?.toString()
+                            } else {
+                                ""
+                            },
+                            loanTenureFrom = loanDetails?.findViewById<TextInputEditText?>(R.id.et_from)?.text?.toString(),
+                            loanTenureTo = loanDetails?.findViewById<TextInputEditText?>(R.id.et_to)?.text?.toString(),
+                            outstandingAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.outstanding_amount_input)?.text?.toString(),
+                            loanDocumentUrl = loanDocUrl,
+                            considerCFA = loanDetails?.findViewById<CheckBox?>(R.id.cfa_cb)?.isChecked
+
+                        )
+                    )
+//                }
+            }
+        }
+
+        val postBody = IncomeDetailsPostData(
+            resubmit = "",
+            loanId = mLoanId,
+            customerId = mCustomerId,
+            anyOtherSourceofIncome = if (switch_other_sources?.isChecked == true) "Yes" else "No",
+            incomes = sourceOfIncomeList,
+            numberofFamilyMembers = family_members_count?.text?.toString(),
+            noofEarningFamilyMembers = no_of_earning_family_member_count?.text?.toString(),
+            monthlyFamilyIncome = monthly_income_input?.text?.toString(),
+            monthlyhouseholdexpenditures = total_amount_input?.text?.toString(),
+            monthlybusinessexpenditures = business_expenditure_amount_input?.text?.toString(),
+            expenditures = expenditureList,
+            liabilities = liablitiesList,
+            methodUsed = method_used_spinner?.selectedItem as? String,
+            reassign = "N"
+        )
+        return postBody
     }
 
     private fun saveGSTDetail(userName: String, password: String, gstNo: String): Boolean {
@@ -685,9 +1054,9 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
 
 
     private fun saveBusinessData() {
-        var reassign="N"
-        if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)){
-            reassign="Y"
+        var reassign = "N"
+        if (arguments?.getString("task").equals("RM_AssignList", ignoreCase = true)) {
+            reassign = "Y"
         }
 
         val progressBar = ProgrssLoader(context ?: return)
@@ -828,15 +1197,14 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             )
         }
 
-        if(mLoanId==null||mLoanId=="")
-        {
-            mLoanId=activity?.intent?.getStringExtra("loanId")
-            mCustomerId=activity?.intent?.getStringExtra("custId")
-            if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)||
-                arguments?.getString("task").equals("RMreJourney",ignoreCase = true))
-            {
-                mLoanId= arguments?.getString("loanId")
-                mCustomerId= arguments?.getString("custId")
+        if (mLoanId == null || mLoanId == "") {
+            mLoanId = activity?.intent?.getStringExtra("loanId")
+            mCustomerId = activity?.intent?.getStringExtra("custId")
+            if (arguments?.getString("task").equals("RM_AssignList", ignoreCase = true) ||
+                arguments?.getString("task").equals("RMreJourney", ignoreCase = true)
+            ) {
+                mLoanId = arguments?.getString("loanId")
+                mCustomerId = arguments?.getString("custId")
             }
         }
 
@@ -929,10 +1297,13 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 var response: Response<BaseResponseData>? = null
                 response =
                     if (arguments?.getString("from") == "rmIncome" && (arguments?.getString("task")
-                            .equals("RM_AssignList", ignoreCase = true)||arguments?.getString("task")
+                            .equals(
+                                "RM_AssignList",
+                                ignoreCase = true
+                            ) || arguments?.getString("task")
                             .equals("RMreJourney", ignoreCase = true))
                     ) {
-                        postBody.resubmit="yes"
+                        postBody.resubmit = "yes"
 //                        RetrofitFactory.getApiService().rmResubmitIncome(postBody)
                         RetrofitFactory.getApiService().saveIncomeDetail(postBody)
                     } else {
@@ -940,18 +1311,21 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     }
                 if (response?.isSuccessful == true && arguments?.getString("from") == "rmIncome") {
                     withContext(Dispatchers.Main) {
-                        if(arguments?.getString("task").equals("RMreJourney",ignoreCase = true))
-                        {
+                        if (arguments?.getString("task").equals("RMreJourney", ignoreCase = true)) {
                             withContext(Dispatchers.IO)
                             {
                                 progressBar.dismmissLoading()
 
-                                startActivity(Intent(activity, RMScreeningNavigationActivity::class.java).apply {
-                                    putExtra("loanId",mLoanId)
-                                })
+                                startActivity(
+                                    Intent(
+                                        activity,
+                                        RMScreeningNavigationActivity::class.java
+                                    ).apply {
+                                        putExtra("loanId", mLoanId)
+                                    })
                                 activity?.finish()
                             }
-                        }else {
+                        } else {
                             withContext(Dispatchers.IO)
                             {
                                 if (context is RMReAssignListingActivity) {
@@ -966,8 +1340,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     }
 
 
-                }
-                else if (response!!.isSuccessful) {
+                } else if (response!!.isSuccessful) {
                     val result = response.body()
                     if (result?.apiCode == "200") {
                         withContext(Dispatchers.Main) {
@@ -1051,11 +1424,11 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             val progressLoader = ProgrssLoader(context!!)
             progressLoader.showLoading()
             CoroutineScope(ioContext).launch {
-               /* val response =
-                    RetrofitFactory.getApiService().getIncomeData(arguments?.getString("loanId"))*/
-                var map=HashMap<String,String>()
-                map["loanId"]=arguments?.getString("loanId")!!
-                map["screen"]="INCOME"
+                /* val response =
+                     RetrofitFactory.getApiService().getIncomeData(arguments?.getString("loanId"))*/
+                var map = HashMap<String, String>()
+                map["loanId"] = arguments?.getString("loanId")!!
+                map["screen"] = "INCOME"
                 val response =
                     RetrofitFactory.getApiService().getScreenData(map)
                 withContext(uiContext) {
@@ -1091,8 +1464,8 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     if (respone != null) {
                         withContext(uiContext) {
                             sourceInceomeAdapter = getAdapter(respone.body()?.data)
-                            if(source_of_income_input!=null)
-                            source_of_income_input.adapter = sourceInceomeAdapter
+                            if (source_of_income_input != null)
+                                source_of_income_input.adapter = sourceInceomeAdapter
                         }
                         //                        spnr_nature_of_collateral?.adapter = getAdapter(response.body()?.data)
                     }
@@ -1401,6 +1774,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             }
         }
     }
+
     fun retrieveAllLoanTypeItems(theSpinner: Spinner): ArrayList<String>? {
         val adapter: Adapter = theSpinner.adapter
         val n = adapter.count
@@ -1412,6 +1786,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         }
         return users
     }
+
     fun updateData(
         incomeDetails: IncomeDetails?,
         customerId: String?,
@@ -1419,274 +1794,480 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         incomeComments: String?
     ) {
         launch(ioContext) {
+            this@IncomeInformationFragment.incomeDetails=incomeDetails
+
             fetchAndUpdateCollateralAsync().await()
 
-            withContext(Dispatchers.Main){
-            switch_other_sources?.isChecked = false
-            if (incomeDetails?.incomes?.size != 0) {
-                switch_other_sources?.isChecked = true
+            withContext(Dispatchers.Main) {
+                switch_other_sources?.isChecked = false
+                if (incomeDetails?.incomes?.size != 0) {
+                    switch_other_sources?.isChecked = true
 
-            }
-            family_members_count?.text = incomeDetails?.numberofFamilyMembers
-            no_of_earning_family_member_count?.text = incomeDetails?.noofEarningFamilyMembers
-            monthly_income_input?.setText(incomeDetails?.monthlyFamilyIncome)
-            total_amount_input?.setText(incomeDetails?.monthlyhouseholdexpenditures)
-            txt_income_list_msg?.setText(activity?.resources?.getString(R.string.list_all_sources_of_income_1) + " (" + incomeDetails?.incomes?.size + ")")
-            mLoanId = loanId
+                }
+                family_members_count?.text = incomeDetails?.numberofFamilyMembers
+                no_of_earning_family_member_count?.text = incomeDetails?.noofEarningFamilyMembers
+                monthly_income_input?.setText(incomeDetails?.monthlyFamilyIncome)
+                total_amount_input?.setText(incomeDetails?.monthlyhouseholdexpenditures)
+                txt_income_list_msg?.setText(activity?.resources?.getString(R.string.list_all_sources_of_income_1) + " (" + incomeDetails?.incomes?.size + ")")
+                mLoanId = loanId
 //        mCustomerId = incomeDetails?.customerId
-            if (activity is ReUsableFragmentSpace) {
-                (activity as ReUsableFragmentSpace).setCommentsToField(incomeComments.toString() + "")
-            }
-            mCustomerId = customerId
-            for (item in incomeDetails?.expenditures ?: listOf()) {
-                when {
-                    item.expenditureName?.equals(
-                        grocery_expenditure_label?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        grocery_expenditure_input?.setText(item.amountPerMonth)
-                    }
-                    item.expenditureName?.equals(
-                        transport_expenditure_label?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        transport_expenditure_input?.setText(item.amountPerMonth)
-                    }
-                    item.expenditureName?.equals(
-                        education_expenditure_label?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        education_expenditure_input?.setText(item.amountPerMonth)
-                    }
-                    item.expenditureName?.equals(
-                        medicine_expenditure_label?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        medicine_expenditure_input?.setText(item.amountPerMonth)
-                    }
-                    item.expenditureName?.equals(
-                        other_expenditure_label?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        other_expenditure_input?.setText(item.amountPerMonth)
-                    }
-
-                    item.expenditureName?.equals(
-                        chk_type1?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        type1_expenditure_input?.setText(item.amountPerMonth)
-                    }
-                    item.expenditureName?.equals(
-                        chk_type4?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        type4_expenditure_input?.setText(item.amountPerMonth)
-                    }
-                    item.expenditureName?.equals(
-                        chk_type3?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        type3_expenditure_input?.setText(item.amountPerMonth)
-                    }
-                    item.expenditureName?.equals(
-                        chk_type2?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        type2_expenditure_input?.setText(item.amountPerMonth)
-                    }
-                    item.expenditureName?.equals(
-                        chk_type5?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        type5_expenditure_input?.setText(item.amountPerMonth)
-                    }
-                    item.expenditureName?.equals(
-                        chk_type6?.text?.toString(),
-                        ignoreCase = true
-                    ) ?: false -> {
-                        type6_expenditure_input?.setText(item.amountPerMonth)
-                    }
+                if (activity is ReUsableFragmentSpace) {
+                    (activity as ReUsableFragmentSpace).setCommentsToField(incomeComments.toString() + "")
                 }
-            }
+                mCustomerId = customerId
+                for (item in incomeDetails?.expenditures ?: listOf()) {
 
-            ll_income_source.removeAllViews()
-            for (item in incomeDetails?.incomes ?: listOf()) {
-                val partnerView =
-                    LayoutInflater.from(activity!!)
-                        .inflate(R.layout.layout_income_source, null, false)
-                if ((ll_income_source?.size ?: 0) > 0) {
-                    partnerView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
-                        ll_income_source?.removeView(partnerView)
-                    }
-                } else {
-                    partnerView?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
-                }
-                var spinner = partnerView?.findViewById<Spinner?>(R.id.source_of_income_input)
 
-                spinner?.adapter = sourceInceomeAdapter
+                    when {
+                        item.expenditureName?.equals(
+                            grocery_expenditure_label?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            grocery_expenditure_label?.isChecked = true
+                            grocery_expenditure_input?.setText(item.amountPerMonth)
+                        }
+                        item.expenditureName?.equals(
+                            transport_expenditure_label?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            transport_expenditure_label?.isChecked = true
+                            transport_expenditure_input?.setText(item.amountPerMonth)
+                        }
+                        item.expenditureName?.equals(
+                            education_expenditure_label?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            education_expenditure_label?.isChecked = true
+                            education_expenditure_input?.setText(item.amountPerMonth)
+                        }
+                        item.expenditureName?.equals(
+                            medicine_expenditure_label?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            medicine_expenditure_label?.isChecked = true
+                            medicine_expenditure_input?.setText(item.amountPerMonth)
+                        }
+                        item.expenditureName?.equals(
+                            other_expenditure_label?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            other_expenditure_label.isChecked = true
+                            other_expenditure_input?.setText(item.amountPerMonth)
+                        }
 
-                val listAdap =
-                    (spinner?.adapter as? DataSpinnerAdapter)?.list
-                if (listAdap != null) {
-                    for (i in listAdap) {
+                        item.expenditureName?.equals(
+                            chk_type1?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            chk_type1?.isChecked = true
 
-                        if (i.value == item.incomeSource) {
-                            spinner?.setSelection(listAdap.indexOf(i))
+                            type1_expenditure_input?.setText(item.amountPerMonth)
+                        }
+                        item.expenditureName?.equals(
+                            chk_type4?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+
+                            chk_type4?.isChecked = true
+                            type4_expenditure_input?.setText(item.amountPerMonth)
+                        }
+                        item.expenditureName?.equals(
+                            chk_type3?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            chk_type3?.isChecked = true
+                            type3_expenditure_input?.setText(item.amountPerMonth)
+                        }
+                        item.expenditureName?.equals(
+                            chk_type2?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            chk_type2?.isChecked = true
+                            type2_expenditure_input?.setText(item.amountPerMonth)
+                        }
+                        item.expenditureName?.equals(
+                            chk_type5?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            chk_type5?.isChecked = true
+
+                            type5_expenditure_input?.setText(item.amountPerMonth)
+                        }
+                        item.expenditureName?.equals(
+                            chk_type6?.text?.toString(),
+                            ignoreCase = true
+                        ) ?: false -> {
+                            chk_type6?.isChecked = true
+
+                            type6_expenditure_input?.setText(item.amountPerMonth)
                         }
                     }
                 }
 
 
-                partnerView?.findViewById<TextView?>(R.id.income_per_month_input)?.let { tv ->
-                    tv.setCompoundDrawablesWithIntrinsicBounds(
-                        getRupeeSymbol(
-                            context,
-                            tv.textSize,
-                            tv.currentTextColor
-                        ), null, null, null
-                    )
-                    tv.text = item.incomePerMonth
-                    ll_income_source.addView(partnerView)
-                }
-            }
-            ll_loan_details.removeAllViews()
-            for (item in incomeDetails?.liabilities ?: listOf()) {
 
-                val loanView =
-                    LayoutInflater.from(activity!!)
-                        .inflate(R.layout.layout_loan_details, null, false)
-                if ((ll_loan_details?.size ?: 0) > 0) {
-                    loanView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
-                        ll_loan_details?.removeView(loanView)
-                    }
-                } else {
-                    loanView?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
-                }
+                ll_income_source.removeAllViews()
+                    for (item in incomeDetails?.incomes ?: listOf()) {
+                        var defaultDataAddedInStaticView=true
+                        if(!defaultDataAddedInStaticView){
+                            var spinner =
+                                source_of_income_input
+
+                            spinner?.adapter = sourceInceomeAdapter
+
+                            val listAdap =
+                                (spinner?.adapter as? DataSpinnerAdapter)?.list
+                            if (listAdap != null) {
+                                for (i in listAdap) {
+
+                                    if (i.value == item.incomeSource) {
+                                        spinner?.setSelection(listAdap.indexOf(i))
+                                    }
+                                }
+                            }
 
 
-                var list =
-                    retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_type))
-                var list2 =
-                    retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by))
-                for (i in 0 until list!!.size) {
-                    if (item.loanType == list[i]) {
-                        var spnr_loan_type = loanView.findViewById<Spinner>(R.id.spnr_loan_type)
-                        spnr_loan_type.setSelection(i)
-                    }
+                           income_per_month_input
+                                ?.let { tv ->
+                                    tv.setCompoundDrawablesWithIntrinsicBounds(
+                                        getRupeeSymbol(
+                                            context,
+                                            tv.textSize,
+                                            tv.currentTextColor
+                                        ), null, null, null
+                                    )
+                                    tv.setText( item.incomePerMonth)
+                                }
+                            defaultDataAddedInStaticView=true
 
-                }
-                for (i in 0 until list2!!.size) {
-                    if (item.loanSanctionedBy == list2[i]) {
-                        var spnr_santioned_by =
-                            loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by)
-                        spnr_santioned_by.setSelection(i)
-                    }
+                        } else {
 
-                }
-                loanView.findViewById<EditText>(R.id.loan_amount_input)?.setText(item.loanAmount)
-                loanView.findViewById<EditText?>(R.id.emi_input)?.setText(item.emi)
-                loanView.findViewById<EditText?>(R.id.outstanding_amount_input)
-                    ?.setText(item.outstandingAmount)
-                loanView?.findViewById<EditText?>(R.id.et_from)?.setText(item.loanTenureFrom)
-                loanView?.findViewById<EditText?>(R.id.et_to)?.setText(item.loanTenureTo)
-                /*loanView?.findViewById<EditText?>(R.id.loan_amount_input)?.let { tv ->
-                tv.setText(item.loanAmount)
-                getRupeeSymbol(context, tv.textSize, tv.currentTextColor).let { drawable ->
-                    tv.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
-                    loanView.findViewById<EditText?>(R.id.emi_input)?.let {
-                        it.setText(item.emi)
-                        it.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
-                    }
-                    loanView.findViewById<EditText?>(R.id.outstanding_amount_input)?.let {
-                        it.setText(item.outstandingAmount)
-                        it.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
-                    }
-                }
-            }
-*/
-                when {
-                    item.frequencyOfInstallment?.equals("weekly", ignoreCase = true) -> {
-                        loanView?.findViewById<RadioButton>(R.id.weekly_radio_button)?.isChecked =
-                            true
-                    }
-                    item.frequencyOfInstallment?.equals("monthly", ignoreCase = true) -> {
-                        loanView?.findViewById<RadioButton>(R.id.monthly_radio_button)?.isChecked =
-                            true
-                    }
-                    item.frequencyOfInstallment?.equals("yearly", ignoreCase = true) -> {
-                        loanView?.findViewById<RadioButton>(R.id.yearly_radio_button)?.isChecked =
-                            true
-                    }
-                    item.frequencyOfInstallment?.equals("Quarterly", ignoreCase = true) -> {
-                        loanView?.findViewById<RadioButton>(R.id.qtrly_radio_button)?.isChecked =
-                            true
-                    }
-                    item.frequencyOfInstallment?.equals("Half yearly", ignoreCase = true) -> {
-                        loanView?.findViewById<RadioButton>(R.id.halfyearly_radio_button)
-                            ?.isChecked =
-                            true
-                    }
-                }
+                            val partnerView =
+                                LayoutInflater.from(activity!!)
+                                    .inflate(R.layout.layout_income_source, null, false)
+                            if ((ll_income_source?.size ?: 0) > 0) {
+                                partnerView?.findViewById<View?>(R.id.remove_button)
+                                    ?.setOnClickListener {
+                                        ll_income_source?.removeView(partnerView)
+                                    }
+                            } else {
+                                partnerView?.findViewById<View?>(R.id.remove_button)?.visibility =
+                                    View.GONE
+                            }
+                            var spinner =
+                                partnerView?.findViewById<Spinner?>(R.id.source_of_income_input)
 
-                loanView?.findViewById<EditText?>(R.id.et_from)?.setOnClickListener {
-                    dateSelection(
-                        context!!,
-                        loanView.findViewById(R.id.et_from)
-                    )
-                }
-                /*loanView?.findViewById<EditText?>(R.id.et_from)?.let {
-              it.setText(item.loanTenureFrom)
-              it.setOnClickListener {
-                  dateSelection(
-                      context!!,
-                      loanView.findViewById(R.id.et_from)
-                  )
-              }*/
-                loanView?.findViewById<EditText?>(R.id.et_to)?.setOnClickListener {
+                            spinner?.adapter = sourceInceomeAdapter
+
+                            val listAdap =
+                                (spinner?.adapter as? DataSpinnerAdapter)?.list
+                            if (listAdap != null) {
+                                for (i in listAdap) {
+
+                                    if (i.value == item.incomeSource) {
+                                        spinner?.setSelection(listAdap.indexOf(i))
+                                    }
+                                }
+                            }
 
 
-                    val c = Calendar.getInstance()
-                    DatePickerDialog(
-                        context!!,
-                        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                            val date = dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                            partnerView?.findViewById<TextView?>(R.id.income_per_month_input)
+                                ?.let { tv ->
+                                    tv.setCompoundDrawablesWithIntrinsicBounds(
+                                        getRupeeSymbol(
+                                            context,
+                                            tv.textSize,
+                                            tv.currentTextColor
+                                        ), null, null, null
+                                    )
+                                    tv.text = item.incomePerMonth
+                                    ll_income_source.addView(partnerView)
+                                }
+                        }
+                    }
+//                ll_loan_details.removeAllViews()
+                for (item in incomeDetails?.liabilities ?: listOf()) {
 
-                            if (SimpleDateFormat("dd-MM-yyyy").parse(date)
-                                    .after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString()))
+                    if (incomeDetails?.liabilities?.size == 1) {
+
+                        var list =
+                            retrieveAllLoanTypeItems(spnr_loan_type)
+                        var list2 =
+                            retrieveAllLoanTypeItems(spnr_loan_sanctioned_by)
+                        for (i in 0 until list!!.size) {
+                            if (item.loanType == list[i]) {
+                                var spnr_loan_type =
+                                    spnr_loan_type
+                                spnr_loan_type.setSelection(i)
+                            }
+
+                        }
+                       /* for (i in 0 until list2!!.size) {
+                            if (item.loanSanctionedBy == list2[i]) {
+                                var spnr_santioned_by =
+                                    spnr_loan_sanctioned_by
+                                spnr_santioned_by.setSelection(i)
+                            }
+
+                        }*/
+                        loan_amount_input
+                            ?.setText(item.loanAmount)
+                        emi_input?.setText(item.emi)
+                        outstanding_amount_input
+                            ?.setText(item.outstandingAmount)
+                        et_from
+                            ?.setText(item.loanTenureFrom)
+                        et_to?.setText(item.loanTenureTo)
+                        /*loanView?.findViewById<EditText?>(R.id.loan_amount_input)?.let { tv ->
+                        tv.setText(item.loanAmount)
+                        getRupeeSymbol(context, tv.textSize, tv.currentTextColor).let { drawable ->
+                            tv.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+                            loanView.findViewById<EditText?>(R.id.emi_input)?.let {
+                                it.setText(item.emi)
+                                it.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+                            }
+                            loanView.findViewById<EditText?>(R.id.outstanding_amount_input)?.let {
+                                it.setText(item.outstandingAmount)
+                                it.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+                            }
+                        }
+                    }
+        */
+                        when {
+                            item.frequencyOfInstallment?.equals("weekly", ignoreCase = true) -> {
+                                weekly_radio_button
+                                    ?.isChecked =
+                                    true
+                            }
+                            item.frequencyOfInstallment?.equals("monthly", ignoreCase = true) -> {
+                                monthly_radio_button
+                                    ?.isChecked =
+                                    true
+                            }
+                            item.frequencyOfInstallment?.equals("yearly", ignoreCase = true) -> {
+                                yearly_radio_button
+                                    ?.isChecked =
+                                    true
+                            }
+                            item.frequencyOfInstallment?.equals("Quarterly", ignoreCase = true) -> {
+                                qtrly_radio_button
+                                    ?.isChecked =
+                                    true
+                            }
+                            item.frequencyOfInstallment?.equals(
+                                "Half yearly",
+                                ignoreCase = true
+                            ) -> {
+                                halfyearly_radio_button
+                                    ?.isChecked =
+                                    true
+                            }
+                        }
+
+                        et_from?.setOnClickListener {
+                            dateSelection(
+                                context!!,
+                                et_from
                             )
-                                loanView.findViewById<EditText>(R.id.et_to)?.setText(date)
-                            else
-                                Toast.makeText(
-                                    activity,
-                                    "Please select date greater than from date",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                        },
-                        c.get(Calendar.YEAR),
-                        c.get(Calendar.MONTH),
-                        c.get(Calendar.DAY_OF_MONTH)
-                    ).show()
-
-                }
-                loanView.findViewById<AppCompatSpinner?>(R.id.spnr_loan_type)
-                    ?.onItemSelectedListener =
-                    mOnLoanTypeItemSelectedListener
-                loanView?.findViewById<EditText?>(R.id.et_to)?.let {
-                    it.setOnClickListener {
+                        }
+                        /*loanView?.findViewById<EditText?>(R.id.et_from)?.let {
+                      it.setText(item.loanTenureFrom)
+                      it.setOnClickListener {
+                          dateSelection(
+                              context!!,
+                              loanView.findViewById(R.id.et_from)
+                          )
+                      }*/
+                        et_to?.setOnClickListener {
 
 
-                        dateSelection(
-                            context!!,
-                            loanView.findViewById(R.id.et_to)
-                        )
+                            val c = Calendar.getInstance()
+                            DatePickerDialog(
+                                context!!,
+                                DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                                    val date =
+                                        dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+
+                                    if (SimpleDateFormat("dd-MM-yyyy").parse(date)
+                                            .after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString()))
+                                    )
+                                        et_to?.setText(date)
+                                    else
+                                        Toast.makeText(
+                                            activity,
+                                            "Please select date greater than from date",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                },
+                                c.get(Calendar.YEAR),
+                                c.get(Calendar.MONTH),
+                                c.get(Calendar.DAY_OF_MONTH)
+                            ).show()
+
+                        }
+                        spnr_loan_type
+                            ?.onItemSelectedListener =
+                            mOnLoanTypeItemSelectedListener
+                        et_to?.let {
+                            it.setOnClickListener {
+
+
+                                dateSelection(
+                                    context!!,
+                                    et_to
+                                )
+                            }
+                        }
+                    }
+                  else  if (incomeDetails?.liabilities?.size!! > 1) {
+
+
+                        var loanView =
+                            LayoutInflater.from(activity!!)
+                                .inflate(R.layout.layout_loan_details, null, false)
+                        if ((ll_loan_details?.size ?: 0) > 0) {
+                            loanView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
+                                ll_loan_details?.removeView(loanView)
+                            }
+                        } else {
+                            loanView?.findViewById<View?>(R.id.remove_button)?.visibility =
+                                View.GONE
+                        }
+
+                        var list =
+                            retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_type))
+                        var list2 =
+                            retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by))
+                        for (i in 0 until list!!.size) {
+                            if (item.loanType == list[i]) {
+                                var spnr_loan_type =
+                                    loanView.findViewById<Spinner>(R.id.spnr_loan_type)
+                                spnr_loan_type.setSelection(i)
+                            }
+
+                        }
+                        for (i in 0 until list2!!.size) {
+                            if (item.loanSanctionedBy == list2[i]) {
+                                var spnr_santioned_by =
+                                    loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by)
+                                spnr_santioned_by.setSelection(i)
+                            }
+
+                        }
+                        loanView.findViewById<EditText>(R.id.loan_amount_input)
+                            ?.setText(item.loanAmount)
+                        loanView.findViewById<EditText?>(R.id.emi_input)?.setText(item.emi)
+                        loanView.findViewById<EditText?>(R.id.outstanding_amount_input)
+                            ?.setText(item.outstandingAmount)
+                        loanView?.findViewById<EditText?>(R.id.et_from)
+                            ?.setText(item.loanTenureFrom)
+                        loanView?.findViewById<EditText?>(R.id.et_to)?.setText(item.loanTenureTo)
+                        /*loanView?.findViewById<EditText?>(R.id.loan_amount_input)?.let { tv ->
+                    tv.setText(item.loanAmount)
+                    getRupeeSymbol(context, tv.textSize, tv.currentTextColor).let { drawable ->
+                        tv.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+                        loanView.findViewById<EditText?>(R.id.emi_input)?.let {
+                            it.setText(item.emi)
+                            it.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+                        }
+                        loanView.findViewById<EditText?>(R.id.outstanding_amount_input)?.let {
+                            it.setText(item.outstandingAmount)
+                            it.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+                        }
                     }
                 }
-                ll_loan_details.addView(loanView)
-            }
+    */
+                        when {
+                            item.frequencyOfInstallment?.equals("weekly", ignoreCase = true) -> {
+                                loanView?.findViewById<RadioButton>(R.id.weekly_radio_button)
+                                    ?.isChecked =
+                                    true
+                            }
+                            item.frequencyOfInstallment?.equals("monthly", ignoreCase = true) -> {
+                                loanView?.findViewById<RadioButton>(R.id.monthly_radio_button)
+                                    ?.isChecked =
+                                    true
+                            }
+                            item.frequencyOfInstallment?.equals("yearly", ignoreCase = true) -> {
+                                loanView?.findViewById<RadioButton>(R.id.yearly_radio_button)
+                                    ?.isChecked =
+                                    true
+                            }
+                            item.frequencyOfInstallment?.equals("Quarterly", ignoreCase = true) -> {
+                                loanView?.findViewById<RadioButton>(R.id.qtrly_radio_button)
+                                    ?.isChecked =
+                                    true
+                            }
+                            item.frequencyOfInstallment?.equals(
+                                "Half yearly",
+                                ignoreCase = true
+                            ) -> {
+                                loanView?.findViewById<RadioButton>(R.id.halfyearly_radio_button)
+                                    ?.isChecked =
+                                    true
+                            }
+                        }
 
+                        loanView?.findViewById<EditText?>(R.id.et_from)?.setOnClickListener {
+                            dateSelection(
+                                context!!,
+                                loanView.findViewById(R.id.et_from)
+                            )
+                        }
+                        /*loanView?.findViewById<EditText?>(R.id.et_from)?.let {
+                  it.setText(item.loanTenureFrom)
+                  it.setOnClickListener {
+                      dateSelection(
+                          context!!,
+                          loanView.findViewById(R.id.et_from)
+                      )
+                  }*/
+                        loanView?.findViewById<EditText?>(R.id.et_to)?.setOnClickListener {
+
+
+                            val c = Calendar.getInstance()
+                            DatePickerDialog(
+                                context!!,
+                                DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                                    val date =
+                                        dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+
+                                    if (SimpleDateFormat("dd-MM-yyyy").parse(date)
+                                            .after(SimpleDateFormat("dd-MM-yyyy").parse(et_from.text.toString()))
+                                    )
+                                        loanView.findViewById<EditText>(R.id.et_to)?.setText(date)
+                                    else
+                                        Toast.makeText(
+                                            activity,
+                                            "Please select date greater than from date",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                },
+                                c.get(Calendar.YEAR),
+                                c.get(Calendar.MONTH),
+                                c.get(Calendar.DAY_OF_MONTH)
+                            ).show()
+
+                        }
+                        loanView.findViewById<AppCompatSpinner?>(R.id.spnr_loan_type)
+                            ?.onItemSelectedListener =
+                            mOnLoanTypeItemSelectedListener
+                        loanView?.findViewById<EditText?>(R.id.et_to)?.let {
+                            it.setOnClickListener {
+
+
+                                dateSelection(
+                                    context!!,
+                                    loanView.findViewById(R.id.et_to)
+                                )
+                            }
+                        }
+                        ll_loan_details.addView(loanView)
+                    }
+
+                }
+            }
         }
-    }
     }
 }
 

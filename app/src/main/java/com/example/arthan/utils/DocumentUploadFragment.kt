@@ -32,6 +32,7 @@ class DocumentUploadFragment : BaseFragment() {
         submitDocs.setOnClickListener {
             val progressBar=ProgrssLoader(activity!!)
             progressBar.showLoading()
+            submitDocs.isEnabled=false
             CoroutineScope(Dispatchers.Main).launch {
                 val res=RetrofitFactory.getApiService().submitMultipleDocs(ArthanApp.getAppInstance().submitDocs!!)
                 if(res?.body()!=null)
@@ -75,6 +76,7 @@ class DocumentUploadFragment : BaseFragment() {
                         withContext(Dispatchers.Main) {
                             progressBar.dismmissLoading()
 
+                            submitDocs.isEnabled=true
 
                             Toast.makeText(
                                 activity,

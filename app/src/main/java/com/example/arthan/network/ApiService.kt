@@ -273,10 +273,20 @@ interface ApiService {
     suspend fun updateProfessionalDetails(@Body body: Map<String, String?>): Response<BaseResponseData>
 
     @POST("updateOtherDetails")
+    suspend fun updateOtherDetails(@Body body: TradeReferencePostData): Response<BaseResponseData>
+/*
+
+    @POST("updateOtherDetails")
     suspend fun updateOtherDetails(@Body body: Map<String, String>): Response<BaseResponseData>
+*/
+
+    @POST("updateCollateralDetails")
+    suspend fun updateCollateralDetails(@Body body: CollateralDetailsPostData): Response<BaseResponseData>
+/*
 
     @POST("updateCollateralDetails")
     suspend fun updateCollateralDetails(@Body body: Map<String, String>): Response<BaseResponseData>
+*/
 
     @POST("bmSubmit")
     suspend fun bmSubmit(@Body body: FinalReportPostData): Response<BaseResponseData>
@@ -382,10 +392,19 @@ interface ApiService {
     suspend fun sendToken(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
     @POST("updateBusinessDetails")
+    suspend fun updateBusinessDetails(@Body body: BusinessDetailsPostData?): Response<BaseResponseData>?
+/*
+
+    @POST("updateBusinessDetails")
     suspend fun updateBusinessDetails(@Body map: HashMap<String, String>): Response<BaseResponseData>?
+*/
 
     @POST("updateIncomeDetails")
+    suspend fun updateIncomeDetails(@Body body: IncomeDetailsPostData?): Response<BaseResponseData>?
+/*
+ @POST("updateIncomeDetails")
     suspend fun updateIncomeDetails(@Body map: HashMap<String, String>): Response<BaseResponseData>?
+*/
 
     @POST("bcmRLTSubmit")
     suspend fun bcmRLTSubmit(@Body map: HashMap<String, String>): Response<BaseResponseData>?

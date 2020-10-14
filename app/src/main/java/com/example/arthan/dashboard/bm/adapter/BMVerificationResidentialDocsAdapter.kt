@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.arthan.R
+import com.example.arthan.dashboard.bm.DocumentPreviewActivty
 import com.example.arthan.dashboard.bm.DocumentVerificationFragmentNew
 import com.example.arthan.dashboard.bm.ListingActivityBanking
 import com.example.arthan.dashboard.bm.ShowPDFActivity
@@ -75,7 +77,10 @@ class BMVerificationResidentialDocsAdapter(
     }
     fun showPreview(urlString:String?)
     {
-        if(ArthanApp.getAppInstance().loginRole=="BM"&&(urlString!=null||urlString!="")) {
+        if((ArthanApp.getAppInstance().loginRole=="BM"||ArthanApp.getAppInstance().loginRole=="BCM")&&(urlString!=null&&urlString!="")) {
+            context.startActivity(Intent(context, DocumentPreviewActivty::class.java).apply {
+                putExtra("url",urlString)
+            })
             var alert = AlertDialog.Builder(context)
             val view = (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.shop_img_preview_dialog, null)
             alert.setView(view)
@@ -85,10 +90,13 @@ class BMVerificationResidentialDocsAdapter(
             edit?.visibility = View.GONE
             Glide.with(context!!).load(urlString).into(preview!!)
             val dialog = alert.create()
-            dialog.show()
+            //dialog.show()
             close?.setOnClickListener { dialog.dismiss() }
 
 
+        }else
+        {
+            Toast.makeText(context,"no image url", Toast.LENGTH_LONG).show()
         }
     }
 }

@@ -38,6 +38,7 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
     private var mLoanId: String? = null
     private var mCustomerId: String? = null
     var collaterals: ArrayList<CollateralData> = ArrayList()
+    var collateralDetails: CollateralDetailsPostData?=null
     override fun contentView(): Int {
         return R.layout.collateral_section_indepdnt
     }
@@ -154,9 +155,13 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
                     map["remarks"] = et_remarks?.text.toString()
                     map["userId"] = ArthanApp.getAppInstance().loginUser + ""
 
+                    var postData=getPostData()
+                    postData?.remarks=et_remarks?.text.toString()
+
+                    postData?.remarks=et_remarks?.text.toString()
                     CoroutineScope(Dispatchers.IO).launch {
                         val respo = RetrofitFactory.getApiService().updateCollateralDetails(
-                            map
+                            postData!!
                         )
 
 
@@ -302,6 +307,91 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
             }
         }
 
+    }
+    private fun getPostData():CollateralDetailsPostData?
+    {
+        try {
+            collaterals = ArrayList()
+
+            var addressType = ""
+            if (rb_ResidentType.isChecked) {
+                addressType = rb_ResidentType.text.toString()
+            } else if (rb_Business.isChecked) {
+                addressType = rb_Business.text.toString()
+            } else {
+                addressType = "Others"
+            }
+            collaterals.add(
+                CollateralData(
+                    securityType = (sp_security.selectedItem as Data).description.toString(),
+                    liquidDetails = LiquidDetails(
+                        ownerName = et_coOwnerName.text.toString(),
+                        policyNo = et_COpolicyNo.text.toString(),
+                        surrenderValue = et_cosurrenderValue.text.toString()
+                    ),
+                    otherDetails = MovableDetails(
+                        ownerName = et_coOthersOwnerName.text.toString(),
+                        policyNo = et_COOtherspolicyNo.text.toString(),
+                        marketValue = et_marketValueCo.text.toString(),
+                        derivedValue = et_derivedValueCO.text.toString()
+                    ),
+                    immovableDetails = ImmovableDetails(
+                        ownerName = et_COOwnerNameImm.text.toString(),
+                        address = et_address.text.toString(),
+                        addressType = addressType,
+                        collateralType = (sp_collateral_type_liq?.selectedItem as Data).value.toString(),
+                        jurisdiction = (sp_jurisdictionType.selectedItem as Data).value.toString(),
+                        marketValue = et_MarketValueImm.text.toString()
+                        ,
+                        rshipWithApplicant = (sp_relaionShipApplicant.selectedItem as Data).description.toString(),
+                        ownership = (sp_ownerShip.selectedItem as Data).description.toString()
+                    ),
+                    collateralId = collateralDetails?.collaterals?.get(0)!!.collateralId
+
+
+                )
+            )
+            val postBody = CollateralDetailsPostData(
+                resubmit = "",
+                loanId = activity?.intent?.getStringExtra("loanId"),
+                custId = activity?.intent?.getStringExtra("custId"),
+                collaterals = collaterals
+            )
+
+            if (arguments?.getString("task").equals("RM_AssignList")) {
+
+                postBody.resubmit = "yes"
+                postBody.reassign="Y"
+            }
+            return postBody
+
+            /*  securityType = sp_security.selectedItem.toString(),
+              securitySubType = sp_security_subType?.selectedItem?.toString(),
+              immovableSubType = sp_immovable_security.selectedItem?.toString(),
+              plotType = when(rb_boundary.isChecked){
+                  true->"Boundary"
+                  false->"No Boundary"
+              },namunaType = when(rb_online.isChecked){
+                  true->"Online"
+                  false->"Offline"
+              },
+              occupiedBy = sp_occupiedBy.selectedItem.toString(),
+              considerCFA =  cfa_cb.isChecked,
+              natureOfDoc = sp_NatureOfDo.selectedItem.toString(),
+              typeOfDoc = sp_typeOfDoc.selectedItem?.toString(),
+              docDesc = et_docDesc.text.toString(),
+              docStatus = when(rb_received.isChecked)
+              {
+                  true->"Received"
+                  false->"Not Received"
+              }*/
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Crashlytics.log(e.message)
+
+
+        }
+        return null
     }
 
     private fun saveCollateralDataAsync(): Deferred<Boolean> = async(ioContext) {
@@ -693,6 +783,7 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
         comment: String?
     ) {
 
+        this.collateralDetails=collateralDetails
         if (activity is ReUsableFragmentSpace) {
             (activity as ReUsableFragmentSpace).setCommentsToField(comment.toString()+"")
         }

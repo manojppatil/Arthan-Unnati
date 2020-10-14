@@ -60,6 +60,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.PanCard)
                     putExtra("show", mKYCPostData?.panUrl)
+                    putExtra("applicant_type", intent.getStringExtra("type") ?: "PA")
                 }, RequestCode.PanCard)
             }
             R.id.txt_aadhar_card -> {
@@ -67,6 +68,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     putExtra(DOC_TYPE, RequestCode.AadharCard)
                     putExtra("show", mKYCPostData?.aadharFrontUrl)
                     putExtra("show2", mKYCPostData?.aadharBackUrl)
+                    putExtra("applicant_type", intent.getStringExtra("type") ?: "PA")
+
 
                 }, RequestCode.AadharCard)
             }
@@ -74,6 +77,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.VoterCard)
                     putExtra("show", mKYCPostData?.voterUrl)
+                    putExtra("applicant_type", intent.getStringExtra("type") ?: "PA")
+
 
                 }, RequestCode.VoterCard)
             }
@@ -81,6 +86,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.ApplicantPhoto)
                     putExtra("show", mKYCPostData?.paApplicantPhoto)
+                    putExtra("applicant_type", intent.getStringExtra("type") ?: "PA")
 
                 }, RequestCode.ApplicantPhoto)
             }

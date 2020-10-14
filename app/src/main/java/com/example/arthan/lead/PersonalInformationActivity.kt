@@ -60,6 +60,9 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
     override fun init() {
 
+
+        loadInitialData()
+
         if (intent.hasExtra("PAN_DATA")) {
             mKYCPostData = intent.getParcelableExtra("PAN_DATA") as? KYCPostData
             et_name.setText(mKYCPostData?.panFirstname)
@@ -91,7 +94,6 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             applicantPhoto= intent.getStringExtra("APPLICANT_PHOTO")
         }
 
-        loadInitialData()
 
 //        ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_next.setOnClickListener {
@@ -815,16 +817,16 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             return@async true
         }
 
-    fun setValueToState(sp:Spinner,value: String?)
-    {
+    fun setValueToState(sp:Spinner,value: String?) {
 
-        val list=(sp.adapter as DataSpinnerAdapter).list
-        for(i in 0 until list.size){
-            if(list[i].value.toLowerCase()==value?.toLowerCase())
-            {
-            sp.setSelection(i)
+        if (sp.adapter != null) {
+            val list = (sp.adapter as DataSpinnerAdapter).list
+            for (i in 0 until list.size) {
+                if (list[i].value.toLowerCase() == value?.toLowerCase()) {
+                    sp.setSelection(i)
+                }
             }
-        }
 
+        }
     }
 }

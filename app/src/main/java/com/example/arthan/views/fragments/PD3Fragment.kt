@@ -32,7 +32,7 @@ class PD3Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if(ArthanApp.getAppInstance().loginRole == "BCM" || ArthanApp.getAppInstance().loginRole == "BM")
         {
-            bcmPd3CheckBoxes.visibility=View.VISIBLE
+            bcmPd3CheckBoxes.visibility=View.GONE
         }else
         {
             bcmPd3CheckBoxes.visibility=View.GONE

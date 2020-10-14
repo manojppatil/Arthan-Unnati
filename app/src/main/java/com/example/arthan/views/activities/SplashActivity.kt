@@ -74,10 +74,9 @@ class SplashActivity : AppCompatActivity() {
                 mapPin["userId"] = ArthanApp.getAppInstance().loginUser
                 mapPin["mpin"] = et_role.otp.toString()
                 val res = RetrofitFactory.getApiService().storeMpin(map)
-                if (res.body() != null) {
+                if (res.body() != null&&res.body()?.validUser.equals("y",ignoreCase = true)) {
                     var response = RetrofitFactory.getApiService().getUserRole(map)
                     if (response.body() != null) {
-
 
 
                         var prefs = getSharedPreferences("user", Context.MODE_PRIVATE)
@@ -275,6 +274,17 @@ class SplashActivity : AppCompatActivity() {
                         }
                     }
 
+                }else
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        progressBar.dismmissLoading()
+
+                        if(res.body()?.validUser.equals("N",ignoreCase = true))
+                        {
+                            Toast.makeText(this@SplashActivity,"Please enter valid MPIN ",Toast.LENGTH_LONG).show()
+                        }
+                    }
                 }
             }
 

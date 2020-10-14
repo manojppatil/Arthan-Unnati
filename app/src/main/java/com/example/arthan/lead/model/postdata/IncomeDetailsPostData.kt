@@ -16,5 +16,7 @@ data class IncomeDetailsPostData(
     var liabilities: List<Liability> = mutableListOf(),
     var netMarginaspercustomer: String? = "",
     var methodUsed: String? = "",
-    var reassign:String=""
+    var reassign:String="",
+    var remarks:String?="",
+    var userId:String?=""
 )

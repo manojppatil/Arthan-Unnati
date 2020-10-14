@@ -52,6 +52,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
     private var mCustomerId: String? = null
     var collaterals: ArrayList<CollateralData> = ArrayList()
     var tradeAdapterResponse: DetailsResponseData?=null
+    var   tradeRefDetails: List<TradeRefDetail>?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -364,9 +365,11 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     map["rltWFeeValue"] = "" + rltWFeeCheckBox.isChecked
                     map["userId"] = ArthanApp.getAppInstance().loginUser + ""
 
+                    var post=getPostBody()
+                    post.remarks=et_remarks?.text.toString()
                     CoroutineScope(Dispatchers.IO).launch {
                         val respo = RetrofitFactory.getApiService().updateOtherDetails(
-                            map
+                            post
                         )
 
 
@@ -735,6 +738,38 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         }
     }
 
+    private fun  getPostBody():TradeReferencePostData
+    {
+        val postBody = TradeReferencePostData(
+            resubmit = null,
+            userId = ArthanApp.getAppInstance().loginUser,
+            tradeRef = mutableListOf(
+                TradeRefDetail(
+                    loanId = mLoanId,
+                    firmName = trade_reference_1_firm_name_input?.text?.toString(),
+                    nameofPersonDealingWith = trade_reference_1_person_name_dealing_with_input?.text?.toString(),
+                    rshipWithApplicant = (trade_reference_1_relationship_with_applicant_spinner?.selectedItem as? Data)?.value,
+                    contactDetails = trade_reference_1_contact_details_input?.text?.toString(),
+                    noOfYrsWorkingWith = (trade_reference_1_years_working_with_count?.tag as? Int)?.toString(),
+                    productPurchaseSale = "",
+                    customerId = mCustomerId,
+                    tradeRefId = tradeRefDetails?.get(0)!!.tradeRefId
+                ),
+                TradeRefDetail(
+                    loanId = mLoanId,
+                    firmName = trade_reference_1_firm_name_input?.text?.toString(),
+                    nameofPersonDealingWith = trade_reference_2_person_name_dealing_with_input?.text?.toString(),
+                    rshipWithApplicant = (trade_reference_2_relationship_with_applicant_spinner?.selectedItem as? Data)?.value,
+                    contactDetails = trade_reference_2_contact_details_input?.text?.toString(),
+                    noOfYrsWorkingWith = (trade_reference_2_years_working_with_count?.tag as? Int)?.toString(),
+                    productPurchaseSale = trade_reference_2_product_purchase_sale_input?.text?.toString(),
+                    customerId = mCustomerId,
+                    tradeRefId = tradeRefDetails?.get(1)!!.tradeRefId
+                )
+            )
+        )
+        return postBody
+    }
     private fun saveTradeReferenceDataAsync(): Deferred<Boolean> = async(ioContext) {
         try {
             //trade_reference_1_product_purchase_sale_input?.text?.toString(),
@@ -1207,6 +1242,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         comment: String?
     ) {
 
+        this.tradeRefDetails=tradeRefDetails
         if (activity is ReUsableFragmentSpace) {
             (activity as ReUsableFragmentSpace).setCommentsToField(comment.toString()+"")
         }

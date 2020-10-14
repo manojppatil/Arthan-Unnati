@@ -113,7 +113,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                     .getCustomer360Details(intent.getStringExtra("loanId"))
                 if (apiResponse?.isSuccessful == true) {
                     mCustomer360Data = apiResponse.body()
-                    if(mCustomer360Data?.canNavigate.equals("NO",ignoreCase = true)){ //TODO check mail 04-06-20
+                    if(mCustomer360Data?.canNavigate.equals("N",ignoreCase = true)){ //TODO check mail 04-06-20
                         withContext(Dispatchers.Main) {
 
                             progressBar.dismmissLoading()

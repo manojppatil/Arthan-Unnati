@@ -1,15 +1,18 @@
 package com.example.arthan.dashboard.bm.adapter
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
-import com.example.arthan.dashboard.bm.BMReassignToActivity
-import com.example.arthan.dashboard.bm.MultipleButtonClickListener
 import com.example.arthan.model.BMCasesData
+
 
 class BMReassignToByAdapter(
     private val context: Context,
@@ -42,9 +45,35 @@ class BMReassignToByAdapter(
             itemView?.findViewById<TextView?>(R.id.loanAmnt)?.text = item.loanAmount
             itemView?.findViewById<TextView?>(R.id.assignedBy)?.text=item.assignedBy
             itemView?.findViewById<TextView?>(R.id.assignedOn)?.text=item.assignedOn
-            itemView?.findViewById<TextView?>(R.id.remarks)?.text=item.remarks
+//            itemView?.findViewById<TextView?>(R.id.remarks)?.text=item.remarks
 
+           /* itemView?.findViewById<TextView?>(R.id.remarks)?.isClickable = true
+            itemView?.findViewById<TextView?>(R.id.remarks)?.movementMethod = LinkMovementMethod.getInstance()
+            val text = "click to view"
+            itemView?.findViewById<TextView?>(R.id.remarks)?.text = text*/
             itemView?.findViewById<TextView?>(R.id.loginDate)?.text=item.loginDate
+
+            if(item.remarks!=null&&item.remarks!="") {
+                val udata = "Click to View"
+                val content = SpannableString(udata)
+                content.setSpan(UnderlineSpan(), 0, udata.length, 0)
+                itemView?.findViewById<TextView?>(R.id.remarks)?.text = (content)
+                itemView?.findViewById<TextView?>(R.id.remarks)?.setOnClickListener {
+                    val builder = AlertDialog.Builder(context)
+                    builder.setTitle("Remarks")
+                    builder.setMessage(item.remarks)
+                    builder.setPositiveButton(
+                        "Ok",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                        })
+                    builder.create().show()
+                }
+            }else
+            {
+                itemView?.findViewById<TextView?>(R.id.remarks)?.text = "No Comments found"
+
+            }
 
         }
     }
