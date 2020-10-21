@@ -104,6 +104,13 @@ class RMRequestWaiverActivity : BaseActivity() {
                                         "Payment link sent to customer successfully",
                                         Toast.LENGTH_LONG
                                     ).show()
+                                    finish()
+                                    startActivity(
+                                        Intent(
+                                            this@RMRequestWaiverActivity,
+                                            CommonApprovedListingActivity::class.java
+                                        )
+                                    )
                                 }
                             }
                         }

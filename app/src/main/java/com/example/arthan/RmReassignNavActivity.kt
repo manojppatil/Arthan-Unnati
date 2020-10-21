@@ -1,9 +1,11 @@
 package com.example.arthan
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.dashboard.rm.adapters.RMReAssignNavAdapter
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
@@ -44,6 +46,8 @@ class RmReassignNavActivity : AppCompatActivity() {
                 {
                     withContext(Dispatchers.Main) {
                         loader.dismmissLoading()
+                        finish()
+                        startActivity(Intent(this@RmReassignNavActivity, RMReAssignListingActivity::class.java).putExtra("tile","AMCASES"))
                         Toast.makeText(this@RmReassignNavActivity,"Submitted AM Case.",Toast.LENGTH_LONG).show()
                     }
                 }

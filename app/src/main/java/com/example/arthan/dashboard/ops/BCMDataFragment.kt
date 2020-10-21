@@ -123,8 +123,19 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
             if(result?.body()!=null)
             {
                 withContext(Dispatchers.Main) {
+                    progressBar.dismmissLoading()
                     if(result.body()?.eligibility.equals("y",ignoreCase = true))
                     {
+                        withContext(Dispatchers.Main) {
+                            startActivity(Intent(
+                                activity,
+                                PendingCustomersActivity::class.java
+                            ).apply {
+                                putExtra("FROM", "BCM")
+                            })
+                        }
+                        activity?.finish()
+                    }
                         /*context?.startActivity(Intent(context, Customer360Activity::class.java).apply {
                             putExtra("loanId", mLoanId)
                             putExtra("indSeg",activity?.intent?.getStringExtra("indSeg"))
@@ -136,8 +147,9 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
                             putExtra("loanType",activity?.intent?.getStringExtra("loanType"))
 
                         })*/
-                    }else {
+                    else {
                         withContext(Dispatchers.Main) {
+                            progressBar.dismmissLoading()
                             startActivity(Intent(
                                 activity,
                                 PendingCustomersActivity::class.java

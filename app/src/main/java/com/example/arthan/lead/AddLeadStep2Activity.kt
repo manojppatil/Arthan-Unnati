@@ -369,7 +369,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                             }else {
                                 progressBar?.dismmissLoading()
 
-                                if (result.canNavigate.equals("no")) {
+                                if (result.canNavigate.equals("N",ignoreCase = true)) {
 
                                     Toast.makeText(
                                         this@AddLeadStep2Activity,

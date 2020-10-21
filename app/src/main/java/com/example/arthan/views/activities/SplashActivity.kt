@@ -64,7 +64,7 @@ class SplashActivity : AppCompatActivity() {
             var map: HashMap<String, String> = HashMap()
             map["userId"] = ArthanApp.getAppInstance().loginUser
 //            map["userId"] =et_role.text.toString()
-            map["mPin"] = et_role.otp.toString()
+            map["mpin"] = et_role.otp.toString()
 //            ArthanApp.getAppInstance().loginUser=et_role.otp.toString()
             CoroutineScope(Dispatchers.IO).launch {
 

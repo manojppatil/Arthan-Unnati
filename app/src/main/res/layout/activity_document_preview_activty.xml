@@ -8,12 +8,14 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/edit"
+        android:visibility="gone"
         android:src="@drawable/ic_edit"
         android:layout_toLeftOf="@+id/closePreview"
         android:layout_margin="16dp"/>
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:visibility="gone"
         android:id="@+id/closePreview"
         android:src="@drawable/ic_close"
         android:layout_margin="16dp"

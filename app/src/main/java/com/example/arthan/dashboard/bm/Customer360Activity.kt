@@ -122,6 +122,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                                 apiResponse.body()?.message,
                                 Toast.LENGTH_LONG
                             ).show()
+                            finish()
                         }
                     }else{
                     withContext(Dispatchers.Main) {
