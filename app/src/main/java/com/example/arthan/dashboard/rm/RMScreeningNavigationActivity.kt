@@ -196,6 +196,27 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
 
 
             }
+            "OTP"->{
+                startActivity(Intent(this, OTPValidationActivity::class.java).apply {
+                    putExtra("screen","OTP")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId)
+                    putExtra("task","RMContinue")
+                })
+                (this as RMScreeningNavigationActivity).finish()
+
+            }
+
+            "APPFEE"->{
+                startActivity(Intent(this, ApplicationFeeActivity::class.java).apply {
+                    putExtra("screen","APPFEE")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId)
+                    putExtra("task","RMContinue")
+                })
+               finish()
+
+            }
         }
     }
 

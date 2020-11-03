@@ -133,6 +133,28 @@ class RMScreeningNavAdapter(private val context: Context,
                         (context as RMScreeningNavigationActivity).finish()
 
                     }
+                    "OTP"->{
+                        context.startActivity(Intent(context, OTPValidationActivity::class.java).apply {
+                            putExtra("screen","OTP")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
+                    }
+
+                    "APPFEE"->{
+                        context.startActivity(Intent(context, ApplicationFeeActivity::class.java).apply {
+                            putExtra("screen","APPFEE")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
+                    }
+
 
                 }
             }

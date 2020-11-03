@@ -562,6 +562,11 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
     }
 
     private fun saveLead() {
+        if(lat==0L)
+        {
+            fetchLocation(3)
+            return
+        }
         val progressBar = ProgrssLoader(this)
         progressBar.showLoading()
         val postBody = LeadPostData(
@@ -768,7 +773,10 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                 lat= location?.latitude!!.toLong()
                 lng= location.longitude.toLong()
                 Log.d("latlng",lng.toString())
-                navigateToCamera(from)
+                if(from!=3) {
+                    navigateToCamera(from)
+
+                }
                 AppLocationProvider().stopLocation()
 
                 // use location, this might get called in a different thread if a location is a last known location. In that case, you can post location on main thread

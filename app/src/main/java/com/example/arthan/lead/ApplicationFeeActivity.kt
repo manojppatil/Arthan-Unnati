@@ -3,6 +3,7 @@ package com.example.arthan.lead
 import android.content.Intent
 import android.widget.Toast
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.model.ELIGIBILITY_SCREEN
 import com.example.arthan.model.PaymentRequest
@@ -67,12 +68,32 @@ class ApplicationFeeActivity : BaseActivity() {
 
                             withContext(Dispatchers.Main) {
                                 progressBar.dismmissLoading()
-                                startActivity(Intent(this@ApplicationFeeActivity, PaymentSuccessActivity::class.java)
-                                    .apply {
-                                        putExtra("loanId",response.body()!!.loanId)
-                                        putExtra("custId",response.body()!!.customerId)
-                                        putExtra("leadId",response.body()!!.leadId)
-                                    })
+
+                                if (intent.getStringExtra("task") == "RMreJourney") {
+                                    withContext(Dispatchers.Main) {
+
+                                        startActivity(
+                                            Intent(
+                                                this@ApplicationFeeActivity,
+                                                RMScreeningNavigationActivity::class.java
+                                            ).apply {
+                                                putExtra("loanId", response.body()!!.loanId)
+                                            }
+                                        )
+                                        finish()
+                                    }
+
+                                } else {
+                                    startActivity(Intent(
+                                        this@ApplicationFeeActivity,
+                                        PaymentSuccessActivity::class.java
+                                    )
+                                        .apply {
+                                            putExtra("loanId", response.body()!!.loanId)
+                                            putExtra("custId", response.body()!!.customerId)
+                                            putExtra("leadId", response.body()!!.leadId)
+                                        })
+                                }
                             }
                         } else {
                             withContext(Dispatchers.Main) {
