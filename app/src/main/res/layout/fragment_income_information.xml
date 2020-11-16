@@ -1033,6 +1033,31 @@
             app:layout_constraintTop_toBottomOf="@+id/bills_text_view_button"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed" />
+        <TextView
+            android:id="@+id/stmt_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_white_rectangle"
+            android:drawableLeft="@drawable/ic_document_attach_pending"
+            android:drawablePadding="16dp"
+            android:fontFamily="@font/lato_bold"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="6.5sp"
+            android:padding="12dp"
+            android:text="Upload statement"
+            android:textColor="#696969"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/obligations_text_view"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -1044,7 +1069,7 @@
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/obligations_text_view">
+            app:layout_constraintTop_toBottomOf="@+id/stmt_text_view">
 
             <TextView
                 android:id="@+id/txt_banking"

@@ -37,7 +37,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.bm.DocumentPreviewActivty"></activity>
+        <activity android:name=".dashboard.bcm.AddTradeRefActivity"></activity>
+        <activity android:name=".dashboard.bm.DocumentPreviewActivty" />
         <activity android:name=".dashboard.bm.BMReassignToActivity" />
         <activity android:name=".dashboard.rm.DocumentSubCategoryActivity" />
         <activity android:name=".utils.UploadActivityNew" />

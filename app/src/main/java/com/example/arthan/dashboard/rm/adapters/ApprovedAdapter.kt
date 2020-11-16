@@ -271,10 +271,11 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                 if (query.isEmpty()) {
                     filtered.addAll(listoriginal!!.toList())
                 } else {
+                    if(data.isNotEmpty())
                     for (name in data) {
-                        if ((name as ApprovedCaseData).name.toLowerCase().startsWith(query.toLowerCase())) {
+                        if ((name as ApprovedCaseData).name!=null&&(name as ApprovedCaseData).name.toLowerCase().startsWith(query.toLowerCase())) {
                             filtered.add(name)
-                        }else if((name as ApprovedCaseData).customerId.startsWith(query)){
+                        }else if((name as ApprovedCaseData).customerId!=null&&(name as ApprovedCaseData).customerId.startsWith(query)){
                             filtered.add(name)
 
                         }

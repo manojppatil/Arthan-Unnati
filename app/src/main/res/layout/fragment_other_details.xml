@@ -804,13 +804,29 @@
         </androidx.constraintlayout.widget.ConstraintLayout>-->
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llTradeRefDetails"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_2_product_purchase_sale">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rvTradeRefList"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+               />
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/ll_collateral"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_2_product_purchase_sale">
+            app:layout_constraintTop_toBottomOf="@+id/llTradeRefDetails">
 
             <include layout="@layout/collateral_section" />
 
@@ -850,6 +866,17 @@
             </RadioGroup>
 
         </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/addNewTrade"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="32dp"
+            android:src="@drawable/plus"
+            app:backgroundTint="@color/colorAccent"
+            android:layout_marginRight="16dp"/>
 
         <Button
             android:id="@+id/btn_save_continue"

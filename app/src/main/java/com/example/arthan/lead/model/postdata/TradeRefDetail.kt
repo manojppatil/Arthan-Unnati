@@ -1,5 +1,9 @@
 package com.example.arthan.lead.model.postdata
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class TradeRefDetail(
     val contactDetails: String? = "",
     val firmName: String? = "",
@@ -11,4 +15,4 @@ data class TradeRefDetail(
     var customerId: String? = "",
 
     val tradeRefId: String? = ""
-)
+):Parcelable

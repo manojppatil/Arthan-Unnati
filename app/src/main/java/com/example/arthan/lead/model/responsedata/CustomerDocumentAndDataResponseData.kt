@@ -11,7 +11,7 @@ data class CustomerDocumentAndDataResponseData(
     val collateralDetails: CollateralDetailsPostData?,
     val incomeDetails: IncomeDetails?,
     val personalDetails: List<PersonalDetails>?,
-    val tradeRefDetails: List<TradeRefDetail>?,
+    val tradeRefDetails: ArrayList<TradeRefDetail>?,
     val neighborRefDetails: List<NeighborReference>?,
     val docDetails: DocDetails?,
     val timestamp: String?,

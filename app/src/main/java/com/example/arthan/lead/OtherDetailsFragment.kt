@@ -9,12 +9,16 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.*
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.AddTradeRefActivity
+import com.example.arthan.dashboard.bcm.TradeRefDetailsAdapter
 import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
@@ -52,7 +56,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
     private var mCustomerId: String? = null
     var collaterals: ArrayList<CollateralData> = ArrayList()
     var tradeAdapterResponse: DetailsResponseData?=null
-    var   tradeRefDetails: List<TradeRefDetail>?=null
+    var   tradeRefDetails: ArrayList<TradeRefDetail>?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,10 +78,20 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         ) {
             //bcmCheckBoxes.visibility = View.VISIBLE
             ll_collateral.visibility=View.GONE
+            addNewTrade.visibility=View.VISIBLE
+            addNewTrade.setOnClickListener {
+
+              startActivityForResult(Intent(context,AddTradeRefActivity::class.java).apply {
+                   putExtra("loanId",mLoanId)
+                   putExtra("custId",mCustomerId)
+               },100)
+            }
 
         } else {
             ll_collateral.visibility=View.VISIBLE
             bcmCheckBoxes.visibility = View.GONE
+            addNewTrade.visibility=View.GONE
+
             if (activity?.intent?.getStringExtra("loanType")
                     .equals("unsecure", ignoreCase = true)
             ) {
@@ -1235,7 +1249,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
     fun updateData(
         neighborReference: List<NeighborReference>?,
-        tradeRefDetails: List<TradeRefDetail>?,
+        tradeRefDetails: ArrayList<TradeRefDetail>?,
         collateralDetails: CollateralDetailsPostData?,
         loanId: String?,
         loanType: String?,
@@ -1258,6 +1272,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             neighbour_reference_2_mobile_input?.setText(neighborReference?.get(1)?.mobileNo)
             neighbour_reference_2_known_since_input?.setText(neighborReference?.get(1)?.knownSince)
         }
+
+
         CoroutineScope(Dispatchers.IO).launch {
 
 
@@ -1335,6 +1351,23 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     }
                     trade_reference_2_years_working_with_count?.text =
                         "${tradeRefDetails?.get(1)?.noOfYrsWorkingWith}"
+                }
+
+                if((tradeRefDetails?.size?:0) > 2&&(ArthanApp.getAppInstance().loginRole == "BCM" || ArthanApp.getAppInstance().loginRole == "BM"))
+                {
+                    llTradeRefDetails.visibility=View.VISIBLE
+                  val newTradeRef=ArrayList<TradeRefDetail>()
+                    for(i in 2 until tradeRefDetails!!.size )
+                    {
+
+                        newTradeRef.add(tradeRefDetails[i])
+                    }
+
+                    rvTradeRefList.adapter=TradeRefDetailsAdapter(context!!,newTradeRef,"",tradeAdapterResponse!!)
+
+                }else
+                {
+                    llTradeRefDetails.visibility=View.GONE
                 }
             }
         }
@@ -1490,4 +1523,24 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            100->{
+                data?.let {
+                    llTradeRefDetails.visibility=View.VISIBLE
+
+                    val newTrade: TradeReferencePostData? =
+                        it.extras?.getParcelable<TradeReferencePostData>("TradeRefDetail")
+                  val  tradeRefDetails=ArrayList<TradeRefDetail>()
+                  tradeRefDetails?.add(newTrade!!.tradeRef?.get(0)!!)
+                   /* val dummyTradeRef=this@OtherDetailsFragment.tradeRefDetails
+                    dummyTradeRef?.removeAt(0)
+                    dummyTradeRef?.removeAt(1)*/
+
+                    rvTradeRefList.adapter=TradeRefDetailsAdapter(context!!,tradeRefDetails,"",tradeAdapterResponse!!)
+                }
+            }
+        }
+    }
 }

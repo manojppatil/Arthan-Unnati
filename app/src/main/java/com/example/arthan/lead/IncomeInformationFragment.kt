@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -12,9 +14,7 @@ import android.os.Environment
 import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
@@ -22,7 +22,9 @@ import androidx.core.content.FileProvider
 import androidx.core.view.size
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.UploadStatmentsDialog
 import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
@@ -50,6 +52,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_income_information.*
 import kotlinx.android.synthetic.main.layout_income_source.*
 import kotlinx.android.synthetic.main.layout_loan_details.*
+import kotlinx.android.synthetic.main.list_of_statements.*
 import kotlinx.coroutines.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -65,8 +68,12 @@ import kotlin.coroutines.CoroutineContext
 class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener,
     CoroutineScope {
 
+    private  var alert: Dialog?=null
+    private var rv:RecyclerView?=null
+
     private var loanDocUrl: String = ""
     private  var incomeDetails:IncomeDetails?=null
+    private var listOfStatements:ArrayList<String> = ArrayList()
     private val mOnLoanTypeItemSelectedListener: AdapterView.OnItemSelectedListener =
         object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -139,6 +146,30 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         itr_container?.visibility = View.GONE
         bill_container?.visibility = View.GONE
 
+        if(ArthanApp.getAppInstance().loginRole=="BM")
+        {
+            stmt_text_view.visibility=View.VISIBLE
+            stmt_text_view.setOnClickListener {
+                val request = permissionsBuilder(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).build()
+                request.listeners {
+                    onAccepted {
+                        val pdfPickerIntent = Intent(Intent.ACTION_GET_CONTENT)
+                        pdfPickerIntent.type = "application/pdf"
+                        startActivityForResult(
+                            Intent.createChooser(pdfPickerIntent, "Choose File"),
+                            101
+                        )
+                    }
+                    onDenied {
+                    }
+                    onPermanentlyDenied {
+                    }
+                }
+                request.send()
+            }
+        }
         if (navController != null) {
             banking_text_view?.visibility = View.GONE
             gst_text_view_button?.visibility = View.GONE
@@ -1477,6 +1508,11 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
         }
 
     private fun uploadStatement(fileLocation: String) {
+        if(mLoanId==null&&mCustomerId==null)
+        {
+            mLoanId=activity?.intent?.getStringExtra("loanId")
+            mCustomerId=activity?.intent?.getStringExtra("custId")
+        }
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val file = File(fileLocation)
@@ -1488,13 +1524,51 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                     RetrofitFactory.getMasterApiService()
                         .uploadStatement(
                             multiPartBody,
-                            AppPreferences.getInstance().getString(AppPreferences.Key.LoanId),
-                            AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+                            mLoanId,
+                            mCustomerId
                         )
                 withContext(Dispatchers.Main) {
                     try {
+                        listOfStatements.add(file.name)
+//                        val alert=AlertDialog.Builder(context,android.R.style.Theme_Translucent_NoTitleBar);
+                        if (alert == null )
+                        {
+                            alert = Dialog(context!!, R.style.DialogTheme);
+                            val view =
+                                activity?.layoutInflater?.inflate(R.layout.list_of_statements, null)
+                            alert!!.setContentView(view!!)
+                             rv = view.findViewById<RecyclerView>(R.id.rvStatements)
+                            val upload = view.findViewById<Button>(R.id.submit)
+                            val cancel = view.findViewById<Button>(R.id.cancel)
+//                        val dialog= alert.create()
+                            /*alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                        alert.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.MATCH_PARENT);*/
+                            cancel?.setOnClickListener {
+                                alert!!.cancel()
+                            }
+                            upload?.setOnClickListener {
+                                btn_statement_upload.performClick()
+//                            alert.cancel()
+                            }
+                            rv?.adapter = UploadStatmentsDialog(context!!, listOfStatements)
+
+
+                            /*  alert.setMessae("Statement uploaded successfully. Do you want to upload another ?")
+                        alert.setPositiveButton("Upload", DialogInterface.OnClickListener { dialog, which ->
+                            btn_statement_upload.performClick()
+                            dialog.cancel()
+                        })
+                        alert.setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+                            dialog.cancel()
+                        })*/
+                            alert!!.show()
+                        }else{
+                            rv?.adapter=UploadStatmentsDialog(context!!,listOfStatements)
+                        }
                         Toast.makeText(
-                            activity, "Report generated successfully...",
+                            activity, "Statement Uploaded Successfully",
                             Toast.LENGTH_SHORT
                         ).show()
                         mDocId = response?.docId ?: "DOC00053300"
