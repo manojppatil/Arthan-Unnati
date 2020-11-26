@@ -397,6 +397,9 @@ interface ApiService {
     @POST("sendToken")
     suspend fun sendToken(@Body map: HashMap<String, String>): Response<BaseResponseData>?
 
+    @POST("rmLeadListByTime")
+    suspend fun rmLeadListByTime(@Body map: HashMap<String, String>): Response<RMLeadListResponse>?
+
     @POST("updateBusinessDetails")
     suspend fun updateBusinessDetails(@Body body: BusinessDetailsPostData?): Response<BaseResponseData>?
 /*

@@ -443,7 +443,30 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
             partnerView?.findViewById<Spinner>(R.id.source_of_income_input)?.adapter =
                 sourceInceomeAdapter
 
-            partnerView?.findViewById<TextView?>(R.id.income_per_month_input)?.let { tv ->
+            partnerView?.findViewById<TextInputEditText?>(R.id.income_per_month_input)?.addTextChangedListener(object :TextWatcher{
+                override fun afterTextChanged(s: Editable?) {
+                    getTotalIncome()
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                }
+
+            })
+
+            partnerView?.findViewById<TextInputEditText?>(R.id.income_per_month_input)?.let { tv ->
                 tv.setCompoundDrawablesWithIntrinsicBounds(
                     getRupeeSymbol(
                         context,
@@ -2081,6 +2104,28 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                                     }
                                 }
                             }
+                            partnerView?.findViewById<TextInputEditText?>(R.id.income_per_month_input)?.addTextChangedListener(object :TextWatcher{
+                                override fun afterTextChanged(s: Editable?) {
+                                    getTotalIncome()
+                                }
+
+                                override fun beforeTextChanged(
+                                    s: CharSequence?,
+                                    start: Int,
+                                    count: Int,
+                                    after: Int
+                                ) {
+                                }
+
+                                override fun onTextChanged(
+                                    s: CharSequence?,
+                                    start: Int,
+                                    before: Int,
+                                    count: Int
+                                ) {
+                                }
+
+                            })
 
 
                             partnerView?.findViewById<TextView?>(R.id.income_per_month_input)
@@ -2097,6 +2142,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                                 }
                         }
                     }
+                getTotalIncome()
 //                ll_loan_details.removeAllViews()
                 for (item in incomeDetails?.liabilities ?: listOf()) {
 

@@ -121,7 +121,34 @@ class RMDashboardViewModel: ViewModel() {
 
         return response
     }
+    fun reloadLeadList(type:String): LiveData<List<LeadData>>{
 
+        val response= MutableLiveData<List<LeadData>>()
+
+        try{
+            val map=HashMap<String,String>()
+            map["timeRange"]=type
+            map["rmId"]=ArthanApp.getAppInstance().loginUser
+            map["section"]= LEAD_SECTION
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val respo= RetrofitFactory.getRMServiceService().rmLeadListByTime(map)
+                if(respo?.isSuccessful!! && respo.body() != null){
+                    withContext(Dispatchers.Main){
+                        response.value= respo.body()?.leadList
+                    }
+                } else {
+                    withContext(Dispatchers.Main){
+                        response.value= null
+                    }
+                }
+            }
+        } catch (e: Exception){
+            response.value = null
+        }
+
+        return response
+    }
     fun loadReassignLeadList(): LiveData<ReAssignLeadListResponse>{
 
         val response= MutableLiveData<ReAssignLeadListResponse>()
