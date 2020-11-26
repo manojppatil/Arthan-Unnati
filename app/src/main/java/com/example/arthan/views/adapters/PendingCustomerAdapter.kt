@@ -258,7 +258,17 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                 }else
             {
                 mAmount?.visibility=View.VISIBLE
-                itemView.findViewById<TextView?>(R.id.txt_AMApproved)?.visibility = View.GONE
+                if(customer.recordType=="TU")
+                {
+                    itemView.findViewById<TextView?>(R.id.txt_AMApproved)?.text="TU"
+
+                    itemView.findViewById<TextView?>(R.id.txt_AMApproved)?.visibility = View.VISIBLE
+
+                }else
+                {
+                    itemView.findViewById<TextView?>(R.id.txt_AMApproved)?.visibility = View.GONE
+
+                }
                 itemView.findViewById<View?>(R.id.cl_customer360)?.visibility =
                     View.VISIBLE
             }

@@ -414,7 +414,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 }
                             }
 
-                            if (continueResult) {
+                            if (continueResult&&(mCardData?.cardFrontUrl!=null)) {
                                 finishActivity(progressLoader)
                                 progressLoader.dismmissLoading()
                             } else {
@@ -1010,6 +1010,15 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             ) {
                                 uploadToS3(filePath, cardType)
                             } else {
+                                if (cardType == CardType.PANCard) {
+
+                                    Toast.makeText(
+                                        this@UploadDocumentActivity,
+                                        "Capture Valid PAN Card",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                }else
                                 Toast.makeText(
                                     this@UploadDocumentActivity,
                                     "Please capture valid KYC",

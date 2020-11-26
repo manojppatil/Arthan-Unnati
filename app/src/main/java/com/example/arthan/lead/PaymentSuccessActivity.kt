@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
+import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.model.ELIGIBILITY_SCREEN
 import com.example.arthan.model.PAYMENT_SCREEN
@@ -60,28 +61,59 @@ class PaymentSuccessActivity: BaseActivity() {
 
                             withContext(Dispatchers.Main) {
                                 progressBar.dismmissLoading()
-                                if (response.body()?.eligibility.equals("N", ignoreCase = true)) {
-                                    Toast.makeText(this@PaymentSuccessActivity,"We are sorry, your Credit score is low",Toast.LENGTH_LONG).show()
-                                    startActivity(
-                                        Intent(
-                                            this@PaymentSuccessActivity,
-                                            RMDashboardActivity::class.java
-                                        )
-                                    )
-                                    finish()
-                                } else {
-                                    startActivity(
-                                        Intent(
-                                            this@PaymentSuccessActivity,
-                                            LeadInfoCaptureActivity::class.java
-                                        ).apply {
 
-                                            putExtra("loanId",response.body()!!.loanId)
-                                            putExtra("custId",response.body()!!.customerId)
-                                            putExtra("annualturnover",response.body()!!.annualTurnover)
-                                            putExtra("businessName",response.body()!!.businessName)
-                                        }
-                                    )
+                                if (intent.getStringExtra("task") == "RMreJourney") {
+                                    withContext(Dispatchers.Main) {
+
+                                        startActivity(
+                                            Intent(
+                                                this@PaymentSuccessActivity,
+                                                RMScreeningNavigationActivity::class.java
+                                            ).apply {
+                                                putExtra("loanId", loanId)
+                                            }
+                                        )
+                                        finish()
+                                    }
+
+                                } else {
+                                    if (response.body()?.eligibility.equals(
+                                            "N",
+                                            ignoreCase = true
+                                        )
+                                    ) {
+                                        Toast.makeText(
+                                            this@PaymentSuccessActivity,
+                                            "We are sorry, your Credit score is low",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                        startActivity(
+                                            Intent(
+                                                this@PaymentSuccessActivity,
+                                                RMDashboardActivity::class.java
+                                            )
+                                        )
+                                        finish()
+                                    } else {
+                                        startActivity(
+                                            Intent(
+                                                this@PaymentSuccessActivity,
+                                                LeadInfoCaptureActivity::class.java
+                                            ).apply {
+
+                                                putExtra("loanId", response.body()!!.loanId)
+                                                putExtra("custId", response.body()!!.customerId)
+                                                putExtra(
+                                                    "annualturnover",
+                                                    response.body()!!.annualTurnover
+                                                )
+                                                putExtra(
+                                                    "businessName",
+                                                    response.body()!!.businessName
+                                                )
+                                            }
+                                        )
+                                    }
                                 }
                             }
                         } else {

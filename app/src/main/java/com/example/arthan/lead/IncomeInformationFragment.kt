@@ -13,6 +13,8 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -65,7 +67,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 
-class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChangeListener,
+class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnCheckedChangeListener,
     CoroutineScope {
 
     private  var alert: Dialog?=null
@@ -215,6 +217,17 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             ).show()
 
         }
+        grocery_expenditure_input.addTextChangedListener(this)
+        transport_expenditure_input.addTextChangedListener(this)
+        education_expenditure_input.addTextChangedListener(this)
+        medicine_expenditure_input.addTextChangedListener(this)
+        other_expenditure_input.addTextChangedListener(this)
+        type1_expenditure_input.addTextChangedListener(this)
+        type2_expenditure_input.addTextChangedListener(this)
+        type3_expenditure_input.addTextChangedListener(this)
+        type4_expenditure_input.addTextChangedListener(this)
+        type5_expenditure_input.addTextChangedListener(this)
+        type6_expenditure_input.addTextChangedListener(this)
         getRupeeSymbol(
             context,
             grocery_expenditure_input?.textSize ?: 14f,
@@ -407,6 +420,19 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             dateSelection(et_to)
         }*/
 
+        income_per_month_input.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                getTotalIncome()
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
         btn_add_another.setOnClickListener {
             val partnerView =
                 LayoutInflater.from(activity!!).inflate(R.layout.layout_income_source, null, false)
@@ -516,6 +542,7 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             updateCount(UpdateCountType.Decrement, no_of_earning_family_member_count)
         }
 
+        getTotalIncome()
         generate_gst_report_checkbox?.setOnClickListener {
             val dialogView =
                 LayoutInflater.from(context).inflate(R.layout.layout_gst_dialog, null, false)
@@ -789,6 +816,17 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
             if ((ll_income_source?.childCount ?: 0) > 0) {
                 for (childCount in 0 until (ll_income_source?.childCount ?: 0)) {
                     val sourceOfIncome = ll_income_source?.getChildAt(childCount)
+                    (((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(2) as ViewGroup)).getChildAt(0) as ViewGroup).getChildAt(0) as TextInputEditText).addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(s: Editable?) {
+                            getTotalIncome()
+                        }
+
+                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                        }
+
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        }
+                    })
                     sourceOfIncomeList.add(
                         Income(
                             incomePerMonth = ((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(1) as Spinner).selectedItem as Data).value,
@@ -2342,6 +2380,95 @@ class IncomeInformationFragment : BaseFragment(), CompoundButton.OnCheckedChange
                 }
             }
         }
+    }
+
+     fun addHouseHoldExpSum()
+    {
+        var sum=0;
+        var householdTotal=0;
+        if(grocery_expenditure_input.length()>0)
+        {
+            sum += (grocery_expenditure_input.text.toString().toInt())
+        }
+        if(transport_expenditure_input.length()>0)
+        {
+            sum += (transport_expenditure_input.text.toString().toInt())
+        }
+
+        if(education_expenditure_input.length()>0)
+        {
+            sum += (education_expenditure_input.text.toString().toInt())
+        }
+
+        if(medicine_expenditure_input.length()>0)
+        {
+            sum += (medicine_expenditure_input.text.toString().toInt())
+        }
+        if(other_expenditure_input.length()>0)
+        {
+            sum += (other_expenditure_input.text.toString().toInt())
+        }
+
+        total_amount_input.setText(sum.toString())
+
+
+        if(type1_expenditure_input.length()>0)
+        {
+            householdTotal += (type1_expenditure_input.text.toString().toInt())
+        }
+        if(type2_expenditure_input.length()>0)
+        {
+            householdTotal += (type2_expenditure_input.text.toString().toInt())
+        }
+
+        if(type3_expenditure_input.length()>0)
+        {
+            householdTotal += (type3_expenditure_input.text.toString().toInt())
+        }
+
+        if(type4_expenditure_input.length()>0)
+        {
+            householdTotal += (type4_expenditure_input.text.toString().toInt())
+        }
+        if(type5_expenditure_input.length()>0)
+        {
+            householdTotal += (type5_expenditure_input.text.toString().toInt())
+        }
+        if(type6_expenditure_input.length()>0)
+        {
+            householdTotal += (type6_expenditure_input.text.toString().toInt())
+        }
+
+        business_expenditure_amount_input.setText(householdTotal.toString())
+
+
+
+
+
+
+    }
+
+    fun getTotalIncome()
+    {
+        var sum=0
+        if ((ll_income_source?.childCount ?: 0) > 0) {
+            for (childCount in 0 until (ll_income_source?.childCount ?: 0)) {
+
+                val income =    (((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(2) as ViewGroup)).getChildAt(0) as ViewGroup).getChildAt(0) as TextInputEditText).text.toString()
+                if(income.isNotEmpty())
+                sum += income.toInt()
+            }
+        }
+        total_income_et.setText(sum.toString())
+    }
+    override fun afterTextChanged(s: Editable?) {
+        addHouseHoldExpSum()
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
     }
 }
 

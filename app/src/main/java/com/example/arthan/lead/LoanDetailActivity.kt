@@ -62,7 +62,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                 btn_submit?.isEnabled =case
             }else
             {
-                if(property_value_input.hasFocus())
+                /*if(property_value_input.hasFocus())
                 {
                     if(property_value_input?.text.toString().isNotEmpty() && loan_amount_input?.text.toString().isNotEmpty()&&
                         loan_amount_input?.text.toString().toLong()>property_value_input?.text.toString().toLong())
@@ -77,7 +77,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                     {
                         Toast.makeText(this@LoanDetailActivity,"Loan Amount cant be more than Property Value",Toast.LENGTH_LONG).show()
                     }
-                }
+                }*/
             }
         }
 
@@ -109,13 +109,13 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                     .isNotEmpty() && (net_profit_margin_input?.text.toString().toLong() > 0))
                         && business_turnover_input?.text?.isNotEmpty() == true && net_profit_margin_input?.text?.isNotEmpty() == true
                         && existing_loan_input?.text?.isNotEmpty() == true && existing_loan_obligation_input?.text?.isNotEmpty() == true
-                        && additional_income_input?.text?.isNotEmpty() == true && household_expenses_input?.text?.isNotEmpty() == true
+                      /*  && additional_income_input?.text?.isNotEmpty() == true && household_expenses_input?.text?.isNotEmpty() == true
                         && (property_value_input?.text.toString()
                     .isNotEmpty() && (property_value_input?.text.toString().toLong() > 0) &&
                         loan_amount_input?.text.toString()
                             .isNotEmpty() && (loan_amount_input?.text.toString().toLong() > 0) &&
                         loan_amount_input?.text.toString()
-                            .toLong() < property_value_input?.text.toString().toLong())
+                            .toLong() < property_value_input?.text.toString().toLong())*/
                         && (netMonthlyIncomet?.text.toString()
                     .isNotEmpty() && (netMonthlyIncomet?.text.toString().toLong() > 0))
         }
@@ -129,6 +129,10 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
         intent.apply {
             if (hasExtra(ArgumentKey.LeadId)) {
                 mLeadId = getStringExtra(ArgumentKey.LeadId) ?: ""
+            }
+            else if(intent.getStringExtra("leadId")!=null)
+            {
+                mLeadId=getStringExtra("leadId")?:""
             }
         }
 
@@ -260,6 +264,17 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                 }
             }
         btn_submit?.setOnClickListener {
+
+                   if(property_value_input?.text.toString().isNotEmpty() && loan_amount_input?.text.toString().isNotEmpty()&&
+                       loan_amount_input?.text.toString().toLong()>property_value_input?.text.toString().toLong())
+                   {
+                       Toast.makeText(this@LoanDetailActivity,"Loan Amount cant be more than Property Value",Toast.LENGTH_LONG).show()
+                  return@setOnClickListener
+                   }
+
+
+
+
             saveLoanDetails()
 //            startActivity(Intent(this@LoanDetailActivity,LeadScreeningActivity::class.java))
         }

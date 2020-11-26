@@ -183,6 +183,7 @@ class LoginOTPActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
 
                   //  initiateOtpTimer()
+                    txt_otp_msg.text = "OTP sent to ${response.body()!!.mobNo}"
                     Toast.makeText(this@LoginOTPActivity,"OTP sent to registered mobile number",Toast.LENGTH_LONG).show()
                 }
             }

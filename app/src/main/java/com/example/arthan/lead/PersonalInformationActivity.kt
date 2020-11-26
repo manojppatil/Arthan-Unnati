@@ -98,7 +98,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 //        ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_next.setOnClickListener {
 
-            if (et_name.length() > 0 && panNoEt.length() > 0 && et_father_name.length() > 0 && et_mother_name.length() > 0 && et_dob.length() > 0
+            if (et_name.length() > 0 && panNoEt.length() > 0 && et_father_name.length() > 0 && et_dob.length() > 0
                 && contact_number_input.length() > 0 && email_id_input.length() > 0 && gross_annual_income_spinner.length() > 0 &&
                 address_line1_input.length() > 0 && address_line2_input.length() > 0 && pincode_input.length() > 0 && city_input.length() > 0
                 && district_input.length() > 0
@@ -141,6 +141,33 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     }else
                     {
                         spnr_occupation_name.visibility=View.GONE
+
+                    }
+
+                }
+            }
+        sp_religion?.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+
+                    //fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
+                    if (sp_religion.selectedItem.toString().toLowerCase() == "Others".toLowerCase()) {
+                        other_religion.visibility=View.VISIBLE
+
+
+                    }else
+                    {
+                        others_rel.visibility=View.GONE
 
                     }
 
@@ -254,10 +281,15 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             statep = (tl_state1.selectedItem as Data).value ?: "",
             applicantType = applicantType,
             category = category,
-            religion = when(Rel_hindu.isChecked){
+            religion = when(sp_religion.selectedItem.toString())
+            {
+                "Others"->other_religion.text.toString()
+                else->sp_religion.selectedItem.toString()
+            }
+            /*when(Rel_hindu.isChecked){
                 true->"Hindu"
                 else->"Muslim"
-            },
+            },*/,
             maritalStatus = when(rb_married.isChecked)
             {
                 true->"Married"
@@ -590,8 +622,18 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         }
         if(personalDetails.religion!=null) {
             when (personalDetails.religion.toLowerCase()) {
-                "Hindu".toLowerCase() -> cat_SC.isChecked = true
-                "Muslim".toLowerCase() -> cat_OBC.isChecked = true
+                "Hindu".toLowerCase() -> sp_religion.setSelection(0)
+                "Muslim".toLowerCase() -> sp_religion.setSelection(1)
+                "Christian".toLowerCase() -> sp_religion.setSelection(2)
+                "Others".toLowerCase() ->{
+                    other_religion.setText(personalDetails.religion.toString())
+                    other_religion.visibility=View.VISIBLE
+                    sp_religion.setSelection(3)
+                }
+                else ->{
+                    sp_religion.setSelection(3)
+                }
+
             }
         }
         /*when(personalDetails.m)
@@ -651,6 +693,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             if (response?.isSuccessful == true && response.body()?.errorCode?.toInt() == 200) {
                 withContext(uiContext) {
                     spnr_nationality?.adapter = getAdapter(response.body()?.data)
+                    spnr_nationality.isEnabled=false;
                 }
             }
         } catch (e: Exception) {

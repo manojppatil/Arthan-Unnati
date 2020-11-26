@@ -77,7 +77,17 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
                 finish()
 
             }
+            "PAYMENT"->{
+                startActivity(Intent(this, PaymentSuccessActivity::class.java).apply {
+                    putExtra("screen","CONSENT")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId)
+                    putExtra(ArgumentKey.InPrincipleAmount,responseGlobal.inPrincpAmt)
+                    putExtra("task","RMContinue")
+                })
+              finish()
 
+            }
 
             "ELIGIBILITY"->{
                 startActivity(
@@ -196,11 +206,16 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
 
 
             }
-            "OTP"->{
+            "OTP","OTP_CONSENT"->{
                 startActivity(Intent(this, OTPValidationActivity::class.java).apply {
                     putExtra("screen","OTP")
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
+                    putExtra("gst",responseGlobal.gst)
+                    putExtra("total",responseGlobal.total)
+                    putExtra("appFee",responseGlobal.appFee)
+                    putExtra("leadId",responseGlobal.leadId)
+                    putExtra("mobNo",responseGlobal.mobNo)
                     putExtra("task","RMContinue")
                 })
                 (this as RMScreeningNavigationActivity).finish()

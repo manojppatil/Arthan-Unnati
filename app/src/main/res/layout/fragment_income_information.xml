@@ -102,6 +102,23 @@
                 <include layout="@layout/layout_income_source" />
 
             </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Total income"
+                app:layout_constraintTop_toBottomOf="@+id/ll_income_source"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="8dp"
+                android:id="@+id/total_income"
+                app:layout_constraintRight_toRightOf="parent">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/total_income_et"
+
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Button
                 android:id="@+id/btn_add_another"
@@ -123,7 +140,7 @@
                 android:textColor="#f75002"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_income_source"
+                app:layout_constraintTop_toBottomOf="@+id/total_income"
                 app:layout_constraintVertical_chainStyle="packed" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -539,7 +556,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/total_amount_per_month"
                 android:inputType="numberDecimal"
@@ -848,7 +865,7 @@
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/total_amount_per_month"
                 android:inputType="numberDecimal"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textSize="14sp" />

@@ -21,6 +21,7 @@ import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.OTPValidationActivity
+import com.example.arthan.lead.model.TestSample
 import com.example.arthan.login.LoginEmpIdActivity
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
@@ -40,7 +41,6 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         version.text = ArthanApp.getAppInstance().appVersion
 
-
         /*GlobalScope.launch(context = Dispatchers.Main) {
             delay(500)
             startActivity(
@@ -58,7 +58,6 @@ class SplashActivity : AppCompatActivity() {
 
         btn_submit.setOnClickListener {
 
-
             val progressBar = ProgrssLoader(this)
             progressBar.showLoading()
             var map: HashMap<String, String> = HashMap()
@@ -67,7 +66,6 @@ class SplashActivity : AppCompatActivity() {
             map["mpin"] = et_role.otp.toString()
 //            ArthanApp.getAppInstance().loginUser=et_role.otp.toString()
             CoroutineScope(Dispatchers.IO).launch {
-
 
                 val mapPin = HashMap<String, String>()
 

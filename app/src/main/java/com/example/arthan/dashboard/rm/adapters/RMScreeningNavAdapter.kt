@@ -122,6 +122,16 @@ class RMScreeningNavAdapter(private val context: Context,
                         })
                         (context as RMScreeningNavigationActivity).finish()
 
+                    } "PAYMENT"->{
+                        context.startActivity(Intent(context, PaymentSuccessActivity::class.java).apply {
+                            putExtra("screen","CONSENT")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId)
+                            putExtra(ArgumentKey.InPrincipleAmount,responseData.inPrincpAmt)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
                     }
                     "DOCUMENTS"->{
                         context.startActivity(Intent(context, DocumentActivity::class.java).apply {
@@ -133,11 +143,16 @@ class RMScreeningNavAdapter(private val context: Context,
                         (context as RMScreeningNavigationActivity).finish()
 
                     }
-                    "OTP"->{
+                    "OTP","OTP_CONSENT"->{
                         context.startActivity(Intent(context, OTPValidationActivity::class.java).apply {
                             putExtra("screen","OTP")
                             putExtra("loanId",responseData.loanId)
                             putExtra("custId",responseData.customerId)
+                            putExtra("gst",responseData.gst)
+                            putExtra("total",responseData.total)
+                            putExtra("appFee",responseData.appFee)
+                            putExtra("leadId",responseData.leadId)
+                            putExtra("mobNo",responseData.mobNo)
                             putExtra("task","RMreJourney")
                         })
                         (context as RMScreeningNavigationActivity).finish()

@@ -20,5 +20,11 @@ data class BaseResponseData(
     val verifyStatus:String?="",
     val amMobNo: String? = "",
     val validUser: String? = "",
-    val onboarded: String = ""
+    val mobNo: String? = "",
+    val onboarded: String = "",
+    val custId: String = "",
+    val appFee: String = "",
+    val gst: String = "",
+    val total: String = ""
+
 )

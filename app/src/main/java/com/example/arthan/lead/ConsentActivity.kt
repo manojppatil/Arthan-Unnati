@@ -28,7 +28,7 @@ import java.lang.Exception
 
 class ConsentActivity : BaseActivity() {
 
-    override fun screenTitle() = "Consent"
+    override fun screenTitle() = "In Principle Amount"
 
     override fun contentView() = R.layout.activity_consent
 
@@ -66,15 +66,19 @@ class ConsentActivity : BaseActivity() {
             CoroutineScope(Dispatchers.IO).launch {
 
                 try {
+                    val map=HashMap<String,String>()
+                    map["customerId"]=customerID
+                    map["loanId"]=loanId
 
                     val response =
-                        RetrofitFactory.getApiService().markConsent(
-                            MarkConsentRequest(
+                        RetrofitFactory.getApiService().acceptInPrincipalAmt(
+                            map
+                           /* MarkConsentRequest(
                                 leadId,
                                 if (loanId.isNullOrBlank()) "C1234" else loanId,
                                 if (customerID.isNullOrBlank()) "" else customerID,
                                 if (chk_consent.isChecked) "Yes" else "No"
-                            )
+                            )*/
                         )
 
                     if (response.isSuccessful && response.body() != null) {
@@ -104,7 +108,12 @@ class ConsentActivity : BaseActivity() {
                                             OTPValidationActivity::class.java
                                         ).apply {
                                             putExtra("loanId", response.body()!!.loanId)
+                                            putExtra("leadId", response.body()!!.leadId)
                                             putExtra("custId", response.body()!!.customerId)
+                                            putExtra("mobNo", response.body()!!.mobNo)
+                                            putExtra("appFee", response.body()!!.appFee)
+                                            putExtra("gst", response.body()!!.gst)
+                                            putExtra("total", response.body()!!.total)
                                         }
                                     )
                                 }

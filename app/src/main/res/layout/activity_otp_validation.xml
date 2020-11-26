@@ -10,9 +10,10 @@
         android:id="@+id/toolbar"
         layout="@layout/layout_rm_toolbar" />
 
+    <include layout="@layout/activity_application_fee" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="32dp">
 
         <TextView

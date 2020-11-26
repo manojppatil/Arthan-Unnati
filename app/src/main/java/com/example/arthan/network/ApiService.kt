@@ -233,6 +233,9 @@ interface ApiService {
     @POST("verifyOTP")
     suspend fun verifyOTP(@Body request: VerifyOTPRequest): Response<VerifyOTPResponse>
 
+    @POST("verifyOTPAppFee")
+    suspend fun verifyOTPAppFee(@Body request: VerifyOTPRequest): Response<VerifyOTPResponse>
+
     @POST("updateScreen")
     suspend fun updateEligibilityAndPaymentInitiate(@Body request: UpdateEligibilityAndPaymentReq): Response<BaseResponseData>
 
@@ -241,6 +244,9 @@ interface ApiService {
 
     @POST("consent")
     suspend fun markConsent(@Body request: MarkConsentRequest): Response<BaseResponseData>
+
+     @POST("acceptInPrincipalAmt")
+    suspend fun acceptInPrincipalAmt(@Body body: Map<String, String?>): Response<BaseResponseData>
 
     @POST("payAppFee")
     suspend fun proceedToPay(@Body request: PaymentRequest): Response<BaseResponseData>
@@ -418,6 +424,9 @@ interface ApiService {
 
     @POST("getUserRole")
     suspend fun getUserRole(@Body body: HashMap<String, String>): Response<RoleResponse>
+
+    @POST("moveToScreening")
+    suspend fun moveToScreening(@Body body: HashMap<String, String>): Response<RoleResponse>
 
     @POST("getScreenData")
     suspend fun getScreenData(@Body body: HashMap<String, String>): Response<CustomerDocumentAndDataResponseData>

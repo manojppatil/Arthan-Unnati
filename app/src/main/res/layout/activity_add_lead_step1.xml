@@ -261,6 +261,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/chk_later"
                 tools:visibility="visible" />
+            <Button
+                android:id="@+id/btn_geolocator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_background"
+                android:enabled="true"
+                android:fontFamily="@font/lato_black"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="36dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="36dp"
+                android:paddingBottom="8dp"
+                android:text="Locate"
+                android:textColor="@color/button_text_color"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_date"
+                />
 
 
             <RelativeLayout
@@ -271,7 +294,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_margin="8dp"
                 android:id="@+id/shopUpload"
-                app:layout_constraintTop_toBottomOf="@+id/et_date">
+                app:layout_constraintTop_toBottomOf="@+id/btn_geolocator">
 
 
                 <ImageView

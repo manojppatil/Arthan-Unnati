@@ -510,7 +510,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="4dp"
                         android:fontFamily="@font/lato_regular"
-                        android:hint="Net Monthly Income"
+                        android:hint="Declared Net-Income"
                         android:inputType="numberDecimal"
                         android:singleLine="true"
                         android:textColor="#000000"
