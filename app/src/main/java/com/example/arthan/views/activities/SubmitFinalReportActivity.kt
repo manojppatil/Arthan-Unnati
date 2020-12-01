@@ -411,6 +411,8 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                         UploadDocumentActivity::class.java
                     ).apply {
                         putExtra(DOC_TYPE, RequestCode.Agreement)
+                        putExtra("recordType",intent.getStringExtra("recordType")?:"")
+                        putExtra("amId",intent.getStringExtra("amId")?:"")
                     }, RequestCode.Agreement
                 )
             R.id.tv_coc ->
@@ -419,6 +421,9 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                         this@SubmitFinalReportActivity,
                         UploadDocumentActivity::class.java
                     ).apply {
+                        putExtra("recordType",intent.getStringExtra("recordType")?:"")
+                        putExtra("amId",intent.getStringExtra("amId")?:"")
+
                         putExtra(DOC_TYPE, RequestCode.Coc)
                     }, RequestCode.Coc
                 )

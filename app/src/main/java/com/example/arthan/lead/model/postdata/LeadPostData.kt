@@ -16,5 +16,6 @@ data class LeadPostData(
     var segment: String? = "",
     var shopPicUrl: String? = "",
     var shopPicUrl2: String? = "",
+    var reason: String? = "",
     var createdBy: String? = ""
 )

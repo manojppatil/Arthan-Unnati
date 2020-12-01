@@ -738,7 +738,13 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
 
                         RequestCode.electricityBill -> "${dir.absolutePath}/electricityBill.jpg"
                         RequestCode.waterBill -> "${dir.absolutePath}/waterBill.jpg"
-                        RequestCode.Agreement -> "${dir.absolutePath}/agreement.jpg"
+                        RequestCode.Agreement -> {
+                            if (intent.getStringExtra("recordType") == "AM") {
+                                "${dir.absolutePath}/agreement_${ArthanApp.getAppInstance().loginUser}.jpg"
+                            } else {
+                                "${dir.absolutePath}/agreement.jpg"
+                            }
+                        }
                         RequestCode.Coc -> "${dir.absolutePath}/coc.jpg"
                         RequestCode.telephonebill -> "${dir.absolutePath}/telephonebill.jpg"
                         RequestCode.AadharCardAddrProof -> "${dir.absolutePath}/AadharCardAddrProof.jpg"
@@ -1260,30 +1266,69 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
     private suspend fun uploadToS3(
         filePath: String,
         cardType: CardType
-    ) = suspendCoroutine<Unit> { continuation ->
+    ) = suspendCoroutine<Unit> {
+            continuation ->
         val fileList = mutableListOf(
             S3UploadFile(
                File(filePath),
                 "${
                 if (AppPreferences.getInstance()
-                        .getString(AppPreferences.Key.LoanId) != null
-                ) AppPreferences.getInstance()
-                    .getString(AppPreferences.Key.LoanId) else ArthanApp.getAppInstance().loginUser}${
+                        .getString(AppPreferences.Key.LoanId) != null&&ArthanApp.getAppInstance().loginRole!="AM"&&intent.getStringExtra("recordType")!="AM"
+                ) {
+                    AppPreferences.getInstance()
+                        .getString(AppPreferences.Key.LoanId)
+                }else {
+                    if(intent.getStringExtra("recordType")=="AM")
+                    { 
+                        ""
+                    }else{
+                    ArthanApp.getAppInstance().loginUser
+                    }
+                }
+                }${
                 when (cardType) {
+                    
+                 
+                    
                     CardType.PANCard -> {
-                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_PAN"
+                       if( ArthanApp.getAppInstance().loginRole=="AM"){
+                           "_PAN"
+
+                       }else {
+                           "_${intent.getStringExtra("applicant_type") ?: "PA"}_PAN"
+                       }
                     }
                     CardType.AadharCardFront -> {
-                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_FRONT"
+                        if( ArthanApp.getAppInstance().loginRole=="AM"){
+                            "_AADHAR_FRONT"
+
+                        }else {
+                            "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_FRONT"
+                        }
                     }
                     CardType.AadharCardBack -> {
-                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_BACK"
+                        if( ArthanApp.getAppInstance().loginRole=="AM"){
+                            "_AADHAR_BACK"
+
+                        }else {
+                            "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_BACK"
+                        }
                     }
                     CardType.VoterIdCard -> {
-                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_VOTER"
+                        if( ArthanApp.getAppInstance().loginRole=="AM"){
+                            "_VOTER"
+
+                        }else {
+                            "_${intent.getStringExtra("applicant_type") ?: "PA"}_VOTER"
+                        }
                     }
                     CardType.ApplicantPhoto -> {
-                        "_${intent.getStringExtra("applicant_type") ?: "PA"}_PHOTO"
+                        if( ArthanApp.getAppInstance().loginRole=="AM"){
+                            "_PHOTO"
+
+                        }else {
+                            "_${intent.getStringExtra("applicant_type") ?: "PA"}_PHOTO"
+                        }
                     }
                     CardType.CrossedCheque -> {
                         "_CrossedCheque"
@@ -1307,10 +1352,21 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         "_Water_Bill"
                     }
                     CardType.agreement -> {
-                        "_Agreement"
+                        
+                        if(intent.getStringExtra("recordType")=="AM")
+                        {
+                            "Agreement"+"_"+intent.getStringExtra("amId")
+                        }else {
+                            "_Agreement"+"_"+intent.getStringExtra("amId")
+                        }
                     }
                     CardType.coc -> {
-                        "_Coc"
+                        if(intent.getStringExtra("recordType")=="AM")
+                        {
+                            "Coc"+"_"+intent.getStringExtra("amId")
+                        }else {
+                            "_Coc"
+                        }
                     }
                     CardType.ElectricityBillProof -> {
                         "_Electricity_Bill"

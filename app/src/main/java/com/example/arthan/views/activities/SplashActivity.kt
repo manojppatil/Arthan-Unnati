@@ -86,7 +86,7 @@ class SplashActivity : AppCompatActivity() {
                         progressBar.dismmissLoading()
 //                    ArthanApp.getAppInstance().loginUser =  intent.getStringExtra("empId")
                         ArthanApp.getAppInstance().loginRole = response.body()!!.role
-                        ArthanApp.getAppInstance().onboarded = res.body()!!.onboarded
+                       // ArthanApp.getAppInstance().onboarded = res.body()!!.onboarded
                         var user = response.body()!!.role
 
                         withContext(Dispatchers.Main) {

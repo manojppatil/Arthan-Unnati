@@ -597,6 +597,10 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             lng = lng.toString(),
             shopPicUrl = shop1Url,
             shopPicUrl2 = shop2Url,
+            reason = when(switch_interested.isChecked){
+                true->""
+                false->sp_notinterestReason.selectedItem.toString()
+            },
             createdBy = ArthanApp.getAppInstance().loginUser
         )
         CoroutineScope(Dispatchers.IO).launch {
@@ -647,7 +651,16 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.btn_next -> saveLead()
+            R.id.btn_next ->{
+           if(later.equals("yes",ignoreCase = true)&& et_date?.text?.trim()?.length==0) {
+
+               Toast.makeText(this,"Date is mandatory when later is selected",Toast.LENGTH_LONG)
+                   .show()
+           }
+          else {
+               saveLead()
+           }
+        }
             R.id.ll_upload_photo -> {
                 val request = permissionsBuilder(
                     Manifest.permission.CAMERA,
