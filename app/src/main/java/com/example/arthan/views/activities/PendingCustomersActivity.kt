@@ -9,13 +9,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.adapters.ScreeningAdapter
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.lead.model.responsedata.BMQueueResponseData
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.views.adapters.PendingCustomerAdapter

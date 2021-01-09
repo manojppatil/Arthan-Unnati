@@ -1,5 +1,6 @@
 package com.example.arthan.utils
 
+import `in`.finbox.mobileriskmanager.notifications.MessagingService
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -25,6 +26,16 @@ class MyFirebaseInstanceIdService : FirebaseMessagingService() {
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
         showNotification("received",(p0.data).get("message"),(p0.data).get("desc"))
+        /**
+         * In certain cases, FinBox server often requests critical data from SDK directly (other than scheduled sync period),
+         * to make sure this works it is required to forward FCM Notifications to SDK.
+         * Add the following lines inside the overridden onMessageReceived method available in the service that extends FirebaseMessagingService.
+         */
+      /*  if (MessagingService.forwardToFinBoxSDK(p0.data)) {
+            val firebaseMessagingService = MessagingService()
+            firebaseMessagingService.attachContext(this)
+            firebaseMessagingService.onMessageReceived(p0)
+        }*/
         //(p0.data).get("message")
 
     }

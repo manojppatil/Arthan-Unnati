@@ -25,6 +25,16 @@ data class BaseResponseData(
     val custId: String = "",
     val appFee: String = "",
     val gst: String = "",
-    val total: String = ""
+    val total: String = "",
+    val customerName:String ,
+    val  customerDob:String ,
+    val  fatherName:String ,
+    val  panNo:String ,
+
+    val  addressLine1:String ,
+    val  addressLine2:String ,
+    val  city:String ,
+    val  state:String ,
+    val  pincode:String
 
 )

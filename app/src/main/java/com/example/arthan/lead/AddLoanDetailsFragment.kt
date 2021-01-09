@@ -9,12 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
-import com.crashlytics.android.Crashlytics
 
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.postdata.LoanPostData
 import com.example.arthan.lead.model.responsedata.LoanResponseData

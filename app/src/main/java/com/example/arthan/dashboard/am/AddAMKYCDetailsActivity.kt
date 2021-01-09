@@ -5,10 +5,10 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.lead.UploadDocumentActivity
 import com.example.arthan.lead.model.postdata.KYCPostData

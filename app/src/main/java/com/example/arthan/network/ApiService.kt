@@ -185,6 +185,9 @@ interface ApiService {
     @POST("rest/ocrPan")
     suspend fun getPANCardInfo(@Body ocrRequest: OcrRequest): Response<CardResponse>
 
+     @POST("rest/verifyKYCDocs")
+    suspend fun getVerifyKYCDocs(@Body body: HashMap<String,String>): Response<CardResponse>
+
     @POST("rest/ocrAdhrBack")
     suspend fun getAadharCardInfo(@Body ocrRequest: OcrRequest): Response<CardResponse>
 

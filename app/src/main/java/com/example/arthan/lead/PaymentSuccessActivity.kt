@@ -2,11 +2,11 @@ package com.example.arthan.lead
 
 import android.content.Intent
 import android.widget.Toast
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.model.ELIGIBILITY_SCREEN
 import com.example.arthan.model.PAYMENT_SCREEN
 import com.example.arthan.model.UpdateEligibilityAndPaymentReq

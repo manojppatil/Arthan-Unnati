@@ -7,13 +7,13 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.activity.addCallback
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.am.model.AMOtherdetailsPostData
 import com.example.arthan.dashboard.am.model.Languages
 import com.example.arthan.dashboard.am.model.References
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.CollateralDetailsPostData

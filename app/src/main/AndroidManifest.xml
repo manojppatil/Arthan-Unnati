@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.arthan">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,6 +16,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <!--
 <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
@@ -210,6 +213,12 @@
         <activity android:name=".dashboard.am.AMPersonalDetailsActivity" />
         <activity android:name=".dashboard.am.AMOnboardingAtivity" />
         <activity android:name=".views.activities.FrontCameraActivity" />
+        <provider
+            android:name="in.finbox.mobileriskmanager.init.AutoInitProvider"
+            android:authorities="in.finbox.lenderapplication.riskmanagerprovider"
+            android:enabled="true"
+            android:exported="false"
+            tools:node="remove" />
     </application>
 
 </manifest>

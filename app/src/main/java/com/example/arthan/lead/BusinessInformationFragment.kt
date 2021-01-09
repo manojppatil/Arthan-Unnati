@@ -11,7 +11,6 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
@@ -21,6 +20,7 @@ import com.example.arthan.dashboard.rm.ReUsableFragmentSpace
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.BUSINESS
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.AssociateFirm

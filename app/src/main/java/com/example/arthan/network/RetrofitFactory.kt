@@ -26,7 +26,7 @@ object RetrofitFactory {
     private const val NET_BANKING_BASE_URL = "http://mycomp:8080/comp/api/"
 //    private const val SERVER_URL = "http://13.233.169.214:8080" //debug
 //    private const val SERVER_URL = "https://13.233.169.214:443" //debug
-    //    private const val SERVER_URL = "http://13.6.237.112:8080"//prod
+    //private const val SERVER_URL = "http://13.6.237.112:8080"//prod
     private const val SERVER_URL = "https://arthanfin.com"//prod
 //    private const val SERVER_URL = "https://www.glairo.com"
     private const val API_BASE_URL = "$SERVER_URL/artlos/"

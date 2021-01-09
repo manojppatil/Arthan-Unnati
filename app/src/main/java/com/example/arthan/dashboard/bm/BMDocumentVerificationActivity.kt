@@ -8,13 +8,17 @@ import android.view.View
 import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
+import com.example.arthan.dashboard.bcm.PdResponseInterface
 import com.example.arthan.dashboard.bm.adapter.BMDocumentVerificationAdapter
 import com.example.arthan.dashboard.ops.BCMDataFragment
 import com.example.arthan.dashboard.ops.DataFragment
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.model.postdata.DocumentsData
+import com.example.arthan.lead.model.postdata.PD23PostData
 import com.example.arthan.lead.model.responsedata.CustomerDocumentAndDataResponseData
+import com.example.arthan.lead.model.responsedata.Pd1
+import com.example.arthan.lead.model.responsedata.Pd23
 import com.example.arthan.model.Customer
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ArgumentKey
@@ -39,8 +43,13 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
 
     private val uiContext: CoroutineContext
         get() = Dispatchers.Main
+     var pd1ResponseInter:PdResponseInterface? = null
+     var pd2ResponseInter:PdResponseInterface? = null
+     var pd3ResponseInter:PdResponseInterface? = null
 
     override fun contentView() = R.layout.activity_bm_document_verification
+    var pd1Response:Pd1?=null
+    var pd23Response:PD23PostData?=null
 
     override fun onToolbarBackPressed() = onBackPressed()
     var list=ArrayList<DocumentsData>()
@@ -114,6 +123,11 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                                   result?.docDetails,this@BMDocumentVerificationActivity
                               )
                         }else {
+                            pd1Response=result?.pd1
+                            pd23Response=result?.pd23
+                            pd1ResponseInter?.setResponseToFields()
+                            pd3ResponseInter?.setResponseToFields()
+                            pd2ResponseInter?.setResponseToFields()
                             ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(0) as? DocumentVerificationFragmentNew)?.updateData(
                                 result?.businessDocs,
                                 result?.bussPremisesDocs,
@@ -130,8 +144,7 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                         if(vp_profiler.adapter?.count!!>2) {
                             ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
                                 loanId,
-                                customerId
-                            )
+                                customerId)
                         }
                         progressBar.dismmissLoading()
                     }
@@ -176,12 +189,13 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                             result,
                             customerId
                         )
-                        if(vp_profiler.adapter?.count!!>2) {
+                       /* if(vp_profiler.adapter?.count!!>2) {
                             ((vp_profiler.adapter as? BMDocumentVerificationAdapter)?.getItem(2) as? BCMDataFragment)?.updateLoanAndCustomerId(
                                 loanId,
-                                customerId
+                                customerId,
+                                result
                             )
-                        }
+                        }*/
                         progressBar.dismmissLoading()
                     }
                 } else {

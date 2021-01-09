@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMApprovedAddCoApplicant
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
@@ -15,6 +14,7 @@ import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.lead.model.postdata.KYCPostData
 import com.example.arthan.lead.model.responsedata.BaseResponseData
@@ -210,7 +210,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     checkForProceed()
                 }
             }
-            RequestCode.VoterCard -> {
+            RequestCode.VoterCard ->{
                 data?.let {
                     if (mKYCPostData == null) {
                         mKYCPostData = KYCPostData(
@@ -274,7 +274,6 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
 
         menuInflater.inflate(R.menu.more, menu)
         return super.onCreateOptionsMenu(menu)
@@ -391,6 +390,15 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                                         ).also {
                                             custId = result.customerId
                                             loanId = result.loanId
+                                            mKYCPostData?.pincode=result.pincode
+                                            mKYCPostData?.state=result.state
+                                            mKYCPostData?.city=result.city
+                                            mKYCPostData?.address_line1=result.addressLine1
+                                            mKYCPostData?. address_line2=result.addressLine2
+                                            mKYCPostData?.customerName=result.customerName
+                                            mKYCPostData?.panDob=result.customerDob
+                                            mKYCPostData?.panFathername=result.fatherName
+                                            mKYCPostData?.panId=result.panNo
                                             it.putExtra("custId", result.customerId)
                                             it.putExtra("PAN_DATA", mKYCPostData)
                                             it.putExtra("loanId", result.loanId)

@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class CardResponse(
     @SerializedName("request_id") val request_id: String?,
-    @SerializedName("status") val status: String?,
+    @SerializedName("status") var status: String?,
     @SerializedName("image_id") val imageId: String?,
     @SerializedName("reason") val reason: String?,
     @SerializedName("results") val results: List<RequestCardResult>?,

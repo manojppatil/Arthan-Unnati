@@ -7,10 +7,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.am.model.ProfessionPostData
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.global.PROFESSIONAL
 import com.example.arthan.lead.UploadDocumentActivity

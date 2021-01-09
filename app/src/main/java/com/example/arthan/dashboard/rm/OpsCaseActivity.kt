@@ -6,9 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.OpsCaseAdapter
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.model.DocumentsList
 import com.example.arthan.model.GetRMOpsCasesResponse
 import com.example.arthan.network.RetrofitFactory

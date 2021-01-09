@@ -8,10 +8,10 @@ import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.model.ELIGIBILITY_SCREEN
 import com.example.arthan.model.MarkConsentRequest
 import com.example.arthan.model.UpdateEligibilityAndPaymentReq

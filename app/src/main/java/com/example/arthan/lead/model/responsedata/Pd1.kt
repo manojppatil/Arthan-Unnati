@@ -35,5 +35,7 @@ data class Pd1(
     var salepriceUnit: String?,
     var transportation: String?,
     var unitsSold: String?,
+    var incomeRemarks: String?,
+    var comfEmi: String?,
     var utilities: String?
 ) : Parcelable

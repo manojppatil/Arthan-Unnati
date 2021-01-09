@@ -15,7 +15,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.AddTradeRefActivity
 import com.example.arthan.dashboard.bcm.TradeRefDetailsAdapter
@@ -24,6 +23,7 @@ import com.example.arthan.dashboard.bm.BMScreeningReportActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.dashboard.rm.ReUsableFragmentSpace
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.*
@@ -489,6 +489,22 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 //                        val isNeighbourReferenceSaved = saveNeighbourReferenceAsync().await()
                         var isCollateralSaved=true
                         if(activity?.intent?.getStringExtra("loanType").equals("Secure",ignoreCase = true)) {
+
+                            if(et_coOwnerName.length()>0&&et_COpolicyNo.length()>0&&et_cosurrenderValue.length()>0
+                                &&et_coOthersOwnerName.length()>0&&et_COOtherspolicyNo.length()>0&&et_marketValueCo.length()>0
+                                &&et_derivedValueCO.length()>0){
+
+                            }else{
+                                Toast.makeText(context!!,"Please fill all details",Toast.LENGTH_LONG).show()
+                                return@launch
+                            }
+                         /*     immovableDetails = ImmovableDetails(
+                                ownerName = et_COOwnerNameImm.text.toString(),
+                                address = et_address.text.toString(),
+                                addressType = addressType,
+                                collateralType = (sp_collateral_type_liq?.selectedItem as Data).value.toString(),
+                                jurisdiction = (sp_jurisdictionType.selectedItem as Data).value.toString(),
+                                marketValue = et_MarketValueImm.text.toString()*/
                             isCollateralSaved = saveCollateralDataAsync().await()
                        }
 

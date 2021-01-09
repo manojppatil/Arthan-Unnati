@@ -1,14 +1,19 @@
 package com.example.arthan.lead
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.EventLog
 import android.view.KeyEvent
+import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.RMScreeningListingActivity
+import com.example.arthan.global.ArthanApp
 import com.example.arthan.utils.ArgumentKey
+import com.example.arthan.views.activities.SplashActivity
 
 class AddLeadActivity : AppCompatActivity() {
 

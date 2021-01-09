@@ -16,8 +16,8 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.bumptech.glide.Glide
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.network.S3UploadFile
 import com.example.arthan.network.S3Utility
 import com.example.arthan.ocr.CardResponse

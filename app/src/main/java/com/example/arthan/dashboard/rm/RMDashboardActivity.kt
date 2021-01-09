@@ -1,11 +1,13 @@
 package com.example.arthan.dashboard.rm
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.text.BoringLayout
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -39,7 +41,22 @@ class RMDashboardActivity : BaseActivity() {
     override fun init() {
         btn_add_lead = findViewById<Button>(R.id.btn_add_lead)
         btn_add_lead.setOnClickListener {
-            startActivity(Intent(this@RMDashboardActivity, AddLeadStep1Activity::class.java))
+            if(ArthanApp.getAppInstance().loginUser==null||ArthanApp.getAppInstance().loginUser=="")
+            {
+
+                val alert= AlertDialog.Builder(this)
+                alert.setTitle("Session timeout")
+                alert.setMessage("Something went wrong. please re-login to continue")
+                alert.setPositiveButton("Login", DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                    finish()
+                    startActivity(Intent(this,SplashActivity::class.java))
+                })
+                alert.create().show()
+
+            }else {
+                startActivity(Intent(this@RMDashboardActivity, AddLeadStep1Activity::class.java))
+            }
         }
         if (ArthanApp.getAppInstance().loginRole == "RM") {
             btn_add_am.visibility = View.VISIBLE

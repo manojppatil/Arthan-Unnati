@@ -41,6 +41,8 @@ data class PD23PostData(
     var referenceFromNeighboursAndAssociations: String? = "",
 
     var demographic: String? = "",
+    var timeCurrentLocation_yrs: String? = "",
+
     var  rltWOValue:String="",
     var rltWFeeValue:String="",
     var risk:String="",

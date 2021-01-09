@@ -10,8 +10,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.model.AmListModel
 import com.example.arthan.network.ApiService
 import com.example.arthan.network.RetrofitFactory

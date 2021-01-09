@@ -7,18 +7,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Spinner
 
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.PdResponseInterface
+import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.lead.model.postdata.PD1PostData
 import com.example.arthan.model.PD2Data
 import com.example.arthan.model.PD3Data
 import com.example.arthan.model.PD4Data
+import kotlinx.android.synthetic.main.fragment_pd1.*
 import kotlinx.android.synthetic.main.fragment_pd2.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class PD2Fragment : Fragment() {
+class PD2Fragment : Fragment(),PdResponseInterface {
 
     private var mPdFragmentClickListener: PDFragmentSaveClickListener? = null
     override fun onCreateView(
@@ -31,6 +35,8 @@ class PD2Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as BMDocumentVerificationActivity).pd2ResponseInter=this
+
 
         succession_plan_switch.setOnCheckedChangeListener { _, isChecked ->
             when(isChecked){
@@ -81,6 +87,60 @@ class PD2Fragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mPdFragmentClickListener = parentFragment as? PDFragmentSaveClickListener
+    }
+
+    override fun setResponseToFields() {
+
+        val pd2Data= (activity as BMDocumentVerificationActivity).pd23Response
+        if(pd2Data!=null){
+        setDatatoSpinner(type_of_business_cash_or_credit_spinner, pd2Data.businessCashCredit!!,R.array.arr_type_of_business_cash)
+        setDatatoSpinner(dependency_no_of_product_spinner, pd2Data.dependencyNoofProducts!!,R.array.arr_no_product)
+        setDatatoSpinner(dependency_on_customer_spinner, pd2Data.dpendencyNoofCustomers!!,R.array.arr_no_of_customer)
+        setDatatoSpinner(dependency_no_of_supplier_spinner, pd2Data.dependencyNoofSuppliers!!,R.array.arr_no_of_supplier)
+        setDatatoSpinner(impact_of_competition_spinner, pd2Data.impactofCompetition!!,R.array.arr_competition_impact)
+        setDatatoSpinner(net_worth_spinner, pd2Data.networth!!,R.array.arr_net_worth)
+        setDatatoSpinner(turnover_total_existing_loan_spinner, pd2Data.tunoverToTotalExistingLoan!!,R.array.arr_turnover_existing_loan)
+        setDatatoSpinner(seasonality_spinner, pd2Data.seasonality!!,R.array.arr_seasonality)
+        setDatatoSpinner(perishability_spinner, pd2Data.perishability!!,R.array.arr_seasonality)
+        setDatatoSpinner(business_skill_set_spinner, pd2Data.businessSkillset!!,R.array.arr_seasonality)
+        setDatatoSpinner(collateral_ownership_spinner, pd2Data.collateralOwership!!,R.array.arr_collateral_ownership)
+        setDatatoSpinner(business_reference_client_spinner, pd2Data.businessreferencePayontime!!,R.array.arr_business_reference_client)
+        setDatatoSpinner(business_reference_customer_spinner, pd2Data.referenceFromNeighboursAndAssociations!!,R.array.arr_business_reference_customer)
+        setDatatoSpinner(time_at_current_location_spinner, pd2Data.timeCurrentLocation_yrs!!,R.array.arr_time_of_current_location)
+        setDatatoSpinner(office_premises_ownership_spinner, pd2Data.officepremisesownership!!,R.array.arr_office_premises_home_ownership)
+        setDatatoSpinner(home_ownership_spinner, pd2Data.homeOwnership!!,R.array.arr_office_premises_home_ownership)
+        setDatatoSpinner(neighbour_association_reference_spinner, pd2Data.referenceFromNeighboursAndAssociations!!,R.array.arr_neighbour_association_references)
+        setDatatoSpinner(neighbour_reference_stability_spinner, pd2Data.neighbourReferenceStability!!,R.array.arr_neighbour_stability_reference)
+        setDatatoSpinner(home_location_spinner, pd2Data.homeLocation!!,R.array.arr_home_location)
+
+            if(pd2Data.successionPlan=="Yes")
+            {
+                succession_plan_switch.isChecked=true
+            }
+            if(pd2Data.maintenanceBusinessRecords=="Yes")
+            {
+                business_maintenance_checkbox.isChecked=true
+            }
+            if(pd2Data.adequateInventory=="Yes")
+            {
+                adequate_business_inventory_switch.isChecked=true
+            }
+
+        }
+
+    }
+    private fun setDatatoSpinner(spinnerView:Spinner,value:String,resource:Int)
+    {
+        val list =
+            resources.getStringArray(resource)
+        if (list != null&&value!=null) {
+            for (i in list.indices) {
+                if (list[i].toLowerCase() == value.toLowerCase()) {
+                    spinnerView.setSelection(i)
+                }
+            }
+
+        }
     }
 }
 

@@ -168,7 +168,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
                 putExtra("loanId",loanId)
                 putExtra("custId",customerId)
                 putExtra("cname",intent.getStringExtra("cname"))
-                putExtra("data",mCustomer360Data?.bankData)
+                putExtra("data", mCustomer360Data?.bankData!![0])
             })
             R.id.cl_collateral -> startActivity(Intent(this, CollateralActivity::class.java)
                 .apply {

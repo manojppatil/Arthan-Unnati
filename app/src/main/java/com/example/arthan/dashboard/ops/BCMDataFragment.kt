@@ -8,15 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.viewpager.widget.ViewPager
 
 import com.example.arthan.R
-import com.example.arthan.dashboard.bcm.BCMDashboardActivity
-import com.example.arthan.dashboard.bm.Customer360Activity
 import com.example.arthan.dashboard.ops.adapter.BCDDataAdapter
-import com.example.arthan.global.AppPreferences
+import com.example.arthan.dashboard.rm.BMCollateralFragmentIndependent
+import com.example.arthan.lead.BusinessInformationFragment
+import com.example.arthan.lead.IncomeInformationFragment
+import com.example.arthan.lead.OtherDetailsFragment
 import com.example.arthan.lead.model.postdata.PD1PostData
 import com.example.arthan.lead.model.postdata.PD23PostData
+import com.example.arthan.lead.model.responsedata.BMAmDocnDataResponse
 import com.example.arthan.lead.model.responsedata.BaseResponseData
+import com.example.arthan.lead.model.responsedata.CustomerDocumentAndDataResponseData
 import com.example.arthan.model.PD2Data
 import com.example.arthan.model.PD3Data
 import com.example.arthan.model.PD4Data
@@ -25,6 +29,7 @@ import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.fragments.PDFragmentSaveClickListener
+import com.example.arthan.views.fragments.PersonalDetailFragment
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_bcmdata.*
 import kotlinx.coroutines.*
@@ -62,6 +67,24 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
         super.onViewCreated(view, savedInstanceState)
         vp_profile?.adapter = BCDDataAdapter(childFragmentManager)
         tb_profile?.setupWithViewPager(vp_profile)
+        vp_profile.offscreenPageLimit=4
+        vp_profile.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+
+            }
+
+        })
     }
 
     private val pd23Data = PD23PostData(
@@ -179,9 +202,46 @@ class BCMDataFragment : Fragment(), CoroutineScope, PDFragmentSaveClickListener 
         }
     }
 
-    fun updateLoanAndCustomerId(loanId: String?, customerId: String?) {
+    fun updateLoanAndCustomerId(
+        loanId: String?,
+        customerId: String?
+    ) {
         mLoanId = loanId
         mCustomerId = customerId
+
+      /*  val adapter=vp_profile?.adapter as BCDDataAdapter
+        (adapter?.getItem(0) as? PersonalDetailFragment)?.updateData(
+            data?.personalDetails, data?.inPrincipleAmt,
+            data?.loanAmt, data?.roi, data?.tenure
+        )
+        (adapter?.getItem(1) as? BusinessInformationFragment)?.updateData(
+            data?.businessDetails,
+            data?.businessComments
+        )
+        (adapter?.getItem(2) as? IncomeInformationFragment)?.updateData(
+            data?.incomeDetails,
+            customerId,
+            loanId,
+            data?.incomeComments
+        )
+        (adapter?.getItem(3) as? OtherDetailsFragment)?.updateData(
+            data?.neighborRefDetails,
+            data?.tradeRefDetails,
+            data?.collateralDetails,
+            loanId,
+            data?.loanType,
+            data?.otherComments
+
+
+        )
+        (adapter?.getItem(4) as? BMCollateralFragmentIndependent)?.updateData(
+            data?.collateralDetails,
+            loanId,
+            data?.loanType,
+            data?.otherComments
+
+
+        )*/
     }
 
     private suspend fun stopLoading(progressBar: ProgrssLoader, message: String?) {

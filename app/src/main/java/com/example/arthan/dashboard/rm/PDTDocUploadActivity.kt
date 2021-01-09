@@ -10,10 +10,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.PDTDocAdapter
 import com.example.arthan.dashboard.rm.adapters.PDTDocAdapterNew
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.model.RMDocs
 import com.example.arthan.model.RMPendingDocs
 import com.example.arthan.network.RetrofitFactory

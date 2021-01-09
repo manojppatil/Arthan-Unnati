@@ -400,9 +400,11 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
                 results: FilterResults
             ) {
                 list.clear()
-                var itemsFiltered = results.values as MutableList<Customer>
-                list=itemsFiltered
-                notifyDataSetChanged()
+                if(results.count>0) {
+                    var itemsFiltered = results.values as MutableList<Customer>
+                    list = itemsFiltered
+                    notifyDataSetChanged()
+                }
             }
         }
     }

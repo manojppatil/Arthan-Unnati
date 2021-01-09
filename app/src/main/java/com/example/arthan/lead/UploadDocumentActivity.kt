@@ -19,10 +19,10 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.global.DOC_TYPE
 import com.example.arthan.liveness.VerifyCardResponse
 import com.example.arthan.liveness.VerifyVoterCardResponse
@@ -896,6 +896,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         async(ioContext) {
             //  if(shopUri != null) {
             val apiService = RetrofitFactory.getMasterApiService()
+//            val apiService = RetrofitFactory.getApiService()
             try {
                 //val stream=  contentResolver?.openInputStream(shopUri!!)
                 val bm = BitmapFactory.decodeStream(FileInputStream(File(filePath)))
@@ -905,9 +906,39 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     RequestBody.create(MediaType.parse("multipart/form-data"), file)
                 val multiPartBody =
                     MultipartBody.Part.createFormData("file", file.name, requestBody)
-                val response = when (cardType) {
+                val map=HashMap<String,String>()
+                map["loanId"]=AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)?:""
+                map["userId"]=ArthanApp.getAppInstance().loginUser  //Logged in userId
+                map["imageBase64"]=base64
+                when (cardType) {
                     CardType.PANCard -> {
-                        apiService.getPANCardInfo(OcrRequest(base64))
+                        map["idType"]="PAN"    //PAN/AF/AB/VOTER/ApplicantPhoto
+
+//                        apiService.getPANCardInfo(OcrRequest(base64))
+                    }
+                    CardType.AadharCardFront-> {
+                        map["idType"]="AF"    //PAN/AF/AB/VOTER/ApplicantPhoto
+
+                    }
+                    CardType.AadharCardBack -> {
+                        map["idType"]="AB"    //PAN/AF/AB/VOTER/ApplicantPhoto
+
+                    }
+                    CardType.VoterIdCard -> {
+                        map["idType"]="VOTER"    //PAN/AF/AB/VOTER/ApplicantPhoto
+
+                    }else->
+                {
+                    ""
+                }}
+                map["applicantType"]= intent.getStringExtra("applicant_type") ?: "PA"  //PA/CA/G
+                val response = apiService.getVerifyKYCDocs(map)
+
+
+                /*when (cardType) {
+                    CardType.PANCard -> {
+                        apiService.getVerifyKYCDocs(map)
+//                        apiService.getPANCardInfo(OcrRequest(base64))
                     }
                     CardType.AadharCardFront, CardType.AadharCardBack -> {
                         apiService.getAadharCardInfo(OcrRequest(base64))
@@ -919,7 +950,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     else -> {
                         null
                     }
-                }
+                }*/
                 if (response != null && response.isSuccessful) {
                     if(cardType==CardType.AadharCardBack)
                     {
@@ -930,11 +961,12 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     }
                     withContext(Dispatchers.Main) {
                         if (mCardData != null|| mCardDataBack!=null) {
-                            if (cardType == CardType.PANCard) {
+                            uploadToS3(filePath, cardType)
+                          /*  if (cardType == CardType.PANCard) {
                                 verifyCardDataAsync(filePath, cardType).await()
                             } else {
                                 uploadToS3(filePath, cardType)
-                            }
+                            }*/
                         } else
                             Toast.makeText(
                                 this@UploadDocumentActivity,
@@ -1456,7 +1488,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             .uploadFile(fileList,
                 {
                     if (mCardData == null) {
-                        mCardData = CardResponse("", "", "", "", null)
+                        mCardData = CardResponse("", "OK", "", "", null)
                     }
                     if (cardType != CardType.AadharCardBack) {
                         mCardData?.cardFrontUrl = fileList[0].url
@@ -1467,7 +1499,9 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     Log.e("URL", ":::: ${fileList[0].url}")
 
                     CoroutineScope(uiContext).launch {
-                        if (cardType == CardType.PANCard) {
+                        btn_next.visibility = View.VISIBLE
+                        mCardData!!.status="OK"
+                       /* if (cardType == CardType.PANCard) {
                             if (mCardData?.status?.equals(
                                     ConstantValue.CardStatus.Ok,
                                     true
@@ -1481,7 +1515,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                         "Please capture valid PAN Card",
                                         Toast.LENGTH_SHORT
                                     ).show()
-                        } else if (cardType == CardType.ApplicantPhoto) {
+                        } else */if (cardType == CardType.ApplicantPhoto) {
                             btn_next.visibility = View.VISIBLE
                         } else {
                             btn_next.visibility = View.VISIBLE

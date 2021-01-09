@@ -20,6 +20,7 @@ data class KYCPostData(
     var panFirstname: String? = "",
     var panId: String? = "",
     var panLastname: String? = "",
+    var customerName: String? = "",
     var panUrl: String? = "",
     var panVerified: String? = "",
     var panDob: String? = "",

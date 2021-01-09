@@ -27,7 +27,9 @@ data class CustomerDocumentAndDataResponseData(
     val kycDocs:ArrayList<RequireDocs> = ArrayList(),
     val residentialDocs:ArrayList<RequireDocs> = ArrayList(),
     val bussPremisesDocs:ArrayList<RequireDocs> = ArrayList(),
-    val loanDetails:LoanPostData?
+    val loanDetails:LoanPostData?,
+    val pd1: Pd1,
+    val pd23: PD23PostData
 
 )
 data class RequireDocs(

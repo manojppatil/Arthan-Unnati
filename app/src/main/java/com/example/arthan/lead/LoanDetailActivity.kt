@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.Toast
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
@@ -18,6 +17,7 @@ import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.LoanPostData
@@ -51,17 +51,18 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
     override fun contentView() = R.layout.activity_loan_detail
 
     override fun onToolbarBackPressed() = onBackPressed()
-
+private var proceed=false;
     private val nTextChangeListener = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) = Unit
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            var case: Boolean = checkForProceed()
+         proceed=checkForProceed()
+          //  var case: Boolean = checkForProceed()
 
-            if(case){
+          /*  if(case){
                 btn_submit?.isEnabled =case
             }else
-            {
+            {*/
                 /*if(property_value_input.hasFocus())
                 {
                     if(property_value_input?.text.toString().isNotEmpty() && loan_amount_input?.text.toString().isNotEmpty()&&
@@ -78,7 +79,7 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                         Toast.makeText(this@LoanDetailActivity,"Loan Amount cant be more than Property Value",Toast.LENGTH_LONG).show()
                     }
                 }*/
-            }
+//            }
         }
 
     }
@@ -264,18 +265,32 @@ class LoanDetailActivity : BaseActivity(), CoroutineScope {
                 }
             }
         btn_submit?.setOnClickListener {
+            if(proceed) {
+                if (property_value_input?.text.toString().isNotEmpty() && loan_amount_input?.text.toString().isNotEmpty() &&
+                    loan_amount_input?.text.toString().toLong() > property_value_input?.text.toString().toLong()
+                ) {
+                    Toast.makeText(
+                        this@LoanDetailActivity,
+                        "Loan Amount cant be more than Property Value",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@setOnClickListener
+                }else {
+                    saveLoanDetails()
+                }
 
-                   if(property_value_input?.text.toString().isNotEmpty() && loan_amount_input?.text.toString().isNotEmpty()&&
-                       loan_amount_input?.text.toString().toLong()>property_value_input?.text.toString().toLong())
-                   {
-                       Toast.makeText(this@LoanDetailActivity,"Loan Amount cant be more than Property Value",Toast.LENGTH_LONG).show()
-                  return@setOnClickListener
-                   }
+            }else
+            {
+                Toast.makeText(
+                    this@LoanDetailActivity,
+                    "Please fill all the mandatory fields and proceed",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
 
 
 
 
-            saveLoanDetails()
 //            startActivity(Intent(this@LoanDetailActivity,LeadScreeningActivity::class.java))
         }
 

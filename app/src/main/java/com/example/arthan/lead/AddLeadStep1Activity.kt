@@ -15,6 +15,8 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -31,7 +33,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.bumptech.glide.Glide
-import com.crashlytics.android.Crashlytics
 import com.example.arthan.AppLocationProvider
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
@@ -39,6 +40,7 @@ import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.lead.adapter.DataSpinnerAdapter
 import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.LeadPostData
@@ -179,10 +181,14 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             later="No"
         }
         chk_later.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked)
+            if (isChecked) {
                 et_date.visibility = View.VISIBLE
-            else
+                later = "Yes"
+            }
+            else {
                 et_date.visibility = View.GONE
+                later = "No"
+            }
         }
 
         switch_interested.setOnCheckedChangeListener { _, isChecked ->
@@ -576,7 +582,8 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 
     private fun saveLead() {
         if (lat == null) {
-            fetchLocation(3)
+            Toast.makeText(this,"Location is empty. Please wait fetching your current location",Toast.LENGTH_LONG).show()
+            fetchLocation(5)
             return
         }
         val progressBar = ProgrssLoader(this)
@@ -616,18 +623,27 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                     if (result?.apiCode == "200") {
                         withContext(Dispatchers.Main) {
                             progressBar.dismmissLoading()
-                            if (chk_later.isChecked || !switch_interested.isChecked) {
+                            if (result.canNavigate == "N") {
 
+                                Toast.makeText(this@AddLeadStep1Activity,"Customer Already exists",Toast.LENGTH_LONG).show()
                                 finish()
                             } else {
-                                AppPreferences.getInstance()
-                                    .addString(AppPreferences.Key.LeadId, result.leadId)
-                                leadId = result.leadId!!
-                                LoanDetailActivity.startMe(this@AddLeadStep1Activity, result.leadId)
-                                //  finish()
+                                if (chk_later.isChecked || !switch_interested.isChecked) {
+
+                                    finish()
+                                } else {
+                                    AppPreferences.getInstance()
+                                        .addString(AppPreferences.Key.LeadId, result.leadId)
+                                    leadId = result.leadId!!
+                                    LoanDetailActivity.startMe(
+                                        this@AddLeadStep1Activity,
+                                        result.leadId
+                                    )
+                                    //  finish()
+                                }
                             }
                         }
-                    } else {
+                    }else {
                         stopLoading(progressBar, result?.apiDesc)
                     }
                 } else {
@@ -811,18 +827,26 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 
                            lat = location?.latitude.toString()
                            lng = location?.longitude.toString()
-                           btn_geolocator.isEnabled=false
-                           Toast.makeText(this@AddLeadStep1Activity,
-                               "location received-{$lat} / {$lng}",Toast.LENGTH_LONG).show()
+                           Handler(Looper.getMainLooper()).post( Runnable {
+                             //  btn_geolocator.isEnabled=false
+                               Toast.makeText(this@AddLeadStep1Activity,
+                                   "location received-{$lat} / {$lng}",Toast.LENGTH_LONG).show()
+                           })
+
                            Log.d("latlng", lng.toString())
-                           if (from != 3) {
+                           if (from != 3&&from!=5) {
                                navigateToCamera(from)
 
+                           }
+                           else if(from==5)
+                           {
+                               saveLead()
                            }
                            AppLocationProvider().stopLocation()
 
                            // use location, this might get called in a different thread if a location is a last known location. In that case, you can post location on main thread
                        }
+
                    })
 
            }
@@ -833,7 +857,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                ).build()
                request.listeners {
                    onAccepted {
-                       fetchLocation(3)
+                       fetchLocation(from)
 
                    }
                    onDenied {

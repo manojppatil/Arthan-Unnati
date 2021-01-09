@@ -8,16 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.PdResponseInterface
+import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.lead.model.postdata.PD1PostData
 import com.example.arthan.lead.model.postdata.ProductData
-import com.example.arthan.lead.model.responsedata.BaseResponseData
-import com.example.arthan.network.RetrofitFactory
-import com.example.arthan.utils.ProgrssLoader
-import com.google.android.material.textfield.TextInputEditText
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_pd1.*
 import kotlinx.android.synthetic.main.sales_estimation_layout.*
 import kotlinx.coroutines.*
@@ -26,7 +22,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * A simple [Fragment] subclass.
  */
-class PD1Fragment : Fragment(), CoroutineScope {
+class PDFragment : Fragment(), CoroutineScope,PdResponseInterface {
 
     private val job = Job()
     override val coroutineContext: CoroutineContext
@@ -50,7 +46,7 @@ class PD1Fragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (activity as BMDocumentVerificationActivity).pd1ResponseInter=this
         view.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         add_estimation_button?.setOnClickListener {
             sales_estimation_list?.addView(
@@ -67,6 +63,58 @@ class PD1Fragment : Fragment(), CoroutineScope {
 
         btn_save_continue?.setOnClickListener {
             savePD1Data()
+        }
+    }
+
+    private fun loadDataFromBCMResponse() {
+        if(activity is BMDocumentVerificationActivity)
+        {
+            if((activity as BMDocumentVerificationActivity).pd1Response!=null)
+            {
+                val pd1Data= (activity as BMDocumentVerificationActivity).pd1Response ?: return
+
+                val list =
+                    resources.getStringArray(R.array.arr_method_used)
+                if (list != null) {
+                    for (i in list.indices) {
+                        if (list[i].toLowerCase() == pd1Data.methodused?.toLowerCase()) {
+                            method_used_spinner.setSelection(i)
+                        }
+                    }
+
+                }
+                high_per_week_count_input.setText(pd1Data.highPerWeekCount)
+                medium_per_week_count_input.setText(pd1Data.mediumPerWeekCount)
+                low_per_week_count_input.setText(pd1Data.lowPerWeekCount)
+                high_per_day_count_input.setText(pd1Data.highPerDayAmount)
+                medium_per_day_count_input.setText(pd1Data.mediumPerDayAmount)
+                low_per_day_count_input.setText(pd1Data.lowPerDayAmount)
+                gross_margin_input.setText(pd1Data.grossMarginVerifiedByBcm)
+                other_income_salaries_input.setText(pd1Data.otherIncomeSalaries)
+                other_income_rent_input.setText(pd1Data.otherIncomeRent)
+                other_income_agriculture_input.setText(pd1Data.otherIncomeAgriculture)
+                any_other_income_input.setText(pd1Data.otherIncome)
+                remarks_input.setText(pd1Data.incomeRemarks)
+                operating_expenses_salaries_input.setText(pd1Data.salaries)
+                operating_expenses_rent_input.setText(pd1Data.rent)
+                operating_expenses_utilities_input.setText(pd1Data.utilities)
+                operating_expenses_licence_renewal_input.setText(pd1Data.licenseRenewal)
+                operating_expenses_transportation_rent_input.setText(pd1Data.transportation)
+                operating_expenses_financial_expenses_input.setText(pd1Data.financialExpenses)
+                any_operating_expenses_other_input.setText(pd1Data.otherOpex)
+                household_expenses_food_input.setText(pd1Data.food)
+                household_expenses_rent_input.setText(pd1Data.rent)
+                household_expenses_utilities_input.setText(pd1Data.utilities)
+                household_expenses_clothing_input.setText(pd1Data.clothing)
+                household_expenses_education_input.setText(pd1Data.education)
+                household_expenses_health_care_input.setText(pd1Data.healthcare)
+                household_expenses_personal_debt_input.setText(pd1Data.personalDebt)
+                household_expenses_any_other_input.setText(pd1Data.otherOpex)
+                loan_amount_recommended_input.setText(pd1Data.loanamountrecommended)
+                customerComfortableEMi.setText(pd1Data.comfEmi)
+
+
+            }
         }
     }
 
@@ -142,5 +190,9 @@ class PD1Fragment : Fragment(), CoroutineScope {
         )
         mPdFragmentClickListener?.onPD1Fragment(postData)
 
+    }
+
+    override fun setResponseToFields() {
+        loadDataFromBCMResponse()
     }
 }

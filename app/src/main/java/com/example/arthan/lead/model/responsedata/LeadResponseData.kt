@@ -8,5 +8,6 @@ data class LeadResponseData(
     val status: Int?,
     val error: String?,
     val message: String?,
+    val canNavigate: String?,
     val path: String?
 )
