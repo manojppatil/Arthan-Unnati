@@ -11,7 +11,10 @@ data class IncomeDetails(
     val loanId: String = "",
     val monthlyFamilyIncome: String = "",
     val monthlyhouseholdexpenditures: String = "",
+    val monthlybusinessexpenditures: String = "",
     val netMarginaspercustomer: String = "",
     val noofEarningFamilyMembers: String = "",
+    val tenor: String = "",
+    val emisPaid: String = "",
     val numberofFamilyMembers: String = ""
 )

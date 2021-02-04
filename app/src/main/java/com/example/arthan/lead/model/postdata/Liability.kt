@@ -7,6 +7,8 @@ data class Liability(
     val loanDocumentUrl: String? = "",
     val loanSanctionedBy: String? = "",
     val loanTenureFrom: String? = "",
+    val tenor: String? = "",
+    val emisPaid: String? = "",
     val loanTenureTo: String? = "",
     val loanType: String? = "",
     val outstandingAmount: String? = "",

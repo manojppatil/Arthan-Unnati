@@ -1,16 +1,24 @@
 package com.example.arthan.lead
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.example.arthan.AppLocationProvider
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.BMDocumentVerificationActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
@@ -33,6 +41,8 @@ import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.getRupeeSymbol
 import com.example.arthan.views.activities.PendingCustomersActivity
+import com.fondesa.kpermissions.extension.listeners
+import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_business_information.*
@@ -54,6 +64,8 @@ import kotlin.coroutines.CoroutineContext
 
 class BusinessInformationFragment : Fragment(), CoroutineScope {
 
+    private  var lat: String="0.0"
+    private  var lng: String="0.0"
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
@@ -83,6 +95,13 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         firm_name_input.setText(activity?.intent?.getStringExtra("businessName"))
 
 
+        if(ArthanApp.getAppInstance().loginRole=="RM")
+        {
+            btn_geolocator.visibility=View.VISIBLE
+        }
+        btn_geolocator.setOnClickListener {
+            fetchLocation(5)
+        }
         ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_save_continue.setOnClickListener {
 //            saveBusinessData() //comment temporarily
@@ -200,6 +219,83 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 //            }
 //        })
     }
+    private fun fetchLocation(from: Int) {
+
+        when {
+            ContextCompat.checkSelfPermission(
+                activity!!,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // You can use the API that requires the permission.
+                AppLocationProvider().getLocation(
+                    activity!!,
+                    object : AppLocationProvider.LocationCallBack {
+                        override fun locationResult(location: Location?) {
+
+                            lat = location?.latitude.toString()
+                            lng = location?.longitude.toString()
+                            Handler(Looper.getMainLooper()).post( Runnable {
+                                //  btn_geolocator.isEnabled=false
+                                Toast.makeText(activity!!,
+                                    "location received-{$lat} / {$lng}",Toast.LENGTH_LONG).show()
+                            })
+
+                            Log.d("latlng", lng.toString())
+                            /* if(from==5)
+                            {
+                                saveBusinessData()
+                            }*/
+                            AppLocationProvider().stopLocation()
+
+                            // use location, this might get called in a different thread if a location is a last known location. In that case, you can post location on main thread
+                        }
+
+                    })
+
+            }
+            else -> {
+                val request = permissionsBuilder(
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ).build()
+                request.listeners {
+                    onAccepted {
+                        fetchLocation(from)
+
+                    }
+                    onDenied {
+                    }
+                    onPermanentlyDenied {
+                    }
+                }
+                request.send()
+            }
+
+        }
+
+/*
+        var mLocationManager = getSystemService(LOCATION_SERVICE) as LocationManager;
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        mLocationManager.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER, 0,
+            0f, this);
+   */ }
 
    /* private fun updateBusinessDetails() {
 
@@ -358,7 +454,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 post.userId=ArthanApp.getAppInstance().loginUser + ""
                 post.remarks=et_remarks?.text.toString()
                 CoroutineScope(Dispatchers.IO).launch {
-                    val respo = RetrofitFactory.getApiService().updateBusinessDetails(
+//                    val respo = RetrofitFactory.getApiService().updateBusinessDetails(
+                    val respo = RetrofitFactory.getApiService().saveBusinessDetail(
                        post
                     )
 
@@ -555,6 +652,11 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         return postBody
     }
     private fun saveBusinessData() {
+        if(lat == "0.0")
+        {
+            Toast.makeText(activity!!,"Please capture location coordinates and try again",Toast.LENGTH_LONG).show()
+            return
+        }
         var reassign="N"
         if(loanId==null||loanId==""||custId==null||custId=="")
         {
@@ -653,6 +755,9 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             annualturnoverofpreviousfinancialyear = annual_turnover_previous_year_input?.text?.toString(),
             projectedturnover = projected_turnover_input?.text?.toString(),
             operatingbusinessaddress = operating_business_address_input?.text?.toString(),
+                lat = lat.toString(),
+                lng = lng.toString(),
+
             registeredbusinessaddress = registered_business_address_input?.text?.toString(),
                 reassign = reassign,
                 associateFirms =associateFirm
@@ -940,7 +1045,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         projected_turnover_input?.setText(businessDetails?.projectedturnover)
         operating_business_address_input?.setText(businessDetails?.operatingbusinessaddress)
         registered_business_address_input?.setText(businessDetails?.registeredbusinessaddress)
-        businessDetails?.partners?.let {
+       /* businessDetails?.partners?.let {
             if (it.isNotEmpty()) {
                 val partner = it[0]
                 partners_name_input?.setText(partner.partnername)
@@ -1025,7 +1130,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
                 any_associate_firm_switch.isChecked=true
             }
-          /*  if (it.size > 1) {
+          *//*  if (it.size > 1) {
                 for (index in 1 until it.size) {
                     val partnerView = LayoutInflater.from(context)
                         .inflate(R.layout.layout_partner_details, null, false)
@@ -1060,14 +1165,14 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
                     ll_partners?.addView(partnerView)
                 }
-            }*/
-        }
+            }*//*
+        }*/
 
 
 
        var  list2 = spinnerData
 
-        for (index in 0 until(list2?.size?:0))
+      /*  for (index in 0 until(list2?.size?:0))
         {
             if(businessDetails?.associateFirms!=null&&businessDetails.associateFirms?.size!! > 0&&list2?.get(index)?.value==businessDetails.associateFirms?.get(0)?.constitution)
             {
@@ -1080,6 +1185,6 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 nature_of_association_spinner?.setSelection(index)
                 break
             }
-        }
+        }*/
     }
 }

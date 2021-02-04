@@ -12,7 +12,13 @@ data class CardResponse(
     @SerializedName("reason") val reason: String?,
     @SerializedName("results") val results: List<RequestCardResult>?,
     @Transient var cardFrontUrl: String? = "",
-    @Transient var cardBackUrl: String? = ""
+    @Transient var cardBackUrl: String? = "",
+    val  kycStatus:String?="",
+    val apiCode: String?="",
+    val apiDesc: String?="",
+    val customerId: String?="",
+    val loanId: String?="",
+    val  apiMsg:String?=""
 ) : Parcelable
 
 @Parcelize

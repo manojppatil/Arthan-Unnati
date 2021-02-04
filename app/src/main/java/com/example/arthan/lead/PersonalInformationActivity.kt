@@ -65,11 +65,11 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
         if (intent.hasExtra("PAN_DATA")) {
             mKYCPostData = intent.getParcelableExtra("PAN_DATA") as? KYCPostData
-            et_name.setText(mKYCPostData?.panFirstname)
+            et_name.setText(mKYCPostData?.customerName)
             panNoEt.setText(mKYCPostData?.panId)
             et_father_name.setText(mKYCPostData?.panFathername)
             et_dob.setText(mKYCPostData?.panDob?.replace("/","-"))
-            AppPreferences.getInstance()?.also {
+           /* AppPreferences.getInstance()?.also {
                 address_line1_input?.setText(it.getString(AppPreferences.Key.AddressLine1))
                 address_line2_input?.setText(it.getString(AppPreferences.Key.AddressLine2))
                 city_input?.setText(it.getString(AppPreferences.Key.City))
@@ -77,7 +77,14 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 setValueToState(tl_state,AppPreferences.Key.State)
 //                state_input?.setText(it.getString(AppPreferences.Key.State))
                 pincode_input?.setText(it.getString(AppPreferences.Key.Pincode))
-            }
+            }*/
+            address_line1_input?.setText(mKYCPostData?.address_line1)
+            address_line2_input?.setText(mKYCPostData?.address_line2)
+            city_input?.setText(mKYCPostData?.city)
+
+            setValueToState(tl_state,mKYCPostData?.state)
+//                state_input?.setText(it.getString(AppPreferences.Key.State))
+            pincode_input?.setText(mKYCPostData?.pincode)
             cb_sameAddress.setOnCheckedChangeListener { buttonView, isChecked ->
                 if(!isChecked)
                 {
@@ -99,7 +106,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         btn_next.setOnClickListener {
 
             if (et_name.length() > 0 && panNoEt.length() > 0 && et_father_name.length() > 0 && et_dob.length() > 0
-                && contact_number_input.length() > 0 && email_id_input.length() > 0 && gross_annual_income_spinner.length() > 0 &&
+                && contact_number_input.length() > 0 && email_id_input.length() > 0 /*&& gross_annual_income_spinner.length() > 0*/ &&
                 address_line1_input.length() > 0 && address_line2_input.length() > 0 && pincode_input.length() > 0 && city_input.length() > 0
                 && district_input.length() > 0
             ) {
@@ -111,7 +118,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 }
             }else
             {
-                Toast.makeText(this,"ALl fields are mandatory",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"All fields are mandatory",Toast.LENGTH_LONG).show()
             }
 
         }
@@ -355,12 +362,12 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                             it.remove(AppPreferences.Key.Pincode)
                                         }*/
                                 progressBar.dismmissLoading()
-                                if (applicantType == "PA") {
+                            //    if (applicantType == "PA") {
                                     var alert =
                                         AlertDialog.Builder(this@PersonalInformationActivity)
-                                    alert.setMessage("Do you want to add co-applicant ?")
+                                    alert.setMessage("Do you want to add co-applicant or Guarantor?")
                                     alert.setPositiveButton(
-                                        "Yes",
+                                        "Co-Applicant",
                                         DialogInterface.OnClickListener { dialog, which ->
                                             dialog.dismiss()
 
@@ -375,8 +382,21 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                             finish()
 
                                         })
-                                    alert.setNegativeButton(
-                                        "No",
+                                alert.setNegativeButton("Guarantor", DialogInterface.OnClickListener { dialog, which ->
+                                    dialog.dismiss()
+                                    startActivity(
+                                        Intent(
+                                            this@PersonalInformationActivity,
+                                            AddLeadStep2Activity::class.java
+                                        ).apply {
+                                            putExtra("type", "G")
+                                            putExtra("loanId", loanId)
+                                        })
+                                    finish()
+
+                                })
+                                    alert.setNeutralButton(
+                                        "Cancel",
                                         DialogInterface.OnClickListener { dialog, which ->
                                             ConsentActivity.startMe(
                                                 this@PersonalInformationActivity,
@@ -388,8 +408,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                         })
                                     alert.show()
 
-                                }
-                                if (applicantType == "CA") {
+                      //          }
+                             /*   if (applicantType == "CA") {
                                     var alert =
                                         AlertDialog.Builder(this@PersonalInformationActivity)
                                     alert.setMessage("Do you want to add Guarantor ?")
@@ -434,7 +454,9 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
 
                                     )
-                                }
+                                }*/
+
+
                                 /*} else {
                                 try {
                                     val result: BaseResponseData? = Gson().fromJson(

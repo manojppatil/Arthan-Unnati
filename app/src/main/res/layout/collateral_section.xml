@@ -304,6 +304,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:text="Collateral Details"/>
 
             <TextView
@@ -325,7 +326,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/security_section_movable"
                 android:layout_marginTop="8dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:orientation="vertical">
 
                 <TextView
@@ -358,7 +359,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
+                            android:layout_weight="0.4"
                             android:text="Owner Name:"
                            />
                         <EditText
@@ -366,7 +367,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/et_coOwnerName"
                             android:inputType="text|textCapCharacters"
-                            android:layout_weight="0.7"
+                            android:layout_weight="0.6"
                         />
                     </LinearLayout>
                     <LinearLayout
@@ -380,7 +381,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
+                            android:layout_weight="0.4"
                             android:text="Policy/Unique No:"
                             />
                         <EditText
@@ -388,7 +389,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/et_COpolicyNo"
                             android:inputType="text|textCapCharacters"
-                            android:layout_weight="0.7"
+                            android:layout_weight="0.6"
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -402,7 +403,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
+                            android:layout_weight="0.4"
                             android:text="Surrender value:"
                             />
                         <EditText
@@ -411,7 +412,7 @@
                             android:id="@+id/et_cosurrenderValue"
                             android:inputType="number"
                             android:text="₹"
-                            android:layout_weight="0.7"
+                            android:layout_weight="0.6"
                             />
                     </LinearLayout>
                 </LinearLayout>

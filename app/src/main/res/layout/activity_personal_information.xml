@@ -382,6 +382,7 @@
                 android:hint="Gross Annual Income"
                 android:textColor="#000000"
                 android:inputType="number"
+                android:visibility="gone"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

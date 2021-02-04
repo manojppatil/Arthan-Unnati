@@ -1,6 +1,6 @@
 package com.example.arthan.global
 
-import `in`.finbox.mobileriskmanager.FinBox
+//import `in`.finbox.mobileriskmanager.FinBox
 import android.util.Log
 import android.widget.Toast
 import androidx.multidex.MultiDexApplication
@@ -33,7 +33,7 @@ class ArthanApp : MultiDexApplication() {
         //FinBox.initLibrary(this)
     }
 
-    private fun createCustomerFinBox() {
+   /* private fun createCustomerFinBox() {
         FinBox.initLibrary(this)
         val customerId= UUID.randomUUID().toString().replace("-".toRegex(), "")
         Log.d("customerId ####",customerId)
@@ -51,7 +51,7 @@ class ArthanApp : MultiDexApplication() {
 
             }
         })
-    }
+    }*/
 
     companion object {
 

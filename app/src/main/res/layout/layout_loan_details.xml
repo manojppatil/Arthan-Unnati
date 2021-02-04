@@ -296,6 +296,35 @@
         app:layout_constraintTop_toBottomOf="@id/rgrp_frequecy" />
 
     <EditText
+        android:id="@+id/tenor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Tenor in Months"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/emisPaid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_loan_tenure" />
+
+    <EditText
+        android:id="@+id/emisPaid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="EMIs paid"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tenor"
+        app:layout_constraintTop_toBottomOf="@id/txt_loan_tenure" />
+    <EditText
         android:id="@+id/et_from"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -306,6 +335,7 @@
         android:drawableEnd="@drawable/ic_calender"
         android:editable="false"
         android:focusable="true"
+        android:visibility="gone"
         android:hint="From(dd/mm/yy)"
         android:singleLine="true"
         android:textColor="#000000"
@@ -321,6 +351,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:visibility="gone"
         android:clickable="true"
         android:drawableEnd="@drawable/ic_calender"
         android:editable="false"
@@ -343,7 +374,7 @@
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_from"
+        app:layout_constraintTop_toBottomOf="@id/tenor"
         app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.TextInputEditText

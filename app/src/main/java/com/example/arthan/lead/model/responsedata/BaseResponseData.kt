@@ -35,6 +35,7 @@ data class BaseResponseData(
     val  addressLine2:String ,
     val  city:String ,
     val  state:String ,
+    val  marketValue:String ,
     val  pincode:String
 
 )

@@ -935,6 +935,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 val response = apiService.getVerifyKYCDocs(map)
 
 
+
                 /*when (cardType) {
                     CardType.PANCard -> {
                         apiService.getVerifyKYCDocs(map)
@@ -951,7 +952,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         null
                     }
                 }*/
-                if (response != null && response.isSuccessful) {
+                if (response != null && response.isSuccessful&&response.body()?.kycStatus!="InValid") {
                     if(cardType==CardType.AadharCardBack)
                     {
                         mCardDataBack = response.body()
@@ -974,12 +975,23 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 Toast.LENGTH_SHORT
                             ).show()
                     }
-                } else
-                    Toast.makeText(
-                        this@UploadDocumentActivity,
-                        "Please Try again...",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                } else {
+                    withContext(Dispatchers.Main) {
+                        if (response.body()?.kycStatus == "InValid") {
+                            Toast.makeText(
+                                this@UploadDocumentActivity,
+                                response.body()?.apiMsg,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                this@UploadDocumentActivity,
+                                "Please Try again...",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
             } catch (e: HttpException) {
                 e.printStackTrace()
                 Crashlytics.log(e.message)

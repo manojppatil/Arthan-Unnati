@@ -75,6 +75,7 @@
             android:layout_marginTop="16dp"
             app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_date_of_incorporation"
             app:layout_constraintVertical_chainStyle="packed">
@@ -153,6 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -229,6 +231,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_black"
             android:letterSpacing="0.05"
+            android:visibility="gone"
             android:lineSpacingExtra="8.3sp"
             android:text="@string/number_of_employees"
             android:textColor="#000000"
@@ -245,6 +248,7 @@
             android:background="@color/disable"
             android:gravity="center"
             android:minWidth="0dp"
+            android:visibility="gone"
             android:minHeight="0dp"
             android:padding="8dp"
             android:text=" - "
@@ -261,6 +265,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
+            android:visibility="gone"
             android:background="@drawable/bg_rect_border"
             android:fontFamily="@font/lato_black"
             android:gravity="center"
@@ -283,6 +288,7 @@
             android:background="#f75002"
             android:gravity="center"
             android:minWidth="0dp"
+            android:visibility="gone"
             android:minHeight="0dp"
             android:padding="8dp"
             android:text=" + "
@@ -325,6 +331,8 @@
             android:letterSpacing="0.05"
             android:lineSpacingExtra="8.3sp"
             android:text="@string/any_other_partners"
+            android:visibility="gone"
+
             android:textAlignment="gravity"
             android:textColor="#404040"
             android:textSize="14sp"
@@ -344,6 +352,7 @@
             android:fontFamily="@font/lato_regular"
             android:padding="4dp"
             android:text="Yes"
+            android:visibility="gone"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1"
@@ -362,7 +371,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switch_partners">
 
-            <include layout="@layout/layout_partner_details" />
+            <include
+                android:visibility="gone"
+                layout="@layout/layout_partner_details" />
 
         </LinearLayout>
 
@@ -374,6 +385,7 @@
             android:layout_marginTop="32dp"
             android:background="@drawable/bg_rect_border"
             android:backgroundTint="#ffb800"
+            android:visibility="gone"
             android:fontFamily="@font/lato_black"
             android:minWidth="0dp"
             android:minHeight="0dp"
@@ -396,6 +408,7 @@
             android:layout_marginTop="16dp"
             app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_add_partner"
             app:layout_constraintVertical_chainStyle="packed">
@@ -417,6 +430,7 @@
             android:id="@+id/nature_of_association_spinner"
             style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:backgroundTint="#000000"
@@ -435,6 +449,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:hintEnabled="true"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nature_of_association_spinner"
@@ -460,6 +475,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:hintEnabled="true"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_mobile_number"
@@ -485,6 +501,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:hintEnabled="true"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_whats_app_number"
@@ -619,6 +636,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:hintEnabled="true"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_annual_turnover_current_year"
@@ -642,6 +660,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:hintEnabled="true"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_annual_turnover_previous_year"
@@ -666,6 +685,7 @@
             android:layout_marginTop="16dp"
             app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_projected_turnover"
             app:layout_constraintVertical_chainStyle="packed">
@@ -676,7 +696,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/annual_turnover"
-                android:visibility="gone"
                 android:singleLine="true"
                 android:inputType="number"
                 android:textColor="#000000"
@@ -690,6 +709,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/any_associate_firm"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/any_associate_firm_switch"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/any_associate_firm_switch" />
@@ -701,6 +721,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="No"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_annual_turnover" />
 
@@ -713,8 +734,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/any_associate_firm_switch"
-            tools:visibility="visible">
+            app:layout_constraintTop_toBottomOf="@+id/any_associate_firm_switch">
 
             <EditText
                 android:id="@+id/name_of_associate_firm_input"
@@ -735,8 +755,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_name_of_associate_firm"
-            tools:visibility="visible">
-
+            >
             <EditText
                 android:id="@+id/firm_address_input"
                 android:layout_width="match_parent"
@@ -761,7 +780,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_firm_address"
-            tools:visibility="visible" />
+             />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/presently_banking_with_spinner"
@@ -779,6 +798,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constitution_spinner"
             tools:visibility="visible" />
+        <Button
+            android:id="@+id/btn_geolocator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_background"
+            android:enabled="true"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:visibility="gone"
+            android:paddingStart="36dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="36dp"
+            android:paddingBottom="8dp"
+            android:text="Locate"
+            android:textColor="@color/button_text_color"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/presently_banking_with_spinner"
+            />
 
         <Button
             android:id="@+id/btn_save_continue"
@@ -797,7 +840,7 @@
             android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/presently_banking_with_spinner"
+            app:layout_constraintTop_toBottomOf="@+id/btn_geolocator"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed" />
 

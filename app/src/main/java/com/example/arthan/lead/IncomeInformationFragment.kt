@@ -1069,7 +1069,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
             monthlybusinessexpenditures = business_expenditure_amount_input?.text?.toString(),
             expenditures = expenditureList,
             liabilities = liablitiesList,
-            methodUsed = method_used_spinner?.selectedItem as? String,
+            methodUsed = spnr_loan_type?.selectedItem as? String,
             reassign = "N"
         )
         return postBody
@@ -1154,9 +1154,9 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
         val progressBar = ProgrssLoader(context ?: return)
         progressBar.showLoading()
         val sourceOfIncomeList: MutableList<Income> = mutableListOf()
-        if (income_per_month_input?.text?.isNotEmpty() == true && source_of_income_input?.selectedItem.toString()
+        /*if (income_per_month_input?.text?.isNotEmpty() == true && source_of_income_input?.selectedItem.toString()
                 .isNotEmpty()
-        ) {
+        ) {*/
             sourceOfIncomeList.add(
                 Income(
                     incomePerMonth = income_per_month_input?.text?.toString(),
@@ -1176,7 +1176,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                     )
                 }
             }
-        }
+//        }
         val expenditureList: MutableList<Expenditure> = mutableListOf()
         if (grocery_expenditure_label?.isChecked == true) {
             expenditureList.add(
@@ -1322,6 +1322,8 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                         ""
                     },
                     loanTenureFrom = et_from?.text?.toString(),
+                    emisPaid = emisPaid?.text?.toString(),
+                    tenor = tenor?.text?.toString(),
                     loanTenureTo = et_to?.text?.toString(),
                     outstandingAmount = outstanding_amount_input?.text?.toString(),
                     loanDocumentUrl = loanDocUrl,
@@ -1358,6 +1360,8 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                             },
                             loanTenureFrom = loanDetails?.findViewById<TextInputEditText?>(R.id.et_from)?.text?.toString(),
                             loanTenureTo = loanDetails?.findViewById<TextInputEditText?>(R.id.et_to)?.text?.toString(),
+                            tenor = loanDetails?.findViewById<TextInputEditText?>(R.id.tenor)?.text?.toString(),
+                            emisPaid = loanDetails?.findViewById<TextInputEditText?>(R.id.emisPaid)?.text?.toString(),
                             outstandingAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.outstanding_amount_input)?.text?.toString(),
                             loanDocumentUrl = loanDocUrl,
                             considerCFA = loanDetails?.findViewById<CheckBox?>(R.id.cfa_cb)?.isChecked
@@ -1381,7 +1385,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
             monthlybusinessexpenditures = business_expenditure_amount_input?.text?.toString(),
             expenditures = expenditureList,
             liabilities = liablitiesList,
-            methodUsed = method_used_spinner?.selectedItem as? String,
+            methodUsed = spnr_loan_type?.selectedItem as? String,
             reassign = reassign
         )
         CoroutineScope(Dispatchers.IO).launch {
@@ -1446,6 +1450,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                                 var b = Bundle()
                                 b.putString("loanType", result.loanType)
                                 activity?.intent?.putExtra("loanType", result.loanType)
+                                activity?.intent?.putExtra("apMarketValue", result.marketValue)
                                 navController?.navigate(R.id.action_income_to_doc, b)
                             } else {
                                 startActivity(Intent(activity, RMDashboardActivity::class.java))
@@ -1943,6 +1948,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                 no_of_earning_family_member_count?.text = incomeDetails?.noofEarningFamilyMembers
                 monthly_income_input?.setText(incomeDetails?.monthlyFamilyIncome)
                 total_amount_input?.setText(incomeDetails?.monthlyhouseholdexpenditures)
+                business_expenditure_amount_input?.setText(incomeDetails?.monthlybusinessexpenditures)
                 txt_income_list_msg?.setText(activity?.resources?.getString(R.string.list_all_sources_of_income_1) + " (" + incomeDetails?.incomes?.size + ")")
                 mLoanId = loanId
 //        mCustomerId = incomeDetails?.customerId
@@ -2160,14 +2166,14 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                             }
 
                         }
-                       /* for (i in 0 until list2!!.size) {
+                        for (i in 0 until list2!!.size) {
                             if (item.loanSanctionedBy == list2[i]) {
                                 var spnr_santioned_by =
                                     spnr_loan_sanctioned_by
                                 spnr_santioned_by.setSelection(i)
                             }
 
-                        }*/
+                        }
                         loan_amount_input
                             ?.setText(item.loanAmount)
                         emi_input?.setText(item.emi)
@@ -2176,6 +2182,10 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                         et_from
                             ?.setText(item.loanTenureFrom)
                         et_to?.setText(item.loanTenureTo)
+
+                        tenor
+                            ?.setText(item.tenor)
+                        emisPaid?.setText(item.emisPaid)
                         /*loanView?.findViewById<EditText?>(R.id.loan_amount_input)?.let { tv ->
                         tv.setText(item.loanAmount)
                         getRupeeSymbol(context, tv.textSize, tv.currentTextColor).let { drawable ->
@@ -2320,6 +2330,9 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                         loanView?.findViewById<EditText?>(R.id.et_from)
                             ?.setText(item.loanTenureFrom)
                         loanView?.findViewById<EditText?>(R.id.et_to)?.setText(item.loanTenureTo)
+                        loanView?.findViewById<EditText?>(R.id.tenor)
+                            ?.setText(item.tenor)
+                        loanView?.findViewById<EditText?>(R.id.emisPaid)?.setText(item.emisPaid)
                         /*loanView?.findViewById<EditText?>(R.id.loan_amount_input)?.let { tv ->
                     tv.setText(item.loanAmount)
                     getRupeeSymbol(context, tv.textSize, tv.currentTextColor).let { drawable ->
@@ -2455,7 +2468,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
             sum += (other_expenditure_input.text.toString().toInt())
         }
 
-        total_amount_input.setText(sum.toString())
+//        total_amount_input.setText(sum.toString())
 
 
         if(type1_expenditure_input.length()>0)
@@ -2485,7 +2498,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
             householdTotal += (type6_expenditure_input.text.toString().toInt())
         }
 
-        business_expenditure_amount_input.setText(householdTotal.toString())
+//        business_expenditure_amount_input.setText(householdTotal.toString())
 
 
 

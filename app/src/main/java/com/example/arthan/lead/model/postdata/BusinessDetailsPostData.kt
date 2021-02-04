@@ -46,5 +46,7 @@ data class BusinessDetailsPostData(
     var state: String? = "",
     val reassign:String="N",
     var remarks:String?="",
-    var userId:String?=""
+    var userId:String?="",
+    var lat:String?="",
+    var lng:String?=""
 )

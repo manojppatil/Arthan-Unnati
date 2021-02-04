@@ -92,7 +92,7 @@ class PD2Fragment : Fragment(),PdResponseInterface {
     override fun setResponseToFields() {
 
         val pd2Data= (activity as BMDocumentVerificationActivity).pd23Response
-        if(pd2Data!=null){
+        if(pd2Data!=null&&pd2Data.loanId!=null&&pd2Data.loanId!!.isNotEmpty()){
         setDatatoSpinner(type_of_business_cash_or_credit_spinner, pd2Data.businessCashCredit!!,R.array.arr_type_of_business_cash)
         setDatatoSpinner(dependency_no_of_product_spinner, pd2Data.dependencyNoofProducts!!,R.array.arr_no_product)
         setDatatoSpinner(dependency_on_customer_spinner, pd2Data.dpendencyNoofCustomers!!,R.array.arr_no_of_customer)

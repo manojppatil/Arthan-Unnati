@@ -70,6 +70,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
         mLoanId = activity?.intent?.getStringExtra("loanId")
         mCustomerId = activity?.intent?.getStringExtra("custId")
+        et_marketValueCo.setText(activity?.intent?.getStringExtra("apMarketValue"))
+        et_MarketValueImm.setText(activity?.intent?.getStringExtra("apMarketValue"))
         //  mLoanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)
         // mCustomerId = AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
 
@@ -141,7 +143,20 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 no_of_rented_tenants_count
             )
         }*/
+        et_address.visibility=View.GONE
 
+
+        rb_Others.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if(isChecked)
+            {
+                et_address.visibility=View.VISIBLE
+            }else
+            {
+                et_address.visibility=View.GONE
+
+            }
+        }
 
         val securitySpinner: AdapterView.OnItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -479,7 +494,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
 
                 alert.show()
-            } else if(ArthanApp.getAppInstance().loginRole=="RM"||ArthanApp.getAppInstance().loginRole=="AM"){
+            }
+            else if(ArthanApp.getAppInstance().loginRole=="RM"||ArthanApp.getAppInstance().loginRole=="AM"){
 //                if (navController != null) {
                     val progressLoader: ProgrssLoader? =
                         if (context != null) ProgrssLoader(context!!) else null
@@ -487,15 +503,25 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     launch(ioContext) {
                         val isTradeReferenceSaved = saveTradeReferenceDataAsync().await()
 //                        val isNeighbourReferenceSaved = saveNeighbourReferenceAsync().await()
-                        var isCollateralSaved=true
+                        var isCollateralSaved=false
                         if(activity?.intent?.getStringExtra("loanType").equals("Secure",ignoreCase = true)) {
 
                             if(et_coOwnerName.length()>0&&et_COpolicyNo.length()>0&&et_cosurrenderValue.length()>0
                                 &&et_coOthersOwnerName.length()>0&&et_COOtherspolicyNo.length()>0&&et_marketValueCo.length()>0
                                 &&et_derivedValueCO.length()>0){
 
-                            }else{
-                                Toast.makeText(context!!,"Please fill all details",Toast.LENGTH_LONG).show()
+                            }else {
+
+                                withContext(Dispatchers.Main)
+                                {
+                                    Toast.makeText(
+                                        context!!,
+                                        "Please fill all details",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+
+                                    progressLoader?.dismmissLoading()
+                                }
                                 return@launch
                             }
                          /*     immovableDetails = ImmovableDetails(
@@ -514,7 +540,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                                 if (arguments?.getString("task")
                                         .equals("RMreJourney", ignoreCase = true)
                                 ) {
-                                    withContext(Dispatchers.IO)
+                                    withContext(Dispatchers.Main)
                                     {
 
                                         startActivity(
@@ -543,7 +569,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             }
 
                         } else {
-                            withContext(Dispatchers.IO)
+                            withContext(Dispatchers.Main)
                             {
                                 progressLoader?.dismmissLoading()
                                 if (context is ReUsableFragmentSpace) {
@@ -694,7 +720,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 if (response?.body()?.errorCode == "200") {
 
                     withContext(Dispatchers.Main) {
-                        "sp_immovable_security.adapter = getAdapter(response.body()?.data)"
+//                       sp_immovable_security.adapter = getAdapter(response.body()?.data)
                     }
                 }
 
@@ -1196,7 +1222,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     otherDetails = MovableDetails(
                         ownerName = et_coOthersOwnerName.text.toString(),
                         policyNo = et_COOtherspolicyNo.text.toString(),
-                        marketValue = et_marketValueCo.text.toString(),
+                        marketValue = et_marketValueCo.text.toString().replace("₹",""),
                         derivedValue = et_derivedValueCO.text.toString()
                     ),
                     immovableDetails = ImmovableDetails(
@@ -1205,7 +1231,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         addressType = addressType,
                         collateralType = (sp_collateral_type_liq?.selectedItem as Data).value.toString(),
                         jurisdiction = (sp_jurisdictionType.selectedItem as Data).value.toString(),
-                        marketValue = et_MarketValueImm.text.toString()
+                        marketValue = et_MarketValueImm.text.toString().replace("₹","")
                         ,
                         rshipWithApplicant = (sp_relaionShipApplicant.selectedItem as Data).description.toString(),
                         ownership = (sp_ownerShip.selectedItem as Data).description.toString()
@@ -1417,6 +1443,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             }
         }
 
+
+
         if (collateralDetails != null && collateralDetails.collaterals.size > 0) {
 
 
@@ -1485,7 +1513,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
             et_coOthersOwnerName.setText(collateralDetails!!.collaterals[0].otherDetails.ownerName)
             et_COOtherspolicyNo.setText(collateralDetails!!.collaterals[0].otherDetails.policyNo)
-            et_marketValueCo.setText(collateralDetails!!.collaterals[0].otherDetails.marketValue)
+          //  et_marketValueCo.setText(collateralDetails!!.collaterals[0].otherDetails.marketValue)
             et_derivedValueCO.setText(collateralDetails!!.collaterals[0].otherDetails.derivedValue)
 
 

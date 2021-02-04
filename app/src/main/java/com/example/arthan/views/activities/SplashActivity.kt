@@ -1,6 +1,6 @@
 package com.example.arthan.views.activities
 
-import `in`.finbox.mobileriskmanager.FinBox
+//import `in`.finbox.mobileriskmanager.FinBox
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
