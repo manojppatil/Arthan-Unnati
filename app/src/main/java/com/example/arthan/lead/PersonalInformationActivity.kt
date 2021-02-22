@@ -327,6 +327,18 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                 )
                                 finish()
                                 return@withContext
+                            }
+                           else if (intent.getStringExtra("task") == "RMContinue") {
+                                startActivity(
+                                    Intent(
+                                        this@PersonalInformationActivity,
+                                        RMScreeningNavigationActivity::class.java
+                                    ).apply {
+                                        putExtra("loanId", loanId)
+                                    }
+                                )
+                                finish()
+                                return@withContext
                             } else if(intent.getStringExtra("task")=="Add-CoApplicant")
                             {
                                 withContext(Dispatchers.Main)
@@ -569,7 +581,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
               {
                   setDataForPA(personalDetails[i])
               }
-              if(personalDetails[i].applicantType=="CA"&&intent.getStringExtra("screen").endsWith("_CA"))
+              if(personalDetails[i].applicantType=="CA"&&intent.getStringExtra("screen").contains("_CA"))
               {
                   setDataForPA(personalDetails[i])
               }

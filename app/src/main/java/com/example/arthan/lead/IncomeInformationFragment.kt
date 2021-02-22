@@ -852,8 +852,8 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                     })
                     sourceOfIncomeList.add(
                         Income(
-                            incomePerMonth = ((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(1) as Spinner).selectedItem as Data).value,
-                                    incomeSource =    (((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(2) as ViewGroup)).getChildAt(0) as ViewGroup).getChildAt(0) as TextInputEditText).text.toString()
+                            incomeSource = ((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(1) as ViewGroup).getChildAt(1) as Spinner).selectedItem as Data).value,
+                                    incomePerMonth =    (((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(2) as ViewGroup)).getChildAt(0) as ViewGroup).getChildAt(0) as TextInputEditText).text.toString()
 //                            incomePerMonth = sourceOfIncome?.findViewById<TextInputEditText?>(R.id.income_per_month_input)?.text?.toString(),
 //                            incomeSource = (source_of_income_input?.selectedItem as Data).value.toString()
 //                            incomeSource = (sourceOfIncome?.findViewById<Spinner?>(R.id.source_of_income_input)?.selectedItem as Data).value.toString()
@@ -1157,15 +1157,30 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
         /*if (income_per_month_input?.text?.isNotEmpty() == true && source_of_income_input?.selectedItem.toString()
                 .isNotEmpty()
         ) {*/
-            sourceOfIncomeList.add(
+          /*  sourceOfIncomeList.add(
                 Income(
                     incomePerMonth = income_per_month_input?.text?.toString(),
                     incomeSource = (source_of_income_input?.selectedItem as Data).value.toString()
                 )
             )
-
-            if ((ll_income_source?.childCount ?: 0) > 1) {
-                for (childCount in 1 until (ll_income_source?.childCount ?: 0)) {
+*/
+        for (childCount in 0 until (ll_income_source?.childCount ?: 0)) {
+            sourceOfIncomeList.add(
+                Income(
+                    incomeSource = ((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(
+                        1
+                    ) as ViewGroup).getChildAt(1) as Spinner).selectedItem as Data).value,
+                    incomePerMonth = (((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(
+                        2
+                    ) as ViewGroup)).getChildAt(0) as ViewGroup).getChildAt(0) as TextInputEditText).text.toString()
+//                            incomePerMonth = sourceOfIncome?.findViewById<TextInputEditText?>(R.id.income_per_month_input)?.text?.toString(),
+//                            incomeSource = (source_of_income_input?.selectedItem as Data).value.toString()
+//                            incomeSource = (sourceOfIncome?.findViewById<Spinner?>(R.id.source_of_income_input)?.selectedItem as Data).value.toString()
+                )
+            )
+        }
+            /*if ((ll_income_source?.childCount ?: 0) > 1) {
+                for (childCount in 0 until (ll_income_source?.childCount ?: 0)) {
                     val sourceOfIncome = ll_income_source?.getChildAt(childCount)
                     sourceOfIncomeList.add(
                         Income(
@@ -1175,7 +1190,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                         )
                     )
                 }
-            }
+            }*/
 //        }
         val expenditureList: MutableList<Expenditure> = mutableListOf()
         if (grocery_expenditure_label?.isChecked == true) {
@@ -2514,11 +2529,13 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
             for (childCount in 0 until (ll_income_source?.childCount ?: 0)) {
 
                 val income =    (((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(2) as ViewGroup)).getChildAt(0) as ViewGroup).getChildAt(0) as TextInputEditText).text.toString()
-                if(income.isNotEmpty())
-                sum += income.toInt()
+                if(income.isNotEmpty()) {
+                    sum += income.toInt()
+                    total_income_et.setText(sum.toString())
+                }
             }
         }
-        total_income_et.setText(sum.toString())
+
     }
     override fun afterTextChanged(s: Editable?) {
         addHouseHoldExpSum()

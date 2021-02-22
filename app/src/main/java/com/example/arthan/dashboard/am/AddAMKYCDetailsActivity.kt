@@ -30,7 +30,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
     override fun contentView() = R.layout.activity_am_kycdetails
 
     var mKYCPostData: KYCPostData? = null
-    //    var loanId: String? = ""
+        var amId: String? = ""
     var custId: String? = ""
 
 
@@ -147,19 +147,19 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                         it.getParcelableExtra(ArgumentKey.PanDetails) as? CardResponse
                     if (mKYCPostData == null) {
                         mKYCPostData = KYCPostData(
-//                            loanId = loanId,
-                            customerId = custId
+                            amId =panCardData?.amId,
+                            customerId = panCardData?.customerId
                         )
                     }
-                    mKYCPostData?.panDob =
-                        panCardData?.results?.get(0)?.cardInfo?.dateInfo.toString()
-                    mKYCPostData?.panFathername =
-                        panCardData?.results?.get(0)?.cardInfo?.fatherName.toString()
-                    mKYCPostData?.panFirstname =
-                        panCardData?.results?.get(0)?.cardInfo?.name.toString()
-                    mKYCPostData?.panId = panCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
-                    mKYCPostData?.panVerified = panCardData?.status.toString()
-                    mKYCPostData?.panUrl = panCardData?.cardFrontUrl.toString()
+                    mKYCPostData?.loanId=panCardData?.loanId
+                    mKYCPostData?.customerId=panCardData?.customerId
+                    mKYCPostData?.panDob = panCardData?.results?.get(0)?.cardInfo?.dateInfo
+                    mKYCPostData?.panFathername = panCardData?.results?.get(0)?.cardInfo?.fatherName
+                    mKYCPostData?.panFirstname = panCardData?.results?.get(0)?.cardInfo?.name
+                    mKYCPostData?.panLastname = panCardData?.results?.get(0)?.cardInfo?.dob
+                    mKYCPostData?.panId = panCardData?.results?.get(0)?.cardInfo?.cardNo
+                    mKYCPostData?.panVerified = panCardData?.status
+                    mKYCPostData?.panUrl = panCardData?.cardFrontUrl
                     txt_am_pan_card.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_document_attached,
                         0,
@@ -183,23 +183,21 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     }
                     val aadharCardData =
                         it.getParcelableExtra(ArgumentKey.AadharDetails) as CardResponse
-
                     val aadharCardDataBack =
                         it.getParcelableExtra(ArgumentKey.AadharDetailsBack) as CardResponse
 
-                    AppPreferences.getInstance().also { ap ->
+                   /* AppPreferences.getInstance().also { ap ->
                         ap.addString(
                             AppPreferences.Key.AadharId,
                             aadharCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
                         )
-                    }
+                    }*/
                     mKYCPostData?.aadharAddress =
-                        aadharCardDataBack?.results?.get(0)?.cardInfo?.address.toString()
-                    mKYCPostData?.aadharId =
-                        aadharCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
-                    mKYCPostData?.aadharFrontUrl = aadharCardData?.cardFrontUrl.toString()
-                    mKYCPostData?.aadharBackUrl = aadharCardDataBack?.cardBackUrl.toString()
-                    mKYCPostData?.aadharVerified = aadharCardData?.status.toString()
+                        aadharCardDataBack?.results?.get(0)?.cardInfo?.address
+                    mKYCPostData?.aadharId = aadharCardData?.results?.get(0)?.cardInfo?.cardNo
+                    mKYCPostData?.aadharFrontUrl = aadharCardData?.cardFrontUrl
+                    mKYCPostData?.aadharBackUrl = aadharCardDataBack?.cardBackUrl
+                    mKYCPostData?.aadharVerified = aadharCardData?.status
                     var aadharCardBack: CardInfo? = null
                     for (index in 0 until (aadharCardData?.results?.size ?: 0)) {
                         if (aadharCardDataBack?.results?.get(index)?.cardSide?.equals(
@@ -226,13 +224,24 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                         ap.addString(AppPreferences.Key.City, aadharCardBack?.city)
                         ap.addString(AppPreferences.Key.State, aadharCardBack?.state)
                     }
+                    mKYCPostData?.pincode=aadharCardBack?.pin
+                    mKYCPostData?.state=aadharCardBack?.state
+                    mKYCPostData?.city=aadharCardBack?.city
+                    mKYCPostData?.district=aadharCardBack?.district
+                    mKYCPostData?.address_line1=aadharCardBack?.addressLineOne
+                    mKYCPostData?. address_line2=aadharCardBack?.addressLineTwo
+                    mKYCPostData?.landmark=aadharCardBack?.landmark
+                    mKYCPostData?.areaName=aadharCardBack?.areaName
+
+
                     txt_am_aadhar_card.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_document_attached,
                         0,
                         0,
                         0
                     )
-                    aadhar_am_accepted.visibility = View.VISIBLE
+//                       adhar_accepted.visibility=View.VISIBLE
+
                     txt_am_aadhar_card.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
@@ -248,11 +257,9 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
 
                     val voterCardData: CardResponse? =
                         it.getParcelableExtra(ArgumentKey.VoterDetails) as? CardResponse
-                    mKYCPostData?.voterId =
-                        voterCardData?.results?.get(0)?.cardInfo?.voterId.toString()
-                    mKYCPostData?.voterUrl = voterCardData?.cardFrontUrl.toString()
-                    mKYCPostData?.voterVerified =
-                        voterCardData?.results?.get(0)?.cardInfo?.voterId.toString()
+                    mKYCPostData?.voterId = voterCardData?.results?.get(0)?.cardInfo?.voterId
+                    mKYCPostData?.voterUrl = voterCardData?.cardFrontUrl
+                    mKYCPostData?.voterVerified = voterCardData?.results?.get(0)?.cardInfo?.voterId
                     txt_am_voter_id.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_document_attached,
                         0,
@@ -282,6 +289,8 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     txt_am_appl_photo.setTextColor(ContextCompat.getColor(this, R.color.black))
                     checkForProceed()
                 }
+
+
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
@@ -299,7 +308,14 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
         progressBar?.showLoading()
         CoroutineScope(ioContext).launch {
             try {
-                mKYCPostData?.loanId = "L111"
+               // mKYCPostData?.applicantType = intent.getStringExtra("type") ?: "pa"
+                val map=HashMap<String,String>()
+                map["amId"]=mKYCPostData?.amId!!
+                map["customerId"]=mKYCPostData?.customerId!!
+                map["applicantType"]="AM"
+                map["paApplicantPhoto"]=mKYCPostData?.paApplicantPhoto!!
+//
+             //   mKYCPostData?.loanId = "L111"
                 mKYCPostData?.applicantType = "AM"
                 mKYCPostData?.amId = ArthanApp.getAppInstance().loginUser
                 val response = RetrofitFactory.getApiService().saveAMKycDetail(mKYCPostData)
@@ -313,12 +329,29 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                                     this@AddAMKYCDetailsActivity,
                                     AMPersonalDetailsActivity::class.java
                                 ).also {
-                                    custId = result.customerId
+                                   // custId = result.customerId
 //                                    loanId = result.loanId
                                     it.putExtra("amMobNo",result.amMobNo);
                                     AppPreferences.getInstance().addString("amMobNo",result.amMobNo);
                                     it.putExtra("PAN_DATA", mKYCPostData)
                                     it.putExtra("AADHAR_NO", mKYCPostData?.aadharId)
+                                    custId = result.customerId
+                                    mKYCPostData?.aadharId=result.applicantAadharNo
+                                    amId = result.loanId
+                                    mKYCPostData?.pincode=result.pincode
+                                    mKYCPostData?.state=result.state
+                                    mKYCPostData?.city=result.city
+                                    mKYCPostData?.address_line1=result.addressLine1
+                                    mKYCPostData?. address_line2=result.addressLine2
+                                    mKYCPostData?.customerName=result.customerName
+                                    mKYCPostData?.panDob=result.customerDob
+                                    mKYCPostData?.panFathername=result.fatherName
+                                    mKYCPostData?.panId=result.panNo
+                                   /* it.putExtra("custId", result.customerId)
+                                    it.putExtra("PAN_DATA", mKYCPostData)
+                                    it.putExtra("loanId", result.loanId)
+                                    it.putExtra("type", intent.getStringExtra("type"))*/
+
                                 }
                             )
                         }

@@ -51,6 +51,10 @@ class OpsCaseActivity : BaseActivity() {
             if(response.body()!=null)
             {
                 withContext(Dispatchers.Main){
+                    finish()
+                    startActivity(Intent(this@OpsCaseActivity,RMReAssignListingActivity::class.java).apply {
+                        putExtra("FROM","REASSIGN")
+                    })
                     progrssLoader.dismmissLoading()
                     Toast.makeText(this@OpsCaseActivity,"Submitted successfully",Toast.LENGTH_LONG).show()
                 }

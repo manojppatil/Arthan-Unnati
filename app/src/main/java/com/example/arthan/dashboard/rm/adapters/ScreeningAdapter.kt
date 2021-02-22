@@ -81,18 +81,19 @@ class ScreeningAdapter(private val context: Context,private var data: List<Scree
             }
             itemView.setOnClickListener {
 
-                completeScreeningList(itemView.findViewById<TextView>(R.id.txt_loan_id).text.toString().replace("Loan ID: ",""),data[position].id)
+                completeScreeningList(itemView.findViewById<TextView>(R.id.txt_loan_id).text.toString().replace("Loan ID: ",""),data[position].id,data[position].id)
 //                getScreenDetails(itemView.findViewById<TextView>(R.id.txt_loan_id).text.toString().replace("Loan ID: ",""))
             }
         }
 
     }
 
-    private fun completeScreeningList(loanId:String,custId:String)
+    private fun completeScreeningList(loanId:String,custId:String,leadId:String)
     {
 
         context.startActivity(Intent(context,RMScreeningNavigationActivity::class.java).apply {
             putExtra("loanId",loanId)
+            putExtra("leadId",leadId)
             putExtra("custId",custId)
         })
     }

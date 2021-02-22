@@ -122,10 +122,12 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         it.getParcelableExtra(ArgumentKey.PanDetails) as? CardResponse
                     if (mKYCPostData == null) {
                         mKYCPostData = KYCPostData(
-                            loanId =loanId,
-                            customerId = custId
+                            loanId =panCardData?.loanId,
+                            customerId = panCardData?.customerId
                         )
                     }
+                    mKYCPostData?.loanId=panCardData?.loanId
+                    mKYCPostData?.customerId=panCardData?.customerId
                     mKYCPostData?.panDob = panCardData?.results?.get(0)?.cardInfo?.dateInfo
                     mKYCPostData?.panFathername = panCardData?.results?.get(0)?.cardInfo?.fatherName
                     mKYCPostData?.panFirstname = panCardData?.results?.get(0)?.cardInfo?.name
@@ -334,10 +336,16 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     mKYCPostData?.userId=ArthanApp.getAppInstance().loginUser
                     mKYCPostData?.stage="BCM Approved"
                 }
-                mKYCPostData?.customerId = custId
-                mKYCPostData?.loanId=loanId
+               // mKYCPostData?.customerId = custId
+                //mKYCPostData?.loanId=loanId
                 mKYCPostData?.applicantType = intent.getStringExtra("type") ?: "pa"
-                val response = RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)
+                val map=HashMap<String,String>()
+                map["loanId"]=mKYCPostData?.loanId!!
+                map["customerId"]=mKYCPostData?.customerId!!
+                map["applicantType"]=intent.getStringExtra("type") ?: "pa"
+                map["paApplicantPhoto"]=mKYCPostData?.paApplicantPhoto!!
+//                val response = RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)
+                val response = RetrofitFactory.getApiService().saveKycDetail(map)
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
@@ -403,6 +411,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                                             it.putExtra("PAN_DATA", mKYCPostData)
                                             it.putExtra("loanId", result.loanId)
                                             it.putExtra("type", intent.getStringExtra("type"))
+                                            if( intent.getStringExtra("task")!=null)
+                                            it.putExtra("task",intent.getStringExtra("task"))
                                         })
 //                            startActivity(
 //                                Intent(

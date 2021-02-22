@@ -117,7 +117,7 @@ interface ApiService {
     suspend fun savePersonalDetail(@Body body: PersonalPostData?): Response<PersonalResponseData>?
 
     @POST("saveKycDetails")
-    suspend fun saveKycDetail(@Body body: KYCPostData?): Response<BaseResponseData>?
+    suspend fun saveKycDetail(@Body body: HashMap<String,String>?): Response<BaseResponseData>?
 
     @POST("saveBusinessDetails")
     suspend fun saveBusinessDetail(@Body body: BusinessDetailsPostData?): Response<BusinessDetailsResponseData>?
@@ -130,6 +130,9 @@ interface ApiService {
 
     @POST("rmResubmitIncome")
     suspend fun rmResubmitIncome(@Body body: IncomeDetailsPostData?): Response<BaseResponseData>?
+
+    @POST("rmReSubmit")
+    suspend fun rmReSubmit(@Body body: HashMap<String,String>?): Response<BaseResponseData>?
 
     @POST("saveTradeReference")
     suspend fun saveTradeReference(@Body body: TradeReferencePostData?): Response<BaseResponseData>?
@@ -185,7 +188,8 @@ interface ApiService {
     @POST("rest/ocrPan")
     suspend fun getPANCardInfo(@Body ocrRequest: OcrRequest): Response<CardResponse>
 
-     @POST("rest/verifyKYCDocs")
+//     @POST("rest/verifyKYCDocs")
+     @POST("verifyKYCDocs")
     suspend fun getVerifyKYCDocs(@Body body: HashMap<String,String>): Response<CardResponse>
 
     @POST("rest/ocrAdhrBack")
@@ -496,7 +500,7 @@ interface ApiService {
     @POST("verifyOTPforEmp")
     suspend fun verifyOTPforEmp(@Body body: Map<String, String>): Response<BaseResponseData>
 
-    @POST("storeMpin")
+    @POST("storeMpinV2")
     suspend fun storeMpin(@Body body: Map<String, String>): Response<BaseResponseData>
 
     @POST("addAM")

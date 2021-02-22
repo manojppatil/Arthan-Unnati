@@ -13,7 +13,7 @@ class ArthanApp : MultiDexApplication() {
     var loginUser:String=""
     var loginRole:String=""
     var empId:String=""
-    var appVersion="Version:1.3"
+    var appVersion="1.5"
     var onboarded=""
     var validAm = ""
     var submitDocs: SubmitMultipleDocsRequest? =null
@@ -23,6 +23,7 @@ class ArthanApp : MultiDexApplication() {
         super.onCreate()
         instance = this
         try {
+
             AppPreferences.init(this)
            // createCustomerFinBox()
         } catch (e: Exception) {

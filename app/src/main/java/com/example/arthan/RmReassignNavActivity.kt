@@ -31,10 +31,38 @@ class RmReassignNavActivity : AppCompatActivity() {
             toolbar_title?.text = "AM Cases"
 
             submitAMcases.visibility=View.VISIBLE
+            ressubmitReassign.visibility=View.GONE
         }else
         {
             submitAMcases.visibility=View.GONE
+            ressubmitReassign.visibility=View.VISIBLE
 
+        }
+        ressubmitReassign.setOnClickListener {
+            val progrssLoader=ProgrssLoader(this!!)
+            progrssLoader.showLoading()
+            val map=HashMap<String,String>()
+            map["loanId"]=intent?.getStringExtra("loanId")!!
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val response=RetrofitFactory.getApiService().rmReSubmit(map)
+                if(response?.body()!=null)
+                {
+                    withContext(Dispatchers.Main){
+                        progrssLoader.dismmissLoading()
+                        Toast.makeText(this@RmReassignNavActivity,"Case is Re submitted successfully",Toast.LENGTH_LONG).show()
+                        startActivity(Intent(this@RmReassignNavActivity,RMReAssignListingActivity::class.java).apply {
+                            putExtra("FROM","REASSIGN")
+                        })
+                    }
+                }else
+                {
+                    withContext(Dispatchers.Main){
+                        progrssLoader.dismmissLoading()
+                        Toast.makeText(this@RmReassignNavActivity,"Error in Resubmission",Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
         }
 
         submitAMcases.setOnClickListener {

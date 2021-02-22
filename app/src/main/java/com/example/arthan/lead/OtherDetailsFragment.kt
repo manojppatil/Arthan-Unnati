@@ -177,6 +177,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         //fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
                         if (list?.get(position)?.description?.toLowerCase() == "movable") {
                             security_section_movable.visibility = View.VISIBLE
+                            others_section.visibility=View.GONE
                             CoroutineScope(Dispatchers.IO).launch {
 
                                 fetchmstrIdsubSecurity(list[position].description!!.toLowerCase())
@@ -506,23 +507,27 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         var isCollateralSaved=false
                         if(activity?.intent?.getStringExtra("loanType").equals("Secure",ignoreCase = true)) {
 
-                            if(et_coOwnerName.length()>0&&et_COpolicyNo.length()>0&&et_cosurrenderValue.length()>0
-                                &&et_coOthersOwnerName.length()>0&&et_COOtherspolicyNo.length()>0&&et_marketValueCo.length()>0
-                                &&et_derivedValueCO.length()>0){
 
-                            }else {
-
-                                withContext(Dispatchers.Main)
+                            if((sp_security.selectedItem as Data).description == "Movable") {
+                                if (et_coOwnerName.length() == 0 || et_COpolicyNo.length() == 0 || et_cosurrenderValue.length() == 0)
+//                                &&et_coOthersOwnerName.length()>0&&et_COOtherspolicyNo.length()>0&&et_marketValueCo.length()>0)
+//                                &&et_derivedValueCO.length()>0)
                                 {
-                                    Toast.makeText(
-                                        context!!,
-                                        "Please fill all details",
-                                        Toast.LENGTH_LONG
-                                    ).show()
+                                    withContext(Dispatchers.Main)
+                                    {
+                                        Toast.makeText(
+                                            context!!,
+                                            "Please fill all details",
+                                            Toast.LENGTH_LONG
+                                        ).show()
 
-                                    progressLoader?.dismmissLoading()
+                                        progressLoader?.dismmissLoading()
+                                    }
+                                    return@launch
+                                } else {
+
+
                                 }
-                                return@launch
                             }
                          /*     immovableDetails = ImmovableDetails(
                                 ownerName = et_COOwnerNameImm.text.toString(),
@@ -568,7 +573,15 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                                 }
                             }
 
-                        } else {
+                        } else if(isTradeReferenceSaved)
+                        {
+                            withContext(Dispatchers.Main) {
+                                val intent = Intent(activity, DocumentActivity::class.java)
+                                intent.putExtra("loanId", mLoanId)
+                                intent.putExtra("custId", mCustomerId)
+                                startActivity(intent)
+                            }
+                        }else {
                             withContext(Dispatchers.Main)
                             {
                                 progressLoader?.dismmissLoading()
@@ -893,7 +906,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             if (natureOfProperty && propertyJurisdiction && propertyType && relationshipWitApplicant) {
                 withContext(uiContext) {
                     progressLoader?.dismmissLoading()
-                    if (arguments?.getString("task").equals("RM_AssignList")) {
+                    if (arguments?.getString("task").equals("RM_AssignList")||arguments?.getString("task").equals("RMreJourney")) {
                         getOthersDataForRm()
                     }
                 }
@@ -920,6 +933,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 withContext(uiContext) {
                     if (res!!.isSuccessful) {
                         val responseBody = res.body()
+                        activity?.intent?.putExtra("loanType",responseBody?.loanType)
                         updateData(
                             responseBody?.neighborRefDetails,
                             responseBody?.tradeRefDetails,

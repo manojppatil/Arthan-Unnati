@@ -3,18 +3,34 @@ package com.example.arthan.dashboard.am
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Spinner
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigator
 import com.example.arthan.R
+import com.example.arthan.global.Crashlytics
 import com.example.arthan.global.OTHERS
 import com.example.arthan.global.PERSONAL
 import com.example.arthan.global.PROFESSIONAL
+import com.example.arthan.lead.adapter.DataSpinnerAdapter
+import com.example.arthan.lead.model.Data
 import com.example.arthan.lead.model.postdata.KYCPostData
+import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.views.activities.BaseActivity
 import kotlinx.android.synthetic.main.activity_am_personal_information.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class AMPersonalDetailsActivity : BaseActivity() {
+class AMPersonalDetailsActivity : BaseActivity(),CoroutineScope {
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    private val ioContext: CoroutineContext
+        get() = Dispatchers.IO
+
+    private val uiContext: CoroutineContext
+        get() = Dispatchers.Main
     var mKYCPostData: KYCPostData? = null
     var navController: NavController? = null
     var aadharNo: String = ""
@@ -27,9 +43,9 @@ class AMPersonalDetailsActivity : BaseActivity() {
 
         if (intent.hasExtra("PAN_DATA")) {
             mKYCPostData = intent.getParcelableExtra("PAN_DATA") as? KYCPostData
-            aadharNo = intent.getStringExtra("AADHAR_NO")
-            amMobNo = intent.getStringExtra("amMobNo")
-            Log.i("KYC Data", mKYCPostData?.panFirstname)
+        //    aadharNo = intent.getStringExtra("AADHAR_NO")
+      //      amMobNo = intent.getStringExtra("amMobNo")
+        //    Log.i("KYC Data", mKYCPostData?.panFirstname)
         }
 //        val bundle  = Bundle()
 //        bundle.putParcelable("PAN_DATA", mKYCPostData)
@@ -144,4 +160,5 @@ class AMPersonalDetailsActivity : BaseActivity() {
             }
         }
     }
+
 }

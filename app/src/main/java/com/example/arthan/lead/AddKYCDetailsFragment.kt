@@ -215,7 +215,7 @@ class AddKYCDetailsFragment : NavHostFragment(), CoroutineScope {
         progressBar?.showLoading()
         CoroutineScope(ioContext).launch {
             try {
-                val response = RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)
+                val response = RetrofitFactory.getApiService().saveKycDetail(HashMap())
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {

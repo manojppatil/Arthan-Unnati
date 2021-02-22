@@ -299,12 +299,18 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                                     ) {
                                         "Case is Rejected Successfully"
                                     } else {
-                                        if(intent.getStringExtra("recordType") == "AM"){
+                                        when {
+                                            intent.getStringExtra("recordType") == "AM" -> {
 
-                                            "Case successfully submitted to operations"
-                                        }else {
+                                                "Case successfully submitted to operations"
+                                            }
+                                            intent.getStringExtra(STATUS)=="RM Reassigned" -> {
+                                                "Case is Successfully submitted to RM Reassigned"
+                                            }
+                                            else -> {
 
-                                            "Case is Successfully submitted to BCM"
+                                                "Case is Successfully submitted to BCM"
+                                            }
                                         }
                                     }
                                 Toast.makeText(

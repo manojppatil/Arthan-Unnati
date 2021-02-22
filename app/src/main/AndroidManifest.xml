@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <!--
 <uses-permission
@@ -40,7 +39,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".dashboard.bcm.AddTradeRefActivity"></activity>
+        <activity android:name=".dashboard.rm.PaymentQRActivity">
+
+        </activity>
+        <activity android:name=".dashboard.bcm.AddTradeRefActivity" />
         <activity android:name=".dashboard.bm.DocumentPreviewActivty" />
         <activity android:name=".dashboard.bm.BMReassignToActivity" />
         <activity android:name=".dashboard.rm.DocumentSubCategoryActivity" />
@@ -213,6 +215,7 @@
         <activity android:name=".dashboard.am.AMPersonalDetailsActivity" />
         <activity android:name=".dashboard.am.AMOnboardingAtivity" />
         <activity android:name=".views.activities.FrontCameraActivity" />
+
         <provider
             android:name="in.finbox.mobileriskmanager.init.AutoInitProvider"
             android:authorities="in.finbox.lenderapplication.riskmanagerprovider"

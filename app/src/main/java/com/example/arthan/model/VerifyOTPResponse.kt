@@ -7,6 +7,7 @@ data class VerifyOTPResponse(
     val customerId: String,
     val appFee: String,
     val gst: String,
+    val qrCode: String,
     val total: String,
     val verifyStatus: String
 ) : Serializable

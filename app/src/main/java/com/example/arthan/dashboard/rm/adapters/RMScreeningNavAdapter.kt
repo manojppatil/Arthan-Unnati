@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.PaymentQRActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.lead.*
 import com.example.arthan.model.ScreeningNavDataResponse
@@ -64,11 +65,57 @@ class RMScreeningNavAdapter(private val context: Context,
                         })
                         (context as RMScreeningNavigationActivity).finish()
                     }
+                    "PERSONAL_CA1"->{
+                        context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
+                            putExtra("screen","PERSONAL_CA")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId1)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+                    }
+                    "PERSONAL_CA2"->{
+                        context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
+                            putExtra("screen","PERSONAL_CA")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId2)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+                    }
+                    "PERSONAL_CA3"->{
+                        context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
+                            putExtra("screen","PERSONAL_CA2")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId3)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+                    }
+                    "PERSONAL_CA4"->{
+                        context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
+                            putExtra("screen","PERSONAL_CA")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId4)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+                    }
+                    "PERSONAL_CA5"->{
+                        context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
+                            putExtra("screen","PERSONAL_CA")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId5)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+                    }
+
                     "PERSONAL_G"->{
                         context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
                             putExtra("screen","PERSONAL_G")
                             putExtra("loanId",responseData.loanId)
-                            putExtra("custId",responseData.customerId)
+                            putExtra("custId",responseData.customerId6)
                             putExtra("task","RMreJourney")
                         })
                         (context as RMScreeningNavigationActivity).finish()
@@ -112,6 +159,66 @@ class RMScreeningNavAdapter(private val context: Context,
                         (context as RMScreeningNavigationActivity).finish()
 
                     }
+                    "KYC_CA"->{
+                        context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                            putExtra("screen","KYC_CA")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
+                    }
+                    "KYC_CA1"->{
+                        context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                            putExtra("screen","KYC_CA1")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId1)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
+                    }
+                    "KYC_CA2"->{
+                        context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                            putExtra("screen","KYC_CA2")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId2)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
+                    }
+                    "KYC_CA3"->{
+                        context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                            putExtra("screen","KYC_CA3")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId3)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
+                    }
+                    "KYC_CA4"->{
+                        context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                            putExtra("screen","KYC_CA4")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId4)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
+                    }
+                    "KYC_CA5"->{
+                        context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                            putExtra("screen","KYC_CA5")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId5)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
+                    }
                     "CONSENT"->{
                         context.startActivity(Intent(context, ConsentActivity::class.java).apply {
                             putExtra("screen","CONSENT")
@@ -123,7 +230,7 @@ class RMScreeningNavAdapter(private val context: Context,
                         (context as RMScreeningNavigationActivity).finish()
 
                     } "PAYMENT"->{
-                        context.startActivity(Intent(context, PaymentSuccessActivity::class.java).apply {
+                        context.startActivity(Intent(context, PaymentQRActivity::class.java).apply {
                             putExtra("screen","CONSENT")
                             putExtra("loanId",responseData.loanId)
                             putExtra("custId",responseData.customerId)

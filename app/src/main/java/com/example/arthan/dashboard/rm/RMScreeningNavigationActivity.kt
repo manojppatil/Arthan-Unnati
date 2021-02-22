@@ -1,10 +1,12 @@
 
 package com.example.arthan.dashboard.rm
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.RMScreeningNavAdapter
 import com.example.arthan.lead.*
@@ -28,6 +30,37 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
         //   back_button.setOnClickListener { onBackPressed() }
 //        toolbar_title.text = "Complete Loan Details"
         getLoanData()
+        addnewApplicant.setOnClickListener {
+            val dialog=AlertDialog.Builder(this)
+            dialog.setTitle("Add new Applicant")
+            dialog.setMessage("Select the type of Applicant you want to Add")
+            dialog.setNegativeButton("Guarantor", DialogInterface.OnClickListener { dialog, _ ->
+                dialog.dismiss()
+                startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
+                    putExtra("screen","KYC_PA")
+                    putExtra("type","G")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId)
+                    putExtra("task","RMContinue")
+                })
+                finish()
+            })
+            dialog.setPositiveButton("Co-Applicant", DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+                startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
+                    putExtra("screen","KYC_PA")
+                    putExtra("type","CA")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId)
+                    putExtra("task","RMContinue")
+                })
+                finish()
+            })
+            dialog.setNeutralButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
+            dialog.create().show()
+        }
         continueScreen.setOnClickListener {
 
             moveScreen(screenValue.text.toString())
@@ -41,6 +74,7 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoanDetailActivity::class.java).apply {
                     putExtra("screen","LOAN")
                     putExtra("loanId",responseGlobal.loanId)
+                    putExtra("leadId",responseGlobal.leadId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
                 })
@@ -78,7 +112,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
 
             }
             "PAYMENT"->{
-                startActivity(Intent(this, PaymentSuccessActivity::class.java).apply {
+//                startActivity(Intent(this, PaymentSuccessActivity::class.java).apply {
+                startActivity(Intent(this, PaymentQRActivity::class.java).apply {
                     putExtra("screen","CONSENT")
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
@@ -173,11 +208,57 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
                 })
                 (this as RMScreeningNavigationActivity).finish()
             }
+
+            "PERSONAL_CA1"->{
+                startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
+                    putExtra("screen","PERSONAL_CA")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId1)
+                    putExtra("task","RMContinue")
+                })
+                (this as RMScreeningNavigationActivity).finish()
+            }
+            "PERSONAL_CA2"->{
+                startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
+                    putExtra("screen","PERSONAL_CA")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId2)
+                    putExtra("task","RMContinue")
+                })
+                (this as RMScreeningNavigationActivity).finish()
+            }
+            "PERSONAL_CA3"->{
+                startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
+                    putExtra("screen","PERSONAL_CA")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId3)
+                    putExtra("task","RMContinue")
+                })
+                (this as RMScreeningNavigationActivity).finish()
+            }
+            "PERSONAL_CA4"->{
+                startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
+                    putExtra("screen","PERSONAL_CA")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId4)
+                    putExtra("task","RMContinue")
+                })
+                (this as RMScreeningNavigationActivity).finish()
+            }
+            "PERSONAL_CA5"->{
+                startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
+                    putExtra("screen","PERSONAL_CA")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("custId",responseGlobal.customerId5)
+                    putExtra("task","RMContinue")
+                })
+                (this as RMScreeningNavigationActivity).finish()
+            }
             "PERSONAL_G"->{
                 startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
                     putExtra("screen","PERSONAL_G")
                     putExtra("loanId",responseGlobal.loanId)
-                    putExtra("custId",responseGlobal.customerId)
+                    putExtra("custId",responseGlobal.customerId6)
                     putExtra("task","RMContinue")
                 })
                 (this as RMScreeningNavigationActivity).finish()
@@ -240,11 +321,16 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
 
         val loader=ProgrssLoader(this)
         loader.showLoading()
-
+            var loanOrLeadId=""
+            loanOrLeadId = if(intent.getStringExtra("loanId")!=null&&intent.getStringExtra("loanId")!="") {
+                intent.getStringExtra("loanId")
+            }else {
+                intent.getStringExtra("leadId")
+            }
         CoroutineScope(Dispatchers.IO).launch {
 
             val response =
-                RetrofitFactory.getApiService().getLoanDataStatus(intent.getStringExtra("loanId")!!)
+                RetrofitFactory.getApiService().getLoanDataStatus(loanOrLeadId)
 
             if (response?.body() != null) {
                 withContext(Dispatchers.Main) {

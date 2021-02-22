@@ -398,4 +398,5 @@
     <string name="agreement">Agreement</string>
     <string name="coc">Coc</string>
     <string name="remarksView"><u>Click to view</u></string>
+    <string name="clickToAddCA"><u> click here to add a new Applicant </u></string>
 </resources>

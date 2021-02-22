@@ -3,6 +3,7 @@ package com.example.arthan.lead
 import android.content.Intent
 import android.widget.Toast
 import com.example.arthan.R
+import com.example.arthan.dashboard.rm.PaymentQRActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.model.ELIGIBILITY_SCREEN
@@ -84,9 +85,10 @@ class ApplicationFeeActivity : BaseActivity() {
                                     }
 
                                 } else {
+
                                     startActivity(Intent(
                                         this@ApplicationFeeActivity,
-                                        PaymentSuccessActivity::class.java
+                                        PaymentQRActivity::class.java
                                     )
                                         .apply {
                                             putExtra("loanId", response.body()!!.loanId)

@@ -18,7 +18,8 @@ data class CardResponse(
     val apiDesc: String?="",
     val customerId: String?="",
     val loanId: String?="",
-    val  apiMsg:String?=""
+    val  apiMsg:String?="",
+    val  amId:String?=""
 ) : Parcelable
 
 @Parcelize

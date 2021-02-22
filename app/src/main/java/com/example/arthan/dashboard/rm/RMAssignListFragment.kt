@@ -1,5 +1,6 @@
 package com.example.arthan.dashboard.rm
 
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -7,10 +8,13 @@ import com.example.arthan.R
 import com.example.arthan.dashboard.rm.adapters.ReassignAdapter
 import com.example.arthan.dashboard.rm.viewmodel.RMDashboardViewModel
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.fragments.BaseFragment
 import kotlinx.android.synthetic.main.assign_list_frag.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RMAssignListFragment : BaseFragment() {
@@ -63,6 +67,7 @@ class RMAssignListFragment : BaseFragment() {
 
         {
             loadReassignLeadList()
+
         }
     }
 

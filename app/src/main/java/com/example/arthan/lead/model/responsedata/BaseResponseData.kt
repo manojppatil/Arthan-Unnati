@@ -3,6 +3,7 @@ package com.example.arthan.lead.model.responsedata
 data class BaseResponseData(
     val apiCode: String?,
     val apiDesc: String?,
+    val versionMatch: String?,
     val eligibility: String?,
     val discrepancy: String?="",
     val timestamp: String?,
@@ -36,6 +37,7 @@ data class BaseResponseData(
     val  city:String ,
     val  state:String ,
     val  marketValue:String ,
+    val  applicantAadharNo:String ,
     val  pincode:String
 
 )

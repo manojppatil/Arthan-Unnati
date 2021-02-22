@@ -652,7 +652,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun navigateToCamera(reqCode: Int) {
-        if (reqCode.equals(RequestCode.ApplicantPhoto)&&ArthanApp.getAppInstance().loginRole=="AM") {
+
+        if (reqCode.equals(RequestCode.ApplicantPhoto)&&ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase()!="yes") {
             startActivityForResult(Intent(this, FrontCameraActivity::class.java).apply {
                 putExtra(DOC_TYPE, reqCode)
                 val dir = File(
@@ -895,8 +896,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
     ): Deferred<Unit> =
         async(ioContext) {
             //  if(shopUri != null) {
-            val apiService = RetrofitFactory.getMasterApiService()
-//            val apiService = RetrofitFactory.getApiService()
+//            val apiService = RetrofitFactory.getMasterApiService()
+            val apiService = RetrofitFactory.getApiService()
             try {
                 //val stream=  contentResolver?.openInputStream(shopUri!!)
                 val bm = BitmapFactory.decodeStream(FileInputStream(File(filePath)))
@@ -907,7 +908,14 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 val multiPartBody =
                     MultipartBody.Part.createFormData("file", file.name, requestBody)
                 val map=HashMap<String,String>()
-                map["loanId"]=AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)?:""
+                if(ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase() != "yes")
+                {
+                    map["loanId"]=ArthanApp.getAppInstance().loginUser
+                }else {
+                    map["loanId"] =
+                        AppPreferences.getInstance().getString(AppPreferences.Key.LoanId) ?: ""
+                }
+                map["customerId"]=AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)?:""
                 map["userId"]=ArthanApp.getAppInstance().loginUser  //Logged in userId
                 map["imageBase64"]=base64
                 when (cardType) {
@@ -953,6 +961,16 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     }
                 }*/
                 if (response != null && response.isSuccessful&&response.body()?.kycStatus!="InValid") {
+                    if(cardType==CardType.PANCard&&ArthanApp.getAppInstance().loginRole=="RM")
+                    {
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,response.body()?.loanId)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.CustomerId,response.body()?.customerId)
+                    }
+                     if(ArthanApp.getAppInstance().loginRole=="AM")
+                    {
+                        AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,response.body()?.amId)
+                        AppPreferences.getInstance().addString(AppPreferences.Key.CustomerId,response.body()?.customerId)
+                    }
                     if(cardType==CardType.AadharCardBack)
                     {
                         mCardDataBack = response.body()
@@ -1320,11 +1338,16 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         .getString(AppPreferences.Key.LoanId) != null&&ArthanApp.getAppInstance().loginRole!="AM"&&intent.getStringExtra("recordType")!="AM"
                 ) {
                     AppPreferences.getInstance()
-                        .getString(AppPreferences.Key.LoanId)
-                }else {
-                    if(intent.getStringExtra("recordType")=="AM")
+                        .getString(AppPreferences.Key.LoanId)+"_"+AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+                }else if (ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
+
+                    AppPreferences.getInstance()
+                        .getString(AppPreferences.Key.LoanId)+"_"+AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
+                }
+                else {
+                    if(intent.getStringExtra("recordType")=="AM"||ArthanApp.getAppInstance().loginRole!="AM")
                     { 
-                        ""
+                        ArthanApp.getAppInstance().loginUser
                     }else{
                     ArthanApp.getAppInstance().loginUser
                     }
@@ -1335,44 +1358,45 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                  
                     
                     CardType.PANCard -> {
-                       if( ArthanApp.getAppInstance().loginRole=="AM"){
+                      /* if( ArthanApp.getAppInstance().loginRole=="AM"){
                            "_PAN"
 
-                       }else {
+                       }else {*/
                            "_${intent.getStringExtra("applicant_type") ?: "PA"}_PAN"
-                       }
+//                       }
                     }
                     CardType.AadharCardFront -> {
-                        if( ArthanApp.getAppInstance().loginRole=="AM"){
+                      /*  if( ArthanApp.getAppInstance().loginRole=="AM"){
                             "_AADHAR_FRONT"
 
-                        }else {
+                        }else {*/
                             "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_FRONT"
-                        }
+//                        }
                     }
                     CardType.AadharCardBack -> {
-                        if( ArthanApp.getAppInstance().loginRole=="AM"){
+                     /*   if( ArthanApp.getAppInstance().loginRole=="AM"){
                             "_AADHAR_BACK"
 
-                        }else {
+                        }else {*/
                             "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_BACK"
-                        }
+                    //    }
                     }
                     CardType.VoterIdCard -> {
-                        if( ArthanApp.getAppInstance().loginRole=="AM"){
+                      /*  if( ArthanApp.getAppInstance().loginRole=="AM"){
                             "_VOTER"
 
-                        }else {
+                        }else {*/
                             "_${intent.getStringExtra("applicant_type") ?: "PA"}_VOTER"
-                        }
+//                        }
                     }
                     CardType.ApplicantPhoto -> {
-                        if( ArthanApp.getAppInstance().loginRole=="AM"){
+                     /*   if( ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
+                            
                             "_PHOTO"
 
-                        }else {
+                        }else {*/
                             "_${intent.getStringExtra("applicant_type") ?: "PA"}_PHOTO"
-                        }
+//                        }
                     }
                     CardType.CrossedCheque -> {
                         "_CrossedCheque"

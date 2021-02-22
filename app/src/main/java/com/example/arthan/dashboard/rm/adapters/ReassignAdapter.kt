@@ -1,5 +1,6 @@
 package com.example.arthan.dashboard.rm.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -112,6 +113,7 @@ class ReassignAdapter(
                                 putExtra("tile", tile)
 
                             })
+                        (context as Activity).finish()
 
                     }else {
                     val loanId = data[position].loanId
@@ -125,6 +127,8 @@ class ReassignAdapter(
                             putExtra("tile", tile)
 
                         })
+                    (context as Activity).finish()
+
                 }
                 // activity.showPendingScreenList(data[position])
 

@@ -38,7 +38,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        version.text = ArthanApp.getAppInstance().appVersion
+        version.text = "Version: "+ArthanApp.getAppInstance().appVersion
 
         /*GlobalScope.launch(context = Dispatchers.Main) {
             delay(500)
@@ -70,161 +70,170 @@ class SplashActivity : AppCompatActivity() {
 
                 mapPin["userId"] = ArthanApp.getAppInstance().loginUser
                 mapPin["mpin"] = et_role.otp.toString()
+                mapPin["version"] = ArthanApp.getAppInstance().appVersion
                 val res = RetrofitFactory.getApiService().storeMpin(map)
-                if (res.body() != null&&res.body()?.validUser.equals("y",ignoreCase = true)) {
-                    var response = RetrofitFactory.getApiService().getUserRole(map)
-                    if (response.body() != null) {
+                if(res.body()?.versionMatch.toString().toLowerCase()=="y") {
+                    if (res.body() != null && res.body()?.validUser.equals(
+                            "y",
+                            ignoreCase = true
+                        )
+                    ) {
+                        var response = RetrofitFactory.getApiService().getUserRole(map)
+                        if (response.body() != null) {
 
 
-                        var prefs = getSharedPreferences("user", Context.MODE_PRIVATE)
-                        var editor = prefs.edit()
-                        if (prefs.getString("empId", "") == "") {
-                            editor.putString("empId", ArthanApp.getAppInstance().loginUser).apply()
-                        }
+                            var prefs = getSharedPreferences("user", Context.MODE_PRIVATE)
+                            var editor = prefs.edit()
+                            if (prefs.getString("empId", "") == "") {
+                                editor.putString("empId", ArthanApp.getAppInstance().loginUser)
+                                    .apply()
+                            }
 
-                        progressBar.dismmissLoading()
+                            progressBar.dismmissLoading()
 //                    ArthanApp.getAppInstance().loginUser =  intent.getStringExtra("empId")
-                        ArthanApp.getAppInstance().loginRole = response.body()!!.role
-                       // ArthanApp.getAppInstance().onboarded = res.body()!!.onboarded
-                        var user = response.body()!!.role
+                            ArthanApp.getAppInstance().loginRole = response.body()!!.role
+                            ArthanApp.getAppInstance().onboarded = res.body()!!.onboarded
+                            var user = response.body()!!.role
 
-                        withContext(Dispatchers.Main) {
-                            if (!et_role.otp.isNullOrBlank()) {
+                            withContext(Dispatchers.Main) {
+                                if (!et_role.otp.isNullOrBlank()) {
 
-                                when (user) {
-                                    "BM" -> {
-                                        AppPreferences.getInstance()
-                                            .remove(AppPreferences.Key.LoginType)
-                                        AppPreferences.getInstance()
-                                            .addString(AppPreferences.Key.LoginType, "BM")
-                                        startActivity(
-                                            Intent(
-                                                this@SplashActivity,
-                                                BMDashboardActivity::class.java
+                                    when (user) {
+                                        "BM" -> {
+                                            AppPreferences.getInstance()
+                                                .remove(AppPreferences.Key.LoginType)
+                                            AppPreferences.getInstance()
+                                                .addString(AppPreferences.Key.LoginType, "BM")
+                                            startActivity(
+                                                Intent(
+                                                    this@SplashActivity,
+                                                    BMDashboardActivity::class.java
+                                                )
                                             )
-                                        )
-                                        finish()
-                                    }
-                                    "RM" -> {
-                                        AppPreferences.getInstance()
-                                            .remove(AppPreferences.Key.LoginType)
-                                        AppPreferences.getInstance()
-                                            .addString(AppPreferences.Key.LoginType, "RM1")
-                                        startActivity(
-                                            Intent(
-                                                this@SplashActivity,
-                                                RMDashboardActivity::class.java
+                                            finish()
+                                        }
+                                        "RM" -> {
+                                            AppPreferences.getInstance()
+                                                .remove(AppPreferences.Key.LoginType)
+                                            AppPreferences.getInstance()
+                                                .addString(AppPreferences.Key.LoginType, "RM1")
+                                            startActivity(
+                                                Intent(
+                                                    this@SplashActivity,
+                                                    RMDashboardActivity::class.java
+                                                )
                                             )
-                                        )
-                                        finish()
-                                    } "AM" -> {
+                                            finish()
+                                        }
+                                        "AM" -> {
 
 
-                                    if (ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
+                                            if (ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
 
-                                        AppPreferences.getInstance()
-                                            .remove(AppPreferences.Key.LoginType)
-                                        AppPreferences.getInstance()
-                                            .addString(AppPreferences.Key.LoginType, "RM1")
-                                        startActivity(
-                                            Intent(
-                                                this@SplashActivity,
-                                                RMDashboardActivity::class.java
-                                            )
-                                        )
-                                        finish()
-                                    } else {
-                                        AppPreferences.getInstance()
-                                            .remove(AppPreferences.Key.LoginType)
-                                        AppPreferences.getInstance()
-                                            .addString(AppPreferences.Key.LoginType, "AM")
-                                        startActivity(
-                                            Intent(
-                                                this@SplashActivity,
-                                                AMOnboardingAtivity::class.java
-                                            )
-                                        )
-                                        finish()
-                                    }
-                                }
-                                    "legal" -> {
-                                        AppPreferences.getInstance()
-                                            .remove(AppPreferences.Key.LoginType)
-                                        AppPreferences.getInstance()
-                                            .addString(AppPreferences.Key.LoginType, "legal")
-                                        startActivity(
-                                            Intent(
-                                                this@SplashActivity,
-                                                LegalDashboardActivity::class.java
-                                            ).apply {
-                                                putExtra("FROM", "LEGAL")
-                                            })
-                                        finish()
-                                    }
-                                    "RCU" -> {
-                                        AppPreferences.getInstance()
-                                            .remove(AppPreferences.Key.LoginType)
-                                        AppPreferences.getInstance()
-                                            .addString(AppPreferences.Key.LoginType, "RCU")
-                                        startActivity(
-                                            Intent(
-                                                this@SplashActivity,
-                                                LegalDashboardActivity::class.java
-                                            ).apply {
-                                                putExtra("FROM", "RCU")
+                                                AppPreferences.getInstance()
+                                                    .remove(AppPreferences.Key.LoginType)
+                                                AppPreferences.getInstance()
+                                                    .addString(AppPreferences.Key.LoginType, "RM1")
+                                                startActivity(
+                                                    Intent(
+                                                        this@SplashActivity,
+                                                        RMDashboardActivity::class.java
+                                                    )
+                                                )
+                                                finish()
+                                            } else {
+                                                AppPreferences.getInstance()
+                                                    .remove(AppPreferences.Key.LoginType)
+                                                AppPreferences.getInstance()
+                                                    .addString(AppPreferences.Key.LoginType, "AM")
+                                                startActivity(
+                                                    Intent(
+                                                        this@SplashActivity,
+                                                        AMOnboardingAtivity::class.java
+                                                    )
+                                                )
+                                                finish()
                                             }
-                                        )
-                                        finish()
-                                    }
-                                    "OPS" -> {
-                                        AppPreferences.getInstance()
-                                            .remove(AppPreferences.Key.LoginType)
-                                        AppPreferences.getInstance()
-                                            .addString(AppPreferences.Key.LoginType, "OPS")
-                                        OpsDashboardActivity.startMe(this@SplashActivity)
-                                    }
-                                    "BCM" -> {
-                                        AppPreferences.getInstance()
-                                            .remove(AppPreferences.Key.LoginType)
-                                        AppPreferences.getInstance()
-                                            .addString(AppPreferences.Key.LoginType, "BCM")
-                                        startActivity(
-                                            Intent(
-                                                this@SplashActivity,
-                                                BCMDashboardActivity::class.java
+                                        }
+                                        "legal" -> {
+                                            AppPreferences.getInstance()
+                                                .remove(AppPreferences.Key.LoginType)
+                                            AppPreferences.getInstance()
+                                                .addString(AppPreferences.Key.LoginType, "legal")
+                                            startActivity(
+                                                Intent(
+                                                    this@SplashActivity,
+                                                    LegalDashboardActivity::class.java
+                                                ).apply {
+                                                    putExtra("FROM", "LEGAL")
+                                                })
+                                            finish()
+                                        }
+                                        "RCU" -> {
+                                            AppPreferences.getInstance()
+                                                .remove(AppPreferences.Key.LoginType)
+                                            AppPreferences.getInstance()
+                                                .addString(AppPreferences.Key.LoginType, "RCU")
+                                            startActivity(
+                                                Intent(
+                                                    this@SplashActivity,
+                                                    LegalDashboardActivity::class.java
+                                                ).apply {
+                                                    putExtra("FROM", "RCU")
+                                                }
                                             )
-                                        )
-                                        finish()
-                                    }  "CBO" -> {
-                                        AppPreferences.getInstance()
-                                            .remove(AppPreferences.Key.LoginType)
-                                        AppPreferences.getInstance()
-                                            .addString(AppPreferences.Key.LoginType, "BCM")
-                                        startActivity(
-                                            Intent(
-                                                this@SplashActivity,
-                                                CBODashboardActivity::class.java
+                                            finish()
+                                        }
+                                        "OPS" -> {
+                                            AppPreferences.getInstance()
+                                                .remove(AppPreferences.Key.LoginType)
+                                            AppPreferences.getInstance()
+                                                .addString(AppPreferences.Key.LoginType, "OPS")
+                                            OpsDashboardActivity.startMe(this@SplashActivity)
+                                        }
+                                        "BCM" -> {
+                                            AppPreferences.getInstance()
+                                                .remove(AppPreferences.Key.LoginType)
+                                            AppPreferences.getInstance()
+                                                .addString(AppPreferences.Key.LoginType, "BCM")
+                                            startActivity(
+                                                Intent(
+                                                    this@SplashActivity,
+                                                    BCMDashboardActivity::class.java
+                                                )
                                             )
-                                        )
-                                        finish()
-                                    }
-                                    else -> {
-                                        Toast.makeText(
-                                            this@SplashActivity,
-                                            "Invalid login user",
-                                            Toast.LENGTH_LONG
-                                        )
-                                            .show()
-                                        /*  startActivity(
+                                            finish()
+                                        }
+                                        "CBO" -> {
+                                            AppPreferences.getInstance()
+                                                .remove(AppPreferences.Key.LoginType)
+                                            AppPreferences.getInstance()
+                                                .addString(AppPreferences.Key.LoginType, "BCM")
+                                            startActivity(
+                                                Intent(
+                                                    this@SplashActivity,
+                                                    CBODashboardActivity::class.java
+                                                )
+                                            )
+                                            finish()
+                                        }
+                                        else -> {
+                                            Toast.makeText(
+                                                this@SplashActivity,
+                                                "Invalid login user",
+                                                Toast.LENGTH_LONG
+                                            )
+                                                .show()
+                                            /*  startActivity(
                                           Intent(
                                               this@SplashActivity,
                                               BCMDashboardActivity::class.java
                                           )
                                       )
                                       finish()*/
-                                    }
+                                        }
 
-                                }/*let {
+                                    }/*let {
                                     CoroutineScope(Dispatchers.IO).launch {
                                         withContext(Dispatchers.Main) {
 
@@ -258,29 +267,37 @@ class SplashActivity : AppCompatActivity() {
                                         }
                                     }
                                 }*/
+                                }
+                            }
+
+                        } else {
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(
+                                    this@SplashActivity,
+                                    "Something went wrong",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
                         }
 
                     } else {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(
-                                this@SplashActivity,
-                                "Something went wrong",
-                                Toast.LENGTH_LONG
-                            ).show()
+                        withContext(Dispatchers.Main)
+                        {
+                            progressBar.dismmissLoading()
+
+                            if (res.body()?.validUser.equals("N", ignoreCase = true)) {
+                                Toast.makeText(
+                                    this@SplashActivity,
+                                    "Please enter valid MPIN ",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
                     }
-
                 }else
                 {
-                    withContext(Dispatchers.Main)
-                    {
-                        progressBar.dismmissLoading()
-
-                        if(res.body()?.validUser.equals("N",ignoreCase = true))
-                        {
-                            Toast.makeText(this@SplashActivity,"Please enter valid MPIN ",Toast.LENGTH_LONG).show()
-                        }
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(this@SplashActivity,"please update your app",Toast.LENGTH_LONG).show()
                     }
                 }
             }

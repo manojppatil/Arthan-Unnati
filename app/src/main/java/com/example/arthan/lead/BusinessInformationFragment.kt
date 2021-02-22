@@ -95,7 +95,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         firm_name_input.setText(activity?.intent?.getStringExtra("businessName"))
 
 
-        if(ArthanApp.getAppInstance().loginRole=="RM")
+        if(ArthanApp.getAppInstance().loginRole=="RM"||ArthanApp.getAppInstance().loginRole=="AM")
         {
             btn_geolocator.visibility=View.VISIBLE
         }

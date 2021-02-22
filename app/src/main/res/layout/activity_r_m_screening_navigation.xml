@@ -11,6 +11,16 @@
         android:id="@+id/toolbar"
         layout="@layout/layout_bm_toolbar"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clickToAddCA"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/addnewApplicant"/>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,6 +44,17 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/submitAMcases"
+        android:textColor="#fff"
+        android:visibility="gone"
+        android:background="@drawable/ic_next_enabled"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/ressubmitReassign"
+        android:visibility="gone"
         android:textColor="#fff"
         android:background="@drawable/ic_next_enabled"
         android:layout_gravity="center_horizontal"

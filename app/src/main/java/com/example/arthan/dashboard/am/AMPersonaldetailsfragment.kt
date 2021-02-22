@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -22,9 +23,6 @@ import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.dateSelection
 import com.example.arthan.views.fragments.BaseFragment
-import kotlinx.android.synthetic.main.activity_personal_information.*
-import kotlinx.android.synthetic.main.activity_personal_information.cb_sameAddress
-import kotlinx.android.synthetic.main.activity_personal_information.sameAsAddressLL
 import kotlinx.android.synthetic.main.fragment_am_personal_information.*
 import kotlinx.android.synthetic.main.fragment_am_personal_information.address1_line1_input
 import kotlinx.android.synthetic.main.fragment_am_personal_information.address1_line2_input
@@ -111,7 +109,42 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
             }
         }
         et_am_dob.setOnClickListener {
-            dateSelection(activity as AMPersonalDetailsActivity, et_dob)
+            dateSelection(activity as AMPersonalDetailsActivity, et_am_dob)
+        }
+        if (activity?.intent!!.hasExtra("PAN_DATA")) {
+            mKYCPostData = activity?.intent!!.getParcelableExtra("PAN_DATA") as? KYCPostData
+            et_am_name.setText(mKYCPostData?.customerName)
+            et_am_pan.setText(mKYCPostData?.panId)
+            et_am_aadhar_number.setText(mKYCPostData?.aadharId)
+            et_am_dob.setText(mKYCPostData?.panDob?.replace("/","-"))
+            // et_am_contactno.setText(mKYCPostData?.)
+            /* AppPreferences.getInstance()?.also {
+                 address_line1_input?.setText(it.getString(AppPreferences.Key.AddressLine1))
+                 address_line2_input?.setText(it.getString(AppPreferences.Key.AddressLine2))
+                 city_input?.setText(it.getString(AppPreferences.Key.City))
+
+                 setValueToState(tl_state,AppPreferences.Key.State)
+ //                state_input?.setText(it.getString(AppPreferences.Key.State))
+                 pincode_input?.setText(it.getString(AppPreferences.Key.Pincode))
+             }*/
+            address_line1_input?.setText(mKYCPostData?.address_line1)
+            address_line2_input?.setText(mKYCPostData?.address_line2)
+            pincode_input?.setText(mKYCPostData?.pincode)
+            city_input?.setText(mKYCPostData?.city)
+
+            setValueToState(spnr_am_state,mKYCPostData?.state)
+//                state_input?.setText(it.getString(AppPreferences.Key.State))
+
+            cb_sameAddress.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(!isChecked)
+                {
+                    sameAsAddressLL.visibility=View.VISIBLE
+                }else
+                {
+                    sameAsAddressLL.visibility=View.GONE
+
+                }
+            }
         }
     }
 
@@ -182,18 +215,27 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
 
             mKYCPostData = (activity as AMPersonalDetailsActivity).mKYCPostData
 
-            et_am_name.setText(mKYCPostData?.panFirstname.toString())
+            et_am_name.setText(mKYCPostData?.customerName.toString())
             et_am_pan.setText(mKYCPostData?.panId.toString())
             et_am_aadhar_number.setText(mKYCPostData?.aadharId.toString())
             et_am_dob.setText(mKYCPostData?.panDob.toString())
-            et_am_aadhar_number.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AadharId))
-            address_line1_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine1))
-            address_line2_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine2))
-            pincode_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.Pincode))
-            city_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
-            district_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
+            address_line1_input?.setText(mKYCPostData?.address_line1)
+            address_line2_input?.setText(mKYCPostData?.address_line2)
+            pincode_input?.setText(mKYCPostData?.pincode)
+            city_input?.setText(mKYCPostData?.city)
+            district_input.setText(mKYCPostData?.district)
+            landmark_input.setText(mKYCPostData?.landmark)
+
+            setValueToState(spnr_am_state,mKYCPostData?.state)
+//            et_am_aadhar_number.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AadharId))
+//            address_line1_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine1))
+//            address_line2_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.AddressLine2))
+//            pincode_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.Pincode))
+//            city_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
+//            district_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.City))
 //        state_input.setText(AppPreferences.getInstance().getString(AppPreferences.Key.State))
-            et_am_contactno.setText(AppPreferences.getInstance().getString("amMobNo"))
+
+            et_am_contactno.setText(activity?.intent?.getStringExtra("amMobNo"))
 
             btn_am_save.setOnClickListener {
 
@@ -338,6 +380,18 @@ class AMPersonaldetailsfragment : BaseFragment(), CoroutineScope {
     ) {
 
 
+    }
+    fun setValueToState(sp: Spinner, value: String?) {
+
+        if (sp.adapter != null) {
+            val list = (sp.adapter as DataSpinnerAdapter).list
+            for (i in 0 until list.size) {
+                if (list[i].value.toLowerCase() == value?.toLowerCase()) {
+                    sp.setSelection(i)
+                }
+            }
+
+        }
     }
 
 }
