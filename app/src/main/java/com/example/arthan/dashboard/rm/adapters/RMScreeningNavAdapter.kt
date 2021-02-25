@@ -67,7 +67,7 @@ class RMScreeningNavAdapter(private val context: Context,
                     }
                     "PERSONAL_CA1"->{
                         context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
-                            putExtra("screen","PERSONAL_CA")
+                            putExtra("screen","PERSONAL_CA1")
                             putExtra("loanId",responseData.loanId)
                             putExtra("custId",responseData.customerId1)
                             putExtra("task","RMreJourney")
@@ -76,7 +76,7 @@ class RMScreeningNavAdapter(private val context: Context,
                     }
                     "PERSONAL_CA2"->{
                         context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
-                            putExtra("screen","PERSONAL_CA")
+                            putExtra("screen","PERSONAL_CA2")
                             putExtra("loanId",responseData.loanId)
                             putExtra("custId",responseData.customerId2)
                             putExtra("task","RMreJourney")
@@ -85,7 +85,7 @@ class RMScreeningNavAdapter(private val context: Context,
                     }
                     "PERSONAL_CA3"->{
                         context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
-                            putExtra("screen","PERSONAL_CA2")
+                            putExtra("screen","PERSONAL_CA3")
                             putExtra("loanId",responseData.loanId)
                             putExtra("custId",responseData.customerId3)
                             putExtra("task","RMreJourney")
@@ -94,7 +94,7 @@ class RMScreeningNavAdapter(private val context: Context,
                     }
                     "PERSONAL_CA4"->{
                         context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
-                            putExtra("screen","PERSONAL_CA")
+                            putExtra("screen","PERSONAL_CA4")
                             putExtra("loanId",responseData.loanId)
                             putExtra("custId",responseData.customerId4)
                             putExtra("task","RMreJourney")
@@ -103,7 +103,7 @@ class RMScreeningNavAdapter(private val context: Context,
                     }
                     "PERSONAL_CA5"->{
                         context.startActivity(Intent(context, PersonalInformationActivity::class.java).apply {
-                            putExtra("screen","PERSONAL_CA")
+                            putExtra("screen","PERSONAL_CA5")
                             putExtra("loanId",responseData.loanId)
                             putExtra("custId",responseData.customerId5)
                             putExtra("task","RMreJourney")

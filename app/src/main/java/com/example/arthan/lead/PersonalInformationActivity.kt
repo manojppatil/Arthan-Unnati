@@ -388,7 +388,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                                     this@PersonalInformationActivity,
                                                     AddLeadStep2Activity::class.java
                                                 ).apply {
-                                                    putExtra("type", "CA")
+                                                    putExtra("type", intent.getStringExtra("type"))
                                                     putExtra("loanId", loanId)
                                                 })
                                             finish()

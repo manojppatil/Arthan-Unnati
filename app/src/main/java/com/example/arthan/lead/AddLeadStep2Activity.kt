@@ -48,6 +48,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
     var mKYCPostData: KYCPostData? = null
     var loanId: String? = ""
     var custId: String? = ""
+    var aplicantType:String=""
 
 
     override fun screenTitle() = "KYC Details"
@@ -60,7 +61,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.PanCard)
                     putExtra("show", mKYCPostData?.panUrl)
-                    putExtra("applicant_type", intent.getStringExtra("type") ?: "PA")
+//                    putExtra("applicant_type", intent.getStringExtra("type") ?: "PA")
+                    putExtra("applicant_type", aplicantType ?: "PA")
                 }, RequestCode.PanCard)
             }
             R.id.txt_aadhar_card -> {
@@ -68,7 +70,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     putExtra(DOC_TYPE, RequestCode.AadharCard)
                     putExtra("show", mKYCPostData?.aadharFrontUrl)
                     putExtra("show2", mKYCPostData?.aadharBackUrl)
-                    putExtra("applicant_type", intent.getStringExtra("type") ?: "PA")
+                    putExtra("applicant_type", aplicantType ?: "PA")
 
 
                 }, RequestCode.AadharCard)
@@ -77,7 +79,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.VoterCard)
                     putExtra("show", mKYCPostData?.voterUrl)
-                    putExtra("applicant_type", intent.getStringExtra("type") ?: "PA")
+                    putExtra("applicant_type", aplicantType ?: "PA")
 
 
                 }, RequestCode.VoterCard)
@@ -86,7 +88,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.ApplicantPhoto)
                     putExtra("show", mKYCPostData?.paApplicantPhoto)
-                    putExtra("applicant_type", intent.getStringExtra("type") ?: "PA")
+                    putExtra("applicant_type", aplicantType ?: "PA")
 
                 }, RequestCode.ApplicantPhoto)
             }
@@ -106,14 +108,38 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
         txt_applicant_phot.setOnClickListener(this)
 
         btn_next.setOnClickListener(this)
+        getCustomerId()
+    }
+
+    private fun getCustomerId() {
+
+        val map=HashMap<String,String>()
+        var loanId=""
+        if(intent.getStringExtra("loanId")!=null)
+        {
+            loanId=intent.getStringExtra("loanId")?:AppPreferences.getInstance().getString(AppPreferences.Key.LoanId) ?: ""
+        }
+        map["loanId"]=loanId
+        map["applicantType"]=intent.getStringExtra("type") ?: "PA"
+        CoroutineScope(Dispatchers.IO).launch {
+            val response=RetrofitFactory.getApiService().getCustomerId(map)
+            if(response.body()!=null)
+            {
+                loanId=response.body()!!.loanId!!
+                custId=response.body()!!.customerId!!
+                AppPreferences.getInstance().addString(AppPreferences.Key.CustomerId,response.body()!!.customerId!!)
+                AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,response.body()!!.loanId!!)
+                aplicantType=response.body()!!.applicantType!!
+            }
+        }
     }
 
     var applicantPhoto: String = ""
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         checkForProceed()
         loanId =intent.getStringExtra("loanId")
-        custId = intent.getStringExtra("custId")
-        mKYCPostData?.loanId=loanId
+//        custId = intent.getStringExtra("custId")
+//        mKYCPostData?.loanId=loanId
 
         when (requestCode) {
             RequestCode.PanCard -> {
@@ -126,8 +152,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                             customerId = panCardData?.customerId
                         )
                     }
-                    mKYCPostData?.loanId=panCardData?.loanId
-                    mKYCPostData?.customerId=panCardData?.customerId
+                    mKYCPostData?.loanId=loanId
+                    mKYCPostData?.customerId=custId
                     mKYCPostData?.panDob = panCardData?.results?.get(0)?.cardInfo?.dateInfo
                     mKYCPostData?.panFathername = panCardData?.results?.get(0)?.cardInfo?.fatherName
                     mKYCPostData?.panFirstname = panCardData?.results?.get(0)?.cardInfo?.name
@@ -152,8 +178,10 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 data?.let {
                     if (mKYCPostData == null) {
                         mKYCPostData = KYCPostData(
-                            loanId = intent.getStringExtra("loanId"),
-                            customerId = intent.getStringExtra("custId")
+                           /* loanId = intent.getStringExtra("loanId"),
+                            customerId = intent.getStringExtra("custId")*/
+                        loanId,
+                            custId
                         )
                     }
                     val aadharCardData =
@@ -338,11 +366,11 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 }
                // mKYCPostData?.customerId = custId
                 //mKYCPostData?.loanId=loanId
-                mKYCPostData?.applicantType = intent.getStringExtra("type") ?: "pa"
+                mKYCPostData?.applicantType = aplicantType
                 val map=HashMap<String,String>()
                 map["loanId"]=mKYCPostData?.loanId!!
                 map["customerId"]=mKYCPostData?.customerId!!
-                map["applicantType"]=intent.getStringExtra("type") ?: "pa"
+                map["applicantType"]=aplicantType
                 map["paApplicantPhoto"]=mKYCPostData?.paApplicantPhoto!!
 //                val response = RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)
                 val response = RetrofitFactory.getApiService().saveKycDetail(map)
@@ -408,9 +436,10 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                                             mKYCPostData?.panFathername=result.fatherName
                                             mKYCPostData?.panId=result.panNo
                                             it.putExtra("custId", result.customerId)
+                                            it.putExtra("type", result.applicantType)
                                             it.putExtra("PAN_DATA", mKYCPostData)
                                             it.putExtra("loanId", result.loanId)
-                                            it.putExtra("type", intent.getStringExtra("type"))
+//                                            it.putExtra("type", intent.getStringExtra("type"))
                                             if( intent.getStringExtra("task")!=null)
                                             it.putExtra("task",intent.getStringExtra("task"))
                                         })

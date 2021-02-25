@@ -500,7 +500,10 @@ interface ApiService {
     @POST("verifyOTPforEmp")
     suspend fun verifyOTPforEmp(@Body body: Map<String, String>): Response<BaseResponseData>
 
-    @POST("storeMpinV2")
+    @POST("getCustomerId")
+    suspend fun getCustomerId(@Body body: Map<String, String>): Response<BaseResponseData>
+
+    @POST("storeMpin")
     suspend fun storeMpin(@Body body: Map<String, String>): Response<BaseResponseData>
 
     @POST("addAM")
