@@ -41,7 +41,7 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
                     putExtra("type","G")
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
-                    putExtra("task","RMContinue")
+                    putExtra("task","RMreJourney")
                 })
                 finish()
             })
@@ -52,7 +52,7 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
                     putExtra("type","CA")
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
-                    putExtra("task","RMContinue")
+                    putExtra("task","RMreJourney")
                 })
                 finish()
             })
@@ -395,9 +395,10 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             if (response?.body() != null) {
                 withContext(Dispatchers.Main) {
                     loader.dismmissLoading()
+                    responseGlobal=response.body()!!
                     if(response.body()?.continueScreen!!.isNotEmpty())
                     {
-                        responseGlobal=response.body()!!
+                       // responseGlobal=response.body()!!
                         continueScreen.visibility=View.VISIBLE
                         status.setImageResource(R.drawable.error)
                         screenValue.text=response.body()?.continueScreen
