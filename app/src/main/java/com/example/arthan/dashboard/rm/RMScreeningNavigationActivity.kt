@@ -83,6 +83,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "KYC_PA"->{
                 startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
                     putExtra("screen","KYC_PA")
+                    putExtra("applicantType","PA")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
@@ -93,6 +95,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "KYC_CA"->{
                 startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
                     putExtra("screen","KYC_CA")
+                    putExtra("applicantType","CA")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
@@ -103,6 +107,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "KYC_CA1"->{
                 startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
                     putExtra("screen","KYC_CA1")
+                    putExtra("applicantType","CA1")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
@@ -113,6 +119,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "KYC_CA2"->{
                 startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
                     putExtra("screen","KYC_CA2")
+                    putExtra("applicantType","CA2")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
@@ -123,6 +131,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "KYC_CA3"->{
                 startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
                     putExtra("screen","KYC_CA3")
+                    putExtra("applicantType","CA3")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
@@ -133,6 +143,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "KYC_CA4"->{
                 startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
                     putExtra("screen","KYC_CA4")
+                    putExtra("applicantType","CA4")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
@@ -143,6 +155,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "KYC_CA5"->{
                 startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
                     putExtra("screen","KYC_CA5")
+                    putExtra("applicantType","CA5")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
@@ -253,6 +267,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "PERSONAL_PA"->{
                 startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
                     putExtra("screen","PERSONAL_PA")
+                    putExtra("applicantType","PA")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
@@ -262,6 +278,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "PERSONAL_CA"->{
                 startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
                     putExtra("screen","PERSONAL_CA")
+                    putExtra("applicantType","CA")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId)
                     putExtra("task","RMContinue")
@@ -272,6 +290,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "PERSONAL_CA1"->{
                 startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
                     putExtra("screen","PERSONAL_CA1")
+                    putExtra("applicantType","CA1")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId1)
                     putExtra("task","RMContinue")
@@ -281,6 +301,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "PERSONAL_CA2"->{
                 startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
                     putExtra("screen","PERSONAL_CA2")
+                    putExtra("applicantType","CA2")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId2)
                     putExtra("task","RMContinue")
@@ -290,6 +312,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "PERSONAL_CA3"->{
                 startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
                     putExtra("screen","PERSONAL_CA3")
+                    putExtra("applicantType","CA3")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId3)
                     putExtra("task","RMContinue")
@@ -299,6 +323,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "PERSONAL_CA4"->{
                 startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
                     putExtra("screen","PERSONAL_CA4")
+                    putExtra("applicantType","CA4")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId4)
                     putExtra("task","RMContinue")
@@ -308,6 +334,8 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
             "PERSONAL_CA5"->{
                 startActivity(Intent(this, PersonalInformationActivity::class.java).apply {
                     putExtra("screen","PERSONAL_CA5")
+                    putExtra("applicantType","CA5")
+
                     putExtra("loanId",responseGlobal.loanId)
                     putExtra("custId",responseGlobal.customerId5)
                     putExtra("task","RMContinue")

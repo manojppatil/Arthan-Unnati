@@ -541,11 +541,14 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 withContext(uiContext) {
                     progressLoader.dismmissLoading()
 
-                    if(intent.getStringExtra("task")=="RMreJourney")
+                    if(intent.getStringExtra("task")=="RMreJourney"||intent.getStringExtra("task")=="RMContinue")
                     {
                         var map= HashMap<String,String>()
                         map["loanId"]=loanId!!
                         map["screen"]=intent.getStringExtra("screen")
+                        map["CustomerId"]=intent.getStringExtra("custId")
+                        map["customerId"]=intent.getStringExtra("custId")
+                        map["applicantType"]=intent.getStringExtra("screen")
 
                         val response =
                             RetrofitFactory.getApiService().getScreenData(map)
