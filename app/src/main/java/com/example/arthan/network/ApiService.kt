@@ -558,8 +558,12 @@ interface ApiService {
     @POST("bcmReAssignSubmit")
     suspend fun bcmReAssignSubmit(@Body body: HashMap<String,String>): Response<BaseResponseData>?
 
+    @POST("getBMRMStatus")
+    suspend fun getBMRMStatus(@Body body: HashMap<String,String>): Response<BmRmStatusModel>?
+
     @POST("submitMultipleDocs")
         suspend fun submitMultipleDocs(@Body body: SubmitMultipleDocsRequest): Response<BaseResponseData>?
+
 
 
 

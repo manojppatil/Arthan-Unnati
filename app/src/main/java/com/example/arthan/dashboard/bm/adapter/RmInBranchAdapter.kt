@@ -5,14 +5,16 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.RmStatusListingActivity
+import com.example.arthan.model.BmRmStatusModel
 import com.example.arthan.views.activities.PendingCustomersActivity
 
-class RmInBranchAdapter(private val context: Context): RecyclerView.Adapter<RmInBranchAdapter.BranchRMVH>(),View.OnClickListener{
+class RmInBranchAdapter(private val context: Context,private val list:BmRmStatusModel): RecyclerView.Adapter<RmInBranchAdapter.BranchRMVH>(),View.OnClickListener{
 
-    inner class BranchRMVH(root: View): RecyclerView.ViewHolder(root){
+    inner class BranchRMVH(private val root: View): RecyclerView.ViewHolder(root){
 
         init {
 
@@ -23,6 +25,11 @@ class RmInBranchAdapter(private val context: Context): RecyclerView.Adapter<RmIn
 
         fun bind(position: Int){
 
+            root.findViewById<TextView>(R.id.txt_rm_name).text=list.status[position].rmName
+            root.findViewById<TextView>(R.id.txt_rm_employee_id).text=list.status[position].rmId
+            root.findViewById<TextView>(R.id.txt_rm_leads_count).text=list.status[position].leadCnt
+            root.findViewById<TextView>(R.id.txt_rm_screening_count).text=list.status[position].screeningCnt
+            root.findViewById<TextView>(R.id.txt_rm_pending_count).text=list.status[position].loginCnt
         }
 
     }
@@ -32,7 +39,7 @@ class RmInBranchAdapter(private val context: Context): RecyclerView.Adapter<RmIn
         return BranchRMVH(view)
     }
 
-    override fun getItemCount()= 5
+    override fun getItemCount()= list.status.size
 
     override fun onBindViewHolder(holder: BranchRMVH, position: Int) {
         holder.bind(position)

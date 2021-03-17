@@ -84,7 +84,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_document_status"
-                app:layout_constraintBottom_toTopOf="@+id/cv_leads"
+                app:layout_constraintBottom_toTopOf="@+id/cv_disbursed"
                 android:background="@drawable/bg_search"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
@@ -100,7 +100,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/cv_leads"
+                app:layout_constraintRight_toLeftOf="@+id/cv_disbursed"
                 app:layout_constraintTop_toBottomOf="@+id/et_search"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="4dp"
@@ -190,6 +190,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_leads"
                 android:layout_width="0dp"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toRightOf="@+id/cv_rm_review"
                 app:layout_constraintRight_toLeftOf="@+id/cv_my_queue"
@@ -281,7 +282,7 @@
                 android:id="@+id/cv_my_queue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@+id/cv_leads"
+                app:layout_constraintLeft_toRightOf="@+id/cv_disbursed"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/cv_rm_review"
                 app:layout_constraintBottom_toBottomOf="@+id/cv_rm_review"
@@ -457,9 +458,9 @@
                 android:id="@+id/cv_inprogress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/cv_leads"
-                app:layout_constraintRight_toRightOf="@+id/cv_leads"
-                app:layout_constraintTop_toBottomOf="@+id/cv_leads"
+                app:layout_constraintLeft_toLeftOf="@+id/cv_disbursed"
+                app:layout_constraintRight_toRightOf="@+id/cv_disbursed"
+                app:layout_constraintTop_toBottomOf="@+id/cv_disbursed"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
                 app:cardCornerRadius="8dp">
@@ -730,8 +731,8 @@
                 android:id="@+id/cv_reassigned_by"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/cv_leads"
-                app:layout_constraintRight_toRightOf="@+id/cv_leads"
+                app:layout_constraintLeft_toLeftOf="@+id/cv_disbursed"
+                app:layout_constraintRight_toRightOf="@+id/cv_disbursed"
                 app:layout_constraintTop_toBottomOf="@+id/cv_inprogress"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
@@ -819,15 +820,20 @@
 
             </androidx.cardview.widget.CardView>
 
+           <!-- app:layout_constraintLeft_toLeftOf="@+id/cv_rejected"
+            app:layout_constraintRight_toRightOf="@+id/cv_rejected"
+            app:layout_constraintTop_toBottomOf="@+id/cv_rejected"-->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_disbursed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/cv_rejected"
-                app:layout_constraintRight_toRightOf="@+id/cv_rejected"
-                app:layout_constraintTop_toBottomOf="@+id/cv_rejected"
-                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toRightOf="@+id/cv_rm_review"
+                app:layout_constraintRight_toLeftOf="@+id/cv_my_queue"
+                app:layout_constraintTop_toTopOf="@+id/cv_rm_review"
+                app:layout_constraintBottom_toBottomOf="@+id/cv_rm_review"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginRight="12dp"
                 app:cardCornerRadius="8dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
