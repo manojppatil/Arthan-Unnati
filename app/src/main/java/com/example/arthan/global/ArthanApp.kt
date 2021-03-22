@@ -18,6 +18,7 @@ class ArthanApp : MultiDexApplication() {
     var validAm = ""
     var submitDocs: SubmitMultipleDocsRequest? =null
     val clientKeyFinBox="nSjEi5etnf6xi4RyPA1Ph3TEWu3B07GT7BaQaF5v"
+    var currentCustomerId:String?=null
 
     override fun onCreate() {
         super.onCreate()

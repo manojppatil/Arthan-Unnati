@@ -95,19 +95,20 @@ class LeadEligibilityActivity : BaseActivity() {
                                             }
                                         )
                                         finish()
+                                    }else {
+                                        startActivity(
+                                            Intent(
+                                                this@LeadEligibilityActivity,
+                                                AddLeadStep2Activity::class.java
+                                            ).apply {
+                                                putExtra("loanId", response.body()!!.loanId)
+                                                putExtra("custId", response.body()!!.customerId)
+
+
+                                            }
+                                        )
+                                        finish()
                                     }
-                                    startActivity(
-                                        Intent(
-                                            this@LeadEligibilityActivity,
-                                            AddLeadStep2Activity::class.java
-                                        ).apply {
-                                            putExtra("loanId",response.body()!!.loanId)
-                                            putExtra("custId",response.body()!!.customerId)
-
-
-                                        }
-                                    )
-                                    finish()
                                 }else{
                                     startActivity(Intent(this@LeadEligibilityActivity,RMDashboardActivity::class.java))
                                     finish()

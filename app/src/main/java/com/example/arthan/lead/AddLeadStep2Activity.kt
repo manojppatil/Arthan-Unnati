@@ -108,7 +108,13 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
         txt_applicant_phot.setOnClickListener(this)
 
         btn_next.setOnClickListener(this)
-        getCustomerId()
+        if(ArthanApp.getAppInstance().currentCustomerId==null) {
+            getCustomerId()
+        }
+        else if(intent.getStringExtra("task")!=null)
+        {
+            getCustomerId()
+        }
     }
 
     private fun getCustomerId() {
@@ -127,6 +133,9 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
             {
                 loanId=response.body()!!.loanId!!
                 custId=response.body()!!.customerId!!
+                 if(intent.getStringExtra("task")==null) {
+                     ArthanApp.getAppInstance().currentCustomerId = custId
+                 }
                 AppPreferences.getInstance().addString(AppPreferences.Key.CustomerId,response.body()!!.customerId!!)
                 AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,response.body()!!.loanId!!)
                 aplicantType=response.body()!!.applicantType!!
@@ -303,9 +312,9 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
-        menuInflater.inflate(R.menu.more, menu)
+//        menuInflater.inflate(R.menu.more, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -335,7 +344,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
 
         }
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 
     private fun checkForProceed() {
         /* if((txt_pan_card.tag != null && !(txt_pan_card.tag as String).isBlank()) &&
@@ -443,6 +452,10 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                                             if( intent.getStringExtra("task")!=null)
                                             it.putExtra("task",intent.getStringExtra("task"))
                                         })
+                                    if(intent.getStringExtra("task")!=null&&intent.getStringExtra("task")=="RMAddCo")
+                                    {
+                                        finish()
+                                    }
 //                            startActivity(
 //                                Intent(
 //                                    context,

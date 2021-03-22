@@ -313,6 +313,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     if (result?.apiCode == "200") {
+                        ArthanApp.getAppInstance().currentCustomerId=null
                         withContext(uiContext) {
                             progressBar.dismmissLoading()
 
@@ -339,7 +340,17 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                 )
                                 finish()
                                 return@withContext
-                            } else if(intent.getStringExtra("task")=="Add-CoApplicant")
+                            } else if(intent.getStringExtra("task")=="RMAddCo")
+                            {
+                                withContext(Dispatchers.Main){
+                                    startActivity(Intent(this@PersonalInformationActivity,RMScreeningNavigationActivity::class.java).apply {
+                                        putExtra("loanId", loanId)
+                                    })
+                                    finish()
+                                }
+
+                             }
+                            else if(intent.getStringExtra("task")=="Add-CoApplicant")
                             {
                                 withContext(Dispatchers.Main)
                                 {

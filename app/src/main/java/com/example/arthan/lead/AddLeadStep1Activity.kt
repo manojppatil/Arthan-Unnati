@@ -240,7 +240,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             }
     }
 
-    private fun getOutputMediaFile(): File {
+    private fun getOutputMediaFile(to:Int): File {
         /* val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "Arthan"
@@ -261,8 +261,14 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             file=File(
                 dir.absolutePath +"/IMG_shop.jpg"
             )*/
+        var fileName=""
+        fileName = if(to==0||to==1) {
+            "shopImg1"
+        }else {
+            "shopImg2"
+        }
         return File(
-            dir.absolutePath + "/${(0..1000).random()}_IM_shop.jpg"
+            dir.absolutePath + "/${et_mobile_number.text.toString()+"_"+System.currentTimeMillis()}_${fileName}.jpg"
         )
     }
 
@@ -277,7 +283,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                 req = 100
                 shopUri = FileProvider.getUriForFile(
                     this, applicationContext.packageName + ".provider",
-                    getOutputMediaFile()
+                    getOutputMediaFile(0)
                 )
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, shopUri)
             }
@@ -285,7 +291,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                 req = 1001
                 shop1Uri = FileProvider.getUriForFile(
                     this, applicationContext.packageName + ".provider",
-                    getOutputMediaFile()
+                    getOutputMediaFile(1)
                 )
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, shop1Uri)
             }
@@ -293,7 +299,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                 req = 1002
                 shop2Uri = FileProvider.getUriForFile(
                     this, applicationContext.packageName + ".provider",
-                    getOutputMediaFile()
+                    getOutputMediaFile(2)
                 )
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, shop2Uri)
             }
@@ -330,7 +336,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                 ll_upload_photo.visibility = View.GONE
 //                img_shop.visibility = View.VISIBLE
                 val uriNew = compressImage(shopUri!!)
-                shopUri = getUriFromBitmap(uriNew, img_shop)
+                shopUri = getUriFromBitmap(uriNew, img_shop,0)
                 //  Glide.with(this).load(shopUri).error(R.mipmap.ic_launcher).into(img_shop)
                 checkForProceed()
 
@@ -367,7 +373,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                 ll_upload_photo.visibility = View.GONE
                 img_shop.visibility = View.VISIBLE
                 val uriNew = compressImage(shop1Uri!!)
-                shop1Uri = getUriFromBitmap(uriNew, shop1)
+                shop1Uri = getUriFromBitmap(uriNew, shop1,1)
                 checkForProceed()
 
 
@@ -407,7 +413,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                 ll_upload_photo.visibility = View.GONE
 //                img_shop.visibility = View.VISIBLE
                 val uriNew = compressImage(shop2Uri!!)
-                shop2Uri = getUriFromBitmap(uriNew, shop2)
+                shop2Uri = getUriFromBitmap(uriNew, shop2,2)
                 checkForProceed()
 
 
@@ -602,7 +608,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
             laterDate = et_date?.text?.toString() ?: "",
             lat = lat.toString(),
             lng = lng.toString(),
-            shopPicUrl = shop1Url,
+            shopPicUrl =  shop1Url,
             shopPicUrl2 = shop2Url,
             reason = when(switch_interested.isChecked){
                 true->""
@@ -1134,10 +1140,10 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
         return inSampleSize
     }
 
-    fun getUriFromBitmap(scaledBitmap:Bitmap?,imageview:ImageView):Uri?
+    fun getUriFromBitmap(scaledBitmap:Bitmap?,imageview:ImageView,to:Int):Uri?
     {
         var out: FileOutputStream? = null
-        val fileName = getOutputMediaFile()
+        val fileName = getOutputMediaFile(to)
         try {
             out = FileOutputStream(fileName,false)
             //          write the compressed bitmap at the destination specified by filename.
