@@ -16,10 +16,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.arthan.R
-import com.example.arthan.dashboard.bm.adapter.BMVerificationBizDocsAdapter
-import com.example.arthan.dashboard.bm.adapter.BMVerificationBussPremisesDocsAdapter
-import com.example.arthan.dashboard.bm.adapter.BMVerificationResidentialDocsAdapter
-import com.example.arthan.dashboard.bm.adapter.BMVerificationkycDocsAdapter
+import com.example.arthan.dashboard.bm.adapter.*
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.model.postdata.DocScreeningStatusPost
 import com.example.arthan.lead.model.postdata.DocScreeningStatusPostNew
@@ -66,6 +63,29 @@ class DocumentVerificationFragmentNew : BaseFragment() {
 
         }
 */
+        primaryApp.setTextColor(Color.WHITE)
+        primaryApp.setBackgroundResource(R.color.colorPrimary)
+        coapp.setTextColor(Color.BLACK)
+        coapp.setBackgroundResource(R.color.disable_text)
+        primaryKycLL.visibility=View.VISIBLE
+        rvCoAppsKyc.visibility=View.GONE
+        primaryApp.setOnClickListener {
+            primaryApp.setTextColor(Color.WHITE)
+            primaryApp.setBackgroundResource(R.color.colorPrimary)
+            coapp.setTextColor(Color.BLACK)
+            coapp.setBackgroundResource(R.color.disable_text)
+            primaryKycLL.visibility=View.VISIBLE
+            rvCoAppsKyc.visibility=View.GONE
+        }
+        coapp.setOnClickListener {
+            primaryApp.setTextColor(Color.BLACK)
+            primaryApp.setBackgroundResource(R.color.disable_text)
+            coapp.setTextColor(Color.WHITE)
+            coapp.setBackgroundResource(R.color.colorPrimary)
+            primaryKycLL.visibility=View.GONE
+            rvCoAppsKyc.visibility=View.VISIBLE
+        }
+
 
 
         DocumentVerificationFragmentNew.context=activity!!
@@ -151,6 +171,7 @@ class DocumentVerificationFragmentNew : BaseFragment() {
          businessDocs:ArrayList<RequireDocs>?,
          bussPremisesDocs:ArrayList<RequireDocs>?,
          kycDocs:ArrayList<RequireDocs>?,
+         coAppKycDocs:ArrayList<RequireDocs>?,
          residentialDocs:ArrayList<RequireDocs>?,
         bmDocumentVerificationActivity: BMDocumentVerificationActivity
     ) {
@@ -164,6 +185,7 @@ class DocumentVerificationFragmentNew : BaseFragment() {
         DocumentVerificationFragmentNew.context=bmDocumentVerificationActivity
         rvBusinessDocs.adapter=BMVerificationBizDocsAdapter(bmDocumentVerificationActivity,businessDocs!!)
        rvKycDocs.adapter=BMVerificationkycDocsAdapter(bmDocumentVerificationActivity,kycDocs!!)
+        rvCoAppsKyc.adapter=BMCoAppKycDocsAdapter(bmDocumentVerificationActivity,coAppKycDocs!!)
        rvResDocs.adapter=BMVerificationResidentialDocsAdapter(bmDocumentVerificationActivity,residentialDocs!!)
        rvbizPremDocs.adapter=BMVerificationBussPremisesDocsAdapter(bmDocumentVerificationActivity,bussPremisesDocs!!)
 

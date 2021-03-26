@@ -20,6 +20,7 @@ data class Cust360ResponseData(
     val pd23DetailsVO: Pd23?,
     val pdCust: PdCust?,
     val bureauData: BureauDetails?,
+    val bureauDataCA: BureauDetails?,
     val bankData: ArrayList<Banking360DetailsResponseData>?=ArrayList()
 
     ) : Parcelable

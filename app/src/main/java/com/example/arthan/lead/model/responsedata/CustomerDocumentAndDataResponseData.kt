@@ -30,6 +30,7 @@ data class CustomerDocumentAndDataResponseData(
     val incomeComments:String?,
     val businessDocs:ArrayList<RequireDocs> = ArrayList(),
     val kycDocs:ArrayList<RequireDocs> = ArrayList(),
+    val coAppKycDocs:ArrayList<RequireDocs> = ArrayList(),
     val residentialDocs:ArrayList<RequireDocs> = ArrayList(),
     val bussPremisesDocs:ArrayList<RequireDocs> = ArrayList(),
     val loanDetails:LoanPostData?,
@@ -43,7 +44,16 @@ data class RequireDocs(
     val docId:String,
     val docName:String,
     val docUrl:String,
-    val docStatus:String="false"
+    val docStatus:String="false",
+    val panUrl: String?=null,
+    val aadharFrontUrl: String?=null,
+    val aadharBackUrl: String?=null,
+    val voterUrl: String?=null,
+    val paApplicantPhoto: String?=null,
+    val businessProof: String?=null,
+    val businessAddrProof: String?=null,
+    val incomeProof: String?=null,
+    val chequeUrl: String?=null
 )
 
 data class DocDetails(

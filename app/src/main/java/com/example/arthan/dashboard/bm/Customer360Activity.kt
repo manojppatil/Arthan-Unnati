@@ -161,6 +161,7 @@ class Customer360Activity : BaseActivity(), View.OnClickListener, CoroutineScope
             })
             R.id.cl_bureau -> startActivity(Intent(this, BureauActivity::class.java).apply {
                 putExtra("data",mCustomer360Data?.bureauData)
+                putExtra("dataca",mCustomer360Data?.bureauDataCA)
                 putExtra("cname",intent.getStringExtra("cname"))
 
             })

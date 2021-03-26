@@ -132,6 +132,7 @@ class BMDocumentVerificationActivity : BaseActivity(), CoroutineScope {
                                 result?.businessDocs,
                                 result?.bussPremisesDocs,
                                 result?.kycDocs,
+                                result?.coAppKycDocs,
                                 result?.residentialDocs,
                                 this@BMDocumentVerificationActivity
                             )

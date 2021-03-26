@@ -1,9 +1,11 @@
 package com.example.arthan.dashboard.bm
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TableLayout
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bcm.BureauDetailsLevel2
@@ -16,6 +18,7 @@ import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.SplashActivity
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_bureau.*
 import kotlinx.android.synthetic.main.layout_bm_toolbar.*
 import kotlinx.coroutines.CoroutineScope
@@ -33,6 +36,23 @@ class BureauActivity : BaseActivity() {
 
     override fun init() {
 
+        primaryTab.setOnClickListener {
+            primaryLL.visibility=View.VISIBLE
+            coApplLL.visibility=View.GONE
+            primaryTab.setBackgroundResource(R.color.colorPrimary)
+            primaryTab.setTextColor(resources.getColor(R.color.white))
+            coappTab.setBackgroundResource(R.color.disable_text)
+            coappTab.setTextColor(resources.getColor(R.color.black))
+
+        }
+        coappTab.setOnClickListener {
+            primaryLL.visibility=View.GONE
+            coApplLL.visibility=View.VISIBLE
+            coappTab.setBackgroundResource(R.color.colorPrimary)
+            coappTab.setTextColor(resources.getColor(R.color.white))
+            primaryTab.setBackgroundResource(R.color.disable_text)
+            primaryTab.setTextColor(resources.getColor(R.color.black))
+        }
         btn_search.visibility = View.GONE
         btn_filter.visibility = View.GONE
         customer_detail?.visibility = View.GONE
@@ -81,6 +101,7 @@ class BureauActivity : BaseActivity() {
     private fun setData() {
 
         val bureau: BureauDetails? = intent?.extras?.getParcelable<BureauDetails>("data")
+        val bureauCA: BureauDetails? = intent?.extras?.getParcelable<BureauDetails>("dataca")
 
         if(bureau!=null) {
             txt_appName.text = "Name of the applicant:${bureau?.applicantName}"
@@ -97,6 +118,23 @@ class BureauActivity : BaseActivity() {
             noOfLoanAsGarunter.text = "No of loans as guarantor:${bureau?.noOfLoanAsGuarantor}"
             last6MonthsHist.text = "Last 6 months history:${bureau?.sixMonthsHistory}"
             lastLoanTaken.text = "Last loan taken:${bureau?.lastLoanTaken}"
+        }
+        if(bureauCA!=null)
+        {
+            txt_appName_ca.text = "Name of the applicant:${bureauCA?.applicantName}"
+            txt_scoreValue_ca.text = "Score:${bureauCA?.score}"
+            noOfLoans_ca.text = "No Of Loans:${bureauCA?.noOfLoans}"
+            noOfActiveLoans_ca.text = "No of active loans:${bureauCA?.noOfActiveLoans}"
+            moOfUnsecuredLoans_ca.text = "No of Unsecured loans:${bureauCA?.noOfUnsecuredLoans}"
+            moOfsecuredLoans_ca.text = "No of secured loans:${bureauCA?.noOfSecuredLoans}"
+            noOfDpdAccounts_ca.text = "No of Dpd account:${bureauCA?.noOfDpdAccounts}"
+            defaultCreditLoan_ca.text =
+                "Default in credit card/Gold loan/Agri loan:${bureauCA?.defaultCGA}"
+            defaultInAutoLoans_ca.text = "Default in Auto loan/other loans:${bureauCA?.defaultAO}"
+            NoOfSuitFiled_ca.text = "No of suit filed,written:${bureauCA?.noOfSuitfiledWritten}"
+            noOfLoanAsGarunter_ca.text = "No of loans as guarantor:${bureauCA?.noOfLoanAsGuarantor}"
+            last6MonthsHist_ca.text = "Last 6 months history:${bureauCA?.sixMonthsHistory}"
+            lastLoanTaken_ca.text = "Last loan taken:${bureauCA?.lastLoanTaken}"
         }
 
         noOfActiveLoans.setOnClickListener {

@@ -1,16 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#f4f4f4">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+ <LinearLayout
+    android:layout_width="match_parent"
+     android:id="@+id/tabs"
+     android:orientation="horizontal"
+    android:layout_height="52dp">
+
+     <Button
+         android:layout_width="0dp"
+         android:layout_height="match_parent"
+         android:layout_weight="1"
+         android:id="@+id/primaryApp"
+         android:textAllCaps="false"
+         android:background="@color/colorPrimary"
+         android:textColor="@color/white"
+         android:text="Primary Applicant"/>
+     <Button
+         android:layout_width="0dp"
+         android:layout_height="match_parent"
+         android:layout_weight="1"
+         android:textAllCaps="false"
+         android:id="@+id/coapp"
+         android:background="@color/disable_text"
+         android:textColor="@color/black"
+         android:text="Co-Applicant"/>
+</LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
+        android:visibility="gone"
+        android:id="@+id/primaryKycLL"
+        android:layout_below="@+id/tabs"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -103,6 +135,13 @@
             android:paddingBottom="12dp"/>
 
     </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tabs"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:id="@+id/rvCoAppsKyc"/>
 
+    </RelativeLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
