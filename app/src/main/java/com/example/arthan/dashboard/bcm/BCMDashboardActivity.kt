@@ -33,6 +33,7 @@ class BCMDashboardActivity : BaseActivity(), View.OnClickListener {
     lateinit var responseData:BMDashboardResponseData
     override fun init() {
 
+        ArthanApp.getAppInstance().currentCustomerId=null
         layout_toolbar.visibility = View.VISIBLE
         txt_title.visibility=View.GONE
         btn_search.visibility=View.GONE

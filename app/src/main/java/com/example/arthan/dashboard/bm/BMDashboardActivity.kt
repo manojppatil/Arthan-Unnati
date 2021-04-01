@@ -33,6 +33,7 @@ class BMDashboardActivity : BaseActivity(), OnClickListener {
 
     override fun init() {
         setSupportActionBar(layout_toolbar as Toolbar?)
+        ArthanApp.getAppInstance().currentCustomerId=null
 
 
         getBMStatsData()

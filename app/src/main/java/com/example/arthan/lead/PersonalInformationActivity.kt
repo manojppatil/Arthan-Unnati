@@ -516,6 +516,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     } catch (e: Exception) {
                         e.printStackTrace()
                         Crashlytics.log(e.message)
+                        ArthanApp.getAppInstance().currentCustomerId=null
 
                         stopLoading(
                             progressBar,
@@ -526,6 +527,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             } catch (e: Exception) {
                 stopLoading(progressBar, "Something went wrong. Please try later!")
                 e.printStackTrace()
+                ArthanApp.getAppInstance().currentCustomerId=null
+
                 Crashlytics.log(e.message)
 
             }
@@ -858,6 +861,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         when(item.itemId){
             R.id.homeMenu->{
                 finish()
+                ArthanApp.getAppInstance().currentCustomerId=null
+
                 if(ArthanApp.getAppInstance().loginRole=="RM")
                 {
                     startActivity(Intent(this, RMDashboardActivity::class.java))
@@ -874,6 +879,8 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             R.id.logoutMenu->
             {
                 finish()
+                ArthanApp.getAppInstance().currentCustomerId=null
+
                 startActivity(Intent(this, SplashActivity::class.java))
             }
 

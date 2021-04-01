@@ -910,7 +910,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 val map=HashMap<String,String>()
                 if(ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase() != "yes")
                 {
-                    map["loanId"]=ArthanApp.getAppInstance().loginUser
+                    map["amId"]=ArthanApp.getAppInstance().loginUser
                 }else {
                     map["loanId"] =
                         AppPreferences.getInstance().getString(AppPreferences.Key.LoanId) ?: ""

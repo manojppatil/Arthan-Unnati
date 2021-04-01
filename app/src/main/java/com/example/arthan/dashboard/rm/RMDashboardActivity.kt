@@ -40,6 +40,7 @@ class RMDashboardActivity : BaseActivity() {
 
     override fun init() {
         btn_add_lead = findViewById<Button>(R.id.btn_add_lead)
+        ArthanApp.getAppInstance().currentCustomerId=null
         btn_add_lead.setOnClickListener {
             if(ArthanApp.getAppInstance().loginUser==null||ArthanApp.getAppInstance().loginUser=="")
             {
