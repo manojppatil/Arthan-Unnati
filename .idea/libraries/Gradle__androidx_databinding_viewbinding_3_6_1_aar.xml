@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.databinding:viewbinding:3.6.1@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/537c25d9d7e8efe3b4e0b74d68e6aa4c/jetified-viewbinding-3.6.1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/537c25d9d7e8efe3b4e0b74d68e6aa4c/jetified-viewbinding-3.6.1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7d9486d9ed26af33ed8430676921f84d/jetified-viewbinding-3.6.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7d9486d9ed26af33ed8430676921f84d/jetified-viewbinding-3.6.1/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
