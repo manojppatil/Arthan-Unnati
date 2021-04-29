@@ -8,6 +8,7 @@ data class PersonalResponseData(
     val timestamp: String?,
     val status: Int?,
     val error: String?,
+    val onboarded: String = "",
     val message: String?,
     val path: String?,
     val loanId:String?

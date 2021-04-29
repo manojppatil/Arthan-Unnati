@@ -107,6 +107,7 @@ class ConsentActivity : BaseActivity() {
                                             this@ConsentActivity,
                                             OTPValidationActivity::class.java
                                         ).apply {
+                                            putExtra("consentText", response.body()!!.consentText)
                                             putExtra("loanId", response.body()!!.loanId)
                                             putExtra("leadId", response.body()!!.leadId)
                                             putExtra("custId", response.body()!!.customerId)

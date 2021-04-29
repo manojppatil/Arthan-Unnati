@@ -93,7 +93,7 @@ class AddLeadActivity : AppCompatActivity() {
             b.putString("loanId",intent.getStringExtra("loanId"))
             b.putString("custId",intent.getStringExtra("custId"))
             b.putString("task",intent.getStringExtra("task"))
-            b.putString("screenTo",screenId)
+            b.putString("screen",screenId)
             navController.navigate(R.id.completeDetailsFragment,b)
         }
         else if(screenId.equals("income",ignoreCase = true))
@@ -104,20 +104,29 @@ class AddLeadActivity : AppCompatActivity() {
             b.putString("loanId",intent.getStringExtra("loanId"))
             b.putString("custId",intent.getStringExtra("custId"))
             b.putString("task",intent.getStringExtra("task"))
-            b.putString("screenTo",screenId)
+            b.putString("screen",screenId)
             navController.navigate(R.id.completeDetailsFragment,b)
         }
-        else if(screenId.equals("others",ignoreCase = true))
+        else if(screenId.equals("others",ignoreCase = true)||screenId.equals("OTHERS_TRADE",ignoreCase = true))
         {
             var b=Bundle()
             b.putString("loanId",intent.getStringExtra("loanId"))
             b.putString("custId",intent.getStringExtra("custId"))
             b.putString("task",intent.getStringExtra("task"))
-            b.putString("screenTo",screenId)
+            b.putString("screen","OTHERS_TRADE")
             navController.popBackStack(R.id.completeDetailsFragment,true)
             navController.navigate(R.id.completeDetailsFragment,b)
         }
-
+        else if(screenId.equals("OTHERS_SECURITY",ignoreCase = true))
+        {
+            var b=Bundle()
+            b.putString("loanId",intent.getStringExtra("loanId"))
+            b.putString("custId",intent.getStringExtra("custId"))
+            b.putString("task",intent.getStringExtra("task"))
+            b.putString("screen","OTHERS_SECURITY")
+            navController.popBackStack(R.id.completeDetailsFragment,true)
+            navController.navigate(R.id.completeDetailsFragment,b)
+        }
         else if(screenId.equals("documents",ignoreCase = true))
         {
             startActivity(Intent(this,DocumentActivity::class.java).apply {

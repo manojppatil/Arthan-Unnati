@@ -32,9 +32,9 @@ class CompleteDetailsFragment : NavHostFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(arguments?.getString("screenTo")!=null)
+        if(arguments?.getString("screen")!=null)
         {
-            if(arguments?.getString("screenTo").equals("business",ignoreCase = true)) {
+            if(arguments?.getString("screen").equals("business",ignoreCase = true)) {
                 enableBusiness()
                 var b= Bundle()
                         b.putString("from","rmbusiness")
@@ -47,7 +47,7 @@ class CompleteDetailsFragment : NavHostFragment() {
                 ) else null
                 navController?.navigate(R.id.frag_business_info,b)
             }
-            if(arguments?.getString("screenTo").equals("income",ignoreCase = true)) {
+            if(arguments?.getString("screen").equals("income",ignoreCase = true)) {
                 enableInCome()
                 val navController: NavController? = if (activity is AddLeadActivity) Navigation.findNavController(
                     activity!!,
@@ -60,7 +60,7 @@ class CompleteDetailsFragment : NavHostFragment() {
                 b.putString("task",arguments?.getString("task"))
                 navController?.navigate(R.id.frag_income_info,b)
             }
-            if(arguments?.getString("screenTo").equals("others",ignoreCase = true)) {
+            if(arguments?.getString("screen").equals("OTHERS_TRADE",ignoreCase = true)||arguments?.getString("screen").equals("OTHERS_SECURITY",ignoreCase = true)) {
                 enableDoc()
                 enableInCome()//already in last page and business is enabled in layout itslef
                 var b=Bundle()

@@ -399,4 +399,5 @@
     <string name="coc">Coc</string>
     <string name="remarksView"><u>Click to view</u></string>
     <string name="clickToAddCA"><u> click here to add a new Applicant </u></string>
+    <string name="kyc_consent">I, %s having Emp ID/Partner ID %s hereby declare that I have seen all the original documents, verified their genuinity  and taken photographs for the purpose of loan processing.</string>
 </resources>

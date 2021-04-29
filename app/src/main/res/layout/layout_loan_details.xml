@@ -103,7 +103,24 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatSpinner
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/spnr_loan_sanctioned_by"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Bank Name"
+        android:backgroundTint="#000000"
+        android:entries="@array/arr_loan_sanctioned_by"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tl_Address"
+        app:layout_constraintVertical_chainStyle="packed" />
+    <!-- <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spnr_loan_sanctioned_by"
         style="@style/Widget.AppCompat.Spinner.Underlined"
         android:layout_width="match_parent"
@@ -119,7 +136,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tl_Address"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_loan_amount"

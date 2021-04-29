@@ -1,10 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dashboard.rm.PaymentQRActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".dashboard.rm.PaymentQRActivity"
+    android:background="@color/white"
+    android:fillViewport="true"
+    android:layout_width="match_parent">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+    android:layout_height="wrap_content"
+   >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/logo"
+        android:padding="16dp"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/ic_arthan_blue_logo"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/logo"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="80dp"
+            android:layout_height="3dp"
+            android:background="@color/black"
+            android:layout_marginRight="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="60dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scan &amp; pay"
+            android:layout_gravity="center_vertical"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="80dp"
+            android:layout_height="3dp"
+            android:layout_marginLeft="12dp"
+            android:background="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="60dp"/>
+    </LinearLayout>
 
     <ImageView
         android:layout_width="250dp"
@@ -12,17 +57,78 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/qr"
+        android:layout_centerInParent="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:weightSum="4"
+        android:id="@+id/modes"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/qr">
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:src="@drawable/bhim_ic"/>
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:src="@drawable/whatapp_app_icon"/>
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:src="@drawable/bhim_ic"/>
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:src="@drawable/phonepe_ic"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"
+        android:layout_below="@+id/modes"
+        android:id="@+id/dividers"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginTop="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/dividers"
+        android:gravity="center"
+        android:id="@+id/bhim_logos">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/bhim_logo"
+         />
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="100dp"
+
+            android:src="@drawable/upi_logo"
+          />
+    </LinearLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
         android:id="@+id/btn_next"
-        app:layout_constraintTop_toBottomOf="@+id/qr"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+       android:layout_below="@+id/bhim_logos"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/ic_next_enabled"
         android:textColor="@color/white"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
+</ScrollView>

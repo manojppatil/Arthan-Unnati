@@ -13,7 +13,8 @@ class ArthanApp : MultiDexApplication() {
     var loginUser:String=""
     var loginRole:String=""
     var empId:String=""
-    var appVersion="1.7"
+    var userName:String=""
+    var appVersion="1.8"
     var onboarded=""
     var validAm = ""
     var submitDocs: SubmitMultipleDocsRequest? =null

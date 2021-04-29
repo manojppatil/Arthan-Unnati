@@ -69,6 +69,23 @@ class ReUsableFragmentSpace : AppCompatActivity() {
                 var b = Bundle()
                 b.putString("task", "RM_AssignList")
                 b.putString("loanId", loanId)
+                b.putString("screen",intent.getStringExtra("screen"))
+                this.arguments = b
+            }).commit()
+
+        when(intent.getStringExtra("screen")){
+            "OTHERS_TRADE"->  toolbar_title.text ="Others Trade"
+            "OTHERS_SECURITY"->  toolbar_title.text ="Collateral Details"
+            null->  toolbar_title.text ="Others Trade"
+        }
+    }
+    fun showColateralFragment(loanId: String) {
+        supportFragmentManager.beginTransaction().replace(R.id.frag, BMCollateralFragmentIndependent()
+            .apply {
+                var b = Bundle()
+                b.putString("task", "RM_AssignList")
+                b.putString("loanId", loanId)
+                b.putString("screen",intent.getStringExtra("screen"))
                 this.arguments = b
             }).commit()
 

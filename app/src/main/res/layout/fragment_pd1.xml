@@ -284,7 +284,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
-                android:inputType="numberDecimal"
+                android:inputType="text"
                 android:hint="Remarks" />
         </com.google.android.material.textfield.TextInputLayout>
 

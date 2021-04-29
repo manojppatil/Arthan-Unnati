@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <!-- <LinearLayout
@@ -321,6 +322,24 @@
                 android:layout_marginTop="8dp"
                 android:id="@+id/sp_security"
                 />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txt_input_pincode_tl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:visibility="visible"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+
+            <EditText
+                android:id="@+id/input_pincode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pincode"
+                android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -663,6 +682,71 @@
                     android:id="@+id/et_address"/>
             </LinearLayout>
         </LinearLayout>
+        <Button
+            android:id="@+id/btn_geolocator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_background"
+            android:enabled="true"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="36dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="36dp"
+            android:paddingBottom="8dp"
+            android:text="Locate"
+            android:textColor="@color/button_text_color"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_date"
+            />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="8dp"
+            android:id="@+id/shopUpload"
+            app:layout_constraintTop_toBottomOf="@+id/btn_geolocator">
+
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_add_photo"
+                android:layout_centerHorizontal="true"
+                android:layout_toLeftOf="@+id/divider"
+                android:id="@+id/shop1"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:id="@+id/divider"
+                android:visibility="gone"
+                android:layout_marginLeft="16dp"
+
+                android:layout_marginRight="16dp"
+                android:background="#000"
+                android:alpha="0.2"/>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_add_photo"
+                android:visibility="gone"
+                android:layout_toRightOf="@+id/divider"
+                android:layout_margin="8dp"
+                android:id="@+id/shop2"/>
+
+        </RelativeLayout>
         <Button
             android:id="@+id/btn_save_continue"
             android:layout_width="wrap_content"

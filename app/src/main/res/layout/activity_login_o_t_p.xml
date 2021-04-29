@@ -101,6 +101,7 @@
             android:text="@string/otp_will_be_resent_in_45s"
             android:textColor="#80000000"
             android:textSize="12sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/view_otp"
             app:layout_constraintRight_toRightOf="parent"

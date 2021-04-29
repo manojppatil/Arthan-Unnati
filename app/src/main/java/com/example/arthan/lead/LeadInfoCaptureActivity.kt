@@ -102,7 +102,7 @@ class LeadInfoCaptureActivity: BaseActivity() {
             b.putString("loanId",intent.getStringExtra("loanId"))
             b.putString("custId",intent.getStringExtra("custId"))
 //            b.putString("task",intent.getStringExtra("task"))
-            b.putString("screenTo",screenId)
+            b.putString("screen",screenId)
             navController.navigate(R.id.frag_business_info,b)
             infoCompleteState(BUSINESS)
             vw_dim_income.visibility= View.VISIBLE
@@ -118,7 +118,7 @@ class LeadInfoCaptureActivity: BaseActivity() {
             b.putString("loanId",intent.getStringExtra("loanId"))
             b.putString("custId",intent.getStringExtra("custId"))
 //            b.putString("task",intent.getStringExtra("task"))
-            b.putString("screenTo",screenId)
+            b.putString("screen",screenId)
             vw_dim_doc.visibility= View.VISIBLE
             enableInCome()
 //                infoCompleteState(INCOME)
@@ -131,7 +131,7 @@ class LeadInfoCaptureActivity: BaseActivity() {
             b.putString("loanId",intent.getStringExtra("loanId"))
             b.putString("custId",intent.getStringExtra("custId"))
 //            b.putString("task",intent.getStringExtra("task"))
-            b.putString("screenTo",screenId)
+            b.putString("screen",screenId)
             navController?.navigate(R.id.frag_document_info,b)
             enableDoc()
             enableInCome()

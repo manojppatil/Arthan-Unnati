@@ -6,7 +6,10 @@ data class CollateralDetailsPostData(
     var loanId: String? ="",
     var collaterals: ArrayList<CollateralData>,
     var custId: String? ="",
-    var remarks:String?=""
+    var remarks:String?="",
+    var lat:String?="",
+    var lng:String?="",
+    var docUrl:String?=""
    /* var securityType: String? =,
     var securitySubType: String? =,
     var immovableSubType: String? =,
@@ -49,6 +52,7 @@ data class CollateralDetailsPostData(
 
 data class CollateralData(
     val securityType: String,
+    val pincode: String?,
     val liquidDetails: LiquidDetails,
     val otherDetails: MovableDetails,
     val immovableDetails: ImmovableDetails,

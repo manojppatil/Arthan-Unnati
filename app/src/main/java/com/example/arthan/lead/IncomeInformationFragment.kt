@@ -740,7 +740,8 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                 postdata.customerId=mCustomerId
                 postdata.userId=ArthanApp.getAppInstance().loginUser + ""
                 CoroutineScope(Dispatchers.IO).launch {
-                    val respo = RetrofitFactory.getApiService().updateIncomeDetails(
+//                    val respo = RetrofitFactory.getApiService().updateIncomeDetails(
+                    val respo = RetrofitFactory.getApiService().saveIncomeDetail(
                         postdata
                     )
 
@@ -995,7 +996,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                 Liability(
                     emi = emi_input?.text?.toString(),
                     loanType = spnr_loan_type?.selectedItem as? String,
-                    loanSanctionedBy = spnr_loan_sanctioned_by?.selectedItem as? String,
+                    loanSanctionedBy = spnr_loan_sanctioned_by?.text.toString(),
                     loanAmount = loan_amount_input?.text?.toString(),
                     frequencyOfInstallment = if (weekly_radio_button?.isChecked == true) {
                         weekly_radio_button?.text?.toString()
@@ -1024,7 +1025,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                         Liability(
                             emi = loanDetails?.findViewById<TextInputEditText?>(R.id.emi_input)?.text?.toString(),
                             loanType = loanDetails?.findViewById<AppCompatSpinner?>(R.id.emi_input)?.selectedItem as? String,
-                            loanSanctionedBy = loanDetails?.findViewById<AppCompatSpinner?>(R.id.spnr_loan_sanctioned_by)?.selectedItem as? String,
+                            loanSanctionedBy = loanDetails?.findViewById<TextInputEditText?>(R.id.spnr_loan_sanctioned_by)?.text.toString(),
                             loanAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.loan_amount_input)?.text?.toString(),
                             frequencyOfInstallment = if (loanDetails?.findViewById<RadioButton?>(R.id.weekly_radio_button)?.isChecked == true) {
                                 loanDetails?.findViewById<RadioButton?>(R.id.weekly_radio_button)
@@ -1321,7 +1322,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                 Liability(
                     emi = emi_input?.text?.toString(),
                     loanType = spnr_loan_type?.selectedItem as? String,
-                    loanSanctionedBy = spnr_loan_sanctioned_by?.selectedItem as? String,
+                    loanSanctionedBy = spnr_loan_sanctioned_by?.text.toString() ,
                     loanAmount = loan_amount_input?.text?.toString(),
                     frequencyOfInstallment = if (weekly_radio_button?.isChecked == true) {
                         weekly_radio_button?.text?.toString()
@@ -1353,7 +1354,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                         Liability(
                             emi = loanDetails?.findViewById<TextInputEditText?>(R.id.emi_input)?.text?.toString(),
                             loanType = loanDetails?.findViewById<AppCompatSpinner?>(R.id.emi_input)?.selectedItem as? String,
-                            loanSanctionedBy = loanDetails?.findViewById<AppCompatSpinner?>(R.id.spnr_loan_sanctioned_by)?.selectedItem as? String,
+                            loanSanctionedBy = loanDetails?.findViewById<TextInputEditText?>(R.id.spnr_loan_sanctioned_by)?.text.toString(),
                             loanAmount = loanDetails?.findViewById<TextInputEditText?>(R.id.loan_amount_input)?.text?.toString(),
                             frequencyOfInstallment = if (loanDetails?.findViewById<RadioButton?>(R.id.weekly_radio_button)?.isChecked == true) {
                                 loanDetails?.findViewById<RadioButton?>(R.id.weekly_radio_button)
@@ -1551,7 +1552,7 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                             res?.incomeDetails,
                             res?.incomeDetails?.customerId,
                             res?.incomeDetails?.loanId,
-                            ""
+                            res?.incomeComments
                         )
                     }
                 }
@@ -2171,8 +2172,9 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
 
                         var list =
                             retrieveAllLoanTypeItems(spnr_loan_type)
-                        var list2 =
-                            retrieveAllLoanTypeItems(spnr_loan_sanctioned_by)
+                        spnr_loan_sanctioned_by.setText(item.loanSanctionedBy)
+                        /*var list2 =
+                            retrieveAllLoanTypeItems(spnr_loan_sanctioned_by.text.toString())*/
                         for (i in 0 until list!!.size) {
                             if (item.loanType == list[i]) {
                                 var spnr_loan_type =
@@ -2181,14 +2183,14 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                             }
 
                         }
-                        for (i in 0 until list2!!.size) {
+                        /*for (i in 0 until list2!!.size) {
                             if (item.loanSanctionedBy == list2[i]) {
                                 var spnr_santioned_by =
                                     spnr_loan_sanctioned_by
                                 spnr_santioned_by.setSelection(i)
                             }
 
-                        }
+                        }*/
                         loan_amount_input
                             ?.setText(item.loanAmount)
                         emi_input?.setText(item.emi)
@@ -2319,8 +2321,8 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
 
                         var list =
                             retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_type))
-                        var list2 =
-                            retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by))
+                       /* var list2 =
+                            retrieveAllLoanTypeItems(loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by))*/
                         for (i in 0 until list!!.size) {
                             if (item.loanType == list[i]) {
                                 var spnr_loan_type =
@@ -2329,14 +2331,15 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
                             }
 
                         }
-                        for (i in 0 until list2!!.size) {
+                        spnr_loan_sanctioned_by.setText(item.loanSanctionedBy)
+                       /* for (i in 0 until list2!!.size) {
                             if (item.loanSanctionedBy == list2[i]) {
                                 var spnr_santioned_by =
                                     loanView.findViewById<Spinner>(R.id.spnr_loan_sanctioned_by)
                                 spnr_santioned_by.setSelection(i)
                             }
 
-                        }
+                        }*/
                         loanView.findViewById<EditText>(R.id.loan_amount_input)
                             ?.setText(item.loanAmount)
                         loanView.findViewById<EditText?>(R.id.emi_input)?.setText(item.emi)
@@ -2524,13 +2527,13 @@ class IncomeInformationFragment : BaseFragment(),TextWatcher, CompoundButton.OnC
 
     fun getTotalIncome()
     {
-        var sum=0
+        var sum=0L
         if ((ll_income_source?.childCount ?: 0) > 0) {
             for (childCount in 0 until (ll_income_source?.childCount ?: 0)) {
 
                 val income =    (((((ll_income_source?.getChildAt(childCount) as ViewGroup).getChildAt(2) as ViewGroup)).getChildAt(0) as ViewGroup).getChildAt(0) as TextInputEditText).text.toString()
                 if(income.isNotEmpty()) {
-                    sum += income.toInt()
+                    sum += income.toLong()
                     total_income_et.setText(sum.toString())
                 }
             }

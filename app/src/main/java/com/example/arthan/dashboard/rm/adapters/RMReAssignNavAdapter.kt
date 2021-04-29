@@ -126,13 +126,30 @@ class RMReAssignNavAdapter(
 
 
                     }
-                    "OTHERS", "OTHERS_TRADE", "OTHERS_SECURITY" -> {
+                    "OTHERS", "OTHERS_TRADE" -> {
                         context.startActivity(
                             Intent(
                                 context,
                                 ReUsableFragmentSpace::class.java
                             ).apply {
-                                putExtra("screen", "others")
+                                putExtra("screen", "OTHERS_TRADE")
+                                putExtra("loanId", responseData.loanId)
+                                putExtra("custId", responseData.customerId)
+                                putExtra("task", "RM_AssignList")
+                                putExtra("from", "rmothers")
+
+                            })
+                        (context as RmReassignNavActivity).finish()
+
+
+                    }
+                    "OTHERS_SECURITY" -> {
+                        context.startActivity(
+                            Intent(
+                                context,
+                                ReUsableFragmentSpace::class.java
+                            ).apply {
+                                putExtra("screen", "OTHERS_SECURITY")
                                 putExtra("loanId", responseData.loanId)
                                 putExtra("custId", responseData.customerId)
                                 putExtra("task", "RM_AssignList")

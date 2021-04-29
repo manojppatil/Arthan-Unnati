@@ -707,6 +707,7 @@
                 android:id="@+id/cl_score_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@id/cl_bureau"
                 app:layout_constraintRight_toRightOf="@id/cl_bureau"
                 app:layout_constraintTop_toBottomOf="@id/cl_finances"
@@ -834,13 +835,16 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+           <!-- app:layout_constraintLeft_toLeftOf="@id/cl_id_address"
+            app:layout_constraintRight_toRightOf="@id/cl_id_address"
+            app:layout_constraintTop_toBottomOf="@id/cl_assets"-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_deviation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@id/cl_id_address"
-                app:layout_constraintRight_toRightOf="@id/cl_id_address"
-                app:layout_constraintTop_toBottomOf="@id/cl_assets"
+                app:layout_constraintLeft_toLeftOf="@id/cl_bureau"
+                app:layout_constraintRight_toRightOf="@id/cl_bureau"
+                app:layout_constraintTop_toBottomOf="@id/cl_finances"
                 android:background="@drawable/bg_white_rectangle"
                 android:backgroundTint="#fafafa"
                 android:paddingTop="8dp"

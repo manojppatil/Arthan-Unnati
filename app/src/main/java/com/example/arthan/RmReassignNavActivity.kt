@@ -1,13 +1,17 @@
 package com.example.arthan
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arthan.dashboard.rm.RMReAssignListingActivity
 import com.example.arthan.dashboard.rm.adapters.RMReAssignNavAdapter
+import com.example.arthan.lead.AddLeadStep2Activity
 import com.example.arthan.network.RetrofitFactory
+import com.example.arthan.network.RmReAssignNavResponse
 import com.example.arthan.utils.ProgrssLoader
 import kotlinx.android.synthetic.main.activity_r_m_screening_navigation.*
 import kotlinx.android.synthetic.main.custom_toolbar.*
@@ -18,7 +22,7 @@ import kotlinx.coroutines.withContext
 
 class RmReassignNavActivity : AppCompatActivity() {
     private var task: String = ""
-
+    private lateinit var responseData: RmReAssignNavResponse
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_r_m_screening_navigation)
@@ -26,6 +30,37 @@ class RmReassignNavActivity : AppCompatActivity() {
 //        toolbar_title.text = "Complete Loan Details"
 
         getRmAssignPendingScreenList()
+        addnewApplicant.setOnClickListener {
+            val dialog= AlertDialog.Builder(this)
+            dialog.setTitle("Add new Applicant")
+            dialog.setMessage("Select the type of Applicant you want to Add")
+            dialog.setNegativeButton("Guarantor", DialogInterface.OnClickListener { dialog, _ ->
+                dialog.dismiss()
+                startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
+                    putExtra("screen","KYC_PA")
+                    putExtra("type","G")
+                    putExtra("loanId",responseData.loanId)
+                    putExtra("custId",responseData.custId)
+                    putExtra("task","RMAddCoRe")
+                })
+                finish()
+            })
+            dialog.setPositiveButton("Co-Applicant", DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+                startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
+                    putExtra("screen","KYC_PA")
+                    putExtra("type","CA")
+                    putExtra("loanId",responseData.loanId)
+                    putExtra("custId",responseData.custId)
+                    putExtra("task","RMAddCoRe")
+                })
+                finish()
+            })
+            dialog.setNeutralButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
+            dialog.create().show()
+        }
         if(intent?.getStringExtra("tile")=="AMCASES")
         {
             toolbar_title?.text = "AM Cases"
@@ -111,6 +146,7 @@ class RmReassignNavActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     continueScreen.visibility = View.GONE
                     loader.dismmissLoading()
+                    responseData=response.body()!!
 
                     rvScreeningList.adapter =
                         RMReAssignNavAdapter(

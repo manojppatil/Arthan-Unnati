@@ -35,6 +35,7 @@ data class PersonalPostData(
     var statep: String = "",
     var loanId: String? = "",
     var applicantPanNo: String? = "",
+    var relationship: String? = "",
 
     var ageofCustomer: String = "",
     var applicantType: String = "",

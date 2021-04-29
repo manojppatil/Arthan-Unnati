@@ -911,6 +911,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 if(ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase() != "yes")
                 {
                     map["amId"]=ArthanApp.getAppInstance().loginUser
+                    map["loanId"]=ArthanApp.getAppInstance().loginUser
                 }else {
                     map["loanId"] =
                         AppPreferences.getInstance().getString(AppPreferences.Key.LoanId) ?: ""

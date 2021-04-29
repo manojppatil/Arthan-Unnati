@@ -51,6 +51,10 @@ class BMCoAppKycDocsAdapter(
                 showPreview(mList[position].voterUrl)
 
             }
+            root.findViewById<TextView>(R.id.txt_applicantPhoto).setOnClickListener {
+                showPreview(mList[position].paApplicantPhoto)
+
+            }
 
 
 

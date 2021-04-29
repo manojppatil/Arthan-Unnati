@@ -54,6 +54,7 @@ class BMScreeningReportActivity : BaseActivity(), View.OnClickListener {
             txt_approve.visibility = View.GONE
         } else if (ArthanApp.getAppInstance().loginRole == "BCM") {
             txt_recommend_bcm.text = "Recommend to CCM"
+            txt_recommend_bcm.visibility=View.GONE
             txt_approve.visibility = View.GONE
             txt_ReAssignedtoBM.visibility = View.VISIBLE
         } else if (ArthanApp.getAppInstance().loginRole == "AM") {

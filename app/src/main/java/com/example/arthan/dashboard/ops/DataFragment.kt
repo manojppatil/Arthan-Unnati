@@ -115,7 +115,8 @@ class DataFragment : Fragment() {
                 data?.collateralDetails,
                 loanId,
                 data?.loanType,
-                data?.otherComments
+                data?.otherComments,
+                data?.collateralComments
 
 
             )
@@ -123,7 +124,7 @@ class DataFragment : Fragment() {
                 data?.collateralDetails,
                 loanId,
                 data?.loanType,
-                data?.otherComments
+                data?.collateralComments
 
 
             )

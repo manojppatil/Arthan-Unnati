@@ -2,6 +2,7 @@ package com.example.arthan.lead
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import com.example.arthan.R
 import com.example.arthan.dashboard.rm.PaymentQRActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
@@ -62,6 +63,8 @@ class OTPValidationActivity: BaseActivity() {
                     txt_application_fee_amt.text= appFee
                     txt_gst_amt.text= gst
                     txt_total_amt.text= total
+                        chk_consent?.text = res.body()!!.consentText
+
                     }
 
                 }
@@ -70,6 +73,7 @@ class OTPValidationActivity: BaseActivity() {
              appFee = intent.getStringExtra("appFee")
              gst = intent.getStringExtra("gst")
              total = intent.getStringExtra("total")
+            chk_consent?.text = intent.getStringExtra("consentText")
             txt_application_fee_amt.text= appFee
             txt_gst_amt.text= gst
             txt_total_amt.text= total
@@ -78,6 +82,11 @@ class OTPValidationActivity: BaseActivity() {
 
         btn_submit.setOnClickListener {
 
+            if(appFee==null&&view_otp.otp.length!=6)
+            {
+                Toast.makeText(this,"App fee cannot be null",Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             CoroutineScope(Dispatchers.IO).launch {
 
                 val response = RetrofitFactory.getApiService()./*verifyOTP*/verifyOTPAppFee(VerifyOTPRequest(intent.getStringExtra("loanId"),
@@ -157,7 +166,8 @@ class OTPValidationActivity: BaseActivity() {
                             res?.total,
                             res?.appFee,
                             res?.leadId,
-                            res?.mobNo
+                            res?.mobNo,
+                            res?.consentText
                         )
                     }
                 }
@@ -172,11 +182,16 @@ class OTPValidationActivity: BaseActivity() {
         total: String?,
         appFee: String?,
         leadId: String?,
-        mobNo: String?
+        mobNo: String?,
+        consentText: String?
+
     ) {
+        this.appFee=appFee!!
         txt_application_fee_amt.text= appFee
         txt_gst_amt.text= gst
         txt_total_amt.text= total
         txt_otp_msg.text = "OTP sent to $mobNo"
+        chk_consent?.text = consentText
+
     }
 }

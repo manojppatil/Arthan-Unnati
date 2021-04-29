@@ -147,6 +147,10 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 if (ArthanApp.getAppInstance().loginRole=="RM"){
                     am_list.visibility=View.VISIBLE
                     cv_am_cases.visibility=View.VISIBLE
+                    am_count.text="${data.myAm.count}"
+                    txt_myam_amt.text="${data.myAm.total}"
+                    txt_amcases_count.text="${data.amCase.count}"
+                    txt_amcases_amt.text="{${data.amCase.total}}"
 
                 }else{
                     am_list.visibility=View.GONE

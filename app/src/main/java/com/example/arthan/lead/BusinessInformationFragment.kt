@@ -95,10 +95,10 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         firm_name_input.setText(activity?.intent?.getStringExtra("businessName"))
 
 
-        if(ArthanApp.getAppInstance().loginRole=="RM"||ArthanApp.getAppInstance().loginRole=="AM")
-        {
+//        if(ArthanApp.getAppInstance().loginRole=="RM"||ArthanApp.getAppInstance().loginRole=="AM")
+//        {
             btn_geolocator.visibility=View.VISIBLE
-        }
+//        }
         btn_geolocator.setOnClickListener {
             fetchLocation(5)
         }
@@ -630,8 +630,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             constitution = (spnr_constitution?.selectedItem as? Data)?.value,
             udhyogaadhar = udhyog_aadhar_id_input?.text?.toString(),
             gstcode = gstin_number_input?.text?.toString(),
-            noofemployees = no_of_employee_count?.tag as Int,
-            ssiregistrationno = ssi_registration_input?.text?.toString(),
+//            noofemployees = no_of_employee_count?.tag as Int,
+//            ssiregistrationno = ssi_registration_input?.text?.toString(),
             partners = partners,
             noOfyearsincurrentoffice = no_of_year_in_office_input?.text?.toString(),
             contactpersonname = contact_person_name_input?.text?.toString(),
@@ -730,6 +730,12 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 }
             }*/
         }
+        if(ArthanApp.getAppInstance().loginRole=="RM"&&registered_business_address_input.text?.trim()!!.isEmpty())
+        {
+            Toast.makeText(context!!,"Registered business address cannot be empty",Toast.LENGTH_LONG).show()
+            progressBar.dismmissLoading()
+            return
+        }
             val postBody = BusinessDetailsPostData(
               resubmit = "",
             bname = firm_name_input?.text?.toString(),
@@ -741,8 +747,8 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             constitution = (spnr_constitution?.selectedItem as? Data)?.value,
             udhyogaadhar = udhyog_aadhar_id_input?.text?.toString(),
             gstcode = gstin_number_input?.text?.toString(),
-            noofemployees = no_of_employee_count?.tag as Int,
-            ssiregistrationno = ssi_registration_input?.text?.toString(),
+//            noofemployees = no_of_employee_count?.tag as Int,
+//            ssiregistrationno = ssi_registration_input?.text?.toString(),
             partners = partners,
             noOfyearsincurrentoffice = no_of_year_in_office_input?.text?.toString(),
             contactpersonname = contact_person_name_input?.text?.toString(),
@@ -879,7 +885,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             if (/*industry && */constitution) {
                 withContext(uiContext) {
                     progressLoader.dismmissLoading()
-                    if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)||arguments?.getString("task").equals("RMreJourney",ignoreCase = true))
+                    if(arguments?.getString("task").equals("RM_AssignList",ignoreCase = true)||arguments?.getString("task").equals("RMreJourney",ignoreCase = true)||(activity?.intent?.getStringExtra("task")!=null&&activity!!.intent.getStringExtra("task")=="RMContinue"))
                     {
                         loadDataFromRMAssignList()
                     }
@@ -905,7 +911,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 if (respo != null) {
                     if (respo.isSuccessful && respo.body() != null) {
                         withContext(Dispatchers.Main) {
-                            updateData(respo.body()!!.businessDetails,"")
+                            updateData(respo.body()!!.businessDetails,respo.body()!!.businessComments)
                             updateSpinnerData(respo.body()!!.businessDetails)
                         }
                     } else {
@@ -1033,7 +1039,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         no_of_employee_count?.tag=businessDetails?.noofemployees?.toInt()
         gstin_number_input?.setText(businessDetails?.gstcode)
         no_of_employee_count?.setText(businessDetails?.noofemployees)
-        ssi_registration_input?.setText(businessDetails?.ssiregistrationno)
+//        ssi_registration_input?.setText(businessDetails?.ssiregistrationno)
         contact_person_name_input?.setText(businessDetails?.contactpersonname)
         et_mobile_number?.setText(businessDetails?.landlineMobile)
         no_of_year_in_office_input?.setText(businessDetails?.noOfyearsincurrentoffice)

@@ -235,8 +235,8 @@ private var proceed=false;
                         tl_property_value.visibility=View.GONE
                     }else
                     {
-                        security_offered_spinner.visibility=View.VISIBLE
-                        security_jurisdiction_spinner.visibility=View.VISIBLE
+                       // security_offered_spinner.visibility=View.VISIBLE
+//                        security_jurisdiction_spinner.visibility=View.VISIBLE
                         tl_property_value.visibility=View.VISIBLE
                     }
                 }
@@ -537,8 +537,8 @@ private var proceed=false;
             tenorMonth = (et_months?.tag as? Int)?.toString() ?: "",
             loanType = loan_type_spinner?.selectedItem as? String ?: "",
             purposeofLoan = (spnr_loan_purpose?.selectedItem as? Data)?.value ?: "",
-            collateralType = (security_offered_spinner?.selectedItem as? Data)?.value ?: "",
-            securityJurisdiction = security_jurisdiction_spinner?.selectedItem as? String ?: "",
+            //collateralType = (security_offered_spinner?.selectedItem as? Data)?.value ?: "",
+            //securityJurisdiction = security_jurisdiction_spinner?.selectedItem as? String ?: "",
             propertyValue = property_value_input?.text?.toString() ?: "",
             turnover = business_turnover_input?.text?.toString() ?: "",
             turnoverFreq=when(rb_monthly.isChecked){
@@ -581,9 +581,11 @@ private var proceed=false;
                                 startActivity(
                                     Intent(
                                         this@LoanDetailActivity,
-                                        LeadEligibilityActivity::class.java
+//                                        LeadEligibilityActivity::class.java
+                                        AddLeadStep2Activity::class.java
                                     ).apply {
                                         putExtra(ArgumentKey.LeadId, mLeadId)
+                                            .putExtra("loanId",result.loanId)
                                         putExtra(ArgumentKey.Eligibility, result.eligibility)
                                     })
                               //  finish()

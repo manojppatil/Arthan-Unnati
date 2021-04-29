@@ -19,6 +19,29 @@ import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
 import com.example.arthan.views.activities.PendingCustomersActivity
 import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.*
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_COOtherspolicyNo
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_COOwnerNameImm
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_COpolicyNo
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_MarketValueImm
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_address
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_coOthersOwnerName
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_coOwnerName
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_cosurrenderValue
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_derivedValueCO
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.et_marketValueCo
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.immovable_section
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.liquid_section
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.others_section
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.rb_Business
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.rb_ResidentType
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.security_section_movable
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.sp_collateral_type_liq
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.sp_jurisdictionType
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.sp_ownerShip
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.sp_relaionShipApplicant
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.sp_security
+import kotlinx.android.synthetic.main.activity_b_c_m_approved_collateral.sp_security_subType
+import kotlinx.android.synthetic.main.collateral_section.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -404,6 +427,7 @@ class BCMApprovedCollateral : BaseActivity(), CoroutineScope {
             collaterals.add(
                 CollateralData(
                     securityType = (sp_security.selectedItem as Data).description.toString(),
+                    pincode = input_pincode.text.toString(),
                     liquidDetails = LiquidDetails(
                         ownerName = et_coOwnerName.text.toString(),
                         policyNo = et_COpolicyNo.text.toString(),

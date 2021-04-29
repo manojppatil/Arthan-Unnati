@@ -151,9 +151,19 @@ class RMScreeningNavAdapter(private val context: Context,
                         (context as RMScreeningNavigationActivity).finish()
 
                     }
-                    "OTHERS","OTHERS_TRADE","OTHERS_SECURITY"->{
+                    "OTHERS","OTHERS_TRADE"->{
                         context.startActivity(Intent(context, AddLeadActivity::class.java).apply {
-                            putExtra("screen","others")
+                            putExtra("screen","OTHERS_TRADE")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+
+                    }
+                        "OTHERS_SECURITY"->{
+                        context.startActivity(Intent(context, AddLeadActivity::class.java).apply {
+                            putExtra("screen","OTHERS_SECURITY")
                             putExtra("loanId",responseData.loanId)
                             putExtra("custId",responseData.customerId)
                             putExtra("task","RMreJourney")

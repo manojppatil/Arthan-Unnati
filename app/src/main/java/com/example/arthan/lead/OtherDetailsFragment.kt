@@ -81,6 +81,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             //bcmCheckBoxes.visibility = View.VISIBLE
             ll_collateral.visibility=View.GONE
             addNewTrade.visibility=View.VISIBLE
+            txt_input_pincode_tl.visibility=View.VISIBLE
             addNewTrade.setOnClickListener {
 
               startActivityForResult(Intent(context,AddTradeRefActivity::class.java).apply {
@@ -177,6 +178,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         //fetchmstrIdsubSecurity(list?.get(position)?.description!!.toLowerCase())
                         if (list?.get(position)?.description?.toLowerCase() == "movable") {
                             security_section_movable.visibility = View.VISIBLE
+                            input_pincode.visibility=View.GONE
+
                             others_section.visibility=View.GONE
                             CoroutineScope(Dispatchers.IO).launch {
 
@@ -192,6 +195,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             )?.description?.toLowerCase() == "Negative Lien".toLowerCase()
                         ) {
                             immovable_section.visibility = View.VISIBLE
+                            input_pincode.visibility=View.VISIBLE
                             CoroutineScope(Dispatchers.IO).launch {
                                 fetchAndUpdateCollateralNatureAsync("").await()
                                 fetchRelationshipAsync("")
@@ -371,6 +375,15 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 }
             }
 
+            if(rb_Others.isChecked)
+            {
+                if(et_address.text.isEmpty()&&ArthanApp.getAppInstance().loginRole=="RM")
+                {
+
+                    Toast.makeText(context!!,"Collateral address is mandatory",Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+            }
             if (ArthanApp.getAppInstance().loginRole == "BM"||ArthanApp.getAppInstance().loginRole == "BCM") {
                 var dialog = AlertDialog.Builder(activity)
                 var view: View? = activity?.layoutInflater?.inflate(R.layout.remarks_popup, null)
@@ -893,7 +906,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             if (context != null) ProgrssLoader(context!!) else null
         progressLoader?.showLoading()
         launch(ioContext) {
-            val natureOfProperty = fetchAndUpdateNatureOfPropertyAsync().await()
+            val natureOfProperty = true/*fetchAndUpdateNatureOfPropertyAsync().await()*/
             val propertyJurisdiction = fetchAndUpdatePropertyJurisdictionAsync("").await()
             val propertyType = fetchAndUpdatePropertyTypeAsync().await()
             val relationshipWitApplicant =
@@ -906,7 +919,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             if (natureOfProperty && propertyJurisdiction && propertyType && relationshipWitApplicant) {
                 withContext(uiContext) {
                     progressLoader?.dismmissLoading()
-                    if (arguments?.getString("task").equals("RM_AssignList")||arguments?.getString("task").equals("RMreJourney")) {
+                    if (arguments?.getString("task").equals("RM_AssignList")||arguments?.getString("task").equals("RMreJourney")||(activity?.intent?.getStringExtra("task")!=null&&activity!!.intent.getStringExtra("task")=="RMContinue")) {
                         getOthersDataForRm()
                     }
                 }
@@ -926,7 +939,16 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                      RetrofitFactory.getApiService().getOtherData(arguments?.getString("loanId"))*/
 
                 var map = HashMap<String, String>()
-                map["loanId"] = arguments?.getString("loanId")!!
+                var loanId=arguments?.getString("loanId")
+                if(loanId==null)
+                {
+                    loanId=activity?.intent?.getStringExtra("loanId")
+                }
+                map["loanId"]=loanId!!
+                if(arguments?.getString("screen")!=null)
+                {
+                    map["screen"]=arguments?.getString("screen")!!
+                }else
                 map["screen"] = "OTHERS_TRADE"
                 val res =
                     RetrofitFactory.getApiService().getScreenData(map)
@@ -939,7 +961,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                             responseBody?.tradeRefDetails,
                             responseBody?.collateralDetails,
                             arguments?.getString("loanId"),
-                            responseBody?.collateralDetails?.custId,""
+                            responseBody?.collateralDetails?.custId,responseBody?.otherComments,responseBody?.collateralComments
                         )
                         progressLoader?.dismmissLoading()
                     }
@@ -1225,9 +1247,11 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             } else {
                 addressType = "Others"
             }
+
             collaterals.add(
                 CollateralData(
                     securityType = (sp_security.selectedItem as Data).description.toString(),
+                    pincode = input_pincode.text.toString(),
                     liquidDetails = LiquidDetails(
                         ownerName = et_coOwnerName.text.toString(),
                         policyNo = et_COpolicyNo.text.toString(),
@@ -1309,13 +1333,15 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         collateralDetails: CollateralDetailsPostData?,
         loanId: String?,
         loanType: String?,
-        comment: String?
+        comment: String?,
+        collateralComment: String?
     ) {
 
         this.tradeRefDetails=tradeRefDetails
         if (activity is ReUsableFragmentSpace) {
             (activity as ReUsableFragmentSpace).setCommentsToField(comment.toString()+"")
         }
+
         mLoanId = loanId
         if ((neighborReference?.size ?: 0) > 0) {
             mCustomerId = neighborReference?.get(0)?.customerId
@@ -1425,6 +1451,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                 {
                     llTradeRefDetails.visibility=View.GONE
                 }
+
             }
         }
 
@@ -1456,7 +1483,15 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
             }
         }
+        if (ArthanApp.getAppInstance().loginRole.contains("RM")&&arguments?.getString("screen")!=null&&arguments?.getString("screen")=="OTHERS_SECURITY") {
 
+            tradeDetailsLL.visibility=View.GONE
+            ll_collateral.visibility=View.VISIBLE
+            if (activity is ReUsableFragmentSpace) {
+                (activity as ReUsableFragmentSpace).setCommentsToField(collateralComment.toString()+"")
+            }
+
+        }
 
 
         if (collateralDetails != null && collateralDetails.collaterals.size > 0) {
@@ -1473,19 +1508,24 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             //   Handler(Looper.getMainLooper()).postDelayed(Runnable {
             //       progressBar.dismmissLoading()
             var list = collateralDetails.collaterals
-            if (list[0].securityType.toLowerCase() == "movable") {
+            if (list[0].securityType!=null&&list[0].securityType.toLowerCase() == "movable") {
                 security_section_movable.visibility = View.VISIBLE
+                input_pincode.visibility=View.GONE
             } else {
                 security_section_movable.visibility = View.GONE
+                input_pincode.visibility=View.VISIBLE
+
 
             }
-            if (list.get(0).securityType.toLowerCase() == "immovable" || list.get(
+            if (list[0].securityType!=null&&(list.get(0).securityType.toLowerCase() == "immovable" || list.get(
                     0
-                ).securityType?.toLowerCase() == "Negative Lien".toLowerCase()
+                ).securityType?.toLowerCase() == "Negative Lien".toLowerCase())
             ) {
                 immovable_section.visibility = View.VISIBLE
+                input_pincode.visibility = View.VISIBLE
             } else {
                 immovable_section.visibility = View.GONE
+                input_pincode.visibility = View.GONE
 
             }
 
@@ -1529,6 +1569,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             et_COOtherspolicyNo.setText(collateralDetails!!.collaterals[0].otherDetails.policyNo)
           //  et_marketValueCo.setText(collateralDetails!!.collaterals[0].otherDetails.marketValue)
             et_derivedValueCO.setText(collateralDetails!!.collaterals[0].otherDetails.derivedValue)
+
 
 
             et_MarketValueImm.setText(collateralDetails!!.collaterals[0].immovableDetails.marketValue)

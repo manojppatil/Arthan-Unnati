@@ -9,6 +9,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/tradeDetailsLL"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/neighbour_reference_1_text_view"
@@ -319,64 +325,72 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/no_of_years_working_with"
-            app:layout_constraintBottom_toBottomOf="@+id/trade_reference_1_years_working_with_minus_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/trade_reference_1_years_working_with_minus_button" />
-
-        <Button
-            android:id="@+id/trade_reference_1_years_working_with_minus_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/disable"
-            android:gravity="center"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="8dp"
-            android:text=" - "
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/trade_reference_1_years_working_with_count"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/trade_reference_1_no_of_years_working_with_text_view"
-            app:layout_constraintTop_toTopOf="@+id/trade_reference_1_years_working_with_count"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/trade_reference_1_years_working_with_count"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/bg_rect_border"
-            android:fontFamily="@font/lato_black"
-            android:gravity="center"
-            android:padding="8dp"
-            android:singleLine="true"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/trade_reference_1_years_working_with_plus_button"
-            app:layout_constraintEnd_toStartOf="@+id/trade_reference_1_years_working_with_plus_button"
-            app:layout_constraintStart_toEndOf="@+id/trade_reference_1_years_working_with_minus_button"
-            app:layout_constraintTop_toTopOf="@+id/trade_reference_1_years_working_with_plus_button" />
-
-        <Button
-            android:id="@+id/trade_reference_1_years_working_with_plus_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="#f75002"
-            android:gravity="center"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="8dp"
-            android:text=" + "
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_1_contact_details"
-            app:layout_constraintVertical_chainStyle="packed" />
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/noOfYearsLL1"
+            android:gravity="center_vertical"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_trade_reference_1_contact_details"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <Button
+                android:id="@+id/trade_reference_1_years_working_with_minus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/disable"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
+                android:text=" - "
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/trade_reference_1_years_working_with_count"
+                android:layout_width="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:minWidth="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/bg_rect_border"
+                android:fontFamily="@font/lato_black"
+                android:gravity="center"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                />
+
+            <Button
+                android:id="@+id/trade_reference_1_years_working_with_plus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="#f75002"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
+                android:text=" + "
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_trade_reference_1_product_purchase_sale"
@@ -386,7 +400,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trade_reference_1_years_working_with_plus_button">
+            app:layout_constraintTop_toBottomOf="@+id/noOfYearsLL1">
 
             <!--            <EditText
                             android:id="@+id/trade_reference_1_product_purchase_sale_input"
@@ -526,7 +540,7 @@
 
         <TextView
             android:id="@+id/trade_reference_2_years_working_with_count"
-            android:layout_width="0dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
@@ -819,6 +833,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                />
         </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:id="@+id/ll_collateral"
             android:layout_width="match_parent"
@@ -826,7 +841,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llTradeRefDetails">
+            app:layout_constraintTop_toBottomOf="@+id/tradeDetailsLL">
 
             <include layout="@layout/collateral_section" />
 
@@ -867,6 +882,8 @@
 
         </LinearLayout>
 
+
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -895,9 +912,9 @@
             android:text="Submit"
             android:textColor="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bcmCheckBoxes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bcmCheckBoxes"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed" />
 

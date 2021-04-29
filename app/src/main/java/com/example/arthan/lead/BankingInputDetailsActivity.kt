@@ -122,8 +122,8 @@ class BankingInputDetailsActivity : AppCompatActivity(), CoroutineScope {
                 val postData = BankingInputPostData(
                     accName = account_name_input?.text?.toString(),
                     accNo = account_number_input?.text?.toString(),
-                    accType = account_number_input?.text?.toString(),
-                    bankName = account_type_input?.text?.toString(),
+                    accType = account_type_input?.text?.toString(),
+                    bankName = bank_name_input?.text?.toString(),
                     custId = intent?.getStringExtra(ArgumentKey.CustomerId),
                     entryDetails = arrayList,
                     limit = account_limit_input?.text?.toString(),

@@ -1,15 +1,15 @@
 package com.example.arthan.lead
 
 import android.content.Intent
-import android.view.Menu
-import android.view.MenuItem
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StyleSpan
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.arthan.R
 import com.example.arthan.dashboard.bcm.BCMApprovedAddCoApplicant
-import com.example.arthan.dashboard.bcm.BCMDashboardActivity
-import com.example.arthan.dashboard.bm.BMDashboardActivity
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
@@ -25,7 +25,6 @@ import com.example.arthan.utils.ArgumentKey
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.utils.RequestCode
 import com.example.arthan.views.activities.BaseActivity
-import com.example.arthan.views.activities.SplashActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_add_lead_step2.*
 import kotlinx.coroutines.*
@@ -93,7 +92,10 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 }, RequestCode.ApplicantPhoto)
             }
             R.id.btn_next -> {
+                if(otp_consent.isChecked)
                 saveKycDetail()
+                else
+                    Toast.makeText(this,"Click on checkbox to continue",Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -107,6 +109,13 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
         txt_voter_id.setOnClickListener(this)
         txt_applicant_phot.setOnClickListener(this)
 
+        var htmlString=resources.getString(R.string.kyc_consent,ArthanApp.getAppInstance().userName,ArthanApp.getAppInstance().loginUser)
+        val ss = SpannableString(htmlString)
+        val ss2 = SpannableString(htmlString)
+        val boldSpan = StyleSpan(Typeface.BOLD)
+        ss.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 3, htmlString.indexOf("having"), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        ss.setSpan(StyleSpan(android.graphics.Typeface.BOLD), htmlString.lastIndexOf("ID")+2, htmlString.indexOf("hereby"), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        otp_consent.text=ss
         btn_next.setOnClickListener(this)
         if(ArthanApp.getAppInstance().currentCustomerId==null) {
             getCustomerId()
@@ -365,6 +374,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
 
 
     private fun saveKycDetail() {
+
         val progressBar: ProgrssLoader? = if (this != null) ProgrssLoader(this!!) else null
         progressBar?.showLoading()
         CoroutineScope(ioContext).launch {
@@ -451,8 +461,13 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
 //                                            it.putExtra("type", intent.getStringExtra("type"))
                                             if( intent.getStringExtra("task")!=null)
                                             it.putExtra("task",intent.getStringExtra("task"))
+
+                                            if( intent.getStringExtra("task")!=null&&intent.getStringExtra("task")=="RMContinue")
+                                                it.putExtra("screen",intent.getStringExtra("screen"))
+
                                         })
-                                    if(intent.getStringExtra("task")!=null&&intent.getStringExtra("task")=="RMAddCo")
+                                    if(intent.getStringExtra("task")!=null&&intent.getStringExtra("task")=="RMAddCo"||
+                                        intent.getStringExtra("task")!=null&&intent.getStringExtra("task")=="RMAddCoRe")
                                     {
                                         finish()
                                     }

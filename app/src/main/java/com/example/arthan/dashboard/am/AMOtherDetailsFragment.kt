@@ -247,6 +247,7 @@ class AMOtherDetailsFragment : BaseFragment(), CoroutineScope {
                         val result = response.body()
                         if (result?.apiCode == "200") {
                             withContext(uiContext) {
+                                ArthanApp.getAppInstance().onboarded=response.body()!!.onboarded.toLowerCase()
                                 progressBar?.dismmissLoading()
                                 Toast.makeText(
                                     activity,

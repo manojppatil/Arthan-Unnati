@@ -21,6 +21,7 @@ data class BaseResponseData(
     val verifyStatus:String?="",
     val amMobNo: String? = "",
     val validUser: String? = "",
+    val userName: String? = "",
     val mobNo: String? = "",
     val onboarded: String = "",
     val custId: String = "",
@@ -31,6 +32,7 @@ data class BaseResponseData(
     val  customerDob:String ,
     val  fatherName:String ,
     val  panNo:String ,
+    val  consentText:String ,
 
     val  addressLine1:String ,
     val  addressLine2:String ,

@@ -10,10 +10,12 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.Toast
 import com.example.arthan.R
+import com.example.arthan.RmReassignNavActivity
 import com.example.arthan.dashboard.bcm.BCMApprovedAddCoApplicant
 import com.example.arthan.dashboard.bcm.BCMApprovedLegalStatusActivity
 import com.example.arthan.dashboard.bcm.BCMDashboardActivity
 import com.example.arthan.dashboard.bm.BMDashboardActivity
+import com.example.arthan.dashboard.bm.DocumentVerificationFragmentNew.Companion.context
 import com.example.arthan.dashboard.rm.RMDashboardActivity
 import com.example.arthan.dashboard.rm.RMScreeningNavigationActivity
 import com.example.arthan.global.AppPreferences
@@ -262,7 +264,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     ?: "Transgender"
                 else -> ""
             },
-            nationality = (spnr_nationality?.selectedItem as? Data)?.value ?: "",
+           // nationality = (spnr_nationality?.selectedItem as? Data)?.value ?: "",
             educationlevel = (spnr_eduction?.selectedItem as? Data)?.value ?: "",
             occupationType = (spnr_occupation_type?.selectedItem as? Data)?.value ?: "",
             occupation = (spnr_occupation_name?.selectedItem as? Data)?.value ?: "",
@@ -288,6 +290,10 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             statep = (tl_state1.selectedItem as Data).value ?: "",
             applicantType = applicantType,
             category = category,
+            relationship = when(intent.getStringExtra("type")){
+                "CA","G"->(sp_relaionShipApplicant.selectedItem as Data).value
+                else->null
+            },
             religion = when(sp_religion.selectedItem.toString())
             {
                 "Others"->other_religion.text.toString()
@@ -344,6 +350,15 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                             {
                                 withContext(Dispatchers.Main){
                                     startActivity(Intent(this@PersonalInformationActivity,RMScreeningNavigationActivity::class.java).apply {
+                                        putExtra("loanId", loanId)
+                                    })
+                                    finish()
+                                }
+
+                             }else if(intent.getStringExtra("task")=="RMAddCoRe")
+                            {
+                                withContext(Dispatchers.Main){
+                                    startActivity(Intent(this@PersonalInformationActivity,RmReassignNavActivity::class.java).apply {
                                         putExtra("loanId", loanId)
                                     })
                                     finish()
@@ -419,7 +434,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 
                                 })
                                     alert.setNeutralButton(
-                                        "Cancel",
+                                        "Skip now",
                                         DialogInterface.OnClickListener { dialog, which ->
                                             ConsentActivity.startMe(
                                                 this@PersonalInformationActivity,
@@ -540,9 +555,15 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         progressLoader.showLoading()
         loanId=intent.getStringExtra("loanId")
         custId=intent.getStringExtra("custId")
+        sp_relaionShipApplicant.visibility=View.GONE
         launch(ioContext) {
             val title = fetchAndUpdateServerTitleAsync().await()
             val state = fetchAndUpdateStateNameAsync().await()
+            if(intent.getStringExtra("type")=="CA"||intent.getStringExtra("type")=="G") {
+                sp_relaionShipApplicant.visibility=View.VISIBLE
+                fetchRelationshipAsync()
+
+            }
             val nationality = fetchAndUpdateNationalityAsync().await()
             val education = fetchAndUpdateEducationAsync().await()
             val occupationType = fetchAndUpdateOccupationTypeAsync().await()
@@ -567,6 +588,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                         val response =
                             RetrofitFactory.getApiService().getScreenData(map)
                         withContext(Dispatchers.Main) {
+                            if(response.body()?.personalDetails!=null)
                             setDataToFields(response.body()?.personalDetails)
                         }
                     }
@@ -914,6 +936,36 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             }
             return@async true
         }
+
+    private fun fetchRelationshipAsync() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitFactory.getMasterApiService().getRelationship()
+                if (response?.isSuccessful == true) {
+                    withContext(Dispatchers.Main) {
+                        try {
+                            if (sp_relaionShipApplicant?.adapter == null) {
+                                sp_relaionShipApplicant?.adapter = DataSpinnerAdapter(
+                                    this@PersonalInformationActivity,
+                                    response.body()?.data?.toMutableList() ?: mutableListOf()
+                                ).also {
+                                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Crashlytics.log(e.message)
+
+                        }
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Crashlytics.log(e.message)
+
+            }
+        }
+    }
 
     fun setValueToState(sp:Spinner,value: String?) {
 
