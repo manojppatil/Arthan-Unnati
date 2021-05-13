@@ -29,6 +29,13 @@ class RMRequestWaiverActivity : BaseActivity() {
     private var waiveOption=""
     override fun init() {
 
+        if(ArthanApp.getAppInstance().loginRole=="RM")
+        {
+            cName.text=intent.getStringExtra("customerName")
+            loanAmount.text=intent.getStringExtra("loanAmount")
+            roi.setText(intent.getStringExtra("roi"))
+            pf.setText(intent.getStringExtra("pf"))
+        }
 
         btn_requestWaiver.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -121,6 +128,8 @@ class RMRequestWaiverActivity : BaseActivity() {
                         var map = HashMap<String, String>()
                         map["loanId"] = intent.getStringExtra("loanId")
                         map["remarks"] = remarks.text.toString()
+                        map["roi"] = roi.text.toString()
+                        map["pf"] = pf.text.toString()
                         map["eId"] = "RM1"
                         map["userId"] = ArthanApp.getAppInstance().loginUser
                         map["waiveAmt"] = waiverAmt.text.toString()

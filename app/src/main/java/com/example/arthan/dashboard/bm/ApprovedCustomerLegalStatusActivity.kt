@@ -53,14 +53,14 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
         } else {
             iv_RCU.setImageResource(R.drawable.quit)
         }
-        if (data.legalStatus.toString().contentEquals("Y")) {
+        if (data.legalStatus!=null&&data?.legalStatus.toString().contentEquals("Y")) {
             iv_legal.setImageResource(R.drawable.checked)
 
         } else {
             iv_legal.setImageResource(R.drawable.quit)
 
         }
-        if (data.techStatus.toString().contentEquals("Y")) {
+        if (data.techStatus!=null&&data.techStatus.toString().contentEquals("Y")) {
             iv_tech.setImageResource(R.drawable.checked)
 
         } else {

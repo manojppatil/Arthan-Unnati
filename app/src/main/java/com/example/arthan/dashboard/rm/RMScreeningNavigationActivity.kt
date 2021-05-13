@@ -80,6 +80,16 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
                 })
                finish()
             }
+            "QRPAYMENT"->{
+                startActivity(Intent(this, PaymentQRActivity::class.java).apply {
+                    putExtra("screen","LOAN")
+                    putExtra("loanId",responseGlobal.loanId)
+                    putExtra("leadId",responseGlobal.leadId)
+                    putExtra("custId",responseGlobal.customerId)
+                    putExtra("task","RMContinue")
+                })
+               finish()
+            }
             "KYC_PA"->{
                 startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
                     putExtra("screen","KYC_PA")

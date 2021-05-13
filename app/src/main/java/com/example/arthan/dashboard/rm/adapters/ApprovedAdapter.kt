@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arthan.R
 import com.example.arthan.dashboard.bm.ApprovedCustomerLegalStatusActivity
+import com.example.arthan.dashboard.bm.BMRequestWaiverActivity
 import com.example.arthan.dashboard.bm.model.RejectedCaseResponse
 import com.example.arthan.dashboard.rm.CommonApprovedListingActivity
 import com.example.arthan.dashboard.rm.RMRequestWaiverActivity
@@ -36,7 +37,7 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
 
             when(from){
                 "BM" -> {
-                    root.setOnClickListener {
+                   /* root.setOnClickListener {
                         context.startActivity(Intent(context, ApprovedCustomerLegalStatusActivity::class.java).apply {
                             putExtra("FROM",from)
                             putExtra("Name",this@ApprovedAdapter.data.get(position).name)
@@ -46,7 +47,7 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                             putExtra("object",this@ApprovedAdapter.data.get(position) as Serializable)
 
                         })
-                    }
+                    }*/
 
                     root.findViewById<Button>(R.id.btn_rcu).visibility=View.GONE
                     root.findViewById<Button>(R.id.btn_legal).visibility=View.GONE
@@ -100,6 +101,10 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
 
                         context.startActivity(Intent(context,RMRequestWaiverActivity::class.java).apply {
                             putExtra("loanId",this@ApprovedAdapter.data[position].caseId)
+                            putExtra("customerName",this@ApprovedAdapter.data[position].name)
+                            putExtra("loanAmount",this@ApprovedAdapter.data[position].approvedAmt)
+                            putExtra("roi",this@ApprovedAdapter.data[position].roi)
+                            putExtra("pf",this@ApprovedAdapter.data[position].pf)
                         })
                         (context as Activity).finish()
                     }
@@ -133,11 +138,23 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
             root.findViewById<Button>(R.id.submitWaiver).visibility=View.GONE
 
             root.findViewById<Button>(R.id.btn_requestWaiver).setOnClickListener {
-              /*  root.findViewById<EditText>(R.id.remarks).visibility=View.VISIBLE
+                context.startActivity(Intent(context,BMRequestWaiverActivity::class.java).apply {
+                    putExtra("loanId",this@ApprovedAdapter.data[position].caseId)
+                    putExtra("customerName",this@ApprovedAdapter.data[position].name)
+                    putExtra("loanAmount",this@ApprovedAdapter.data[position].approvedAmt)
+                    putExtra("roi",this@ApprovedAdapter.data[position].roi)
+                    putExtra("pf",this@ApprovedAdapter.data[position].pf)
+                    putExtra("requestType",this@ApprovedAdapter.data[position].reqType)
+                    putExtra("remarks",this@ApprovedAdapter.data[position].remarks)
+                    putExtra("waiverAmount",this@ApprovedAdapter.data[position].waiverAmt)
+                })
+            }
+           /* root.findViewById<Button>(R.id.btn_requestWaiver).setOnClickListener {
+              *//*  root.findViewById<EditText>(R.id.remarks).visibility=View.VISIBLE
                 root.findViewById<EditText>(R.id.waiverAmt).visibility=View.VISIBLE
-                root.findViewById<Button>(R.id.submitWaiver).visibility=View.VISIBLE*/
+                root.findViewById<Button>(R.id.submitWaiver).visibility=View.VISIBLE*//*
 
-                /*root.findViewById<Button>(R.id.submitWaiver).setOnClickListener {
+                *//*root.findViewById<Button>(R.id.submitWaiver).setOnClickListener {
 
                     val progressLoader = ProgrssLoader(context)
                     progressLoader.showLoading()
@@ -165,7 +182,7 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                             }
                         }
                     }
-                }*/
+                }*//*
 
 
                 var layoutInflater: LayoutInflater =
@@ -200,6 +217,7 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                                 }
                             }
                         } else if (from == "BM") {
+
                             var map = HashMap<String, String>()
                             map["loanId"] = data[position].caseId
                             map["remarks"] = etRemark.text.toString()
@@ -224,7 +242,7 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                         btnCancel.setOnClickListener { dailog.dismiss() }
                     }
                 }
-            }
+            }*/
 
                 root.findViewById<TextView>(R.id.txt_case_id).text= "CaseId: ${data[position].caseId}"
             root.findViewById<TextView>(R.id.txt_customer_name).text= "Customer Name: ${data[position].name}"

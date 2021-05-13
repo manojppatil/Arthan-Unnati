@@ -32,6 +32,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
     var mKYCPostData: KYCPostData? = null
         var amId: String? = ""
     var custId: String? = ""
+    var customerId: String? = ""
 
 
     private val job = Job()
@@ -44,9 +45,32 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
     private val uiContext: CoroutineContext
         get() = Dispatchers.Main
 
+    private fun getCustomerId() {
+
+        val map=HashMap<String,String>()
+        var loanId=""
+        map["loanId"]="AM"+ArthanApp.getAppInstance().loginUser
+        map["applicantType"]="AM"
+        CoroutineScope(Dispatchers.IO).launch {
+            val response=RetrofitFactory.getApiService().getCustomerId(map)
+            if(response.body()!=null)
+            {
+                loanId=response.body()!!.loanId!!
+                customerId=response.body()!!.customerId!!
+                if(intent.getStringExtra("task")==null) {
+                    ArthanApp.getAppInstance().currentCustomerId = custId
+                }
+                AppPreferences.getInstance().addString(AppPreferences.Key.CustomerId,response.body()!!.customerId!!)
+                AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,response.body()!!.loanId!!)
+            }
+        }
+    }
 
     override fun init() {
         Log.d("TAG", "In AddAMDetailsActivity")
+
+        getCustomerId()
+
         if(intent.extras!=null&& intent!!.getStringExtra("task")=="AMRejected" )
         {
             val progress= ProgrssLoader(this)
@@ -137,7 +161,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         checkForProceed()
 //        loanId = intent.getStringExtra("loanId")
-        custId = intent.getStringExtra("custId")
+     //   custId = intent.getStringExtra("custId")
 //        mKYCPostData?.loanId = loanId
 
         when (requestCode) {
@@ -311,7 +335,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                // mKYCPostData?.applicantType = intent.getStringExtra("type") ?: "pa"
                 val map=HashMap<String,String>()
                 map["amId"]=mKYCPostData?.amId!!
-                map["customerId"]=mKYCPostData?.customerId!!
+                map["customerId"]=customerId!!
                 map["applicantType"]="AM"
                 map["paApplicantPhoto"]=mKYCPostData?.paApplicantPhoto!!
 //

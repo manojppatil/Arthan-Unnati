@@ -37,6 +37,15 @@ class RMScreeningNavAdapter(private val context: Context,
                         })
                         (context as RMScreeningNavigationActivity).finish()
                     }
+                    "QRPAYMENT"->{
+                        context.startActivity(Intent(context, PaymentQRActivity::class.java).apply {
+                            putExtra("screen","LOAN")
+                            putExtra("loanId",responseData.loanId)
+                            putExtra("custId",responseData.customerId)
+                            putExtra("task","RMreJourney")
+                        })
+                        (context as RMScreeningNavigationActivity).finish()
+                    }
                     "ELIGIBILITY"->{
                         context.startActivity(Intent(context, LeadEligibilityActivity::class.java).apply {
                             putExtra("screen","LOAN")

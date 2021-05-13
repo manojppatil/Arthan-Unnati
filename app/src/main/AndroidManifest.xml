@@ -89,6 +89,7 @@
         <activity android:name=".profile.MyProfileActivity" />
         <activity android:name=".dashboard.rm.RMReassignPendingScreenlist" />
         <activity android:name=".dashboard.rm.MyAmListFragment" />
+        <activity android:name=".dashboard.bm.BMRequestWaiverActivity" />
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"

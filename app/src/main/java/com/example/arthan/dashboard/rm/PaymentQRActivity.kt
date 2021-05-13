@@ -69,7 +69,7 @@ class PaymentQRActivity : AppCompatActivity() {
                                         startActivity(
                                             Intent(
                                                 this@PaymentQRActivity,
-                                                PaymentSuccessActivity::class.java
+                                                RMScreeningNavigationActivity::class.java
                                             ).apply {
                                                 putExtra("loanId", loanId)
                                             }
