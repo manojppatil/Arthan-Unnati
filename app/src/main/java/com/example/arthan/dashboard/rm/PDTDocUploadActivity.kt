@@ -53,7 +53,7 @@ class PDTDocUploadActivity : AppCompatActivity() {
     }
 
     private fun sendDataToServer() {
-        rmDocsRequestBuilder.loanId=intent.getStringExtra("loanId")
+        rmDocsRequestBuilder.loanId=intent.getStringExtra("loanId")!!
 
         val progrssLoader=ProgrssLoader(this)
         progrssLoader.showLoading()

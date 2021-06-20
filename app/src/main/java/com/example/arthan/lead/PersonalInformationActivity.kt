@@ -107,7 +107,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
 //        ll_partners?.findViewById<View?>(R.id.remove_button)?.visibility = View.GONE
         btn_next.setOnClickListener {
 
-            if (et_name.length() > 0 && panNoEt.length() > 0 && et_father_name.length() > 0 && et_dob.length() > 0
+            if (et_name.length() > 0 && et_father_name.length() > 0 && et_dob.length() > 0
                 && contact_number_input.length() > 0 && email_id_input.length() > 0 /*&& gross_annual_income_spinner.length() > 0*/ &&
                 address_line1_input.length() > 0 && address_line2_input.length() > 0 && pincode_input.length() > 0 && city_input.length() > 0
                 && district_input.length() > 0
@@ -115,7 +115,14 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                 if (intent.getStringExtra("type") == null) {
                     savePersonalData("PA")
                 } else {
-                    savePersonalData(intent.getStringExtra("type"))
+                    //PAN is mandatory only for PA
+                    if(intent.getStringExtra("type")=="PA"&& panNoEt.length() == 0 )
+                    {
+                        Toast.makeText(this,"All fields are mandatory",Toast.LENGTH_LONG).show()
+
+                        return@setOnClickListener
+                    }
+                    savePersonalData(intent.getStringExtra("type")!!)
 
                 }
             }else
@@ -290,10 +297,20 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             statep = (tl_state1.selectedItem as Data).value ?: "",
             applicantType = applicantType,
             category = category,
-            relationship = when(intent.getStringExtra("type")){
-                "CA","G"->(sp_relaionShipApplicant.selectedItem as Data).value
-                else->null
+            relationship = if(intent.getStringExtra("type").startsWith("CA")){
+
+                (sp_relaionShipApplicant.selectedItem as Data).value
+    }else if(intent.getStringExtra("type")=="G")
+            {
+                (sp_relaionShipApplicant.selectedItem as Data).value
+
+            }else{
+                null
             },
+            /* when(intent.getStringExtra("type").startsWith("CA")){
+                "G"->(sp_relaionShipApplicant.selectedItem as Data).value
+                else->null
+            },*/
             religion = when(sp_religion.selectedItem.toString())
             {
                 "Others"->other_religion.text.toString()
@@ -559,7 +576,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
         launch(ioContext) {
             val title = fetchAndUpdateServerTitleAsync().await()
             val state = fetchAndUpdateStateNameAsync().await()
-            if(intent.getStringExtra("type")=="CA"||intent.getStringExtra("type")=="G") {
+            if(intent.getStringExtra("type")!=null&&intent.getStringExtra("type").startsWith("CA")||intent.getStringExtra("type")=="G") {
                 sp_relaionShipApplicant.visibility=View.VISIBLE
                 fetchRelationshipAsync()
 
@@ -580,10 +597,10 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                     {
                         var map= HashMap<String,String>()
                         map["loanId"]=loanId!!
-                        map["screen"]=intent.getStringExtra("screen")
-                        map["CustomerId"]=intent.getStringExtra("custId")
-                        map["customerId"]=intent.getStringExtra("custId")
-                        map["applicantType"]=intent.getStringExtra("screen")
+                        map["screen"]=intent.getStringExtra("screen")!!
+                        map["CustomerId"]=intent.getStringExtra("custId")!!
+                        map["customerId"]=intent.getStringExtra("custId")!!
+                        map["applicantType"]=intent.getStringExtra("screen")!!
 
                         val response =
                             RetrofitFactory.getApiService().getScreenData(map)
@@ -597,7 +614,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                         var map= HashMap<String,String>()
                         map["loanId"]=loanId!!
 //                        map["screen"]="PERSONAL_CA"
-                        map["screen"]=intent.getStringExtra("screen")
+                        map["screen"]=intent.getStringExtra("screen")!!
 
                         val response =
                             RetrofitFactory.getApiService().getScreenData(map)
@@ -616,15 +633,15 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             var index=-1;
           for (i in 0 until personalDetails?.size!!){
 
-              if(personalDetails[i].applicantType=="PA"&&intent.getStringExtra("screen").endsWith("_PA"))
+              if(personalDetails[i].applicantType=="PA"&&intent.getStringExtra("screen")!!.endsWith("_PA"))
               {
                   setDataForPA(personalDetails[i])
               }
-              if(personalDetails[i].applicantType=="CA"&&intent.getStringExtra("screen").contains("_CA"))
+              if(personalDetails[i].applicantType=="CA"&&intent.getStringExtra("screen")!!.contains("_CA"))
               {
                   setDataForPA(personalDetails[i])
               }
-              if(personalDetails[i].applicantType=="G"&&intent.getStringExtra("screen").endsWith("_G"))
+              if(personalDetails[i].applicantType=="G"&&intent.getStringExtra("screen")!!.endsWith("_G"))
               {
                   setDataForPA(personalDetails[i])
               }
@@ -803,6 +820,7 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                         var list =
                             (spnr_occupation_type?.adapter as? DataSpinnerAdapter)?.list
 
+                        spnr_occupation_type.setSelection(1)
                         if (list?.get(0)?.description?.toLowerCase() == "Self Employed Professional".toLowerCase()) {
                             spnr_occupation_name.visibility = View.VISIBLE
 

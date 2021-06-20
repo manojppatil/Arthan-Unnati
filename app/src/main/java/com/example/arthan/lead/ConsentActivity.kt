@@ -67,8 +67,8 @@ class ConsentActivity : BaseActivity() {
 
                 try {
                     val map=HashMap<String,String>()
-                    map["customerId"]=customerID
-                    map["loanId"]=loanId
+                    map["customerId"]=customerID!!
+                    map["loanId"]=loanId!!
 
                     val response =
                         RetrofitFactory.getApiService().acceptInPrincipalAmt(

@@ -61,7 +61,7 @@ class BCMApprovedTechDocActivity : BaseActivity() {
             progrssLoader.showLoading()
             val map=HashMap<String,String>()
             map["userId"]=ArthanApp.getAppInstance().loginUser
-            map["loanId"]=intent.getStringExtra("loanId")
+            map["loanId"]=intent.getStringExtra("loanId")!!
             map[ "remarks"]=TechRemarks.text.toString()
             map[ "bcmLoanAmt"]=assumedLoan.text.toString()
             CoroutineScope(Dispatchers.IO).launch {

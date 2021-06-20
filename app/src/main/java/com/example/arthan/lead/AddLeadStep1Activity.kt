@@ -947,7 +947,7 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 
         }
     }
-    override fun onLocationChanged(location: Location?) {
+    override fun onLocationChanged(location: Location) {
 
 
     }
@@ -956,10 +956,10 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
 
     }
 
-    override fun onProviderEnabled(provider: String?) {
+    override fun onProviderEnabled(provider: String) {
     }
 
-    override fun onProviderDisabled(provider: String?) {
+    override fun onProviderDisabled(provider: String) {
     }
 
     fun compressImage(imageUri: Uri): Bitmap? {

@@ -135,7 +135,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
         }
         btn_add_partner.setOnClickListener {
             val partnerView =
-                LayoutInflater.from(activity!!).inflate(R.layout.layout_partner_details, null, false)
+                LayoutInflater.from(requireActivity()).inflate(R.layout.layout_partner_details, null, false)
             partnerView?.findViewById<View?>(R.id.remove_button)?.setOnClickListener {
                 ll_partners?.removeView(partnerView)
 
@@ -144,7 +144,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 view.setOnClickListener {
                     val c = Calendar.getInstance()
                     DatePickerDialog(
-                        activity!!,
+                        requireActivity(),
                         DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                             val date =
                                 dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
@@ -191,7 +191,7 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             view.setOnClickListener {
                 val c = Calendar.getInstance()
                 DatePickerDialog(
-                    activity!!,
+                    requireActivity(),
                     DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                         val date =
                             dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
@@ -223,12 +223,12 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
 
         when {
             ContextCompat.checkSelfPermission(
-                activity!!,
+                requireActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
                 // You can use the API that requires the permission.
                 AppLocationProvider().getLocation(
-                    activity!!,
+                    requireActivity(),
                     object : AppLocationProvider.LocationCallBack {
                         override fun locationResult(location: Location?) {
 
@@ -730,9 +730,16 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
                 }
             }*/
         }
-        if(ArthanApp.getAppInstance().loginRole=="RM"&&registered_business_address_input.text?.trim()!!.isEmpty())
+        if(ArthanApp.getAppInstance().loginRole=="RM"&&registered_business_address_input.text?.trim()!!.isEmpty()||
+            operating_business_address_input.text?.trim()!!.isEmpty())
         {
             Toast.makeText(context!!,"Registered business address cannot be empty",Toast.LENGTH_LONG).show()
+            progressBar.dismmissLoading()
+            return
+        }
+        if(ArthanApp.getAppInstance().loginRole=="RM"&&et_date_of_incorporation.text?.trim()!!.isEmpty())
+        {
+            Toast.makeText(context!!,"Date of Incorporation cannot be empty",Toast.LENGTH_LONG).show()
             progressBar.dismmissLoading()
             return
         }

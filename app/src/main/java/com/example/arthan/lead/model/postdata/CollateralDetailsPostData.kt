@@ -70,6 +70,7 @@ data class MovableDetails(
     val ownerName: String?,
     val policyNo: String?,
     val marketValue: String?,
+    val propertyArea: String?,
     val derivedValue: String?
 )
 
@@ -80,6 +81,7 @@ data class ImmovableDetails(
     val collateralType: String?="",
     val jurisdiction: String?,
     val marketValue: String?,
+    val propertyArea: String?,
     val rshipWithApplicant: String?,
     val ownership: String?
 )

@@ -198,33 +198,44 @@ class DocumentFragment : BaseFragment(), View.OnClickListener, AdapterView.OnIte
                         if (respo.isSuccessful && respo.body() != null && result?.apiCode == "200") {
 
 
-                            if (activity?.intent?.getStringExtra("task") == "RMreJourney") {
-                                withContext(Dispatchers.Main) {
+                            if(respo.body()!!.canNavigate!!.equals("Y",true)) {
+                                    if (activity?.intent?.getStringExtra("task") == "RMreJourney") {
+                                        withContext(Dispatchers.Main) {
 
-                                    progressBar.dismmissLoading()
-                                    startActivity(
-                                        Intent(
-                                            activity,
-                                            RMScreeningNavigationActivity::class.java
-                                        ).apply {
-                                            putExtra("loanId", loanId)
+                                            progressBar.dismmissLoading()
+                                            startActivity(
+                                                Intent(
+                                                    activity,
+                                                    RMScreeningNavigationActivity::class.java
+                                                ).apply {
+                                                    putExtra("loanId", loanId)
+                                                }
+                                            )
+                                            (context as DocumentActivity).finish()
                                         }
-                                    )
-                                    (context as DocumentActivity).finish()
-                                }
-                            }else{
-                                withContext(Dispatchers.Main) {
+                                    } else {
+                                        withContext(Dispatchers.Main) {
+                                            progressBar.dismmissLoading()
+
+                                            Toast.makeText(
+                                                activity,
+                                                "Case is Successfully submitted to BM",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+
+                                            val intent =
+                                                Intent(activity, RMDashboardActivity::class.java)
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            startActivity(intent)
+                                        }
+                                    }
+                                }else
+                            {
+                                withContext(Dispatchers.Main)
+                                {
                                     progressBar.dismmissLoading()
 
-                                    Toast.makeText(
-                                        activity,
-                                        "Case is Successfully submitted to BM",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-
-                                    val intent = Intent(activity, RMDashboardActivity::class.java)
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    startActivity(intent)
+                                    Toast.makeText(activity!!,respo.body()!!.message,Toast.LENGTH_LONG).show()
                                 }
                             }
                         } else {

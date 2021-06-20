@@ -29,8 +29,8 @@ class DocumentSubCategoryActivity : BaseActivity() {
         val category=intent.getStringExtra("cate")
         val loanId=intent.getStringExtra("loanId")
         val map=HashMap<String,String>()
-        map["loanId"]=loanId
-        map["categoryId"]=category
+        map["loanId"]=loanId!!
+        map["categoryId"]=category!!
         val progress=ProgrssLoader(this)
         progress.showLoading()
         CoroutineScope(Dispatchers.IO).launch {

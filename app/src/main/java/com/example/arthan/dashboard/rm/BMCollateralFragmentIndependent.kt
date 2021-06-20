@@ -38,6 +38,7 @@ import com.example.arthan.views.activities.PendingCustomersActivity
 import com.example.arthan.views.fragments.BaseFragment
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
+import kotlinx.android.synthetic.main.collateral_section.*
 import kotlinx.android.synthetic.main.collateral_section_indepdnt.*
 import kotlinx.android.synthetic.main.collateral_section_indepdnt.et_COOtherspolicyNo
 import kotlinx.android.synthetic.main.collateral_section_indepdnt.et_COOwnerNameImm
@@ -50,6 +51,7 @@ import kotlinx.android.synthetic.main.collateral_section_indepdnt.et_cosurrender
 import kotlinx.android.synthetic.main.collateral_section_indepdnt.et_derivedValueCO
 import kotlinx.android.synthetic.main.collateral_section_indepdnt.et_marketValueCo
 import kotlinx.android.synthetic.main.collateral_section_indepdnt.immovable_section
+import kotlinx.android.synthetic.main.collateral_section_indepdnt.input_pincode
 import kotlinx.android.synthetic.main.collateral_section_indepdnt.liquid_section
 import kotlinx.android.synthetic.main.collateral_section_indepdnt.others_section
 import kotlinx.android.synthetic.main.collateral_section_indepdnt.rb_Business
@@ -800,6 +802,7 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
                         ownerName = et_coOthersOwnerName.text.toString(),
                         policyNo = et_COOtherspolicyNo.text.toString(),
                         marketValue = et_marketValueCo.text.toString(),
+                        propertyArea = et_propertyAreaValueCo.text.toString(),
                         derivedValue = et_derivedValueCO.text.toString()
                     ),
                     immovableDetails = ImmovableDetails(
@@ -808,8 +811,8 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
                         addressType = addressType,
                         collateralType = (sp_collateral_type_liq?.selectedItem as Data).value.toString(),
                         jurisdiction = (sp_jurisdictionType.selectedItem as Data).value.toString(),
-                        marketValue = et_MarketValueImm.text.toString()
-                        ,
+                        marketValue = et_MarketValueImm.text.toString(),
+                        propertyArea = et_propertyAreaValueImm.text.toString(),
                         rshipWithApplicant = (sp_relaionShipApplicant.selectedItem as Data).description.toString(),
                         ownership = (sp_ownerShip.selectedItem as Data).description.toString()
                     ),
@@ -886,6 +889,7 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
                         ownerName = et_coOthersOwnerName.text.toString(),
                         policyNo = et_COOtherspolicyNo.text.toString(),
                         marketValue = et_marketValueCo.text.toString(),
+                        propertyArea = et_propertyAreaValueCo.text.toString(),
                         derivedValue = et_derivedValueCO.text.toString()
                     ),
                     immovableDetails = ImmovableDetails(
@@ -894,8 +898,8 @@ class BMCollateralFragmentIndependent: BaseFragment(),CoroutineScope {
                         addressType = addressType,
                         collateralType = (sp_collateral_type_liq?.selectedItem as Data).value.toString(),
                         jurisdiction = (sp_jurisdictionType.selectedItem as Data).value.toString(),
-                        marketValue = et_MarketValueImm.text.toString()
-                        ,
+                        marketValue = et_MarketValueImm.text.toString(),
+                        propertyArea = et_propertyAreaValueImm.text.toString(),
                         rshipWithApplicant = (sp_relaionShipApplicant.selectedItem as Data).description.toString(),
                         ownership = (sp_ownerShip.selectedItem as Data).description.toString()
                     )

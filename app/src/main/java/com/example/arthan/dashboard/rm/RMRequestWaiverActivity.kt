@@ -10,12 +10,13 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.example.arthan.R
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
-import kotlinx.android.synthetic.main.activity_r_m_request_waiver.*
+import kotlinx.android.synthetic.main.rm_bm_new_requestwaiver.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +24,9 @@ import kotlinx.coroutines.withContext
 
 class RMRequestWaiverActivity : BaseActivity() {
     override fun contentView(): Int {
-      return R.layout.activity_r_m_request_waiver
+//      return R.layout.activity_r_m_request_waiver
+      return R.layout.rm_bm_new_requestwaiver
+
     }
 
     private var waiveOption=""
@@ -31,13 +34,165 @@ class RMRequestWaiverActivity : BaseActivity() {
 
         if(ArthanApp.getAppInstance().loginRole=="RM")
         {
+            roiLL.visibility=View.GONE
+            pfLL.visibility=View.GONE
             cName.text=intent.getStringExtra("customerName")
             loanAmount.text=intent.getStringExtra("loanAmount")
             roi.setText(intent.getStringExtra("roi"))
             pf.setText(intent.getStringExtra("pf"))
         }
+        if(ArthanApp.getAppInstance().loginRole=="BM")
+        {
+            roiLL.visibility=View.VISIBLE
+            pfLL.visibility=View.VISIBLE
+        }
 
-        btn_requestWaiver.setOnCheckedChangeListener { _, isChecked ->
+        cb_collect_legalfee.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+            {
+                cb_waiver_legalfee.isChecked=false
+                cb_deduct_disblegal.isChecked=false
+                cb_waiver_legalfee.visibility=View.GONE
+                cb_deduct_disblegal.visibility=View.GONE
+
+            }
+            else
+            {
+                cb_waiver_legalfee.visibility=View.VISIBLE
+                cb_deduct_disblegal.visibility=View.VISIBLE
+            }
+
+        }
+        cb_waiver_legalfee.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if(isChecked)
+            {
+                cb_collect_legalfee.isChecked=false
+                cb_deduct_disblegal.isChecked=false
+                cb_collect_legalfee.visibility=View.GONE
+                cb_deduct_disblegal.visibility=View.GONE
+            }else
+            {
+                cb_collect_legalfee.visibility=View.VISIBLE
+                cb_deduct_disblegal.visibility=View.VISIBLE
+            }
+        }
+        cb_deduct_disblegal.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if(isChecked)
+            {
+                cb_collect_legalfee.isChecked=false
+                cb_waiver_legalfee.isChecked=false
+                cb_waiver_legalfee.visibility=View.GONE
+                cb_collect_legalfee.visibility=View.GONE
+            }else
+            {
+                cb_waiver_legalfee.visibility=View.VISIBLE
+                cb_collect_legalfee.visibility=View.VISIBLE
+            }
+        }
+
+        cb_collect_techfee.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+            {
+                cb_waiver_techfee.isChecked=false
+                cb_deduct_disbtech.isChecked=false
+                cb_waiver_techfee.visibility=View.GONE
+                cb_deduct_disbtech.visibility=View.GONE
+
+            }
+            else
+            {
+                cb_waiver_techfee.visibility=View.VISIBLE
+                cb_deduct_disbtech.visibility=View.VISIBLE
+            }
+
+        }
+        cb_waiver_techfee.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if(isChecked)
+            {
+                cb_collect_techfee.isChecked=false
+                cb_deduct_disbtech.isChecked=false
+                cb_collect_techfee.visibility=View.GONE
+                cb_deduct_disbtech.visibility=View.GONE
+            }else
+            {
+                cb_collect_techfee.visibility=View.VISIBLE
+                cb_deduct_disbtech.visibility=View.VISIBLE
+            }
+        }
+        cb_deduct_disbtech.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if(isChecked)
+            {
+                cb_collect_techfee.isChecked=false
+                cb_waiver_techfee.isChecked=false
+                cb_waiver_techfee.visibility=View.GONE
+                cb_collect_techfee.visibility=View.GONE
+            }else
+            {
+                cb_waiver_techfee.visibility=View.VISIBLE
+                cb_collect_techfee.visibility=View.VISIBLE
+            }
+        }
+
+        btn_requestWaiver.setOnClickListener {
+
+            val progressLoader = ProgrssLoader(this)
+            progressLoader.showLoading()
+            if(ArthanApp.getAppInstance().loginRole=="RM") {
+                var map = HashMap<String, String>()
+                map["loanId"] = intent.getStringExtra("loanId")!!
+                map["waiveLegal"] = cb_waiver_legalfee.isChecked.toString()
+                map["waiveTech"] = cb_waiver_techfee.isChecked.toString()
+                map["deductLegal"] = cb_deduct_disblegal.isChecked.toString()
+                map["deductTech"] = cb_deduct_disbtech.isChecked.toString()
+                map["roi"] = roi.text.toString()
+                map["pf"] = pf.text.toString()
+                map["remarks"] = remarks.text.toString()
+                /* map["roi"] = roi.text.toString()
+            map["pf"] = pf.text.toString()*/
+             /*   map["eId"] = "RM1"
+                map["userId"] = ArthanApp.getAppInstance().loginUser*/
+//                        map["waiveAmt"] = waiverAmt.text.toString()
+//            map["waiveOption"] = waiveOption
+
+                CoroutineScope(Dispatchers.IO).launch {
+
+                    var res = RetrofitFactory.getApiService().rmRequestWaiver(map)
+                    if (res?.body() != null) {
+                        withContext(Dispatchers.Main) {
+                            progressLoader.dismmissLoading()
+
+                            Toast.makeText(
+                                this@RMRequestWaiverActivity,
+                                "Request successful",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                            finish()
+                            startActivity(
+                                Intent(
+                                    this@RMRequestWaiverActivity,
+                                    CommonApprovedListingActivity::class.java
+                                )
+                            )
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            progressLoader.dismmissLoading()
+
+                        }
+                    }
+                }
+            }else if(ArthanApp.getAppInstance().loginRole=="BM")
+            {
+
+            }
+
+        }
+       /* btn_requestWaiver.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 waiveOption = "Req. Waiver"
                 waiverAmt.visibility = View.VISIBLE
@@ -51,7 +206,7 @@ class RMRequestWaiverActivity : BaseActivity() {
         btn_collectDisb_fees.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 waiveOption = "Collect From Disb. Amt"
-/*
+*//*
                 val progess=ProgrssLoader(this)
                 progess.showLoading()
                 val map=HashMap<String,String>()
@@ -81,7 +236,7 @@ class RMRequestWaiverActivity : BaseActivity() {
                     }
                 }
             }
-        }*/
+        }*//*
             }
         }
 
@@ -91,8 +246,8 @@ class RMRequestWaiverActivity : BaseActivity() {
 
                     }
                 }
-
-                submitWaiver.setOnClickListener {
+*/
+                /*submitWaiver.setOnClickListener {
                     if (waiveOption == "Collect fees") {
                         val map = HashMap<String, String>()
                         map["loanId"] = intent.getStringExtra("loanId")
@@ -132,7 +287,7 @@ class RMRequestWaiverActivity : BaseActivity() {
                         map["pf"] = pf.text.toString()
                         map["eId"] = "RM1"
                         map["userId"] = ArthanApp.getAppInstance().loginUser
-                        map["waiveAmt"] = waiverAmt.text.toString()
+//                        map["waiveAmt"] = waiverAmt.text.toString()
                         map["waiveOption"] = waiveOption
                         CoroutineScope(Dispatchers.IO).launch {
 
@@ -163,7 +318,7 @@ class RMRequestWaiverActivity : BaseActivity() {
                             }
                         }
                     }
-                }
+                }*/
             }
 
     override fun onToolbarBackPressed() {

@@ -68,6 +68,6 @@ class AMRejectedScreenNavActivity:BaseActivity() {
 
     override fun onToolbarBackPressed() =
        finish()
-    override fun screenTitle() = intent.getStringExtra("screen")
+    override fun screenTitle() = intent.getStringExtra("screen")!!
 
 }

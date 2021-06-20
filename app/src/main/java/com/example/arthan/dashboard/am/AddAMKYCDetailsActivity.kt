@@ -101,6 +101,12 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
         txt_am_voter_id.setOnClickListener(this)
         txt_am_appl_photo.setOnClickListener(this)
         btn_am_next.setOnClickListener(this)
+        tv_terms.setOnClickListener {
+
+        }
+        tv_codeOfConduct.setOnClickListener {
+
+        }
     }
 
     private fun updateData(docDetails: DocDetailsAM) {
@@ -206,9 +212,9 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                         )
                     }
                     val aadharCardData =
-                        it.getParcelableExtra(ArgumentKey.AadharDetails) as CardResponse
+                        it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetails)
                     val aadharCardDataBack =
-                        it.getParcelableExtra(ArgumentKey.AadharDetailsBack) as CardResponse
+                        it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack)
 
                    /* AppPreferences.getInstance().also { ap ->
                         ap.addString(

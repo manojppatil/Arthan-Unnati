@@ -13,7 +13,7 @@ import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.SplashActivity
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.installations.FirebaseInstallations
 import kotlinx.android.synthetic.main.activity_login_emp_id.*
 import kotlinx.android.synthetic.main.activity_login_emp_id.et_role
 import kotlinx.android.synthetic.main.activity_login_o_t_p.*
@@ -50,7 +50,7 @@ class LoginOTPActivity : AppCompatActivity() {
                         val map=HashMap<String,String>()
                         map["userId"]=intent.getStringExtra("empId")!!
                         map["otp"]=view_otp.otp.toString()
-                        map["role"]=intent.getStringExtra("role")
+                        map["role"]=intent.getStringExtra("role")!!
                         val response=RetrofitFactory.getApiService().verifyOTPforEmp(map)
                         if(response.body()!=null)
                         {
@@ -101,7 +101,7 @@ class LoginOTPActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main) {
 
-                    FirebaseInstanceId.getInstance().instanceId
+                    FirebaseInstallations.getInstance().getToken(true)
                         .addOnCompleteListener(OnCompleteListener { task ->
                             if (!task.isSuccessful) {
                                 Log.w(
@@ -161,7 +161,7 @@ class LoginOTPActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val map=HashMap<String,String>()
-            map["mobNo"]=intent.getStringExtra("mobNo")
+            map["mobNo"]=intent.getStringExtra("mobNo")!!
             map["role"]="NonEmp"
             val response =
                 RetrofitFactory.getAMService().sendOTP(map)

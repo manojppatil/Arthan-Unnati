@@ -33,7 +33,7 @@ class BCMAddCoApplicant : BaseActivity() {
             val progres=ProgrssLoader(this)
             progres.showLoading()
             val map=HashMap<String,String>()
-            map["loanId"] = intent.getStringExtra("loanId")
+            map["loanId"] = intent.getStringExtra("loanId")!!
             map["remarks"] = Legalremarks.text.toString()
             CoroutineScope(Dispatchers.IO).launch {
                 val res=RetrofitFactory.getApiService().bcmReAssignSubmit(map)

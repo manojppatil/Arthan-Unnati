@@ -69,6 +69,13 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         setContentView(R.layout.activity_upload_document)
 
         loadImageIfExists()
+
+        val code = intent.getIntExtra(DOC_TYPE, 0)
+        if(code==RequestCode.AadharCard)
+        {
+            btn_next.text="Save Aadhaar Back"
+        }
+
         btn_take_picture.setOnClickListener {
             val request = permissionsBuilder(
                 Manifest.permission.CAMERA,
@@ -92,6 +99,112 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 }
             }
             request.send()
+        }
+        btn_next_front.setOnClickListener {
+            val progressLoader = ProgrssLoader(this)
+            progressLoader.showLoading()
+            CoroutineScope(ioContext).launch {
+                try {
+                    var uploadFront: Deferred<Unit>? = null
+                    if (intent?.getStringExtra("skip") != null) {
+                        when (intent?.getIntExtra(DOC_TYPE, 0)) {
+
+                            RequestCode.PanCard -> {
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.PanCard == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.PANCard)
+
+                            }
+                            RequestCode.VoterCard -> {
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.VoterCard == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.VoterIdCard)
+                            }
+                            RequestCode.AadharCard -> {
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.AadharCard == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.AadharCardFront)
+                            }
+                            RequestCode.PFP -> {
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.PFP == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.PFP)
+                            }
+                            else -> {
+                                null
+                            }
+                        }
+                    } else {
+                        uploadFront = mFrontImagePath?.let {
+                            when (intent?.getIntExtra(DOC_TYPE, 0)) {
+
+                                RequestCode.AadharCard -> {
+                                    captureCardInfoAsync(it, CardType.AadharCardFront)
+                                }
+                                else -> {
+                                    null
+                                }
+                            }
+                        }
+                    }
+                        uploadFront?.await()
+//
+
+                    try {
+
+                        withContext(uiContext) {
+                            var continueResult = false
+                            if (mCardData != null) {
+
+                                when (intent?.getIntExtra(DOC_TYPE, 0)) {
+                                    RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharFrontCard, RequestCode.AadharCard, RequestCode.VoterCard -> {
+                                        if (mCardData!!.status == "OK") {
+
+                                            continueResult = true
+                                        }
+                                        if (intent?.getStringExtra("skip") != null) {
+                                            continueResult = true
+                                        }
+                                    }
+                                    else -> {
+                                        continueResult = intent?.getStringExtra("skip") == null
+                                    }
+                                }
+                            }
+
+                            if (continueResult&&(mCardData?.cardFrontUrl!=null)) {
+//                                finishActivity(progressLoader)
+                                progressLoader.dismmissLoading()
+                            } else {
+                                progressLoader.dismmissLoading()
+
+                            }
+
+                        }
+                    } catch (e: Exception) {
+                        progressLoader.dismmissLoading()
+                        Crashlytics.log(e.message)
+
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Crashlytics.log(e.message)
+
+                    withContext(uiContext) { progressLoader.dismmissLoading() }
+                }
+            }
         }
         btn_next.setOnClickListener {
             val progressLoader = ProgrssLoader(this)
@@ -172,8 +285,18 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         val uploadBack: Deferred<Unit>? = mBackImagePath?.let {
                             captureCardInfoAsync(it, CardType.AadharCardBack)
                         }
-                        uploadFront?.await()
-                        uploadBack?.await()
+                        if(RequestCode.AadharBackCard == intent?.getIntExtra(
+                                DOC_TYPE,
+                                0
+                            )){
+//                            uploadFront?.await()
+                            uploadBack?.await()
+                        }else
+                        {
+                            uploadFront?.await()
+                            uploadBack?.await()
+                        }
+
                     }
 
                     try {
@@ -479,7 +602,9 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         }
         img_clear_front.setOnClickListener {
             img_clear_front?.visibility = View.GONE
+
             btn_next?.visibility = View.GONE
+            btn_next_front.visibility=View.GONE
             btn_take_picture?.visibility = View.VISIBLE
             btn_attach_document?.isEnabled = true
             Glide.with(this).clear(img_document_front)
@@ -839,8 +964,20 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         ))
                         loadImage(mFrontImagePath, img_document_front)
                         img_clear_front?.visibility = View.VISIBLE
-                        if (requestCode != RequestCode.AadharFrontCard) {
+                        if (requestCode == RequestCode.AadharFrontCard) {
+                            btn_next_front.visibility=View.VISIBLE
+                            btn_next_front.text="Save Aadhaar Front"
+
+                        }else if(requestCode==RequestCode.AadharBackCard)
+                        {
                             changeButtonVisibility()
+                            btn_next_front.text="Save Aadhaar Back"
+
+                        }else if(requestCode!=RequestCode.AadharFrontCard)
+                        {
+                            changeButtonVisibility()
+
+
                         }
                     } else {
                         data?.data?.let { uri ->
@@ -848,8 +985,20 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             loadImage(this, img_document_front, uri, {
                                 mFrontImagePath = it
                                 img_clear_front?.visibility = View.VISIBLE
-                                if (requestCode != RequestCode.AadharFrontCard) {
+                                if (requestCode == RequestCode.AadharFrontCard) {
+                                    btn_next_front.visibility=View.VISIBLE
+
+                                }
+                                else if(requestCode==RequestCode.AadharBackCard)
+                                {
                                     changeButtonVisibility()
+                                    btn_next_front.text="Save Aadhaar Back"
+
+                                }
+                                else if(requestCode!=RequestCode.AadharFrontCard)
+                                {
+                                    changeButtonVisibility()
+
                                 }
                             })
                         }

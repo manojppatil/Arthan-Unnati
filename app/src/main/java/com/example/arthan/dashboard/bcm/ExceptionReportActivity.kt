@@ -70,7 +70,7 @@ class ExceptionReportActivity : BaseActivity() {
 
         submitException.setOnClickListener {
             val map=HashMap<String,String>()
-            map["loanId"]=intent.getStringExtra("loanId")
+            map["loanId"]=intent.getStringExtra("loanId")!!
             map["userId"]=ArthanApp.getAppInstance().loginUser
             map["propOwner"]=remarksvalue1.text.toString()
             map["area"]=remarksvalue2.text.toString()

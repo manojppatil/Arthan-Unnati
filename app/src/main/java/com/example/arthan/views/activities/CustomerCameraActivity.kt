@@ -40,7 +40,7 @@ class CustomerCameraActivity : BaseActivity() {
                                 setResult(Activity.RESULT_OK, resultIntent)
                                 finish()
                             }
-                        }, { error -> Log.e("ERROR::", error.message) })
+                        }, { error -> Log.e("ERROR::", error.message!!) })
                 }
             }
         })

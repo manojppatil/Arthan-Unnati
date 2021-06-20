@@ -48,7 +48,7 @@ class OTPValidationActivity: BaseActivity() {
         {
             CoroutineScope(Dispatchers.IO).launch {
                 var map = HashMap<String, String>()
-                map["loanId"] = intent.getStringExtra("loanId")
+                map["loanId"] = intent.getStringExtra("loanId")!!
                 map["screen"] = "OTP_CONSENT"
                 val res=RetrofitFactory.getApiService().getScreenData(map)
                 if(res.body()!=null)
@@ -70,9 +70,9 @@ class OTPValidationActivity: BaseActivity() {
                 }
             }
         }else {
-             appFee = intent.getStringExtra("appFee")
-             gst = intent.getStringExtra("gst")
-             total = intent.getStringExtra("total")
+             appFee = intent.getStringExtra("appFee")!!
+             gst = intent.getStringExtra("gst")!!
+             total = intent.getStringExtra("total")!!
             chk_consent?.text = intent.getStringExtra("consentText")
             txt_application_fee_amt.text= appFee
             txt_gst_amt.text= gst
@@ -89,8 +89,8 @@ class OTPValidationActivity: BaseActivity() {
             }
             CoroutineScope(Dispatchers.IO).launch {
 
-                val response = RetrofitFactory.getApiService()./*verifyOTP*/verifyOTPAppFee(VerifyOTPRequest(intent.getStringExtra("loanId"),
-                intent.getStringExtra("custId"),intent.getStringExtra("leadId"),"",appFee,view_otp.otp))
+                val response = RetrofitFactory.getApiService()./*verifyOTP*/verifyOTPAppFee(VerifyOTPRequest(intent.getStringExtra("loanId")!!,
+                intent.getStringExtra("custId")!!,intent.getStringExtra("leadId")!!,"",appFee,view_otp.otp))
 
                 if(response.isSuccessful && response.body() != null){
 

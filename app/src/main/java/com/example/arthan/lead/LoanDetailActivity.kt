@@ -440,11 +440,11 @@ private var proceed=false;
         progressLoader.showLoading()
         CoroutineScope(Dispatchers.IO).launch {
 
-            loanId=intent.getStringExtra("loanId")
+            loanId=intent.getStringExtra("loanId")!!
             try {
                 var map = HashMap<String, String>()
-                map["loanId"] = intent.getStringExtra("loanId")
-                map["screen"] = intent.getStringExtra("screen")
+                map["loanId"] = intent.getStringExtra("loanId")!!
+                map["screen"] = intent.getStringExtra("screen")!!
 
                 val response =
                     RetrofitFactory.getApiService().getScreenData(map)
@@ -527,7 +527,7 @@ private var proceed=false;
         progressBar.showLoading()
         if (intent.getStringExtra("task") == "RMContinue")
         {
-            loanId=intent.getStringExtra("loanId")
+            loanId=intent.getStringExtra("loanId")!!
         }
         val postBody = LoanPostData(
             leadId = mLeadId,

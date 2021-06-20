@@ -421,9 +421,9 @@ class RMScreeningNavigationActivity : AppCompatActivity() {
         loader.showLoading()
             var loanOrLeadId=""
             loanOrLeadId = if(intent.getStringExtra("loanId")!=null&&intent.getStringExtra("loanId")!="") {
-                intent.getStringExtra("loanId")
+                intent.getStringExtra("loanId")!!
             }else {
-                intent.getStringExtra("leadId")
+                intent.getStringExtra("leadId")!!
             }
         CoroutineScope(Dispatchers.IO).launch {
 

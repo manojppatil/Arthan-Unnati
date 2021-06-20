@@ -147,6 +147,11 @@ private var data: List<ApprovedCaseData>): RecyclerView.Adapter<ApprovedAdapter.
                     putExtra("requestType",this@ApprovedAdapter.data[position].reqType)
                     putExtra("remarks",this@ApprovedAdapter.data[position].remarks)
                     putExtra("waiverAmount",this@ApprovedAdapter.data[position].waiverAmt)
+
+                    putExtra("waiveLegal",this@ApprovedAdapter.data[position].waiveLegal.toLowerCase())
+                    putExtra("waiveTech",this@ApprovedAdapter.data[position].waiveTech.toLowerCase())
+                    putExtra("deductLegal",this@ApprovedAdapter.data[position].deductLegal.toLowerCase())
+                    putExtra("deductTech",this@ApprovedAdapter.data[position].deductTech.toLowerCase())
                 })
             }
            /* root.findViewById<Button>(R.id.btn_requestWaiver).setOnClickListener {

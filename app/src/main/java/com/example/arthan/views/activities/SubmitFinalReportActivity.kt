@@ -82,7 +82,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
         ))
         tv_agreement.setOnClickListener(this)
         tv_coc.setOnClickListener(this)
-        if (intent.getStringExtra(STATUS).contains("Recommended to CCM", ignoreCase = true)&&ArthanApp.getAppInstance().loginRole=="BM"&&
+        if (intent.getStringExtra(STATUS)!!.contains("Recommended to CCM", ignoreCase = true)&&ArthanApp.getAppInstance().loginRole=="BM"&&
                 intent.getStringExtra("recordType")=="AM") {
 
             tv_agreement.visibility = View.VISIBLE
@@ -92,7 +92,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             tv_coc.visibility = View.GONE
         }
 
-        if(ArthanApp.getAppInstance().loginRole=="BM"&&intent.getStringExtra("recordType")=="AM"&&intent.getStringExtra(STATUS).contains("Recommended to CCM", ignoreCase = true)) {
+        if(ArthanApp.getAppInstance().loginRole=="BM"&&intent.getStringExtra("recordType")=="AM"&&intent.getStringExtra(STATUS)!!.contains("Recommended to CCM", ignoreCase = true)) {
             val spinnerArrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
@@ -102,7 +102,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             rejectReason.adapter = spinnerArrayAdapter
 
         }
-        if(ArthanApp.getAppInstance().loginRole=="BM"&&intent.getStringExtra("recordType")=="AM"&&intent.getStringExtra(STATUS).contains("Reject", ignoreCase = true))
+        if(ArthanApp.getAppInstance().loginRole=="BM"&&intent.getStringExtra("recordType")=="AM"&&intent.getStringExtra(STATUS)!!.contains("Reject", ignoreCase = true))
         {
 
             CoroutineScope(Dispatchers.IO).launch {
@@ -154,16 +154,21 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
         // mDocAdapter = DocumentAdapter(this, docList,docUrlList)
         //   rv_docs.adapter=mDocAdapter
-
-       /* if (intent.getStringExtra("recordType") == "AM") {
+        if (ArthanApp.getAppInstance().loginRole=="BM"&&intent.getStringExtra("recordType") == "AM") {
             tv_agreement.visibility = View.VISIBLE
             tv_coc.visibility = View.VISIBLE
 
 
-        } else {
-            tv_agreement.visibility = View.GONE
-            tv_coc.visibility = View.GONE
-        }*/
+        }
+        /* if (intent.getStringExtra("recordType") == "AM") {
+             tv_agreement.visibility = View.VISIBLE
+             tv_coc.visibility = View.VISIBLE
+
+
+         } else {
+             tv_agreement.visibility = View.GONE
+             tv_coc.visibility = View.GONE
+         }*/
     }
 
     private fun saveSanction() {
@@ -228,7 +233,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btn_submit -> {
-                if (intent.getStringExtra(STATUS).contains(
+                if (intent.getStringExtra(STATUS)!!.contains(
                         "Recommended to CCM",
                         ignoreCase = true
                     ) && intent.getStringExtra("recordType") == "AM" && ArthanApp.getAppInstance().loginRole == "BM" && (cocUrl.isEmpty() || agreementUrl.isEmpty() || docUrlList.isEmpty())
@@ -244,21 +249,21 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
                 progressBar.showLoading()
 
                 var decision = ""
-                if (intent.getStringExtra(STATUS).contains("reject", ignoreCase = true)) {
+                if (intent.getStringExtra(STATUS)!!.contains("reject", ignoreCase = true)) {
                     rejectReason.visibility = View.VISIBLE
                     decision = rejectReason.selectedItem.toString()
-                } else if (intent.getStringExtra(STATUS).contains("Approve", ignoreCase = true)) {
+                } else if (intent.getStringExtra(STATUS)!!.contains("Approve", ignoreCase = true)) {
                     rejectReason.visibility = View.GONE
                     decision = "Approve"
 
-                } else if (intent.getStringExtra(STATUS).contains("RM Reassigned")){
+                } else if (intent.getStringExtra(STATUS)!!.contains("RM Reassigned")){
 
                     rejectReason.visibility = View.GONE
                     decision = "RM Reassigned"
                 }
                 var user = ""
                 if (intent.getStringExtra("recordType") == "AM") {
-                    user = intent.getStringExtra("amId")
+                    user = intent.getStringExtra("amId")!!
 
                 }
 
@@ -292,7 +297,7 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
                             withContext(Dispatchers.Main) {
                                 var msg =
-                                    if (intent.getStringExtra(STATUS).contains(
+                                    if (intent.getStringExtra(STATUS)!!.contains(
                                             "reject",
                                             ignoreCase = true
                                         )
@@ -356,13 +361,13 @@ class SubmitFinalReportActivity : BaseActivity(), View.OnClickListener {
 
                                 var msg =
                                     when {
-                                        intent.getStringExtra(STATUS).contains(
+                                        intent.getStringExtra(STATUS)!!.contains(
                                             "Approve",
                                             ignoreCase = true
                                         ) -> {
                                             "Case is Approved Successfully"
                                         }
-                                        intent.getStringExtra(STATUS).contains(
+                                        intent.getStringExtra(STATUS)!!.contains(
                                             "reject",
                                             ignoreCase = true
                                         ) -> {

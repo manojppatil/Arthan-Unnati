@@ -30,7 +30,7 @@ class LeadInfoCaptureActivity: BaseActivity() {
 
     override fun init() {
         if(intent.hasExtra("PAN_DATA"))
-            panData= intent.getStringExtra("PAN_DATA")
+            panData= intent.getStringExtra("PAN_DATA")!!
 
         if(intent.getStringExtra("screen")!=null)
         {

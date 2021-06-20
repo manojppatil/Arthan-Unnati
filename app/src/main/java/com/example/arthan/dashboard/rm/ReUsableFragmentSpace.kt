@@ -20,16 +20,16 @@ class ReUsableFragmentSpace : AppCompatActivity() {
         when (intent.getStringExtra("screen")) {
 
             "Documents" -> {
-                showDocumentsFragment(intent.getStringExtra("loanId"))
+                showDocumentsFragment(intent.getStringExtra("loanId")!!)
             }
             "Business" -> {
-                showBusinessFragment(intent.getStringExtra("loanId"))
+                showBusinessFragment(intent.getStringExtra("loanId")!!)
             }
             "Income" -> {
-                showIncomeFragment(intent.getStringExtra("loanId"))
+                showIncomeFragment(intent.getStringExtra("loanId")!!)
             }
             "OTHERS", "OTHERS_TRADE", "OTHERS_SECURITY", "others" -> {
-                showOthersFragment(intent.getStringExtra("loanId"))
+                showOthersFragment(intent.getStringExtra("loanId")!!)
             }
         }
     }

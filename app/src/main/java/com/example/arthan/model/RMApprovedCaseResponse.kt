@@ -17,7 +17,6 @@ val reqType: String,
 val remarks: String,
 val waiverAmt: String,
 val approvedDate: String,
-
 val customerId: String,
 val rcuStatus: String,
 val legalStatus: String,
@@ -28,5 +27,9 @@ val techReport: String,
 val feePaidStatus: String="",
 val roi: String,
 val pf: String,
+val waiveLegal: String,
+val waiveTech: String,
+val deductLegal: String,
+val deductTech: String,
 val insurance: String):Serializable
 

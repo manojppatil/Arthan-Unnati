@@ -437,6 +437,7 @@ class BCMApprovedCollateral : BaseActivity(), CoroutineScope {
                         ownerName = et_coOthersOwnerName.text.toString(),
                         policyNo = et_COOtherspolicyNo.text.toString(),
                         marketValue = et_marketValueCo.text.toString(),
+                        propertyArea = et_propertyAreaValueCo.text.toString(),
                         derivedValue = et_derivedValueCO.text.toString()
                     ),
                     immovableDetails = ImmovableDetails(
@@ -445,7 +446,8 @@ class BCMApprovedCollateral : BaseActivity(), CoroutineScope {
                         addressType = addressType,
                         collateralType = (sp_collateral_type_liq?.selectedItem as Data).value.toString(),
                         jurisdiction = (sp_jurisdictionType.selectedItem as Data).value.toString(),
-                        marketValue = et_MarketValueImm.text.toString()
+                        marketValue = et_MarketValueImm.text.toString(),
+                        propertyArea = et_propertyAreaValueImm.text.toString()
                         ,
                         rshipWithApplicant = (sp_relaionShipApplicant.selectedItem as Data).description.toString(),
                         ownership = (sp_ownerShip.selectedItem as Data).description.toString()

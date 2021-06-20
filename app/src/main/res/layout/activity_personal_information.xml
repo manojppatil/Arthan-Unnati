@@ -268,6 +268,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:button="@null"
+                    android:checked="true"
                     android:drawableStart="@drawable/radio_selector"
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/lato_black"

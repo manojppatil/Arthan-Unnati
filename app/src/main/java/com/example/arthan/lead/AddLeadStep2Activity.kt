@@ -203,9 +203,9 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         )
                     }
                     val aadharCardData =
-                        it.getParcelableExtra(ArgumentKey.AadharDetails) as CardResponse
+                        it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetails) as CardResponse
                     val aadharCardDataBack =
-                        it.getParcelableExtra(ArgumentKey.AadharDetailsBack) as CardResponse
+                        it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack) as CardResponse
 
                     mKYCPostData?.aadharAddress =
                         aadharCardDataBack?.results?.get(0)?.cardInfo?.address
@@ -430,13 +430,13 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                                         result.message,
                                         Toast.LENGTH_LONG
                                     ).show()
-                                    startActivity(
+                                   /* startActivity(
                                         Intent(
                                             this@AddLeadStep2Activity,
                                             RMDashboardActivity::class.java
                                         )
                                     )
-                                    finish()
+                                    finish()*/
                                 } else {
                                     startActivity(
                                         Intent(

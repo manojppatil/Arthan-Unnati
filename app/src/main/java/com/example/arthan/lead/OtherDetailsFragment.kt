@@ -363,6 +363,23 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             ).show()
         }*/
         btn_save_continue?.setOnClickListener {
+
+            if(trade_reference_1_firm_name_input.length()==0||trade_reference_1_person_name_dealing_with_input.length()==0||trade_reference_1_contact_details_input.length()==0
+                || trade_reference_2_firm_name_input.length()==0||trade_reference_2_person_name_dealing_with_input.length()==0||trade_reference_2_contact_details_input.length()==0)
+            {
+                Toast.makeText(context!!,"All details are mandatory",Toast.LENGTH_LONG).show()
+
+                return@setOnClickListener
+            }
+            if(ArthanApp.getAppInstance().loginRole=="RM"&&(sp_security.selectedItem as Data).description.toLowerCase() == "immovable")
+            {
+                if(et_COOwnerNameImm.length()==0||et_MarketValueImm.length()==0){
+                    Toast.makeText(context!!,"All details are mandatory",Toast.LENGTH_LONG).show()
+
+                    return@setOnClickListener
+                }
+
+            }
             if(mLoanId==null||mLoanId=="")
             {
                 mLoanId=activity?.intent?.getStringExtra("loanId")
@@ -870,7 +887,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     ),
                     TradeRefDetail(
                         loanId = mLoanId,
-                        firmName = trade_reference_1_firm_name_input?.text?.toString(),
+                        firmName = trade_reference_2_firm_name_input?.text?.toString(),
                         nameofPersonDealingWith = trade_reference_2_person_name_dealing_with_input?.text?.toString(),
                         rshipWithApplicant = (trade_reference_2_relationship_with_applicant_spinner?.selectedItem as? Data)?.value,
                         contactDetails = trade_reference_2_contact_details_input?.text?.toString(),
@@ -1261,6 +1278,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         ownerName = et_coOthersOwnerName.text.toString(),
                         policyNo = et_COOtherspolicyNo.text.toString(),
                         marketValue = et_marketValueCo.text.toString().replace("₹",""),
+                        propertyArea = et_propertyAreaValueCo.text.toString(),
                         derivedValue = et_derivedValueCO.text.toString()
                     ),
                     immovableDetails = ImmovableDetails(
@@ -1269,8 +1287,8 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                         addressType = addressType,
                         collateralType = (sp_collateral_type_liq?.selectedItem as Data).value.toString(),
                         jurisdiction = (sp_jurisdictionType.selectedItem as Data).value.toString(),
-                        marketValue = et_MarketValueImm.text.toString().replace("₹","")
-                        ,
+                        marketValue = et_MarketValueImm.text.toString().replace("₹",""),
+                         propertyArea = et_propertyAreaValueImm.text.toString().replace("₹",""),
                         rshipWithApplicant = (sp_relaionShipApplicant.selectedItem as Data).description.toString(),
                         ownership = (sp_ownerShip.selectedItem as Data).description.toString()
                     )

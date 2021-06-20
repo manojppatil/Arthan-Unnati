@@ -56,11 +56,11 @@ class LeadEligibilityActivity : BaseActivity() {
             if(intent.getStringExtra("task")=="RMContinue"||intent.getStringExtra("task")=="RMreJourney")
             {
                 loanId=intent.getStringExtra("loanId")
-                leadId=intent.getStringExtra("leadId")
+                leadId=intent.getStringExtra("leadId")!!
                 AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,loanId)
 
             }else {
-                 leadId = intent.getStringExtra(ArgumentKey.LeadId)
+                 leadId = intent.getStringExtra(ArgumentKey.LeadId)!!
                  loanId = AppPreferences.getInstance().getString(AppPreferences.Key.LoanId)
             }
 

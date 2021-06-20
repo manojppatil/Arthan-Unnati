@@ -134,7 +134,6 @@
     </string-array>
 
     <string-array name="arr_loan_type">
-        <item>--select Loan Type--</item>
         <item>Secure</item>
         <item>Unsecure</item>
         <!-- <item>Quasi Secured</item>
@@ -400,4 +399,6 @@
     <string name="remarksView"><u>Click to view</u></string>
     <string name="clickToAddCA"><u> click here to add a new Applicant </u></string>
     <string name="kyc_consent">I, %s having Emp ID/Partner ID %s hereby declare that I have seen all the original documents, verified their genuinity  and taken photographs for the purpose of loan processing.</string>
+    <string name="code_conduct">I agree to follow the "<u>Code of conduct of arthan</u>"</string>
+    <string name="terms_agreement"> By ticking and submitting I agrees to the "<u>terms and conditions of the agreement </u>"</string>
 </resources>

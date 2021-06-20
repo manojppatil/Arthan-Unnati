@@ -319,5 +319,5 @@ class ApprovedCustomerLegalStatusActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun screenTitle() = intent.getStringExtra("Name")
+    override fun screenTitle() = intent.getStringExtra("Name")!!
 }

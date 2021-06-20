@@ -89,7 +89,7 @@ class BMReassignToActivity : BaseActivity() {
     }
 
     override fun screenTitle(): String {
-        return intent.getStringExtra("FROM")
+        return intent.getStringExtra("FROM")!!
     }
 
 }

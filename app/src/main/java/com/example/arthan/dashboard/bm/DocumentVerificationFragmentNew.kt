@@ -223,7 +223,7 @@ class DocumentVerificationFragmentNew : BaseFragment() {
                 if(docId.equals(list[i].docId,ignoreCase = true))
                 {
                     list.removeAt(i)
-                    list.add(RequireDocs((context as BMDocumentVerificationActivity).intent.getStringExtra(ArgumentKey.LoanId),docId,docName,docUrl,docStatus))
+                    list.add(RequireDocs((context as BMDocumentVerificationActivity).intent.getStringExtra(ArgumentKey.LoanId)!!,docId,docName,docUrl,docStatus))
 
                 }
             }
