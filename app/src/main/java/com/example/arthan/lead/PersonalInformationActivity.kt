@@ -382,6 +382,25 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
                                 }
 
                              }
+                            else if(intent.getStringExtra("task")=="RmApprovedCo")
+                            {
+                                withContext(Dispatchers.Main){
+                                   /* startActivity(Intent(this@PersonalInformationActivity,RMApp::class.java).apply {
+                                        putExtra("loanId", loanId)
+                                    })*/
+                                    finish()
+                                }
+
+                             } else if(intent.getStringExtra("task")=="documentsAddCo")
+                            {
+                                withContext(Dispatchers.Main){
+                                   /* startActivity(Intent(this@PersonalInformationActivity,RMApp::class.java).apply {
+                                        putExtra("loanId", loanId)
+                                    })*/
+                                    finish()
+                                }
+
+                             }
                             else if(intent.getStringExtra("task")=="Add-CoApplicant")
                             {
                                 withContext(Dispatchers.Main)

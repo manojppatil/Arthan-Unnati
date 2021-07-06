@@ -34,17 +34,76 @@ class DocCategoryAdapter(
             root.findViewById<TextView>(R.id.screenValue).text =
                 responseData!!.docCategories[position]
             root.setOnClickListener {
-                context.startActivity(
-                    Intent(
-                        context,
-                        DocumentSubCategoryActivity::class.java
-                    ).apply {
-                        putExtra("cate", responseData.docCategories[position])
-                        putExtra("loanId", responseData.loanId)
-                        putExtra("task", "RM_AssignList")
+
+                if(responseData.docCategories[position].startsWith("Co-Applicant"))
+                {
+                    when(responseData.docCategories[position]){
+
+                        "Co-Applicant 1"->{
+                           context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                               putExtra("screen","KYC_PA")
+                               putExtra("type","CA1")
+                               putExtra("loanId",responseData.loanId)
+                               putExtra("task","documentsAddCo")
+                           })
+                        }
+                        "Co-Applicant 2"->{
+                            context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                                putExtra("screen","KYC_PA")
+                                putExtra("type","CA2")
+                                putExtra("loanId",responseData.loanId)
+                                putExtra("task","documentsAddCo")
+                            })
+                        }
+                        "Co-Applicant 3"->{
+                            context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                                putExtra("screen","KYC_PA")
+                                putExtra("type","CA3")
+                                putExtra("loanId",responseData.loanId)
+                                putExtra("task","documentsAddCo")
+                            })
+                        }
+                        "Co-Applicant 4"->{
+                            context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                                putExtra("screen","KYC_PA")
+                                putExtra("type","CA4")
+                                putExtra("loanId",responseData.loanId)
+                                putExtra("task","documentsAddCo")
+                            })
+                        }
+                        "Co-Applicant 5"->{
+                            context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                                putExtra("screen","KYC_PA")
+                                putExtra("type","CA5")
+                                putExtra("loanId",responseData.loanId)
+                                putExtra("task","documentsAddCo")
+                            })
+                        }
+                        "Guarantor"->{
+                            context.startActivity(Intent(context, AddLeadStep2Activity::class.java).apply {
+                                putExtra("screen","KYC_PA")
+                                putExtra("type","G")
+                                putExtra("loanId",responseData.loanId)
+                                putExtra("task","documentsAddCo")
+                            })
+                        }
+                    }
+
+
+                }else {
+
+                    context.startActivity(
+                        Intent(
+                            context,
+                            DocumentSubCategoryActivity::class.java
+                        ).apply {
+                            putExtra("cate", responseData.docCategories[position])
+                            putExtra("loanId", responseData.loanId)
+                            putExtra("task", "RM_AssignList")
 //                        ArthanApp.getAppInstance().submitDocs=null
 
-                    })
+                        })
+                }
 
 
               /*  when (responseData.docCategories[position]) {

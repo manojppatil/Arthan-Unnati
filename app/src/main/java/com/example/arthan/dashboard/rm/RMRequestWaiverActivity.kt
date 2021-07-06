@@ -2,6 +2,7 @@ package com.example.arthan.dashboard.rm
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,7 +13,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.arthan.R
+import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
+import com.example.arthan.lead.AddLeadStep2Activity
 import com.example.arthan.network.RetrofitFactory
 import com.example.arthan.utils.ProgrssLoader
 import com.example.arthan.views.activities.BaseActivity
@@ -30,6 +33,36 @@ class RMRequestWaiverActivity : BaseActivity() {
     }
 
     private var waiveOption=""
+    private var custId=""
+    private var loanId=""
+    private var aplicantType=""
+    private fun getCustomerId() {
+
+        val map=HashMap<String,String>()
+        var loanId=""
+        if(intent.getStringExtra("loanId")!=null)
+        {
+            loanId=intent.getStringExtra("loanId")?: AppPreferences.getInstance().getString(
+                AppPreferences.Key.LoanId) ?: ""
+        }
+        map["loanId"]=loanId
+        map["applicantType"]=intent.getStringExtra("type") ?: "PA"
+        CoroutineScope(Dispatchers.IO).launch {
+            val response=RetrofitFactory.getApiService().getCustomerId(map)
+            if(response.body()!=null)
+            {
+                loanId=response.body()!!.loanId!!
+                custId=response.body()!!.customerId!!
+                if(intent.getStringExtra("task")==null) {
+                    ArthanApp.getAppInstance().currentCustomerId = custId
+                }
+                AppPreferences.getInstance().addString(AppPreferences.Key.CustomerId,response.body()!!.customerId!!)
+                AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,response.body()!!.loanId!!)
+                aplicantType=response.body()!!.applicantType!!
+            }
+        }
+    }
+
     override fun init() {
 
         if(ArthanApp.getAppInstance().loginRole=="RM")
@@ -40,6 +73,41 @@ class RMRequestWaiverActivity : BaseActivity() {
             loanAmount.text=intent.getStringExtra("loanAmount")
             roi.setText(intent.getStringExtra("roi"))
             pf.setText(intent.getStringExtra("pf"))
+
+            getCustomerId()
+
+        }
+
+        addnewApplicant.setOnClickListener {
+            val dialog= AlertDialog.Builder(this)
+            dialog.setTitle("Add new Applicant")
+            dialog.setMessage("Select the type of Applicant you want to Add")
+            dialog.setNegativeButton("Guarantor", DialogInterface.OnClickListener { dialog, _ ->
+                dialog.dismiss()
+                startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
+                    putExtra("screen","KYC_PA")
+                    putExtra("type","G")
+                    putExtra("loanId",loanId)
+                    putExtra("custId",custId)
+                    putExtra("task","RmApprovedCo")
+                })
+//                finish()
+            })
+            dialog.setPositiveButton("Co-Applicant", DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+                startActivity(Intent(this, AddLeadStep2Activity::class.java).apply {
+                    putExtra("screen","KYC_PA")
+                    putExtra("type","CA")
+                    putExtra("loanId",loanId)
+                    putExtra("custId",custId)
+                    putExtra("task","RmApprovedCo")
+                })
+//                finish()
+            })
+            dialog.setNeutralButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
+            dialog.create().show()
         }
         if(ArthanApp.getAppInstance().loginRole=="BM")
         {

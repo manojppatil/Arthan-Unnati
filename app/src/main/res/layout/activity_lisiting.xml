@@ -11,6 +11,17 @@
         android:id="@+id/toolbar"
         layout="@layout/custom_toolbar"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clickToAddCA"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/addnewApplicant"/>
 
     <FrameLayout
         android:layout_width="match_parent"

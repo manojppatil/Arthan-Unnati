@@ -467,6 +467,8 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
 
                                         })
                                     if(intent.getStringExtra("task")!=null&&intent.getStringExtra("task")=="RMAddCo"||
+                                    intent.getStringExtra("task")!=null&&intent.getStringExtra("task")=="RmApprovedCo"||
+                                    intent.getStringExtra("task")!=null&&intent.getStringExtra("task")=="documentsAddCo"||
                                         intent.getStringExtra("task")!=null&&intent.getStringExtra("task")=="RMAddCoRe")
                                     {
                                         finish()
