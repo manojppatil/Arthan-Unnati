@@ -119,6 +119,10 @@ interface ApiService {
     @POST("saveKycDetails")
     suspend fun saveKycDetail(@Body body: HashMap<String,String>?): Response<BaseResponseData>?
 
+    @POST("updateKYCDocs")
+    suspend fun updateKYCDocs(@Body body: HashMap<String,String>?): Response<BaseResponseData>?
+
+
     @POST("saveBusinessDetails")
     suspend fun saveBusinessDetail(@Body body: BusinessDetailsPostData?): Response<BusinessDetailsResponseData>?
 
@@ -503,6 +507,9 @@ interface ApiService {
     @POST("getCustomerId")
     suspend fun getCustomerId(@Body body: Map<String, String>): Response<BaseResponseData>
 
+    @POST("getCustomerId2")
+    suspend fun getCustomerId2(@Body body: Map<String, String>): Response<BaseResponseData>
+
     @POST("storeMpin")
     suspend fun storeMpin(@Body body: Map<String, String>): Response<BaseResponseData>
 
@@ -547,6 +554,12 @@ interface ApiService {
 
     @GET("getAMRejectStatus")
     suspend fun getAMRejectStatus(@Query("amId") amId: String?): Response<AmCompletedScreens>
+
+    @GET("getCoc")
+    suspend fun getCoc(): Response<BaseResponseData>
+
+    @GET("getTCA")
+    suspend fun getTCA(): Response<BaseResponseData>
 
 
     @POST("getAMScreenData")

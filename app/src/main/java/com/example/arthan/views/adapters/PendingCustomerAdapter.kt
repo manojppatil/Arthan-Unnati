@@ -350,7 +350,7 @@ class PendingCustomerAdapter(private val mContext: Context, private val from: St
             itemView.findViewById<TextView?>(R.id.txt_industry)?.text = customer?.indSeg
             itemView.findViewById<TextView?>(R.id.txt_date)?.text = customer?.loginDate
             itemView.findViewById<TextView?>(R.id.txt_customer_name)?.text = customer?.customerName
-            mAmount?.text = customer?.loanAmt
+            mAmount?.text = customer?.loanAmt+"-"+" Loan Type: ${customer?.loanType}"
 
             mAmount.setCompoundDrawablesWithIntrinsicBounds(
                 getRupeeSymbol(

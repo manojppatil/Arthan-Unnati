@@ -268,6 +268,7 @@ object RequestCode {
     const val PanCard = 0x0004
     const val VoterCard = 0x0005
     const val AadharCard = 0x0006
+    const val AadharCardBack = 0x00116
     const val AadharFrontCard = 0x0007
     const val AadharBackCard = 0x0008
     const val ApplicantPhoto = 0x0009

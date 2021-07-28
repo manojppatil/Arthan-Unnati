@@ -41,6 +41,8 @@ data class BaseResponseData(
     val  marketValue:String ,
     val  applicantType:String ,
     val  applicantAadharNo:String ,
-    val  pincode:String
+    val  pincode:String,
+    val  cocUrl:String,
+    val  tcaUrl:String
 
 )

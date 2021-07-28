@@ -1,11 +1,17 @@
 package com.example.arthan.dashboard.am
 
 import android.content.Intent
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.arthan.R
+import com.example.arthan.dashboard.bm.ShowPDFActivity
 import com.example.arthan.global.AppPreferences
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.global.Crashlytics
@@ -25,6 +31,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_am_kycdetails.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
+
 
 class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineScope {
     override fun contentView() = R.layout.activity_am_kycdetails
@@ -47,21 +54,28 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
 
     private fun getCustomerId() {
 
-        val map=HashMap<String,String>()
+        val map=HashMap<String, String>()
         var loanId=""
         map["loanId"]="AM"+ArthanApp.getAppInstance().loginUser
         map["applicantType"]="AM"
         CoroutineScope(Dispatchers.IO).launch {
             val response=RetrofitFactory.getApiService().getCustomerId(map)
-            if(response.body()!=null)
+            if(response.body()!=null&&response.body()?.loanId!=null)
             {
-                loanId=response.body()!!.loanId!!
+
+                loanId= response.body()!!.loanId!!
                 customerId=response.body()!!.customerId!!
                 if(intent.getStringExtra("task")==null) {
                     ArthanApp.getAppInstance().currentCustomerId = custId
                 }
-                AppPreferences.getInstance().addString(AppPreferences.Key.CustomerId,response.body()!!.customerId!!)
-                AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,response.body()!!.loanId!!)
+                AppPreferences.getInstance().addString(
+                    AppPreferences.Key.CustomerId,
+                    response.body()!!.customerId!!
+                )
+                AppPreferences.getInstance().addString(
+                    AppPreferences.Key.LoanId,
+                    response.body()!!.loanId!!
+                )
             }
         }
     }
@@ -75,7 +89,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
         {
             val progress= ProgrssLoader(this)
             progress.showLoading()
-            val map=HashMap<String,String?>()
+            val map=HashMap<String, String?>()
             map["screen"]=intent.getStringExtra("screen")
             map["amId"]=intent.getStringExtra("amId")
             CoroutineScope(Dispatchers.IO).launch {
@@ -90,7 +104,11 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                 }
                 else{
                     withContext(Dispatchers.Main){
-                        Toast.makeText(this@AddAMKYCDetailsActivity,"Try again later", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this@AddAMKYCDetailsActivity,
+                            "Try again later",
+                            Toast.LENGTH_LONG
+                        ).show()
                         progress.dismmissLoading()
                     }
                 }
@@ -101,12 +119,64 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
         txt_am_voter_id.setOnClickListener(this)
         txt_am_appl_photo.setOnClickListener(this)
         btn_am_next.setOnClickListener(this)
-        tv_terms.setOnClickListener {
+        val value=resources.getString(R.string.code_conduct)
+        val tca=resources.getString(R.string.terms_agreement)
+        val ss = SpannableString(value)
+        val ss2 = SpannableString(tca)
+        val clickableSpan: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(textView: View) {
+//                startActivity(Intent(this, NextActivity::class.java))
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response=RetrofitFactory.getApiService().getCoc()
+                    if(response.isSuccessful)
+                    {
+                        if(response?.body()!!.cocUrl!=null)
+                        {
+                            startActivity(Intent(this@AddAMKYCDetailsActivity,ShowPDFActivity::class.java).apply {
+                                putExtra("pdf_url",response.body()!!.cocUrl)
+                                putExtra("title","COde of Conduct")
+                            })
+                        }
+                    }
+                }
+            }
 
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = true
+            }
         }
-        tv_codeOfConduct.setOnClickListener {
+        val clickableSpan2: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(textView: View) {
+//                startActivity(Intent(this, NextActivity::class.java))
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response=RetrofitFactory.getApiService().getTCA()
+                    if(response.isSuccessful)
+                    {
+                        if(response?.body()!!.tcaUrl!=null)
+                        {
+                            startActivity(Intent(this@AddAMKYCDetailsActivity,ShowPDFActivity::class.java).apply {
+                                putExtra("pdf_url",response.body()!!.tcaUrl)
+                                putExtra("title","Terms of Agreement")
+                            })
+                        }
+                    }
+                }
+            }
 
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = true
+            }
         }
+        ss.setSpan(clickableSpan,22, 37, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        ss2.setSpan(clickableSpan2, 43, 63, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_codeOfConduct.text = ss
+        tv_terms.text = ss2
+        tv_codeOfConduct.movementMethod=LinkMovementMethod.getInstance()
+        tv_terms.movementMethod=LinkMovementMethod.getInstance()
+
+
     }
 
     private fun updateData(docDetails: DocDetailsAM) {
@@ -177,12 +247,12 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                         it.getParcelableExtra(ArgumentKey.PanDetails) as? CardResponse
                     if (mKYCPostData == null) {
                         mKYCPostData = KYCPostData(
-                            amId =panCardData?.amId,
+                            amId = panCardData?.amId,
                             customerId = panCardData?.customerId
                         )
                     }
-                    mKYCPostData?.loanId=panCardData?.loanId
-                    mKYCPostData?.customerId=panCardData?.customerId
+                    mKYCPostData?.loanId = panCardData?.loanId
+                    mKYCPostData?.customerId = panCardData?.customerId
                     mKYCPostData?.panDob = panCardData?.results?.get(0)?.cardInfo?.dateInfo
                     mKYCPostData?.panFathername = panCardData?.results?.get(0)?.cardInfo?.fatherName
                     mKYCPostData?.panFirstname = panCardData?.results?.get(0)?.cardInfo?.name
@@ -216,7 +286,7 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                     val aadharCardDataBack =
                         it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack)
 
-                   /* AppPreferences.getInstance().also { ap ->
+                    /* AppPreferences.getInstance().also { ap ->
                         ap.addString(
                             AppPreferences.Key.AadharId,
                             aadharCardData?.results?.get(0)?.cardInfo?.cardNo.toString()
@@ -238,8 +308,8 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                             aadharCardBack = aadharCardDataBack?.results?.get(index)?.cardInfo
                         }
                     }
-                    Log.i("AADhar front", "Aadhar"+aadharCardData)
-                    Log.i("AADhar Back", "Aadhar"+aadharCardBack)
+                    Log.i("AADhar front", "Aadhar" + aadharCardData)
+                    Log.i("AADhar Back", "Aadhar" + aadharCardBack)
 
                     AppPreferences.getInstance().also { ap ->
                         ap.addString(AppPreferences.Key.Pincode, aadharCardBack?.pin)
@@ -254,14 +324,14 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                         ap.addString(AppPreferences.Key.City, aadharCardBack?.city)
                         ap.addString(AppPreferences.Key.State, aadharCardBack?.state)
                     }
-                    mKYCPostData?.pincode=aadharCardBack?.pin
-                    mKYCPostData?.state=aadharCardBack?.state
-                    mKYCPostData?.city=aadharCardBack?.city
-                    mKYCPostData?.district=aadharCardBack?.district
-                    mKYCPostData?.address_line1=aadharCardBack?.addressLineOne
-                    mKYCPostData?. address_line2=aadharCardBack?.addressLineTwo
-                    mKYCPostData?.landmark=aadharCardBack?.landmark
-                    mKYCPostData?.areaName=aadharCardBack?.areaName
+                    mKYCPostData?.pincode = aadharCardBack?.pin
+                    mKYCPostData?.state = aadharCardBack?.state
+                    mKYCPostData?.city = aadharCardBack?.city
+                    mKYCPostData?.district = aadharCardBack?.district
+                    mKYCPostData?.address_line1 = aadharCardBack?.addressLineOne
+                    mKYCPostData?.address_line2 = aadharCardBack?.addressLineTwo
+                    mKYCPostData?.landmark = aadharCardBack?.landmark
+                    mKYCPostData?.areaName = aadharCardBack?.areaName
 
 
                     txt_am_aadhar_card.setCompoundDrawablesWithIntrinsicBounds(
@@ -339,8 +409,8 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
         CoroutineScope(ioContext).launch {
             try {
                // mKYCPostData?.applicantType = intent.getStringExtra("type") ?: "pa"
-                val map=HashMap<String,String>()
-                map["amId"]=mKYCPostData?.amId!!
+                val map=HashMap<String, String>()
+                map["amId"]=mKYCPostData?.loanId!!
                 map["customerId"]=customerId!!
                 map["applicantType"]="AM"
                 map["paApplicantPhoto"]=mKYCPostData?.paApplicantPhoto!!
@@ -359,25 +429,28 @@ class AddAMKYCDetailsActivity : BaseActivity(), View.OnClickListener, CoroutineS
                                     this@AddAMKYCDetailsActivity,
                                     AMPersonalDetailsActivity::class.java
                                 ).also {
-                                   // custId = result.customerId
+                                    // custId = result.customerId
 //                                    loanId = result.loanId
-                                    it.putExtra("amMobNo",result.amMobNo);
-                                    AppPreferences.getInstance().addString("amMobNo",result.amMobNo);
+                                    it.putExtra("amMobNo", result.amMobNo);
+                                    AppPreferences.getInstance().addString(
+                                        "amMobNo",
+                                        result.amMobNo
+                                    );
                                     it.putExtra("PAN_DATA", mKYCPostData)
                                     it.putExtra("AADHAR_NO", mKYCPostData?.aadharId)
                                     custId = result.customerId
-                                    mKYCPostData?.aadharId=result.applicantAadharNo
+                                    mKYCPostData?.aadharId = result.applicantAadharNo
                                     amId = result.loanId
-                                    mKYCPostData?.pincode=result.pincode
-                                    mKYCPostData?.state=result.state
-                                    mKYCPostData?.city=result.city
-                                    mKYCPostData?.address_line1=result.addressLine1
-                                    mKYCPostData?. address_line2=result.addressLine2
-                                    mKYCPostData?.customerName=result.customerName
-                                    mKYCPostData?.panDob=result.customerDob
-                                    mKYCPostData?.panFathername=result.fatherName
-                                    mKYCPostData?.panId=result.panNo
-                                   /* it.putExtra("custId", result.customerId)
+                                    mKYCPostData?.pincode = result.pincode
+                                    mKYCPostData?.state = result.state
+                                    mKYCPostData?.city = result.city
+                                    mKYCPostData?.address_line1 = result.addressLine1
+                                    mKYCPostData?.address_line2 = result.addressLine2
+                                    mKYCPostData?.customerName = result.customerName
+                                    mKYCPostData?.panDob = result.customerDob
+                                    mKYCPostData?.panFathername = result.fatherName
+                                    mKYCPostData?.panId = result.panNo
+                                    /* it.putExtra("custId", result.customerId)
                                     it.putExtra("PAN_DATA", mKYCPostData)
                                     it.putExtra("loanId", result.loanId)
                                     it.putExtra("type", intent.getStringExtra("type"))*/

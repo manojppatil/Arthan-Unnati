@@ -141,7 +141,7 @@ class AMProfessionalDetailsFragment : BaseFragment(), CoroutineScope {
 
             btn_am_pro_next.setOnClickListener {
                 if (et_am_gross_annualincome.length() > 0 && et_am_bank_name.length() > 0 && et_am_account_number.length() > 0 && et_am_conf_account_number.length() > 0 &&
-                    et_am_ifsc_code.length() > 0 && et_am_UPIid.length() > 0 && crossedCheque.isNotEmpty()
+                    et_am_ifsc_code.length() > 0 /*&& et_am_UPIid.length() > 0 */&& crossedCheque.isNotEmpty()
                 ) {
                         if ((et_am_account_number.text.toString() == et_am_conf_account_number.text.toString())) {
                             if (crossedCheque != null) {
@@ -177,7 +177,7 @@ class AMProfessionalDetailsFragment : BaseFragment(), CoroutineScope {
 
             btn_am_pro_next.setOnClickListener {
                 if (et_am_gross_annualincome.length() > 0 && et_am_bank_name.length() > 0 && et_am_account_number.length() > 0 && et_am_conf_account_number.length() > 0 &&
-                    et_am_ifsc_code.length() > 0 && et_am_UPIid.length() > 0 && crossedCheque.isNotEmpty()
+                    et_am_ifsc_code.length() > 0 /*&& et_am_UPIid.length() > 0*/ && crossedCheque.isNotEmpty()
                 ) {
                     if (activity is AMPersonalDetailsActivity) {
                         (activity as AMPersonalDetailsActivity).enableOthers()

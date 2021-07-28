@@ -297,15 +297,18 @@ class PersonalInformationActivity : BaseActivity(), CoroutineScope {
             statep = (tl_state1.selectedItem as Data).value ?: "",
             applicantType = applicantType,
             category = category,
-            relationship = if(intent.getStringExtra("type").startsWith("CA")){
+            relationship = when {
+                intent.getStringExtra("type").startsWith("CA") -> {
 
-                (sp_relaionShipApplicant.selectedItem as Data).value
-    }else if(intent.getStringExtra("type")=="G")
-            {
-                (sp_relaionShipApplicant.selectedItem as Data).value
+                    (sp_relaionShipApplicant.selectedItem as Data).value
+                }
+                intent.getStringExtra("type")=="G" -> {
+                    (sp_relaionShipApplicant.selectedItem as Data).value
 
-            }else{
-                null
+                }
+                else -> {
+                    null
+                }
             },
             /* when(intent.getStringExtra("type").startsWith("CA")){
                 "G"->(sp_relaionShipApplicant.selectedItem as Data).value

@@ -743,6 +743,18 @@ class BusinessInformationFragment : Fragment(), CoroutineScope {
             progressBar.dismmissLoading()
             return
         }
+        if(ArthanApp.getAppInstance().loginRole=="RM"&&no_of_year_in_office_input.text?.trim()!!.isEmpty())
+        {
+            Toast.makeText(context!!,"No of Years in office cannot be empty",Toast.LENGTH_LONG).show()
+            progressBar.dismmissLoading()
+            return
+        }
+        if(ArthanApp.getAppInstance().loginRole=="RM"&&(spnr_constitution?.selectedItem as? Data)?.value?.trim()!!.toString().equals("Select Constitution",ignoreCase = true))
+        {
+            Toast.makeText(context!!,"Select Constitution to continue",Toast.LENGTH_LONG).show()
+            progressBar.dismmissLoading()
+            return
+        }
             val postBody = BusinessDetailsPostData(
               resubmit = "",
             bname = firm_name_input?.text?.toString(),

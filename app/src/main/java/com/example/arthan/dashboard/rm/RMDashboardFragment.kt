@@ -109,6 +109,7 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                 if(ArthanApp.getAppInstance().loginRole=="AM")
                 {
                     AMDetailsLL.visibility=View.VISIBLE
+                    am_categoryLL.visibility=View.VISIBLE
                     /* if (data.amApproved!=null&&data.amApproved.toLowerCase() == "no"){
                          (activity as RMDashboardActivity).hideAddAM(true)
                      }else
@@ -120,6 +121,8 @@ class RMDashboardFragment : BaseFragment(), View.OnClickListener {
                     myRm.text="My RM: "+data.amRm
                     contact.text="Contact:  "+data.amRmContact
                     status.text = "Status: "+data.amRmStatus
+                    amCategory.text="Category: ${activity?.intent?.getStringExtra("category")}"
+                    am_incentives.text="Incentives: ${activity?.intent?.getStringExtra("incentive")} "
 
                     if (data.amRmStatus == "Active")
                         (activity as RMDashboardActivity).btn_add_lead.visibility = View.VISIBLE

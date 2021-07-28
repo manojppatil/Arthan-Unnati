@@ -138,7 +138,10 @@ class SplashActivity : AppCompatActivity() {
                                                     Intent(
                                                         this@SplashActivity,
                                                         RMDashboardActivity::class.java
-                                                    )
+                                                    ).apply {
+                                                        putExtra("category",response.body()!!.category)
+                                                        putExtra("incentive",response.body()!!.incentive)
+                                                    }
                                                 )
                                                 finish()
                                             } else {

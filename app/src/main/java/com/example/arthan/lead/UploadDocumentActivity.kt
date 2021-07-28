@@ -71,10 +71,10 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         loadImageIfExists()
 
         val code = intent.getIntExtra(DOC_TYPE, 0)
-        if(code==RequestCode.AadharCard)
+    /*    if(code==RequestCode.AadharCard)
         {
             btn_next.text="Save Aadhaar Back"
-        }
+        }*/
 
         btn_take_picture.setOnClickListener {
             val request = permissionsBuilder(
@@ -134,6 +134,14 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 )
                                     uploadToS3(mFrontImagePath!!, CardType.AadharCardFront)
                             }
+                            RequestCode.AadharCardBack -> {
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.AadharCardBack == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.AadharCardBack)
+                            }
                             RequestCode.PFP -> {
                                 if (uploadFront == null && mFrontImagePath != null && RequestCode.PFP == intent?.getIntExtra(
                                         DOC_TYPE,
@@ -169,7 +177,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             if (mCardData != null) {
 
                                 when (intent?.getIntExtra(DOC_TYPE, 0)) {
-                                    RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharFrontCard, RequestCode.AadharCard, RequestCode.VoterCard -> {
+                                    RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharCardBack,RequestCode.AadharFrontCard, RequestCode.AadharCard, RequestCode.VoterCard -> {
                                         if (mCardData!!.status == "OK") {
 
                                             continueResult = true
@@ -240,6 +248,14 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 )
                                     uploadToS3(mFrontImagePath!!, CardType.AadharCardFront)
                             }
+                            RequestCode.AadharCardBack -> {
+                                if (uploadFront == null && mFrontImagePath != null && RequestCode.AadharCardBack == intent?.getIntExtra(
+                                        DOC_TYPE,
+                                        0
+                                    )
+                                )
+                                    uploadToS3(mFrontImagePath!!, CardType.AadharCardBack)
+                            }
                             RequestCode.PFP -> {
                                 if (uploadFront == null && mFrontImagePath != null && RequestCode.PFP == intent?.getIntExtra(
                                         DOC_TYPE,
@@ -261,9 +277,9 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 RequestCode.VoterCard -> {
                                     captureCardInfoAsync(it, CardType.VoterIdCard)
                                 }
-                                RequestCode.AadharCard -> {
+                              /*  RequestCode.AadharCard -> {
                                     captureCardInfoAsync(it, CardType.AadharCardFront)
-                                }
+                                }*/
                                 RequestCode.PFP -> {
                                     captureCardInfoAsync(it, CardType.PFP)
                                 }
@@ -274,12 +290,13 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         }
                     }
                     if (intent.getStringExtra("skip") != null) {
-                        if (uploadFront == null && mBackImagePath != null && RequestCode.AadharBackCard == intent?.getIntExtra(
+//                        if (uploadFront == null && mBackImagePath != null && RequestCode.AadharBackCard == intent?.getIntExtra(
+                        if (uploadFront == null && mBackImagePath != null && RequestCode.AadharCardBack == intent?.getIntExtra(
                                 DOC_TYPE,
                                 0
                             )
                         )
-                            uploadToS3(mBackImagePath!!, CardType.AadharCardFront)
+                            uploadToS3(mBackImagePath!!, CardType.AadharCardBack)
 
                     } else {
                         val uploadBack: Deferred<Unit>? = mBackImagePath?.let {
@@ -571,7 +588,8 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     intent.action = Intent.ACTION_GET_CONTENT
                     startActivityForResult(
                         Intent.createChooser(intent, "Select Picture"),
-                        if (getIntent()?.getIntExtra(DOC_TYPE, 0) == RequestCode.AadharCard) {
+                        getIntent()?.getIntExtra(DOC_TYPE, 0) ?: 0
+                       /* if (getIntent()?.getIntExtra(DOC_TYPE, 0) == RequestCode.AadharCard) {
                             if (mFrontImagePath == null) {
                                 RequestCode.AadharFrontCard
                             } else {
@@ -579,7 +597,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             }
                         } else {
                             getIntent()?.getIntExtra(DOC_TYPE, 0) ?: 0
-                        }
+                        }*/
                     )
                 }
                 onDenied {
@@ -615,15 +633,16 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         img_clear_front.visibility = View.GONE
         img_clear_back.visibility = View.GONE
 
-        if (intent.getIntExtra(DOC_TYPE, 0) == RequestCode.AadharCard)
+        /*if (intent.getIntExtra(DOC_TYPE, 0) == RequestCode.AadharCard)
             fl_document_back.visibility = View.VISIBLE
-        else
+        else*/
             fl_document_back.visibility = View.GONE
 
         val docName = when (intent.getIntExtra(DOC_TYPE, 0)) {
             RequestCode.PanCard -> "PAN Card"
 
             RequestCode.AadharCard -> "Aadhar Card"
+            RequestCode.AadharCardBack -> "Aadhar Card Back"
             RequestCode.VoterCard -> "Voter ID"
             RequestCode.ApplicantPhoto -> "Applicant Photo_${intent.getStringExtra("applicant_type") ?: "PA"}"
             RequestCode.CrossedCheque -> "Crossed Cheque"
@@ -654,6 +673,10 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 resultIntent.putExtra(ArgumentKey.PanDetails, mCardData)
             }
             RequestCode.AadharCard -> {
+                resultIntent.putExtra(ArgumentKey.AadharDetails, mCardData)
+                resultIntent.putExtra(ArgumentKey.AadharDetailsBack, mCardDataBack)
+            }
+            RequestCode.AadharCardBack -> {
                 resultIntent.putExtra(ArgumentKey.AadharDetails, mCardData)
                 resultIntent.putExtra(ArgumentKey.AadharDetailsBack, mCardDataBack)
             }
@@ -858,6 +881,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         RequestCode.Passport -> "${dir.absolutePath}/passport_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
                         RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
                         RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.AadharCardBack -> "${dir.absolutePath}/IMG_AADHAR_REAR_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
                         RequestCode.PFP -> "${dir.absolutePath}/PFP.jpg"
                         RequestCode.DrivingLicense -> "${dir.absolutePath}/driving_license.jpg"
                         RequestCode.VoterCard -> "${dir.absolutePath}/voterId_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
@@ -917,6 +941,24 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
+                RequestCode.AadharCardBack -> {
+                    if (data?.hasExtra(ArgumentKey.FilePath) == true) {
+//                        loadImage(data?.getStringExtra(ArgumentKey.FilePath), img_document_back)
+                        loadImage(data?.getStringExtra(ArgumentKey.FilePath), img_document_front)
+                        //  img_clear_back?.visibility = View.VISIBLE
+                        changeButtonVisibility()
+                        mBackImagePath = data?.getStringExtra(ArgumentKey.FilePath)
+                    } else {
+                        data?.data?.let { uri ->
+//                            loadImage(this, img_document_back, uri, {
+                            loadImage(this, img_document_front, uri, {
+                                mBackImagePath = it
+                                //      img_clear_back?.visibility = View.VISIBLE
+                                  changeButtonVisibility()
+                            })
+                        }
+                    }
+                }
                 MyProfileActivity.PICK_IMAGE, RequestCode.PanCard, RequestCode.PFP, RequestCode.VoterCard,
                 RequestCode.ApplicantPhoto, RequestCode.CrossedCheque, RequestCode.DrivingLicense, RequestCode.Passport,
                 RequestCode.electricityBill,
@@ -964,7 +1006,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         ))
                         loadImage(mFrontImagePath, img_document_front)
                         img_clear_front?.visibility = View.VISIBLE
-                        if (requestCode == RequestCode.AadharFrontCard) {
+                       /* if (requestCode == RequestCode.AadharFrontCard) {
                             btn_next_front.visibility=View.VISIBLE
                             btn_next_front.text="Save Aadhaar Front"
 
@@ -978,14 +1020,14 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             changeButtonVisibility()
 
 
-                        }
+                        }*/
                     } else {
                         data?.data?.let { uri ->
                             compressImage(uri)
                             loadImage(this, img_document_front, uri, {
                                 mFrontImagePath = it
                                 img_clear_front?.visibility = View.VISIBLE
-                                if (requestCode == RequestCode.AadharFrontCard) {
+                               /* if (requestCode == RequestCode.AadharFrontCard) {
                                     btn_next_front.visibility=View.VISIBLE
 
                                 }
@@ -999,28 +1041,13 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 {
                                     changeButtonVisibility()
 
-                                }
+                                }*/
                             })
                         }
 
                     }
                 }
-                RequestCode.AadharBackCard -> {
-                    if (data?.hasExtra(ArgumentKey.FilePath) == true) {
-                        loadImage(data?.getStringExtra(ArgumentKey.FilePath), img_document_back)
-                        img_clear_back?.visibility = View.VISIBLE
-                        changeButtonVisibility()
-                        mBackImagePath = data?.getStringExtra(ArgumentKey.FilePath)
-                    } else {
-                        data?.data?.let { uri ->
-                            loadImage(this, img_document_back, uri, {
-                                mBackImagePath = it
-                                img_clear_back?.visibility = View.VISIBLE
-                                changeButtonVisibility()
-                            })
-                        }
-                    }
-                }
+
             }
         }
     }

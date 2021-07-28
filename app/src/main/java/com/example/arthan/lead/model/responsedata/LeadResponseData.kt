@@ -9,5 +9,9 @@ data class LeadResponseData(
     val error: String?,
     val message: String?,
     val canNavigate: String?,
-    val path: String?
+    val path: String?,
+    val minLoanAmount: String?,
+    val maxLoanAmount: String?,
+    val minTenure: String?,
+    val maxTenure: String?
 )

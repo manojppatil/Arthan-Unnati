@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.arthan.R
+import com.example.arthan.dashboard.bcm.ExpandableListAdapterCoApps
 import com.example.arthan.dashboard.bm.adapter.*
 import com.example.arthan.global.ArthanApp
 import com.example.arthan.lead.model.postdata.DocScreeningStatusPost
@@ -69,6 +70,8 @@ class DocumentVerificationFragmentNew : BaseFragment() {
         coapp.setBackgroundResource(R.color.disable_text)
         primaryKycLL.visibility=View.VISIBLE
         rvCoAppsKyc.visibility=View.GONE
+        lvExp.visibility=View.GONE
+
         primaryApp.setOnClickListener {
             primaryApp.setTextColor(Color.WHITE)
             primaryApp.setBackgroundResource(R.color.colorPrimary)
@@ -76,6 +79,7 @@ class DocumentVerificationFragmentNew : BaseFragment() {
             coapp.setBackgroundResource(R.color.disable_text)
             primaryKycLL.visibility=View.VISIBLE
             rvCoAppsKyc.visibility=View.GONE
+            lvExp.visibility=View.GONE
         }
         coapp.setOnClickListener {
             primaryApp.setTextColor(Color.BLACK)
@@ -83,7 +87,9 @@ class DocumentVerificationFragmentNew : BaseFragment() {
             coapp.setTextColor(Color.WHITE)
             coapp.setBackgroundResource(R.color.colorPrimary)
             primaryKycLL.visibility=View.GONE
-            rvCoAppsKyc.visibility=View.VISIBLE
+//            rvCoAppsKyc.visibility=View.VISIBLE
+            lvExp.visibility=View.VISIBLE
+
         }
 
 
@@ -185,7 +191,16 @@ class DocumentVerificationFragmentNew : BaseFragment() {
         DocumentVerificationFragmentNew.context=bmDocumentVerificationActivity
         rvBusinessDocs.adapter=BMVerificationBizDocsAdapter(bmDocumentVerificationActivity,businessDocs!!)
        rvKycDocs.adapter=BMVerificationkycDocsAdapter(bmDocumentVerificationActivity,kycDocs!!)
-        rvCoAppsKyc.adapter=BMCoAppKycDocsAdapter(bmDocumentVerificationActivity,coAppKycDocs!!)
+//        rvCoAppsKyc.adapter=BMCoAppKycDocsAdapter(bmDocumentVerificationActivity,coAppKycDocs!!)
+         val _listDataHeader: ArrayList<String> = ArrayList()
+         val _listDataChild: HashMap<String, RequireDocs> = HashMap()
+        for(i in 0 until coAppKycDocs?.size!! )
+        {
+            _listDataHeader.add(coAppKycDocs[i].loanId)
+            _listDataChild[coAppKycDocs[i].loanId] = coAppKycDocs[i]
+        }
+        val expAdapter=ExpandableListAdapterCoApps(activity!!,coAppKycDocs,_listDataHeader,_listDataChild)
+        lvExp.setAdapter(expAdapter)
        rvResDocs.adapter=BMVerificationResidentialDocsAdapter(bmDocumentVerificationActivity,residentialDocs!!)
        rvbizPremDocs.adapter=BMVerificationBussPremisesDocsAdapter(bmDocumentVerificationActivity,bussPremisesDocs!!)
 

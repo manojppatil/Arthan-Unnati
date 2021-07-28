@@ -19,6 +19,10 @@ class ShowPDFActivity : AppCompatActivity() {
 //        webview.settings.javaScriptEnabled = true;
 //        webview.loadUrl("http://www.google.com");
         toolbar_title.text="Graph"
+        if(intent.getStringExtra("title")!=null)
+        {
+            toolbar_title.text=intent.getStringExtra("title")
+        }
         var webSettings=webview.settings
         webSettings.javaScriptEnabled = true
         webSettings.setSupportMultipleWindows(true) // This forces ChromeClient enabled.

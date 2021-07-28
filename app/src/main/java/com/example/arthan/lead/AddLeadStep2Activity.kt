@@ -68,11 +68,21 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
                     putExtra(DOC_TYPE, RequestCode.AadharCard)
                     putExtra("show", mKYCPostData?.aadharFrontUrl)
-                    putExtra("show2", mKYCPostData?.aadharBackUrl)
+//                    putExtra("show2", mKYCPostData?.aadharBackUrl)
                     putExtra("applicant_type", aplicantType ?: "PA")
 
 
                 }, RequestCode.AadharCard)
+            }
+            R.id.txt_aadhar_card_back -> {
+                startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
+                    putExtra(DOC_TYPE, RequestCode.AadharCardBack)
+//                    putExtra("show", mKYCPostData?.aadharFrontUrl)
+                    putExtra("show2", mKYCPostData?.aadharBackUrl)
+                    putExtra("applicant_type", aplicantType ?: "PA")
+
+
+                }, RequestCode.AadharCardBack)
             }
             R.id.txt_voter_id -> {
                 startActivityForResult(Intent(this, UploadDocumentActivity::class.java).apply {
@@ -106,6 +116,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
 
         txt_pan_card.setOnClickListener(this)
         txt_aadhar_card.setOnClickListener(this)
+        txt_aadhar_card_back.setOnClickListener(this)
         txt_voter_id.setOnClickListener(this)
         txt_applicant_phot.setOnClickListener(this)
 
@@ -137,7 +148,13 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
         map["loanId"]=loanId
         map["applicantType"]=intent.getStringExtra("type") ?: "PA"
         CoroutineScope(Dispatchers.IO).launch {
-            val response=RetrofitFactory.getApiService().getCustomerId(map)
+
+            val response=if(intent.getStringExtra("task")=="documentsAddCo"||intent.getStringExtra("task")=="RMreJourney"||intent.getStringExtra("task")=="RMContinue"){
+                RetrofitFactory.getApiService().getCustomerId2(map)
+            }else{
+                RetrofitFactory.getApiService().getCustomerId(map)
+
+            }
             if(response.body()!=null)
             {
                 loanId=response.body()!!.loanId!!
@@ -258,6 +275,72 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     checkForProceed()
                 }
             }
+            RequestCode.AadharCardBack -> {
+                data?.let {
+                    if (mKYCPostData == null) {
+                        mKYCPostData = KYCPostData(
+                           /* loanId = intent.getStringExtra("loanId"),
+                            customerId = intent.getStringExtra("custId")*/
+                        loanId,
+                            custId
+                        )
+                    }
+                    val aadharCardData =
+                        it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetails) as CardResponse
+                    val aadharCardDataBack =
+                        it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack) as CardResponse
+
+                    mKYCPostData?.aadharAddress =
+                        aadharCardDataBack?.results?.get(0)?.cardInfo?.address
+                    mKYCPostData?.aadharId = aadharCardData?.results?.get(0)?.cardInfo?.cardNo
+                    mKYCPostData?.aadharFrontUrl = aadharCardData?.cardFrontUrl
+                    mKYCPostData?.aadharBackUrl = aadharCardDataBack?.cardBackUrl
+                    mKYCPostData?.aadharVerified = aadharCardData?.status
+                    var aadharCardBack: CardInfo? = null
+                    for (index in 0 until (aadharCardData?.results?.size ?: 0)) {
+                        if (aadharCardDataBack?.results?.get(index)?.cardSide?.equals(
+                                "back",
+                                ignoreCase = true
+                            ) == true
+                        ) {
+                            aadharCardBack = aadharCardDataBack?.results?.get(index)?.cardInfo
+                        }
+                    }
+                    AppPreferences.getInstance().also { ap ->
+                        ap.addString(AppPreferences.Key.Pincode, aadharCardBack?.pin)
+                        ap.addString(
+                            AppPreferences.Key.AddressLine1,
+                            aadharCardBack?.addressLineOne
+                        )
+                        ap.addString(
+                            AppPreferences.Key.AddressLine2,
+                            aadharCardBack?.addressLineTwo
+                        )
+                        ap.addString(AppPreferences.Key.City, aadharCardBack?.city)
+                        ap.addString(AppPreferences.Key.State, aadharCardBack?.state)
+                    }
+                    mKYCPostData?.pincode=aadharCardBack?.pin
+                    mKYCPostData?.state=aadharCardBack?.state
+                    mKYCPostData?.city=aadharCardBack?.city
+                    mKYCPostData?.district=aadharCardBack?.district
+                    mKYCPostData?.address_line1=aadharCardBack?.addressLineOne
+                    mKYCPostData?. address_line2=aadharCardBack?.addressLineTwo
+                    mKYCPostData?.landmark=aadharCardBack?.landmark
+                    mKYCPostData?.areaName=aadharCardBack?.areaName
+
+
+                    txt_aadhar_card_back.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_document_attached,
+                        0,
+                        0,
+                        0
+                    )
+                    //   adhar_accepted.visibility=View.VISIBLE
+
+                    txt_aadhar_card_back.setTextColor(ContextCompat.getColor(this, R.color.black))
+                    checkForProceed()
+                }
+            }
             RequestCode.VoterCard ->{
                 data?.let {
                     if (mKYCPostData == null) {
@@ -287,6 +370,12 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
             RequestCode.ApplicantPhoto -> {
 
                 data?.let {
+                    if (mKYCPostData == null) {
+                        mKYCPostData = KYCPostData(
+                            loanId = intent.getStringExtra("loanId"),
+                            customerId = intent.getStringExtra("custId")
+                        )
+                    }
 
                     val applicantData: CardResponse? =
                         it.getParcelableExtra(ArgumentKey.ApplicantPhoto) as? CardResponse
@@ -388,11 +477,21 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 mKYCPostData?.applicantType = aplicantType
                 val map=HashMap<String,String>()
                 map["loanId"]=mKYCPostData?.loanId!!
-                map["customerId"]=mKYCPostData?.customerId!!
+                if(intent.getStringExtra("task")!="documentsAddCo") {
+                    if(mKYCPostData?.customerId!=null)
+                    map["customerId"] = mKYCPostData?.customerId!!
+                }
                 map["applicantType"]=aplicantType
                 map["paApplicantPhoto"]=mKYCPostData?.paApplicantPhoto!!
 //                val response = RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)
-                val response = RetrofitFactory.getApiService().saveKycDetail(map)
+
+                val response = if(intent.getStringExtra("task")=="documentsAddCo")
+                {
+                    RetrofitFactory.getApiService().updateKYCDocs(map)
+
+                }else{
+                    RetrofitFactory.getApiService().saveKycDetail(map)
+                }
                 if (response?.isSuccessful == true) {
                     val result = response.body()
                     withContext(Dispatchers.Main) {
@@ -492,7 +591,7 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                         )
                         stopLoading(
                             progressBar!!,
-                            "Smething went wrong with api!!!"/*result?.message*/
+                            "Error in response--${response?.errorBody()}"/*result?.message*/
                         )
                     } catch (e: Exception) {
                         e.printStackTrace()

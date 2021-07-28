@@ -10,7 +10,8 @@
     <string name="upload_shop_photos">Upload Shop Photos+</string>
     <string name="start_adding_the_details_of_your_125th_sale_choose_any_one_of_the_following_to_continue">Start adding the details of your 125th Sale . Choose any one of the following to continue.</string>
     <string name="pan_card">PAN Card</string>
-    <string name="aadhar_card">Aadhar Card</string>
+    <string name="aadhar_card">Aadhar Card Front</string>
+    <string name="aadhar_card_back">Aadhar Card Back</string>
     <string name="voter_id">Voter ID</string>
     <string name="capture_the_original_pan_card_within_the_provided_box">Capture the original %1$s within the provided box.</string>
     <string name="attach_documents">Attach Documents</string>
@@ -399,6 +400,6 @@
     <string name="remarksView"><u>Click to view</u></string>
     <string name="clickToAddCA"><u> click here to add a new Applicant </u></string>
     <string name="kyc_consent">I, %s having Emp ID/Partner ID %s hereby declare that I have seen all the original documents, verified their genuinity  and taken photographs for the purpose of loan processing.</string>
-    <string name="code_conduct">I agree to follow the "<u>Code of conduct of arthan</u>"</string>
+    <string name="code_conduct">I agree to follow the Code of conduct of arthan</string>
     <string name="terms_agreement"> By ticking and submitting I agrees to the "<u>terms and conditions of the agreement </u>"</string>
 </resources>

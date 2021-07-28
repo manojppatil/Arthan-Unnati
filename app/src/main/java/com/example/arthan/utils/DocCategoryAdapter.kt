@@ -35,7 +35,7 @@ class DocCategoryAdapter(
                 responseData!!.docCategories[position]
             root.setOnClickListener {
 
-                if(responseData.docCategories[position].startsWith("Co-Applicant"))
+                if(responseData.docCategories[position].startsWith("Co-Applicant")||responseData.docCategories[position].startsWith("Guarantor"))
                 {
                     when(responseData.docCategories[position]){
 

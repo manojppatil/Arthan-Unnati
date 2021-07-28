@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#f4f4f4">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+       >
+
 
  <LinearLayout
     android:layout_width="match_parent"
@@ -36,13 +36,19 @@
          android:textColor="@color/black"
          android:text="Co-Applicant"/>
 </LinearLayout>
-    <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tabs"
+
+            android:fillViewport="true">
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:visibility="gone"
         android:id="@+id/primaryKycLL"
-        android:layout_below="@+id/tabs"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -135,13 +141,23 @@
             android:paddingBottom="12dp"/>
 
     </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:layout_below="@+id/tabs"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/rvCoAppsKyc"/>
 
+
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:visibility="visible"
+            android:layout_below="@+id/tabs"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
     </RelativeLayout>
 
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>
