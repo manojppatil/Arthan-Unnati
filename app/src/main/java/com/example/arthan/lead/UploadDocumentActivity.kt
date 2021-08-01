@@ -71,10 +71,10 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         loadImageIfExists()
 
         val code = intent.getIntExtra(DOC_TYPE, 0)
-    /*    if(code==RequestCode.AadharCard)
-        {
-            btn_next.text="Save Aadhaar Back"
-        }*/
+        /*    if(code==RequestCode.AadharCard)
+            {
+                btn_next.text="Save Aadhaar Back"
+            }*/
 
         btn_take_picture.setOnClickListener {
             val request = permissionsBuilder(
@@ -100,7 +100,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             }
             request.send()
         }
-        btn_next_front.setOnClickListener {
+       /* btn_next_front.setOnClickListener {
             val progressLoader = ProgrssLoader(this)
             progressLoader.showLoading()
             CoroutineScope(ioContext).launch {
@@ -167,7 +167,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             }
                         }
                     }
-                        uploadFront?.await()
+                    uploadFront?.await()
 //
 
                     try {
@@ -177,7 +177,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             if (mCardData != null) {
 
                                 when (intent?.getIntExtra(DOC_TYPE, 0)) {
-                                    RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharCardBack,RequestCode.AadharFrontCard, RequestCode.AadharCard, RequestCode.VoterCard -> {
+                                    RequestCode.PanCard, RequestCode.AadharBackCard, RequestCode.AadharCardBack, RequestCode.AadharFrontCard, RequestCode.AadharCard, RequestCode.VoterCard -> {
                                         if (mCardData!!.status == "OK") {
 
                                             continueResult = true
@@ -192,7 +192,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 }
                             }
 
-                            if (continueResult&&(mCardData?.cardFrontUrl!=null)) {
+                            if (continueResult && (mCardData?.cardFrontUrl != null)) {
 //                                finishActivity(progressLoader)
                                 progressLoader.dismmissLoading()
                             } else {
@@ -213,7 +213,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     withContext(uiContext) { progressLoader.dismmissLoading() }
                 }
             }
-        }
+        }*/
         btn_next.setOnClickListener {
             val progressLoader = ProgrssLoader(this)
             progressLoader.showLoading()
@@ -277,9 +277,9 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 RequestCode.VoterCard -> {
                                     captureCardInfoAsync(it, CardType.VoterIdCard)
                                 }
-                              /*  RequestCode.AadharCard -> {
-                                    captureCardInfoAsync(it, CardType.AadharCardFront)
-                                }*/
+                                  RequestCode.AadharCard -> {
+                                      captureCardInfoAsync(it, CardType.AadharCardFront)
+                                  }
                                 RequestCode.PFP -> {
                                     captureCardInfoAsync(it, CardType.PFP)
                                 }
@@ -302,16 +302,16 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                         val uploadBack: Deferred<Unit>? = mBackImagePath?.let {
                             captureCardInfoAsync(it, CardType.AadharCardBack)
                         }
-                        if(RequestCode.AadharBackCard == intent?.getIntExtra(
+                        if (RequestCode.AadharCardBack == intent?.getIntExtra(
                                 DOC_TYPE,
                                 0
-                            )){
+                            )
+                        ) {
 //                            uploadFront?.await()
                             uploadBack?.await()
-                        }else
-                        {
+                        } else {
                             uploadFront?.await()
-                            uploadBack?.await()
+                         //   uploadBack?.await()
                         }
 
                     }
@@ -554,7 +554,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 }
                             }
 
-                            if (continueResult&&(mCardData?.cardFrontUrl!=null)) {
+                            if (continueResult && (mCardData?.cardFrontUrl != null)) {
                                 finishActivity(progressLoader)
                                 progressLoader.dismmissLoading()
                             } else {
@@ -588,16 +588,15 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     intent.action = Intent.ACTION_GET_CONTENT
                     startActivityForResult(
                         Intent.createChooser(intent, "Select Picture"),
-                        getIntent()?.getIntExtra(DOC_TYPE, 0) ?: 0
-                       /* if (getIntent()?.getIntExtra(DOC_TYPE, 0) == RequestCode.AadharCard) {
-                            if (mFrontImagePath == null) {
-                                RequestCode.AadharFrontCard
-                            } else {
-                                RequestCode.AadharBackCard
-                            }
-                        } else {
-                            getIntent()?.getIntExtra(DOC_TYPE, 0) ?: 0
-                        }*/
+//                        getIntent()?.getIntExtra(DOC_TYPE, 0) ?: 0
+                         if (getIntent()?.getIntExtra(DOC_TYPE, 0) == RequestCode.AadharCard) {
+                                 RequestCode.AadharFrontCard
+//                             } /*else {
+//                                 RequestCode.AadharBackCard
+//                             }*/
+                         } else {
+                             getIntent()?.getIntExtra(DOC_TYPE, 0) ?: 0
+                         }
                     )
                 }
                 onDenied {
@@ -622,7 +621,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
             img_clear_front?.visibility = View.GONE
 
             btn_next?.visibility = View.GONE
-            btn_next_front.visibility=View.GONE
+            btn_next_front.visibility = View.GONE
             btn_take_picture?.visibility = View.VISIBLE
             btn_attach_document?.isEnabled = true
             Glide.with(this).clear(img_document_front)
@@ -636,7 +635,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
         /*if (intent.getIntExtra(DOC_TYPE, 0) == RequestCode.AadharCard)
             fl_document_back.visibility = View.VISIBLE
         else*/
-            fl_document_back.visibility = View.GONE
+        fl_document_back.visibility = View.GONE
 
         val docName = when (intent.getIntExtra(DOC_TYPE, 0)) {
             RequestCode.PanCard -> "PAN Card"
@@ -801,7 +800,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
 
     private fun navigateToCamera(reqCode: Int) {
 
-        if (reqCode.equals(RequestCode.ApplicantPhoto)&&ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase()!="yes") {
+        if (reqCode.equals(RequestCode.ApplicantPhoto) && ArthanApp.getAppInstance().loginRole == "AM" && ArthanApp.getAppInstance().onboarded.toLowerCase() != "yes") {
             startActivityForResult(Intent(this, FrontCameraActivity::class.java).apply {
                 putExtra(DOC_TYPE, reqCode)
                 val dir = File(
@@ -815,13 +814,33 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     dir.mkdirs()
                 putExtra(
                     ArgumentKey.FilePath, when (reqCode) {
-                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
-                        RequestCode.Passport -> "${dir.absolutePath}/passport_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
-                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
-                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
+                        RequestCode.Passport -> "${dir.absolutePath}/passport_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
+                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
+                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
                         RequestCode.PFP -> "${dir.absolutePath}/PFP.jpg"
                         RequestCode.DrivingLicense -> "${dir.absolutePath}/driving_license.jpg"
-                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
 
                         RequestCode.electricityBill -> "${dir.absolutePath}/electricityBill.jpg"
                         RequestCode.waterBill -> "${dir.absolutePath}/waterBill.jpg"
@@ -877,14 +896,38 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                     dir.mkdirs()
                 putExtra(
                     ArgumentKey.FilePath, when (reqCode) {
-                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
-                        RequestCode.Passport -> "${dir.absolutePath}/passport_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
-                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
-                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
-                        RequestCode.AadharCardBack -> "${dir.absolutePath}/IMG_AADHAR_REAR_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.PanCard -> "${dir.absolutePath}/IMG_PAN_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
+                        RequestCode.Passport -> "${dir.absolutePath}/passport_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
+                        RequestCode.AadharFrontCard -> "${dir.absolutePath}/IMG_AADHAR_FRONT_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
+                        RequestCode.AadharBackCard -> "${dir.absolutePath}/IMG_AADHAR_REAR_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
+                        RequestCode.AadharCardBack -> "${dir.absolutePath}/IMG_AADHAR_REAR_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
                         RequestCode.PFP -> "${dir.absolutePath}/PFP.jpg"
                         RequestCode.DrivingLicense -> "${dir.absolutePath}/driving_license.jpg"
-                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId_${intent.getStringExtra("applicant_type") ?: "PA"}.jpg"
+                        RequestCode.VoterCard -> "${dir.absolutePath}/voterId_${
+                            intent.getStringExtra(
+                                "applicant_type"
+                            ) ?: "PA"
+                        }.jpg"
 
                         RequestCode.electricityBill -> "${dir.absolutePath}/electricityBill.jpg"
                         RequestCode.waterBill -> "${dir.absolutePath}/waterBill.jpg"
@@ -954,7 +997,7 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             loadImage(this, img_document_front, uri, {
                                 mBackImagePath = it
                                 //      img_clear_back?.visibility = View.VISIBLE
-                                  changeButtonVisibility()
+                                changeButtonVisibility()
                             })
                         }
                     }
@@ -1000,13 +1043,16 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                 RequestCode.AadharFrontCard -> {
                     if (data?.hasExtra(ArgumentKey.FilePath) == true) {
                         mFrontImagePath = data?.getStringExtra(ArgumentKey.FilePath)
-                        compressImage(FileProvider.getUriForFile(
+                        compressImage(
+                            FileProvider.getUriForFile(
                                 this, this.applicationContext?.packageName + ".provider",
-                        File(mFrontImagePath)
-                        ))
+                                File(mFrontImagePath)
+                            )
+                        )
                         loadImage(mFrontImagePath, img_document_front)
                         img_clear_front?.visibility = View.VISIBLE
-                       /* if (requestCode == RequestCode.AadharFrontCard) {
+                        changeButtonVisibility()
+                        /* if (requestCode == RequestCode.AadharFrontCard) {
                             btn_next_front.visibility=View.VISIBLE
                             btn_next_front.text="Save Aadhaar Front"
 
@@ -1027,7 +1073,9 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                             loadImage(this, img_document_front, uri, {
                                 mFrontImagePath = it
                                 img_clear_front?.visibility = View.VISIBLE
-                               /* if (requestCode == RequestCode.AadharFrontCard) {
+                                changeButtonVisibility()
+
+                                /* if (requestCode == RequestCode.AadharFrontCard) {
                                     btn_next_front.visibility=View.VISIBLE
 
                                 }
@@ -1044,751 +1092,755 @@ class UploadDocumentActivity : AppCompatActivity(), CoroutineScope {
                                 }*/
                             })
                         }
-
                     }
-                }
 
+                }
             }
         }
     }
 
-    private fun loadImage(filePath: String?, imageView: ImageView) {
-        Glide.with(this)
-            .load(filePath)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
-            .into(imageView)
-    }
+        private fun loadImage(filePath: String?, imageView: ImageView) {
+            Glide.with(this)
+                .load(filePath)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(imageView)
+        }
 
-    private fun changeButtonVisibility() {
-        btn_take_picture?.visibility = View.GONE
-        btn_attach_document?.isEnabled = false
-        btn_next?.visibility = View.VISIBLE
-    }
+        private fun changeButtonVisibility() {
+            btn_take_picture?.visibility = View.GONE
+            btn_attach_document?.isEnabled = false
+            btn_next?.visibility = View.VISIBLE
+        }
 
-    private fun captureCardInfoAsync(
-        filePath: String,
-        cardType: CardType
-    ): Deferred<Unit> =
-        async(ioContext) {
-            //  if(shopUri != null) {
+        private fun captureCardInfoAsync(
+            filePath: String,
+            cardType: CardType
+        ): Deferred<Unit> =
+            async(ioContext) {
+                //  if(shopUri != null) {
 //            val apiService = RetrofitFactory.getMasterApiService()
-            val apiService = RetrofitFactory.getApiService()
-            try {
-                //val stream=  contentResolver?.openInputStream(shopUri!!)
-                val bm = BitmapFactory.decodeStream(FileInputStream(File(filePath)))
-                val base64 = BitmapUtils.getBase64(bm)
-                val file = File(filePath)
-                val requestBody: RequestBody =
-                    RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                val multiPartBody =
-                    MultipartBody.Part.createFormData("file", file.name, requestBody)
-                val map=HashMap<String,String>()
-                if(ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase() != "yes")
-                {
-                    map["amId"]=ArthanApp.getAppInstance().loginUser
-                    map["loanId"]=ArthanApp.getAppInstance().loginUser
-                }else {
-                    map["loanId"] =
-                        AppPreferences.getInstance().getString(AppPreferences.Key.LoanId) ?: ""
-                }
-                map["customerId"]=AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)?:""
-                map["userId"]=ArthanApp.getAppInstance().loginUser  //Logged in userId
-                map["imageBase64"]=base64
-                when (cardType) {
-                    CardType.PANCard -> {
-                        map["idType"]="PAN"    //PAN/AF/AB/VOTER/ApplicantPhoto
+                val apiService = RetrofitFactory.getApiService()
+                try {
+                    //val stream=  contentResolver?.openInputStream(shopUri!!)
+                    val bm = BitmapFactory.decodeStream(FileInputStream(File(filePath)))
+                    val base64 = BitmapUtils.getBase64(bm)
+                    val file = File(filePath)
+                    val requestBody: RequestBody =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val multiPartBody =
+                        MultipartBody.Part.createFormData("file", file.name, requestBody)
+                    val map = HashMap<String, String>()
+                    if (ArthanApp.getAppInstance().loginRole == "AM" && ArthanApp.getAppInstance().onboarded.toLowerCase() != "yes") {
+                        map["amId"] = ArthanApp.getAppInstance().loginUser
+                        map["loanId"] = ArthanApp.getAppInstance().loginUser
+                    } else {
+                        map["loanId"] =
+                            AppPreferences.getInstance().getString(AppPreferences.Key.LoanId) ?: ""
+                    }
+                    map["customerId"] =
+                        AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId) ?: ""
+                    map["userId"] = ArthanApp.getAppInstance().loginUser  //Logged in userId
+                    map["imageBase64"] = base64
+                    when (cardType) {
+                        CardType.PANCard -> {
+                            map["idType"] = "PAN"    //PAN/AF/AB/VOTER/ApplicantPhoto
 
 //                        apiService.getPANCardInfo(OcrRequest(base64))
-                    }
-                    CardType.AadharCardFront-> {
-                        map["idType"]="AF"    //PAN/AF/AB/VOTER/ApplicantPhoto
+                        }
+                        CardType.AadharCardFront -> {
+                            map["idType"] = "AF"    //PAN/AF/AB/VOTER/ApplicantPhoto
 
-                    }
-                    CardType.AadharCardBack -> {
-                        map["idType"]="AB"    //PAN/AF/AB/VOTER/ApplicantPhoto
+                        }
+                        CardType.AadharCardBack -> {
+                            map["idType"] = "AB"    //PAN/AF/AB/VOTER/ApplicantPhoto
 
-                    }
-                    CardType.VoterIdCard -> {
-                        map["idType"]="VOTER"    //PAN/AF/AB/VOTER/ApplicantPhoto
+                        }
+                        CardType.VoterIdCard -> {
+                            map["idType"] = "VOTER"    //PAN/AF/AB/VOTER/ApplicantPhoto
 
-                    }else->
-                {
-                    ""
-                }}
-                map["applicantType"]= intent.getStringExtra("applicant_type") ?: "PA"  //PA/CA/G
-                val response = apiService.getVerifyKYCDocs(map)
-
-
-
-                /*when (cardType) {
-                    CardType.PANCard -> {
-                        apiService.getVerifyKYCDocs(map)
-//                        apiService.getPANCardInfo(OcrRequest(base64))
-                    }
-                    CardType.AadharCardFront, CardType.AadharCardBack -> {
-                        apiService.getAadharCardInfo(OcrRequest(base64))
-                    }
-                    CardType.VoterIdCard -> {
-                        apiService.getVoterCardInfo(OcrRequest(base64))
-                    }
-
-                    else -> {
-                        null
-                    }
-                }*/
-                if (response != null && response.isSuccessful&&response.body()?.kycStatus!="InValid") {
-                    if(cardType==CardType.PANCard&&ArthanApp.getAppInstance().loginRole=="RM")
-                    {
-                        AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,response.body()?.loanId)
-                        AppPreferences.getInstance().addString(AppPreferences.Key.CustomerId,response.body()?.customerId)
-                    }
-                     if(ArthanApp.getAppInstance().loginRole=="AM")
-                    {
-                        AppPreferences.getInstance().addString(AppPreferences.Key.LoanId,response.body()?.amId)
-                        AppPreferences.getInstance().addString(AppPreferences.Key.CustomerId,response.body()?.customerId)
-                    }
-                    if(cardType==CardType.AadharCardBack)
-                    {
-                        mCardDataBack = response.body()
-
-                    }else {
-                        mCardData = response.body()
-                    }
-                    withContext(Dispatchers.Main) {
-                        if (mCardData != null|| mCardDataBack!=null) {
-                            uploadToS3(filePath, cardType)
-                          /*  if (cardType == CardType.PANCard) {
-                                verifyCardDataAsync(filePath, cardType).await()
-                            } else {
-                                uploadToS3(filePath, cardType)
-                            }*/
-                        } else
-                            Toast.makeText(
-                                this@UploadDocumentActivity,
-                                "Please capture valid KYC",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        if (response.body()?.kycStatus == "InValid") {
-                            Toast.makeText(
-                                this@UploadDocumentActivity,
-                                response.body()?.apiMsg,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            Toast.makeText(
-                                this@UploadDocumentActivity,
-                                "Please Try again...",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        }
+                        else -> {
+                            ""
                         }
                     }
-                }
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                Crashlytics.log(e.message)
+                    map["applicantType"] =
+                        intent.getStringExtra("applicant_type") ?: "PA"  //PA/CA/G
+                    val response = apiService.getVerifyKYCDocs(map)
 
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@UploadDocumentActivity,
-                        "Please Try again...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Crashlytics.log(e.message)
 
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@UploadDocumentActivity,
-                        "Please Try again...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
+                    /*when (cardType) {
+                        CardType.PANCard -> {
+                            apiService.getVerifyKYCDocs(map)
+    //                        apiService.getPANCardInfo(OcrRequest(base64))
+                        }
+                        CardType.AadharCardFront, CardType.AadharCardBack -> {
+                            apiService.getAadharCardInfo(OcrRequest(base64))
+                        }
+                        CardType.VoterIdCard -> {
+                            apiService.getVoterCardInfo(OcrRequest(base64))
+                        }
 
-    private fun verifyCardDataAsync(
-        filePath: String,
-        cardType: CardType
-    ): Deferred<Unit> =
-        async(ioContext) {
-            val apiService = RetrofitFactory.getMasterApiService()
-            try {
-                val response = when (cardType) {
-                    CardType.PANCard -> {
-                        apiService.verifyPANCardInfo(hashMapOf<String, String?>().apply {
-                            put("pan", mCardData?.results?.get(0)?.cardInfo?.cardNo)
-                        })
-                    }
-                    CardType.AadharCardFront-> {
-                        apiService.verifyAAdharCardInfo(mCardData?.results?.get(0)?.cardInfo?.cardNo)
-                    }CardType.AadharCardBack -> {
-                        apiService.verifyAAdharCardInfo(mCardDataBack?.results?.get(0)?.cardInfo?.cardNo)
-                    }
-                    CardType.VoterIdCard -> {
-                        apiService.verifyVoterIdCardInfo(mCardData?.results?.get(0)?.cardInfo?.cardNo)
-                    }
-                    else -> {
-                        null
-                    }
-                }
-                withContext(Dispatchers.Main) {
-                    try {
-                        if (response != null && response.isSuccessful) {
+                        else -> {
+                            null
+                        }
+                    }*/
+                    if (response != null && response.isSuccessful && response.body()?.kycStatus != "InValid") {
+                        if (cardType == CardType.PANCard && ArthanApp.getAppInstance().loginRole == "RM") {
+                            AppPreferences.getInstance()
+                                .addString(AppPreferences.Key.LoanId, response.body()?.loanId)
+                            AppPreferences.getInstance().addString(
+                                AppPreferences.Key.CustomerId,
+                                response.body()?.customerId
+                            )
+                        }
+                        if (ArthanApp.getAppInstance().loginRole == "AM") {
+                            AppPreferences.getInstance()
+                                .addString(AppPreferences.Key.LoanId, response.body()?.amId)
+                            AppPreferences.getInstance().addString(
+                                AppPreferences.Key.CustomerId,
+                                response.body()?.customerId
+                            )
+                        }
+                        if (cardType == CardType.AadharCardBack) {
+                            mCardDataBack = response.body()
 
-                            val verifyResult = when (cardType) {
-                                CardType.VoterIdCard -> {
-                                    response.body()
-                                }
-                                else -> {
-                                    response.body()
-                                }
-                            }
-                            val result = (verifyResult as? VerifyVoterCardResponse)?.result
-                            if ((verifyResult is VerifyVoterCardResponse && verifyResult.result != null) ||
-                                (verifyResult is VerifyCardResponse && verifyResult.result != null)
-                            ) {
+                        } else {
+                            mCardData = response.body()
+                        }
+                        withContext(Dispatchers.Main) {
+                            if (mCardData != null || mCardDataBack != null) {
                                 uploadToS3(filePath, cardType)
-                            } else {
-                                if (cardType == CardType.PANCard) {
-
-                                    Toast.makeText(
-                                        this@UploadDocumentActivity,
-                                        "Capture Valid PAN Card",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-
-                                }else
+                                /*  if (cardType == CardType.PANCard) {
+                                      verifyCardDataAsync(filePath, cardType).await()
+                                  } else {
+                                      uploadToS3(filePath, cardType)
+                                  }*/
+                            } else
                                 Toast.makeText(
                                     this@UploadDocumentActivity,
                                     "Please capture valid KYC",
                                     Toast.LENGTH_SHORT
                                 ).show()
-
-                                /*if (cardType == CardType.PANCard) {
-
-                                    Toast.makeText(
-                                        this@UploadDocumentActivity,
-                                        "Case is rejected, since PAN is not Valid",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    startActivity(Intent(this@UploadDocumentActivity,RMDashboardActivity::class.java))
-                                   finish()
-                                } else
-                                    Toast.makeText(
-                                        this@UploadDocumentActivity,
-                                        "Please Try again...",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-*/
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            if (response.body()?.kycStatus == "InValid") {
+                                Toast.makeText(
+                                    this@UploadDocumentActivity,
+                                    response.body()?.apiMsg,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    this@UploadDocumentActivity,
+                                    "Please Try again...",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        } else
-                            Toast.makeText(
-                                this@UploadDocumentActivity,
-                                "Please Try again...",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        Crashlytics.log(e.message)
+                        }
+                    }
+                } catch (e: HttpException) {
+                    e.printStackTrace()
+                    Crashlytics.log(e.message)
 
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@UploadDocumentActivity,
+                            "Please Try again...",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Crashlytics.log(e.message)
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@UploadDocumentActivity,
+                            "Please Try again...",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                Crashlytics.log(e.message)
+            }
 
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@UploadDocumentActivity,
-                        "Please Try again...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Crashlytics.log(e.message)
+        private fun verifyCardDataAsync(
+            filePath: String,
+            cardType: CardType
+        ): Deferred<Unit> =
+            async(ioContext) {
+                val apiService = RetrofitFactory.getMasterApiService()
+                try {
+                    val response = when (cardType) {
+                        CardType.PANCard -> {
+                            apiService.verifyPANCardInfo(hashMapOf<String, String?>().apply {
+                                put("pan", mCardData?.results?.get(0)?.cardInfo?.cardNo)
+                            })
+                        }
+                        CardType.AadharCardFront -> {
+                            apiService.verifyAAdharCardInfo(mCardData?.results?.get(0)?.cardInfo?.cardNo)
+                        }
+                        CardType.AadharCardBack -> {
+                            apiService.verifyAAdharCardInfo(mCardDataBack?.results?.get(0)?.cardInfo?.cardNo)
+                        }
+                        CardType.VoterIdCard -> {
+                            apiService.verifyVoterIdCardInfo(mCardData?.results?.get(0)?.cardInfo?.cardNo)
+                        }
+                        else -> {
+                            null
+                        }
+                    }
+                    withContext(Dispatchers.Main) {
+                        try {
+                            if (response != null && response.isSuccessful) {
 
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@UploadDocumentActivity,
-                        "Please Try again...",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                                val verifyResult = when (cardType) {
+                                    CardType.VoterIdCard -> {
+                                        response.body()
+                                    }
+                                    else -> {
+                                        response.body()
+                                    }
+                                }
+                                val result = (verifyResult as? VerifyVoterCardResponse)?.result
+                                if ((verifyResult is VerifyVoterCardResponse && verifyResult.result != null) ||
+                                    (verifyResult is VerifyCardResponse && verifyResult.result != null)
+                                ) {
+                                    uploadToS3(filePath, cardType)
+                                } else {
+                                    if (cardType == CardType.PANCard) {
+
+                                        Toast.makeText(
+                                            this@UploadDocumentActivity,
+                                            "Capture Valid PAN Card",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                    } else
+                                        Toast.makeText(
+                                            this@UploadDocumentActivity,
+                                            "Please capture valid KYC",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                    /*if (cardType == CardType.PANCard) {
+
+                                        Toast.makeText(
+                                            this@UploadDocumentActivity,
+                                            "Case is rejected, since PAN is not Valid",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        startActivity(Intent(this@UploadDocumentActivity,RMDashboardActivity::class.java))
+                                       finish()
+                                    } else
+                                        Toast.makeText(
+                                            this@UploadDocumentActivity,
+                                            "Please Try again...",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+    */
+                                }
+                            } else
+                                Toast.makeText(
+                                    this@UploadDocumentActivity,
+                                    "Please Try again...",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Crashlytics.log(e.message)
+
+                        }
+                    }
+                } catch (e: HttpException) {
+                    e.printStackTrace()
+                    Crashlytics.log(e.message)
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@UploadDocumentActivity,
+                            "Please Try again...",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Crashlytics.log(e.message)
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@UploadDocumentActivity,
+                            "Please Try again...",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-        }
 
-    fun compressImage(imageUri: Uri): Uri?{
+        fun compressImage(imageUri: Uri): Uri? {
 
 
-        val file = copyFile(this, imageUri)
-        var path = ""
-        if (file != null) {
-            path = file.absolutePath
-        }
+            val file = copyFile(this, imageUri)
+            var path = ""
+            if (file != null) {
+                path = file.absolutePath
+            }
 //        val filePath = getRealPathFromURI(path)
-        var scaledBitmap: Bitmap? = null
-        val options = BitmapFactory.Options()
-        //      by setting this field as true, the actual bitmap pixels are not loaded in the memory. Just the bounds are loaded. If
+            var scaledBitmap: Bitmap? = null
+            val options = BitmapFactory.Options()
+            //      by setting this field as true, the actual bitmap pixels are not loaded in the memory. Just the bounds are loaded. If
 //      you try the use the bitmap here, you will get null.
-        options.inJustDecodeBounds = true
-        var bmp = BitmapFactory.decodeFile(path, options)
-        var actualHeight = options.outHeight
-        var actualWidth = options.outWidth
-        //      max Height and width values of the compressed image is taken as 816x612
-        val maxHeight = 816.0f
-        val maxWidth = 612.0f
-        var imgRatio = actualWidth / actualHeight.toFloat()
-        val maxRatio = maxWidth / maxHeight
-        //      width and height values are set maintaining the aspect ratio of the image
-        if (actualHeight > maxHeight || actualWidth > maxWidth) {
-            if (imgRatio < maxRatio) {
-                imgRatio = maxHeight / actualHeight
-                actualWidth = (imgRatio * actualWidth).toInt()
-                actualHeight = maxHeight.toInt()
-            } else if (imgRatio > maxRatio) {
-                imgRatio = maxWidth / actualWidth
-                actualHeight = (imgRatio * actualHeight).toInt()
-                actualWidth = maxWidth.toInt()
-            } else {
-                actualHeight = maxHeight.toInt()
-                actualWidth = maxWidth.toInt()
+            options.inJustDecodeBounds = true
+            var bmp = BitmapFactory.decodeFile(path, options)
+            var actualHeight = options.outHeight
+            var actualWidth = options.outWidth
+            //      max Height and width values of the compressed image is taken as 816x612
+            val maxHeight = 816.0f
+            val maxWidth = 612.0f
+            var imgRatio = actualWidth / actualHeight.toFloat()
+            val maxRatio = maxWidth / maxHeight
+            //      width and height values are set maintaining the aspect ratio of the image
+            if (actualHeight > maxHeight || actualWidth > maxWidth) {
+                if (imgRatio < maxRatio) {
+                    imgRatio = maxHeight / actualHeight
+                    actualWidth = (imgRatio * actualWidth).toInt()
+                    actualHeight = maxHeight.toInt()
+                } else if (imgRatio > maxRatio) {
+                    imgRatio = maxWidth / actualWidth
+                    actualHeight = (imgRatio * actualHeight).toInt()
+                    actualWidth = maxWidth.toInt()
+                } else {
+                    actualHeight = maxHeight.toInt()
+                    actualWidth = maxWidth.toInt()
+                }
             }
-        }
-        //      setting inSampleSize value allows to load a scaled down version of the original image
-        options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight)
-        //      inJustDecodeBounds set to false to load the actual bitmap
-        options.inJustDecodeBounds = false
-        //      this options allow android to claim the bitmap memory if it runs low on memory
-        options.inPurgeable = true
-        options.inInputShareable = true
-        options.inTempStorage = ByteArray(16 * 1024)
-        try { //          load the bitmap from its path
-            bmp = BitmapFactory.decodeFile(path, options)
-        } catch (exception: OutOfMemoryError) {
-            exception.printStackTrace()
-        }
-        try {
-            scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888)
-        } catch (exception: OutOfMemoryError) {
-            exception.printStackTrace()
-        }
-        val ratioX = actualWidth / options.outWidth.toFloat()
-        val ratioY = actualHeight / options.outHeight.toFloat()
-        val middleX = actualWidth / 2.0f
-        val middleY = actualHeight / 2.0f
-        val scaleMatrix = Matrix()
-        scaleMatrix.setScale(ratioX, ratioY, middleX, middleY)
-        val canvas = Canvas(scaledBitmap!!)
-        canvas.setMatrix(scaleMatrix)
-        canvas.drawBitmap(
-            bmp,
-            middleX - bmp.width / 2,
-            middleY - bmp.height / 2,
-            Paint(Paint.FILTER_BITMAP_FLAG)
-        )
-        //      check the rotation of the image and display it properly
-        val exif: ExifInterface
-        try {
-            exif = ExifInterface(path)
-            val orientation: Int = exif.getAttributeInt(
-                ExifInterface.TAG_ORIENTATION, 0
-            )
-            Log.d("EXIF", "Exif: $orientation")
-            val matrix = Matrix()
-            if (orientation == 6) {
-                matrix.postRotate(90f)
-                Log.d("EXIF", "Exif: $orientation")
-            } else if (orientation == 3) {
-                matrix.postRotate(180f)
-                Log.d("EXIF", "Exif: $orientation")
-            } else if (orientation == 8) {
-                matrix.postRotate(270f)
-                Log.d("EXIF", "Exif: $orientation")
+            //      setting inSampleSize value allows to load a scaled down version of the original image
+            options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight)
+            //      inJustDecodeBounds set to false to load the actual bitmap
+            options.inJustDecodeBounds = false
+            //      this options allow android to claim the bitmap memory if it runs low on memory
+            options.inPurgeable = true
+            options.inInputShareable = true
+            options.inTempStorage = ByteArray(16 * 1024)
+            try { //          load the bitmap from its path
+                bmp = BitmapFactory.decodeFile(path, options)
+            } catch (exception: OutOfMemoryError) {
+                exception.printStackTrace()
             }
-            scaledBitmap = Bitmap.createBitmap(
-                scaledBitmap!!, 0, 0,
-                scaledBitmap.width, scaledBitmap.height, matrix,
-                true
+            try {
+                scaledBitmap =
+                    Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888)
+            } catch (exception: OutOfMemoryError) {
+                exception.printStackTrace()
+            }
+            val ratioX = actualWidth / options.outWidth.toFloat()
+            val ratioY = actualHeight / options.outHeight.toFloat()
+            val middleX = actualWidth / 2.0f
+            val middleY = actualHeight / 2.0f
+            val scaleMatrix = Matrix()
+            scaleMatrix.setScale(ratioX, ratioY, middleX, middleY)
+            val canvas = Canvas(scaledBitmap!!)
+            canvas.setMatrix(scaleMatrix)
+            canvas.drawBitmap(
+                bmp,
+                middleX - bmp.width / 2,
+                middleY - bmp.height / 2,
+                Paint(Paint.FILTER_BITMAP_FLAG)
             )
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        var out: FileOutputStream? = null
-         val filename=file?.canonicalFile?.name
-         try{
-             out =FileOutputStream(filename);
+            //      check the rotation of the image and display it properly
+            val exif: ExifInterface
+            try {
+                exif = ExifInterface(path)
+                val orientation: Int = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION, 0
+                )
+                Log.d("EXIF", "Exif: $orientation")
+                val matrix = Matrix()
+                if (orientation == 6) {
+                    matrix.postRotate(90f)
+                    Log.d("EXIF", "Exif: $orientation")
+                } else if (orientation == 3) {
+                    matrix.postRotate(180f)
+                    Log.d("EXIF", "Exif: $orientation")
+                } else if (orientation == 8) {
+                    matrix.postRotate(270f)
+                    Log.d("EXIF", "Exif: $orientation")
+                }
+                scaledBitmap = Bitmap.createBitmap(
+                    scaledBitmap!!, 0, 0,
+                    scaledBitmap.width, scaledBitmap.height, matrix,
+                    true
+                )
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            var out: FileOutputStream? = null
+            val filename = file?.canonicalFile?.name
+            try {
+                out = FileOutputStream(filename);
 
- //          write the compressed bitmap at the destination specified by filename.
-             scaledBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, out);
-         }
-         catch (e:FileNotFoundException)
-         {
+                //          write the compressed bitmap at the destination specified by filename.
+                scaledBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, out);
+            } catch (e: FileNotFoundException) {
 
-         }
+            }
 
-       /* val uri=FileProvider.getUriForFile(
-            this, this.applicationContext?.packageName + ".provider",
-            File(filename)
-        )
-*/
-        /* val fileName = getOutputMediaFile()
-         try {
-             if(fileName.exists())
-             {
-                 fileName.delete()
-                 fileName.createNewFile()
+            /* val uri=FileProvider.getUriForFile(
+                 this, this.applicationContext?.packageName + ".provider",
+                 File(filename)
+             )
+     */
+            /* val fileName = getOutputMediaFile()
+             try {
+                 if(fileName.exists())
+                 {
+                     fileName.delete()
+                     fileName.createNewFile()
+                 }
+                 out = FileOutputStream(fileName)
+                 //          write the compressed bitmap at the destination specified by filename.
+                 scaledBitmap!!.compress(Bitmap.CompressFormat.JPEG, 80, out)
+             } catch (e: FileNotFoundException) {
+                 e.printStackTrace()
              }
-             out = FileOutputStream(fileName)
-             //          write the compressed bitmap at the destination specified by filename.
-             scaledBitmap!!.compress(Bitmap.CompressFormat.JPEG, 80, out)
-         } catch (e: FileNotFoundException) {
-             e.printStackTrace()
-         }
-         return FileProvider.getUriForFile(
-             this, this?.applicationContext?.packageName + ".provider",
-             fileName
-         )*/
+             return FileProvider.getUriForFile(
+                 this, this?.applicationContext?.packageName + ".provider",
+                 fileName
+             )*/
 
-        return  getUriFromBitmap(scaledBitmap,filename!!)
-    }
+            return getUriFromBitmap(scaledBitmap, filename!!)
+        }
 
-    fun getUriFromBitmap(scaledBitmap:Bitmap?,fileName:String):Uri?
-    {
-        var out: FileOutputStream? = null
+        fun getUriFromBitmap(scaledBitmap: Bitmap?, fileName: String): Uri? {
+            var out: FileOutputStream? = null
 //        val fileName = fileName
-        try {
-            out = FileOutputStream(fileName,false)
-            //          write the compressed bitmap at the destination specified by filename.
-            scaledBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, out)
+            try {
+                out = FileOutputStream(fileName, false)
+                //          write the compressed bitmap at the destination specified by filename.
+                scaledBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, out)
 //            imageview.setImageBitmap(scaledBitmap)
-            val udi=FileProvider.getUriForFile(
-                this, this?.applicationContext?.packageName + ".provider",
-                File(fileName)
-            )
+                val udi = FileProvider.getUriForFile(
+                    this, this?.applicationContext?.packageName + ".provider",
+                    File(fileName)
+                )
 //            Glide.with(this).load(udi).into(imageview)
 
-            return udi
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
+                return udi
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+            return null
         }
-        return null
-    }
-    fun calculateInSampleSize(
-        options: BitmapFactory.Options,
-        reqWidth: Int,
-        reqHeight: Int
-    ): Int {
-        val height = options.outHeight
-        val width = options.outWidth
-        var inSampleSize = 1
-        if (height > reqHeight || width > reqWidth) {
-            val heightRatio =
-                Math.round(height.toFloat() / reqHeight.toFloat())
-            val widthRatio =
-                Math.round(width.toFloat() / reqWidth.toFloat())
-            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
-        }
-        val totalPixels = width * height.toFloat()
-        val totalReqPixelsCap = reqWidth * reqHeight * 2.toFloat()
-        while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
-            inSampleSize++
-        }
-        return inSampleSize
-    }
-    private suspend fun uploadToS3(
-        filePath: String,
-        cardType: CardType
-    ) = suspendCoroutine<Unit> {
-            continuation ->
-        val fileList = mutableListOf(
-            S3UploadFile(
-               File(filePath),
-                "${
-                if (AppPreferences.getInstance()
-                        .getString(AppPreferences.Key.LoanId) != null&&ArthanApp.getAppInstance().loginRole!="AM"&&intent.getStringExtra("recordType")!="AM"
-                ) {
-                    AppPreferences.getInstance()
-                        .getString(AppPreferences.Key.LoanId)+"_"+AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
-                }else if (ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
 
-                    AppPreferences.getInstance()
-                        .getString(AppPreferences.Key.LoanId)+"_"+AppPreferences.getInstance().getString(AppPreferences.Key.CustomerId)
-                }
-                else {
-                    if(intent.getStringExtra("recordType")=="AM"||ArthanApp.getAppInstance().loginRole!="AM")
-                    { 
-                        ArthanApp.getAppInstance().loginUser
-                    }else{
-                    ArthanApp.getAppInstance().loginUser
-                    }
-                }
-                }${
-                when (cardType) {
-                    
-                 
-                    
-                    CardType.PANCard -> {
-                      /* if( ArthanApp.getAppInstance().loginRole=="AM"){
-                           "_PAN"
+        fun calculateInSampleSize(
+            options: BitmapFactory.Options,
+            reqWidth: Int,
+            reqHeight: Int
+        ): Int {
+            val height = options.outHeight
+            val width = options.outWidth
+            var inSampleSize = 1
+            if (height > reqHeight || width > reqWidth) {
+                val heightRatio =
+                    Math.round(height.toFloat() / reqHeight.toFloat())
+                val widthRatio =
+                    Math.round(width.toFloat() / reqWidth.toFloat())
+                inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+            }
+            val totalPixels = width * height.toFloat()
+            val totalReqPixelsCap = reqWidth * reqHeight * 2.toFloat()
+            while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
+                inSampleSize++
+            }
+            return inSampleSize
+        }
 
-                       }else {*/
-                           "_${intent.getStringExtra("applicant_type") ?: "PA"}_PAN"
+        private suspend fun uploadToS3(
+            filePath: String,
+            cardType: CardType
+        ) = suspendCoroutine<Unit> { continuation ->
+            val fileList = mutableListOf(
+                S3UploadFile(
+                    File(filePath),
+                    "${
+                        if (AppPreferences.getInstance()
+                                .getString(AppPreferences.Key.LoanId) != null && ArthanApp.getAppInstance().loginRole != "AM" && intent.getStringExtra(
+                                "recordType"
+                            ) != "AM"
+                        ) {
+                            AppPreferences.getInstance()
+                                .getString(AppPreferences.Key.LoanId) + "_" + AppPreferences.getInstance()
+                                .getString(AppPreferences.Key.CustomerId)
+                        } else if (ArthanApp.getAppInstance().loginRole == "AM" && ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
+
+                            AppPreferences.getInstance()
+                                .getString(AppPreferences.Key.LoanId) + "_" + AppPreferences.getInstance()
+                                .getString(AppPreferences.Key.CustomerId)
+                        } else {
+                            if (intent.getStringExtra("recordType") == "AM" || ArthanApp.getAppInstance().loginRole != "AM") {
+                                ArthanApp.getAppInstance().loginUser
+                            } else {
+                                ArthanApp.getAppInstance().loginUser
+                            }
+                        }
+                    }${
+                        when (cardType) {
+
+
+                            CardType.PANCard -> {
+                                /* if( ArthanApp.getAppInstance().loginRole=="AM"){
+                                     "_PAN"
+          
+                                 }else {*/
+                                "_${intent.getStringExtra("applicant_type") ?: "PA"}_PAN"
 //                       }
-                    }
-                    CardType.AadharCardFront -> {
-                      /*  if( ArthanApp.getAppInstance().loginRole=="AM"){
-                            "_AADHAR_FRONT"
-
-                        }else {*/
-                            "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_FRONT"
+                            }
+                            CardType.AadharCardFront -> {
+                                /*  if( ArthanApp.getAppInstance().loginRole=="AM"){
+                                      "_AADHAR_FRONT"
+          
+                                  }else {*/
+                                "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_FRONT"
 //                        }
-                    }
-                    CardType.AadharCardBack -> {
-                     /*   if( ArthanApp.getAppInstance().loginRole=="AM"){
-                            "_AADHAR_BACK"
-
-                        }else {*/
-                            "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_BACK"
-                    //    }
-                    }
-                    CardType.VoterIdCard -> {
-                      /*  if( ArthanApp.getAppInstance().loginRole=="AM"){
-                            "_VOTER"
-
-                        }else {*/
-                            "_${intent.getStringExtra("applicant_type") ?: "PA"}_VOTER"
+                            }
+                            CardType.AadharCardBack -> {
+                                /*   if( ArthanApp.getAppInstance().loginRole=="AM"){
+                                       "_AADHAR_BACK"
+           
+                                   }else {*/
+                                "_${intent.getStringExtra("applicant_type") ?: "PA"}_AADHAR_BACK"
+                                //    }
+                            }
+                            CardType.VoterIdCard -> {
+                                /*  if( ArthanApp.getAppInstance().loginRole=="AM"){
+                                      "_VOTER"
+          
+                                  }else {*/
+                                "_${intent.getStringExtra("applicant_type") ?: "PA"}_VOTER"
 //                        }
-                    }
-                    CardType.ApplicantPhoto -> {
-                     /*   if( ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
-                            
-                            "_PHOTO"
-
-                        }else {*/
-                            "_${intent.getStringExtra("applicant_type") ?: "PA"}_PHOTO"
+                            }
+                            CardType.ApplicantPhoto -> {
+                                /*   if( ArthanApp.getAppInstance().loginRole=="AM"&&ArthanApp.getAppInstance().onboarded.toLowerCase() == "yes") {
+                                       
+                                       "_PHOTO"
+           
+                                   }else {*/
+                                "_${intent.getStringExtra("applicant_type") ?: "PA"}_PHOTO"
 //                        }
-                    }
-                    CardType.CrossedCheque -> {
-                        "_CrossedCheque"
-                    }
-                    CardType.PFP -> {
-                        "_PFP"
-                    }
-                    CardType.Passport -> {
-                        "_PASSPORT"
-                    }
-                    CardType.driverLicense -> {
-                        "_DrivingLicense"
-                    }
-                    CardType.telephoneBill -> {
-                        "_Telephone_Bill"
-                    }
-                    CardType.AadharCardAddrProof -> {
-                        "_AadharCardAddrProof"
-                    }
-                    CardType.waterBill -> {
-                        "_Water_Bill"
-                    }
-                    CardType.agreement -> {
-                        
-                        if(intent.getStringExtra("recordType")=="AM")
-                        {
-                            "Agreement"+"_"+intent.getStringExtra("amId")
-                        }else {
-                            "_Agreement"+"_"+intent.getStringExtra("amId")
+                            }
+                            CardType.CrossedCheque -> {
+                                "_CrossedCheque"
+                            }
+                            CardType.PFP -> {
+                                "_PFP"
+                            }
+                            CardType.Passport -> {
+                                "_PASSPORT"
+                            }
+                            CardType.driverLicense -> {
+                                "_DrivingLicense"
+                            }
+                            CardType.telephoneBill -> {
+                                "_Telephone_Bill"
+                            }
+                            CardType.AadharCardAddrProof -> {
+                                "_AadharCardAddrProof"
+                            }
+                            CardType.waterBill -> {
+                                "_Water_Bill"
+                            }
+                            CardType.agreement -> {
+
+                                if (intent.getStringExtra("recordType") == "AM") {
+                                    "Agreement" + "_" + intent.getStringExtra("amId")
+                                } else {
+                                    "_Agreement" + "_" + intent.getStringExtra("amId")
+                                }
+                            }
+                            CardType.coc -> {
+                                if (intent.getStringExtra("recordType") == "AM") {
+                                    "Coc" + "_" + intent.getStringExtra("amId")
+                                } else {
+                                    "_Coc"
+                                }
+                            }
+                            CardType.ElectricityBillProof -> {
+                                "_Electricity_Bill"
+                            }
+                            CardType.SalesTaxRegistration -> {
+                                "_SalesTaxRegistration"
+                            }
+                            CardType.VatOrder -> {
+                                "_VatOrder"
+                            }
+                            CardType.LicenseissuedunderShop -> {
+                                "_LicenseissuedunderShop"
+                            }
+                            CardType.EstablishmentAct -> {
+                                "_EstablishmentAct"
+                            }
+                            CardType.CST -> {
+                                "_CST"
+                            }
+                            CardType.VAT -> {
+                                "_VAT"
+                            }
+                            CardType.GSTCert -> {
+                                "_GSTCert"
+                            }
+                            CardType.CurrentACofbankStmt -> {
+                                "_CurrentACofbankStmt"
+                            }
+                            CardType.SSIcertificate -> {
+                                "_SSIcertificate"
+                            }
+
+                            CardType.LatestTelephoneBill -> {
+                                "_LatestTelephoneBill"
+                            }
+                            CardType.ElectricityBillOfcAdd -> {
+                                "_ElectricityBillOfcAdd"
+                            }
+                            CardType.BankStatement -> {
+                                "_BankStatement"
+                            }
+                            CardType.LeaveandLicenceagreement -> {
+                                "_LeaveandLicenceagreement"
+                            }
+
+                            CardType.Last2yearsITR -> {
+                                "_Last2yearsITR"
+                            }
+                            CardType.Auditedbalancesheet -> {
+                                "_Auditedbalancesheet"
+                            }
+                            CardType.SaleDeed -> {
+                                "_SaleDeed"
+                            }
+                            CardType.ChainDocument -> {
+                                "_ChainDocument"
+                            }
+                            CardType.PropertyTaxReceipt -> {
+                                "_PropertyTaxReceipt"
+                            }
+                            CardType.ROR -> {
+                                "_ROR"
+                            }
+                            CardType.NOC -> {
+                                "_NOC"
+                            }
+                            CardType._7by12 -> {
+                                "__7by12"
+                            }
+                            CardType.Mutation -> {
+                                "_Mutation"
+                            }
+                            CardType.FerfarCertificate -> {
+                                "_FerfarCertificate"
+                            }
+                            CardType.Others -> {
+                                "_Others"
+                            }
+                            CardType.LoanDoc -> {
+                                "_LoanDoc"
+                            }
                         }
-                    }
-                    CardType.coc -> {
-                        if(intent.getStringExtra("recordType")=="AM")
-                        {
-                            "Coc"+"_"+intent.getStringExtra("amId")
-                        }else {
-                            "_Coc"
-                        }
-                    }
-                    CardType.ElectricityBillProof -> {
-                        "_Electricity_Bill"
-                    }
-                    CardType.SalesTaxRegistration -> {
-                        "_SalesTaxRegistration"
-                    }
-                    CardType.VatOrder -> {
-                        "_VatOrder"
-                    }
-                    CardType.LicenseissuedunderShop -> {
-                        "_LicenseissuedunderShop"
-                    }
-                    CardType.EstablishmentAct -> {
-                        "_EstablishmentAct"
-                    }
-                    CardType.CST -> {
-                        "_CST"
-                    }
-                    CardType.VAT -> {
-                        "_VAT"
-                    }
-                    CardType.GSTCert -> {
-                        "_GSTCert"
-                    }
-                    CardType.CurrentACofbankStmt -> {
-                        "_CurrentACofbankStmt"
-                    }
-                    CardType.SSIcertificate -> {
-                        "_SSIcertificate"
-                    }
-
-                    CardType.LatestTelephoneBill -> {
-                        "_LatestTelephoneBill"
-                    }
-                    CardType.ElectricityBillOfcAdd -> {
-                        "_ElectricityBillOfcAdd"
-                    }
-                    CardType.BankStatement -> {
-                        "_BankStatement"
-                    }
-                    CardType.LeaveandLicenceagreement -> {
-                        "_LeaveandLicenceagreement"
-                    }
-
-                    CardType.Last2yearsITR -> {
-                        "_Last2yearsITR"
-                    }
-                    CardType.Auditedbalancesheet -> {
-                        "_Auditedbalancesheet"
-                    }
-                    CardType.SaleDeed -> {
-                        "_SaleDeed"
-                    }
-                    CardType.ChainDocument -> {
-                        "_ChainDocument"
-                    }
-                    CardType.PropertyTaxReceipt -> {
-                        "_PropertyTaxReceipt"
-                    }
-                    CardType.ROR -> {
-                        "_ROR"
-                    }
-                    CardType.NOC -> {
-                        "_NOC"
-                    }
-                    CardType._7by12 -> {
-                        "__7by12"
-                    }
-                    CardType.Mutation -> {
-                        "_Mutation"
-                    }
-                    CardType.FerfarCertificate -> {
-                        "_FerfarCertificate"
-                    }
-                    CardType.Others -> {
-                        "_Others"
-                    }
-                    CardType.LoanDoc -> {
-                        "_LoanDoc"
-                    }
-                }
-                }.${File(filePath).extension}"
+                    }.${File(filePath).extension}"
+                )
             )
-        )
-        S3Utility.getInstance()
-            .uploadFile(fileList,
-                {
-                    if (mCardData == null) {
-                        mCardData = CardResponse("", "OK", "", "", null)
-                    }
-                    if (cardType != CardType.AadharCardBack) {
-                        mCardData?.cardFrontUrl = fileList[0].url
-                    } else {
-                        mCardDataBack?.cardBackUrl = fileList[0].url
-                    }
+            S3Utility.getInstance()
+                .uploadFile(fileList,
+                    {
+                        if (mCardData == null) {
+                            mCardData = CardResponse("", "OK", "", "", null)
+                        }
+                        if (cardType != CardType.AadharCardBack) {
+                            mCardData?.cardFrontUrl = fileList[0].url
+                        } else {
+                            mCardDataBack?.cardBackUrl = fileList[0].url
+                        }
 
-                    Log.e("URL", ":::: ${fileList[0].url}")
+                        Log.e("URL", ":::: ${fileList[0].url}")
 
-                    CoroutineScope(uiContext).launch {
-                        btn_next.visibility = View.VISIBLE
-                        mCardData!!.status="OK"
-                       /* if (cardType == CardType.PANCard) {
-                            if (mCardData?.status?.equals(
-                                    ConstantValue.CardStatus.Ok,
-                                    true
-                                ) == true
-                            )
-                                btn_next.visibility = View.VISIBLE
-                            else
-                                if (intent.getStringExtra("skip") == null)
-                                    Toast.makeText(
-                                        this@UploadDocumentActivity,
-                                        "Please capture valid PAN Card",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                        } else */if (cardType == CardType.ApplicantPhoto) {
+                        CoroutineScope(uiContext).launch {
+                            btn_next.visibility = View.VISIBLE
+                            mCardData!!.status = "OK"
+                            /* if (cardType == CardType.PANCard) {
+                                 if (mCardData?.status?.equals(
+                                         ConstantValue.CardStatus.Ok,
+                                         true
+                                     ) == true
+                                 )
+                                     btn_next.visibility = View.VISIBLE
+                                 else
+                                     if (intent.getStringExtra("skip") == null)
+                                         Toast.makeText(
+                                             this@UploadDocumentActivity,
+                                             "Please capture valid PAN Card",
+                                             Toast.LENGTH_SHORT
+                                         ).show()
+                             } else */if (cardType == CardType.ApplicantPhoto) {
                             btn_next.visibility = View.VISIBLE
                         } else {
                             btn_next.visibility = View.VISIBLE
                         }
+                        }
+                        continuation.resume(Unit)
                     }
-                    continuation.resume(Unit)
+                ) {
+                    Toast.makeText(
+                        this@UploadDocumentActivity,
+                        "$it",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    continuation.resumeWithException(Exception(it))
                 }
-            ) {
-                Toast.makeText(
-                    this@UploadDocumentActivity,
-                    "$it",
-                    Toast.LENGTH_SHORT
-                ).show()
-                continuation.resumeWithException(Exception(it))
-            }
+        }
     }
-}
 
-sealed class CardType {
-    object PANCard : CardType()
-    object AadharCardFront : CardType()
-    object AadharCardBack : CardType()
-    object VoterIdCard : CardType()
-    object ApplicantPhoto : CardType()
-    object CrossedCheque : CardType()
-    object PFP : CardType()
-    object Passport : CardType()
-    object driverLicense : CardType()
-    object waterBill : CardType()
-    object agreement : CardType()
-    object coc : CardType()
-    object ElectricityBillProof : CardType()
-    object telephoneBill : CardType()
-    object AadharCardAddrProof : CardType()
-    object SalesTaxRegistration : CardType()
-    object VatOrder : CardType()
-    object LicenseissuedunderShop : CardType()
-    object EstablishmentAct : CardType()
-    object CST : CardType()
-    object VAT : CardType()
-    object GSTCert : CardType()
-    object CurrentACofbankStmt : CardType()
-    object SSIcertificate : CardType()
+    sealed class CardType {
+        object PANCard : CardType()
+        object AadharCardFront : CardType()
+        object AadharCardBack : CardType()
+        object VoterIdCard : CardType()
+        object ApplicantPhoto : CardType()
+        object CrossedCheque : CardType()
+        object PFP : CardType()
+        object Passport : CardType()
+        object driverLicense : CardType()
+        object waterBill : CardType()
+        object agreement : CardType()
+        object coc : CardType()
+        object ElectricityBillProof : CardType()
+        object telephoneBill : CardType()
+        object AadharCardAddrProof : CardType()
+        object SalesTaxRegistration : CardType()
+        object VatOrder : CardType()
+        object LicenseissuedunderShop : CardType()
+        object EstablishmentAct : CardType()
+        object CST : CardType()
+        object VAT : CardType()
+        object GSTCert : CardType()
+        object CurrentACofbankStmt : CardType()
+        object SSIcertificate : CardType()
 
-    object LatestTelephoneBill : CardType()
-    object ElectricityBillOfcAdd : CardType()
-    object BankStatement : CardType()
-    object LeaveandLicenceagreement : CardType()
+        object LatestTelephoneBill : CardType()
+        object ElectricityBillOfcAdd : CardType()
+        object BankStatement : CardType()
+        object LeaveandLicenceagreement : CardType()
 
-    object Last2yearsITR : CardType()
-    object Auditedbalancesheet : CardType()
-    object SaleDeed : CardType()
-    object ChainDocument : CardType()
-    object PropertyTaxReceipt : CardType()
-    object ROR : CardType()
-    object NOC : CardType()
-    object _7by12 : CardType()
-    object Mutation : CardType()
-    object FerfarCertificate : CardType()
-    object Others : CardType()
-    object LoanDoc : CardType()
+        object Last2yearsITR : CardType()
+        object Auditedbalancesheet : CardType()
+        object SaleDeed : CardType()
+        object ChainDocument : CardType()
+        object PropertyTaxReceipt : CardType()
+        object ROR : CardType()
+        object NOC : CardType()
+        object _7by12 : CardType()
+        object Mutation : CardType()
+        object FerfarCertificate : CardType()
+        object Others : CardType()
+        object LoanDoc : CardType()
 
-}
+    }

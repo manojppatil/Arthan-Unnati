@@ -368,14 +368,14 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             if(trade_reference_1_firm_name_input.length()==0||trade_reference_1_person_name_dealing_with_input.length()==0||trade_reference_1_contact_details_input.length()==0 ||trade_reference_1_years_working_with_count?.tag==0
                 ||(trade_reference_1_relationship_with_applicant_spinner.selectedItem as Data).value.contains("Choose Relationship")
                 ||(trade_reference_2_relationship_with_applicant_spinner.selectedItem as Data).value.contains("Choose Relationship")
-                ||(sp_collateral_type_liq.selectedItem as Data).value.contains("Select")
+//                ||(sp_collateral_type_liq.selectedItem as Data).value.contains("Select")
                 || trade_reference_2_firm_name_input.length()==0||trade_reference_2_person_name_dealing_with_input.length()==0||trade_reference_2_contact_details_input.length()==0||trade_reference_2_years_working_with_count?.tag==0)
             {
                 Toast.makeText(context!!,"All details are mandatory",Toast.LENGTH_LONG).show()
 
                 return@setOnClickListener
             }
-            if(ArthanApp.getAppInstance().loginRole=="RM"&&(sp_security.selectedItem as Data).description.toLowerCase() == "immovable")
+           /* if(ArthanApp.getAppInstance().loginRole=="RM"&&(sp_security.selectedItem as Data).description.toLowerCase() == "immovable")
             {
                 if(et_COOwnerNameImm.length()==0||et_MarketValueImm.length()==0){
                     Toast.makeText(context!!,"All details are mandatory",Toast.LENGTH_LONG).show()
@@ -383,7 +383,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     return@setOnClickListener
                 }
 
-            }
+            }*/
             if(mLoanId==null||mLoanId=="")
             {
                 mLoanId=activity?.intent?.getStringExtra("loanId")

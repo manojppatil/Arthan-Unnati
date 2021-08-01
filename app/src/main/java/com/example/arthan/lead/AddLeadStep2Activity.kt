@@ -221,8 +221,12 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     }
                     val aadharCardData =
                         it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetails) as CardResponse
-                    val aadharCardDataBack =
-                        it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack) as CardResponse
+
+                    var aadharCardDataBack:CardResponse?=null
+                    if(it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack)!=null) {
+                         aadharCardDataBack =
+                            it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack)
+                    }
 
                     mKYCPostData?.aadharAddress =
                         aadharCardDataBack?.results?.get(0)?.cardInfo?.address
