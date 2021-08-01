@@ -643,7 +643,11 @@ open class AddLeadStep1Activity : BaseActivity(), TextWatcher, View.OnClickListe
                                     leadId = result.leadId!!
                                     LoanDetailActivity.startMe(
                                         this@AddLeadStep1Activity,
-                                        result.leadId
+                                        result.leadId,
+                                        result.maxTenure,
+                                        result.minTenure,
+                                        result.minLoanAmount,
+                                        result.maxLoanAmount
                                     )
                                     //  finish()
                                 }

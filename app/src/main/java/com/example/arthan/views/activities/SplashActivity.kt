@@ -37,7 +37,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        version.text = "Version: "+ArthanApp.getAppInstance().appVersion
+        version.text = "Unnati-Version: "+ArthanApp.getAppInstance().appVersion
 
         /*GlobalScope.launch(context = Dispatchers.Main) {
             delay(500)

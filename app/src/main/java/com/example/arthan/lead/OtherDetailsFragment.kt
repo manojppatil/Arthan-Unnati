@@ -91,11 +91,12 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
             }
 
         } else {
-            ll_collateral.visibility=View.VISIBLE
+//            ll_collateral.visibility=View.VISIBLE //for p2 visible is gone
+            ll_collateral.visibility=View.GONE
             bcmCheckBoxes.visibility = View.GONE
             addNewTrade.visibility=View.GONE
 
-            if (activity?.intent?.getStringExtra("loanType")
+            if (activity?.intent?.getStringExtra("loanType")!=null&&activity?.intent?.getStringExtra("loanType")
                     .equals("unsecure", ignoreCase = true)
             ) {
                 ll_collateral.visibility = View.GONE
@@ -569,10 +570,10 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                                 collateralType = (sp_collateral_type_liq?.selectedItem as Data).value.toString(),
                                 jurisdiction = (sp_jurisdictionType.selectedItem as Data).value.toString(),
                                 marketValue = et_MarketValueImm.text.toString()*/
-                            isCollateralSaved = saveCollateralDataAsync().await()
+                           // isCollateralSaved = saveCollateralDataAsync().await() //commented for p2
                        }
 
-                        if (isCollateralSaved && isTradeReferenceSaved) {
+                        if (/*isCollateralSaved &&*/ isTradeReferenceSaved) { //commented for p2
                             withContext(uiContext) {
                                 progressLoader?.dismmissLoading()
                                 if (arguments?.getString("task")
@@ -1481,7 +1482,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
 
 
         if (ArthanApp.getAppInstance().loginRole.contains("RM")) {
-            if (activity?.intent?.getStringExtra("loanType").equals(
+            if (activity?.intent?.getStringExtra("loanType")!=null&&activity?.intent?.getStringExtra("loanType").equals(
                     "secure",
                     ignoreCase = true
                 )
@@ -1498,7 +1499,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
                     ignoreCase = true
                 )
             ) {
-                ll_collateral.visibility = View.VISIBLE
+//                ll_collateral.visibility = View.VISIBLE
             } else {
                 ll_collateral.visibility = View.GONE
 
@@ -1507,7 +1508,7 @@ class OtherDetailsFragment : Fragment(), CoroutineScope {
         if (ArthanApp.getAppInstance().loginRole.contains("RM")&&arguments?.getString("screen")!=null&&arguments?.getString("screen")=="OTHERS_SECURITY") {
 
             tradeDetailsLL.visibility=View.GONE
-            ll_collateral.visibility=View.VISIBLE
+//            ll_collateral.visibility=View.VISIBLE
             if (activity is ReUsableFragmentSpace) {
                 (activity as ReUsableFragmentSpace).setCommentsToField(collateralComment.toString()+"")
             }

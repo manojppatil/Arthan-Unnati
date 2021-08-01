@@ -214,6 +214,8 @@ object ArgumentKey {
     const val Others = "Others"
     const val AadharCardAddrProof = "AadharCardAddrProof"
     const val LoanDoc = "LoanDoc"
+    const val maxTenure = "maxTenure"
+    const val minTenure = "minTenure"
 
 }
 

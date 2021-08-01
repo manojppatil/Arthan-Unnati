@@ -134,9 +134,15 @@
         <item>Occupation Type</item>
     </string-array>
 
-    <string-array name="arr_loan_type">
+ <!--   <string-array name="arr_loan_type">
         <item>Secure</item>
         <item>Unsecure</item>
+        &lt;!&ndash; <item>Quasi Secured</item>
+        <item>Negative Lien</item>&ndash;&gt;
+    </string-array>-->
+    <string-array name="arr_loan_type">
+        <item>Unnati</item>
+        <item>Pragati</item>
         <!-- <item>Quasi Secured</item>
         <item>Negative Lien</item>-->
     </string-array>
