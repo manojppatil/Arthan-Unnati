@@ -188,6 +188,10 @@
     <string-array name="arr_loan_purpose">
         <item>Purpose Of Loan</item>
     </string-array>
+    <string-array name="arr_emi_freq">
+        <item>Fortnight</item>
+        <item>Monthly</item>
+    </string-array>
 
     <string-array name="arr_business_industry">
         <item>Business Activity</item>

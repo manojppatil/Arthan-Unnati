@@ -23,7 +23,7 @@
         android:padding="4dp"
         android:paddingTop="-8dp"
         android:src="@drawable/ic_close"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,6 +40,7 @@
         android:singleLine="true"
         android:textColor="#000000"
         android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -111,6 +112,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:hint="Bank Name"
+        android:visibility="gone"
+
         android:backgroundTint="#000000"
         android:entries="@array/arr_loan_sanctioned_by"
         android:singleLine="true"
@@ -159,6 +162,8 @@
             android:hint="Loan Amount Availed"
             android:inputType="numberDecimal"
             android:singleLine="true"
+            android:visibility="gone"
+
             android:textColor="#000000"
             android:textSize="14sp" />
 
@@ -172,6 +177,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:hintEnabled="true"
+        android:visibility="gone"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tl_loan_amount"
@@ -195,6 +202,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:visibility="gone"
+
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:letterSpacing="0.05"
@@ -214,6 +223,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:orientation="vertical"
+        android:visibility="gone"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_frequency">
@@ -307,6 +318,8 @@
         android:lineSpacingExtra="6sp"
         android:text="@string/loan_tenure"
         android:textColor="#404040"
+        android:visibility="gone"
+
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -319,6 +332,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:visibility="gone"
+
         android:hint="Tenor in Months"
         android:singleLine="true"
         android:textColor="#000000"
@@ -336,6 +351,8 @@
         android:layout_marginEnd="16dp"
         android:hint="EMIs paid"
         android:singleLine="true"
+        android:visibility="gone"
+
         android:textColor="#000000"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -348,6 +365,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+
         android:clickable="true"
         android:drawableEnd="@drawable/ic_calender"
         android:editable="false"
@@ -390,6 +408,8 @@
         android:layout_marginEnd="8dp"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tenor"
         app:layout_constraintVertical_chainStyle="packed">
@@ -409,6 +429,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="Consider in CFA"
         android:id="@+id/cfa_cb"
         app:layout_constraintStart_toStartOf="parent"

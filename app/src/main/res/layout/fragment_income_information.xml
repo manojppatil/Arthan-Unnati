@@ -39,6 +39,7 @@
             android:lineSpacingExtra="8.3sp"
             android:text="Any other sources of Income?"
             android:textColor="#000000"
+            android:visibility="gone"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/switch_other_sources"
@@ -55,6 +56,7 @@
             android:checked="true"
             android:fontFamily="@font/lato_regular"
             android:padding="4dp"
+            android:visibility="gone"
             android:text="Yes"
             android:textColor="#696969"
             android:textSize="16sp"
@@ -69,11 +71,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switch_other_sources"
-            tools:visibility="visible">
+            >
 
             <TextView
                 android:id="@+id/txt_income_list_msg"
@@ -94,6 +96,7 @@
                 android:id="@+id/ll_income_source"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -599,6 +602,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/lato_black"
             android:letterSpacing="0.05"
+            android:visibility="gone"
             android:lineSpacingExtra="8.3sp"
             android:text="Monthly Business Expenditure"
             android:textColor="#000000"
@@ -894,6 +898,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -920,6 +925,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_black"
+            android:visibility="gone"
             android:letterSpacing="0.05"
             android:lineSpacingExtra="8.3sp"
             android:text="Any other Liabilities (Personal Loans etc)?"
@@ -940,6 +946,7 @@
             android:checked="true"
             android:padding="4dp"
             android:text="Yes"
+            android:visibility="gone"
             android:textColor="#696969"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -962,7 +969,6 @@
                 android:id="@+id/ll_loan_details"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -979,6 +985,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_rect_border"
                 android:backgroundTint="#ffb800"
+                android:visibility="gone"
                 android:capitalize="none"
                 android:fontFamily="@font/lato_black"
                 android:minWidth="0dp"
@@ -999,6 +1006,8 @@
         <TextView
             android:id="@+id/banking_text_view"
             android:layout_width="0dp"
+            android:visibility="gone"
+
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -1023,6 +1032,8 @@
         <TextView
             android:id="@+id/gst_text_view_button"
             android:layout_width="0dp"
+            android:visibility="gone"
+
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
@@ -1050,6 +1061,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
+
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_white_rectangle"
@@ -1075,6 +1088,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
+
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_white_rectangle"

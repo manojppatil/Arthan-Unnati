@@ -39,6 +39,7 @@ data class LoanPostData(
     var loanAmt: String? = "",
     var branch: String? = "",
     var netMonthlyIncome: String? = "",
-    var reassign:String=""
+    var reassign:String="",
+    var emiFrequency:String=""
 
 )

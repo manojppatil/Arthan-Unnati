@@ -204,6 +204,22 @@
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <Spinner
+                    android:id="@+id/sp_emi_frequency"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#000000"
+                    android:dropDownWidth="match_parent"
+                    android:entries="@array/arr_emi_freq"
+                    android:fontFamily="@font/lato_regular"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnr_loan_purpose"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <Spinner
                     android:id="@+id/security_offered_spinner"
                     style="@style/Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="match_parent"
@@ -217,7 +233,7 @@
                     android:spinnerMode="dropdown"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnr_loan_purpose"
+                    app:layout_constraintTop_toBottomOf="@+id/sp_emi_frequency"
                     app:layout_constraintVertical_chainStyle="packed" />
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_otherSecurity"

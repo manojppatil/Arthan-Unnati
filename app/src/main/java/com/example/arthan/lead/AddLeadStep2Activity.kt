@@ -222,14 +222,15 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                     val aadharCardData =
                         it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetails) as CardResponse
 
-                    var aadharCardDataBack:CardResponse?=null
-                    if(it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack)!=null) {
-                         aadharCardDataBack =
-                            it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack)
-                    }
 
-                    mKYCPostData?.aadharAddress =
-                        aadharCardDataBack?.results?.get(0)?.cardInfo?.address
+                    var aadharCardDataBack =
+                        it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack)
+                    if(aadharCardDataBack!=null) {
+                       aadharCardDataBack= it.getParcelableExtra<CardResponse>(ArgumentKey.AadharDetailsBack) as CardResponse
+                        mKYCPostData?.aadharAddress =
+                            aadharCardDataBack?.results?.get(0)?.cardInfo?.address
+
+                    }
                     mKYCPostData?.aadharId = aadharCardData?.results?.get(0)?.cardInfo?.cardNo
                     mKYCPostData?.aadharFrontUrl = aadharCardData?.cardFrontUrl
                     mKYCPostData?.aadharBackUrl = aadharCardDataBack?.cardBackUrl
@@ -481,10 +482,10 @@ class AddLeadStep2Activity : BaseActivity(), View.OnClickListener, CoroutineScop
                 mKYCPostData?.applicantType = aplicantType
                 val map=HashMap<String,String>()
                 map["loanId"]=mKYCPostData?.loanId!!
-                if(intent.getStringExtra("task")!="documentsAddCo") {
+//                if(intent.getStringExtra("task")!="documentsAddCo") {
                     if(mKYCPostData?.customerId!=null)
                     map["customerId"] = mKYCPostData?.customerId!!
-                }
+//                }
                 map["applicantType"]=aplicantType
                 map["paApplicantPhoto"]=mKYCPostData?.paApplicantPhoto!!
 //                val response = RetrofitFactory.getApiService().saveKycDetail(mKYCPostData)

@@ -682,7 +682,8 @@ private fun saveLoanDetails() {
         householdExpensesPm = household_expenses_input?.text?.toString() ?: "",
         createdBy = AppPreferences.getInstance().getString(AppPreferences.Key.LoginType),
         netMonthlyIncome = netMonthlyIncomet.text.toString(),
-        userId = ArthanApp.getAppInstance().loginUser
+        userId = ArthanApp.getAppInstance().loginUser,
+        emiFrequency = sp_emi_frequency.selectedItem.toString()
     )
     CoroutineScope(Dispatchers.IO).launch {
         try {

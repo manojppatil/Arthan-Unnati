@@ -64,7 +64,7 @@ class DocumentUploadFragment : BaseFragment() {
 
                                     Toast.makeText(
                                         activity,
-                                        "Error in submitting the case to to BM",
+                                        result.message,
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
